@@ -1,0 +1,43 @@
+{
+  "update_successful": true,
+  "final_state": {
+    "total_chaves_dados": 11,
+    "chaves_dados": [
+      "apm",
+      "browser",
+      "infra",
+      "db",
+      "mobile",
+      "iot",
+      "serverless",
+      "synth",
+      "ext",
+      "alertas",
+      "timestamp"
+    ],
+    "metadados": {
+      "ultima_atualizacao": "2025-06-23T15:18:09.090014",
+      "atualizacao_forcada": false,
+      "tipo_ultima_atualizacao": "completa"
+    },
+    "total_consultas_historicas": 0,
+    "tamanho_disco_mb": 0.65,
+    "ultima_atualizacao": "2025-06-23T15:18:09.090014",
+    "status": "carregado",
+    "idade_horas": 0.0,
+    "atualizado": true,
+    "contagem_por_dominio": {
+      "apm": 9,
+      "browser": 6,
+      "infra": 153,
+      "db": 0,
+      "mobile": 0,
+      "iot": 0,
+      "serverless": 0,
+      "synth": 8,
+      "ext": 4,
+      "alertas": 0
+    }
+  },
+  "timestamp": "2025-06-23T15:18:09.502654"
+}

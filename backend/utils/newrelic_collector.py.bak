@@ -1,0 +1,604 @@
+import os
+import logging
+from typing import Dict, List, Any, Optional
+import aiohttp
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import asyncio
+
+load_dotenv()
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(name)s: %(message)s')
+handler.setFormatter(formatter)
+if not logger.hasHandlers():
+    logger.addHandler(handler)
+
+NEW_RELIC_API_KEY = os.getenv("NEW_RELIC_API_KEY")
+NEW_RELIC_ACCOUNT_ID = os.getenv("NEW_RELIC_ACCOUNT_ID")
+
+if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID:
+    logger.critical("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+    raise RuntimeError("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+
+PERIODOS = {
+    "30min": "SINCE 30 MINUTES AGO",
+    "24h": "SINCE 24 HOURS AGO",
+    "7d": "SINCE 7 DAYS AGO",
+    "30d": "SINCE 30 DAYS AGO"
+}
+
+async def buscar_todas_entidades(session: aiohttp.ClientSession) -> List[Dict[str, Any]]:
+    url = "https://api.newrelic.com/graphql"
+    headers = {
+        "API-Key": NEW_RELIC_API_KEY,
+        "Content-Type": "application/json"
+    }
+    query = f'''
+    {{
+      actor {{
+        entitySearch(query: "accountId = {NEW_RELIC_ACCOUNT_ID} and domain IN ('APM','BROWSER','INFRA','EXT','SYNTH','MOBILE','IOT','DB','SERVERLESS')") {{
+          results {{
+            entities {{
+              guid
+              name
+              domain
+              type
+              entityType
+              tags {{
+                key
+                values
+              }}
+              reporting
+            }}
+          }}
+        }}
+      }}
+    }}
+    '''
+    try:
+        logger.info("Buscando todas as entidades do New Relic...")
+        async with session.post(url, headers=headers, json={"query": query}, timeout=60) as resp:
+            data = await resp.json()
+    except Exception as e:
+        logger.error(f"Erro na requisição à API do New Relic: {e}")
+        return []
+
+    if not data or "data" not in data:
+        logger.error(f"A resposta não contém o campo 'data'. Resposta completa: {data}")
+        return []
+
+    try:
+        results = data["data"]["actor"]["entitySearch"]["results"]["entities"]
+        entidades = []
+        for ent in results:
+            entidade = {
+                "guid": ent.get("guid"),
+                "name": ent.get("name"),
+                "domain": ent.get("domain"),
+                "type": ent.get("entityType") or ent.get("type"),
+                "tags": ent.get("tags", []),
+                "reporting": ent.get("reporting"),
+            }
+            # Validação de campos obrigatórios
+            if not entidade["guid"] or not entidade["name"] or not entidade["domain"]:
+                logger.warning(f"Entidade incompleta encontrada: {entidade}")
+                continue
+            entidades.append(entidade)
+        logger.info(f"Total de entidades encontradas: {len(entidades)}")
+        return entidades
+    except Exception as e:
+        logger.error(f"Erro ao coletar entidades: {e}")
+        logger.error(f"Resposta recebida da API: {data}")
+        return []
+
+async def executar_nrql_graphql(session: aiohttp.ClientSession, nrql_query: str, retries: int = 5) -> List[Dict[str, Any]]:
+    """
+    Executa uma query NRQL com retry e backoff exponencial.
+    """
+    url = "https://api.newrelic.com/graphql"
+    headers = {
+        "API-Key": NEW_RELIC_API_KEY,
+        "Content-Type": "application/json"
+    }
+    query = f"""
+    {{
+      actor {{
+        account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+          nrql(query: \"\"\"{nrql_query}\"\"\") {{
+            results
+          }}
+        }}
+      }}
+    }}
+    """
+    logger.debug(f"Executando NRQL: {nrql_query}")
+
+    # Validação básica da query NRQL
+    if len(nrql_query) > 4000:
+        logger.error(f"Query NRQL excede o tamanho máximo permitido (4 KB): {nrql_query}")
+        return []
+    if not nrql_query.strip().lower().startswith("select"):
+        logger.error(f"Query NRQL inválida, deve começar com SELECT: {nrql_query}")
+        return []
+
+    for attempt in range(retries):
+        try:
+            async with session.post(url, headers=headers, json={"query": query}) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if not data:
+                        logger.warning(f"NRQL resposta vazia! Query: {nrql_query}")
+                        return []
+                    actor = data.get("data", {}).get("actor")
+                    if not actor:
+                        logger.warning(f"NRQL resposta sem 'actor'! Query: {nrql_query} | Data: {data}")
+                        return []
+                    account = actor.get("account") if actor else None
+                    if not account:
+                        logger.warning(f"NRQL resposta sem 'account'! Query: {nrql_query} | Data: {data}")
+                        return []
+                    nrql = account.get("nrql") if account else None
+                    if not nrql:
+                        logger.warning(f"NRQL resposta sem 'nrql'! Query: {nrql_query} | Data: {data}")
+                        return []
+                    results = nrql.get("results") if nrql else None
+                    if results is None:
+                        logger.warning(f"NRQL resposta sem 'results'! Query: {nrql_query} | Data: {data}")
+                        return []
+                    logger.info(f"NRQL executado com sucesso. Resultados: {len(results)}")
+                    return results if results is not None else []
+                elif response.status == 429:
+                    logger.warning(f"Rate limit atingido. Tentativa {attempt + 1}/{retries}. Backoff em progresso...")
+                    await asyncio.sleep(2 ** attempt)  # Backoff exponencial
+                else:
+                    logger.error(f"Erro NRQL GraphQL: {response.status} {await response.text()} | Query: {nrql_query}")
+                    return []
+        except Exception as e:
+            logger.error(f"Erro ao executar NRQL: {e} | Query: {nrql_query}")
+            if attempt < retries - 1:
+                await asyncio.sleep(2 ** attempt)  # Backoff exponencial
+            else:
+                return []
+
+    logger.error(f"Todas as tentativas falharam para a query: {nrql_query}")
+    return []
+
+async def buscar_alertas_ativos(session: aiohttp.ClientSession) -> List[Dict[str, Any]]:
+    url = "https://api.newrelic.com/graphql"
+    headers = {
+        "API-Key": NEW_RELIC_API_KEY,
+        "Content-Type": "application/json"
+    }
+    query = f"""
+    {{
+      actor {{
+        account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+          alerts {{
+            incidentsSearch(criteria: {{states: OPEN}}) {{
+              incidents {{
+                id
+                name
+                state
+                priority
+                createdAt
+                policyName
+                conditionName
+              }}
+            }}
+          }}
+        }}
+      }}
+    }}
+    """
+    async with session.post(url, headers=headers, json={"query": query}) as response:
+        if response.status == 200:
+            try:
+                return (
+                    (await response.json())["data"]["actor"]["account"]["alerts"]["incidentsSearch"]["incidents"]
+                )
+            except Exception as e:
+                logger.error(f"Erro ao extrair alertas: {e}")
+                return []
+        else:
+            logger.error(f"Erro alertas GraphQL: {response.status} {response.text}")
+            return []
+
+def entidade_tem_dados(metricas):
+    """
+    Verifica se uma entidade tem dados válidos nas métricas coletadas.
+    Retorna True se encontrar pelo menos um dado válido.
+    
+    Args:
+        metricas: Dicionário com métricas coletadas do New Relic
+    """
+    if not metricas or not isinstance(metricas, dict):
+        return False
+        
+    # Verifica cada período (30min, 24h, 7d, 30d)
+    for periodo, periodo_data in metricas.items():
+        if not isinstance(periodo_data, dict):
+            continue
+            
+        # Verifica cada tipo de métrica no período
+        for metrica_nome, metrica_valores in periodo_data.items():
+            # Ignora valores nulos
+            if metrica_valores is None:
+                continue
+                
+            # Se for uma lista de resultados
+            if isinstance(metrica_valores, list):
+                # Ignora listas vazias
+                if not metrica_valores:
+                    continue
+                    
+                # Verifica cada item na lista
+                for item in metrica_valores:
+                    # Se for um dicionário, verifica valores dentro dele
+                    if isinstance(item, dict) and item:
+                        for val in item.values():
+                            # Se encontrou qualquer valor válido
+                            if val not in (None, 0, "", []):
+                                return True
+            
+            # Se for um valor direto
+            elif metrica_valores not in (None, 0, "", []):
+                return True
+                
+    return False
+
+async def coletar_metricas_entidade(entidade, top_n=5):
+    guid = entidade.get("guid")
+    domain = entidade.get("domain")
+    if not guid or not domain:
+        logger.error(f"Entidade sem guid ou domain: {entidade}")
+        return {}
+    metricas = {}
+    async with aiohttp.ClientSession() as session:
+        for periodo_nome, periodo_nrql in PERIODOS.items():
+            try:
+                if domain == "APM":
+                    metricas[periodo_nome] = {
+                        "response_time_max": await executar_nrql_graphql(
+                            session,
+                            f"SELECT max(duration) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "recent_error": await executar_nrql_graphql(
+                            session,
+                            f"SELECT * FROM TransactionError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                        ),
+                        "apdex": await executar_nrql_graphql(
+                            session,
+                            f"SELECT apdex(duration, t:0.5) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "throughput": await executar_nrql_graphql(
+                            session,
+                            f"SELECT rate(count(*), 1 minute) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                    }
+                elif domain == "BROWSER":
+                    metricas[periodo_nome] = {
+                        "largest_contentful_paint": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(largestContentfulPaint) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "cls": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(cumulativeLayoutShift) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "fid": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(firstInputDelay) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "js_errors": await executar_nrql_graphql(
+                            session,
+                            f"SELECT * FROM JavaScriptError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                        ),
+                    }
+                elif domain == "INFRA":
+                    metricas[periodo_nome] = {
+                        "cpu": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(cpuPercent) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "memoria": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(memoryUsedBytes) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "uptime": await executar_nrql_graphql(
+                            session,
+                            f"SELECT latest(uptime) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                    }
+                elif domain == "DB":
+                    metricas[periodo_nome] = {
+                        "query_count": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "query_time_avg": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(duration) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "connection_count": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(connectionCount) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "slowest_queries": await executar_nrql_graphql(
+                            session,
+                            f"SELECT duration, operation, query FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql} ORDER BY duration DESC LIMIT {top_n}"
+                        ),
+                    }
+                elif domain == "MOBILE":
+                    metricas[periodo_nome] = {
+                        "crash_rate": await executar_nrql_graphql(
+                            session,
+                            f"SELECT percentage(count(*), WHERE crashCount > 0) FROM Mobile WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "http_errors": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM MobileRequestError WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "app_launch_time": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(appLaunchTime) FROM Mobile WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "top_crashes": await executar_nrql_graphql(
+                            session,
+                            f"SELECT * FROM MobileCrash WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                        ),
+                    }
+                elif domain == "IOT":
+                    metricas[periodo_nome] = {
+                        "message_count": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM IoTDeviceEvent WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "device_errors": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM IoTDeviceError WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "device_connected": await executar_nrql_graphql(
+                            session,
+                            f"SELECT latest(connected) FROM IoTDeviceSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "recent_errors": await executar_nrql_graphql(
+                            session,
+                            f"SELECT * FROM IoTDeviceError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                        ),
+                    }
+                elif domain == "SERVERLESS":
+                    metricas[periodo_nome] = {
+                        "invocation_count": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "duration_avg": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(duration) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "error_rate": await executar_nrql_graphql(
+                            session,
+                            f"SELECT percentage(count(*), WHERE error IS TRUE) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                        "cold_starts": await executar_nrql_graphql(
+                            session,
+                            f"SELECT count(*) FROM ServerlessSample WHERE entityGuid = '{guid}' AND coldStart = 'true' {periodo_nrql}"
+                        ),
+                    }
+                elif domain in ("EXT", "SYNTH"):
+                    metricas[periodo_nome] = {
+                        "latencia": await executar_nrql_graphql(
+                            session,
+                            f"SELECT average(duration), max(duration), count(*) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                        ),
+                    }
+                else:
+                    logger.warning(f"Domínio não suportado: {domain} para guid {guid}")
+            except Exception as e:
+                logger.error(f"Erro ao coletar métricas para guid {guid}, domínio {domain}, período {periodo_nome}: {e}")
+                metricas[periodo_nome] = {"erro": str(e)}
+    # Validação final: garantir que todos os períodos estão presentes
+    for periodo in PERIODOS.keys():
+        if periodo not in metricas:
+            logger.warning(f"Métricas ausentes para guid {guid}, período {periodo}")
+            metricas[periodo] = {}
+    return metricas
+
+async def buscar_entidades_por_guids(guids: list) -> list:
+    """
+    Busca entidades específicas pelo GUID usando a API do New Relic.
+    """
+    if not guids:
+        return []
+    async with aiohttp.ClientSession() as session:
+        entidades = await buscar_todas_entidades(session)
+        return [ent for ent in entidades if ent.get("guid") in guids]
+
+async def coletar_metricas_nrql(guid: str, periodo: str, domain: str, top_n: int = 5) -> dict:
+    """
+    Coleta métricas específicas para um GUID, período e domínio usando NRQL.
+    """
+    metricas = {}
+    periodo_nrql = PERIODOS.get(periodo, PERIODOS["7d"])
+    async with aiohttp.ClientSession() as session:
+        if domain == "APM":
+            metricas = {
+                "response_time_max": await executar_nrql_graphql(
+                    session,
+                    f"SELECT max(duration) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "recent_error": await executar_nrql_graphql(
+                    session,
+                    f"SELECT * FROM TransactionError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                ),
+                "apdex": await executar_nrql_graphql(
+                    session,
+                    f"SELECT apdex(duration, t:0.5) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "throughput": await executar_nrql_graphql(
+                    session,
+                    f"SELECT rate(count(*), 1 minute) FROM Transaction WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+            }
+        elif domain == "BROWSER":
+            metricas = {
+                "largest_contentful_paint": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(largestContentfulPaint) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "cls": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(cumulativeLayoutShift) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "fid": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(firstInputDelay) FROM PageViewTiming WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "js_errors": await executar_nrql_graphql(
+                    session,
+                    f"SELECT * FROM JavaScriptError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                ),
+            }
+        elif domain == "INFRA":
+            metricas = {
+                "cpu": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(cpuPercent) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "memoria": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(memoryUsedBytes) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "uptime": await executar_nrql_graphql(
+                    session,
+                    f"SELECT latest(uptime) FROM SystemSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+            }
+        elif domain == "DB":
+            metricas = {
+                "query_count": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "query_time_avg": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(duration) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "connection_count": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(connectionCount) FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "slowest_queries": await executar_nrql_graphql(
+                    session,
+                    f"SELECT duration, operation, query FROM DatastoreSample WHERE entityGuid = '{guid}' {periodo_nrql} ORDER BY duration DESC LIMIT {top_n}"
+                ),
+            }
+        elif domain == "MOBILE":
+            metricas = {
+                "crash_rate": await executar_nrql_graphql(
+                    session,
+                    f"SELECT percentage(count(*), WHERE crashCount > 0) FROM Mobile WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "http_errors": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM MobileRequestError WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "app_launch_time": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(appLaunchTime) FROM Mobile WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "top_crashes": await executar_nrql_graphql(
+                    session,
+                    f"SELECT * FROM MobileCrash WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                ),
+            }
+        elif domain == "IOT":
+            metricas = {
+                "message_count": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM IoTDeviceEvent WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "device_errors": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM IoTDeviceError WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "device_connected": await executar_nrql_graphql(
+                    session,
+                    f"SELECT latest(connected) FROM IoTDeviceSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "recent_errors": await executar_nrql_graphql(
+                    session,
+                    f"SELECT * FROM IoTDeviceError WHERE entityGuid = '{guid}' {periodo_nrql} LIMIT {top_n}"
+                ),
+            }
+        elif domain == "SERVERLESS":
+            metricas = {
+                "invocation_count": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "duration_avg": await executar_nrql_graphql(
+                    session,
+                    f"SELECT average(duration) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "error_rate": await executar_nrql_graphql(
+                    session,
+                    f"SELECT percentage(count(*), WHERE error IS TRUE) FROM ServerlessSample WHERE entityGuid = '{guid}' {periodo_nrql}"
+                ),
+                "cold_starts": await executar_nrql_graphql(
+                    session,
+                    f"SELECT count(*) FROM ServerlessSample WHERE entityGuid = '{guid}' AND coldStart = 'true' {periodo_nrql}"
+                ),
+            }
+    return metricas
+
+async def coletar_contexto_completo(top_n=5):
+    contexto = {"apm": [], "browser": [], "infra": [], "db": [], "mobile": [], "iot": [], "serverless": [], "synth": [], "ext": [], "alertas": []}
+    async with aiohttp.ClientSession() as session:
+        entidades = await buscar_todas_entidades(session)
+        if not entidades:
+            logger.error("Nenhuma entidade encontrada na coleta do contexto completo!")
+        # Coleta paralela para acelerar ambientes grandes
+        tarefas = []
+        entidades_reportando = [e for e in entidades if e.get("reporting")]
+        for ent in entidades_reportando:
+            tarefas.append(coletar_metricas_entidade(ent, top_n))
+        resultados = await asyncio.gather(*tarefas, return_exceptions=True)
+        for ent, metricas in zip(entidades_reportando, resultados):
+            if isinstance(metricas, Exception):
+                logger.error(f"Erro ao coletar métricas para entidade {ent.get('guid')}: {metricas}")
+                continue
+            if not entidade_tem_dados(metricas):
+                logger.warning(f"Entidade {ent.get('guid')} sem dados válidos de métricas.")
+                continue
+            domain = ent["domain"]
+            item = {
+                "name": ent["name"],
+                "guid": ent["guid"],
+                "metricas": metricas
+            }
+            # Mapeamento de domínios
+            dominio_map = {
+                "APM": "apm",
+                "BROWSER": "browser",
+                "INFRA": "infra",
+                "DB": "db",
+                "MOBILE": "mobile",
+                "IOT": "iot", 
+                "SERVERLESS": "serverless",
+                "SYNTH": "synth",
+                "EXT": "ext"
+            }
+            dominio_chave = dominio_map.get(domain, "alertas")
+            contexto[dominio_chave].append(item)
+    
+    # Logging de todas as categorias de entidades
+    log_msg = "Contexto completo coletado: "
+    for dominio, itens in contexto.items():
+        log_msg += f"{dominio.upper()}={len(itens)}, "
+    logger.info(log_msg.rstrip(", "))
+    
+    return contexto

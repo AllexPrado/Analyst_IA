@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Analyst_IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; }
+        .container { max-width: 900px; margin: 30px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px #0001; padding: 24px; }
+        h1 { color: #1181ec; }
+        .historico, .relatorios { margin-top: 30px; }
+        .msg { background: #f2f8fe; border-radius: 8px; padding: 10px 18px; margin-bottom: 10px; }
+        .assistant { background: #e6ffed; }
+        .user { background: #fffbe8; }
+        .relatorio-link { display: inline-block; margin: 6px 0; color: #1477cf; text-decoration: none; }
+        .relatorio-link:hover { text-decoration: underline; }
+        .guid-input { width: 40%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Analyst_IA</h1>
+            <input type="text" name="guid" placeholder="GUID da Entidade" class="guid-input">
+            <input type="text" name="guid" placeholder="GUID da Entidade" class="guid-input">
+            <label for="tipo-select">Escolha a ação:</label>
+            <select name="tipo" id="tipo-select">
+                <option value="analise">Executar Nova Análise</option>
+                <option value="relatorio">Gerar Relatório PDF</option>
+                <option value="teste_tecnico">Gerar Teste Técnico</option>
+            </select>
+            <button type="submit">Executar</button>
+        </form>
+
+        <div class="historico">
+            <h2>Histórico de Conversas/Análises</h2>
+            {% for msg in historico %}
+                <div class="msg {{msg.role}}"><b>{{msg.role|capitalize}}:</b> {{msg.content}}</div>
+            {% endfor %}
+        </div>
+
+        <div class="relatorios">
+            <h2>Relatórios PDF Gerados</h2>
+            {% for r in relatorios %}
+                <div><a class="relatorio-link" href="{{ url_for('baixar', arquivo=r) }}">{{ r }}</a></div>
+            {% endfor %}
+        </div>
+
+         <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    
+    </div>
+</body>
+</html>

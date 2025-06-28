@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+reportlab
+openai
+requests
+yagmail
+fpdf

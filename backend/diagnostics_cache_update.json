@@ -1,0 +1,92 @@
+{
+  "update_successful": true,
+  "initial_state": {
+    "total_chaves_dados": 11,
+    "chaves_dados": [
+      "apm",
+      "browser",
+      "infra",
+      "db",
+      "mobile",
+      "iot",
+      "serverless",
+      "synth",
+      "ext",
+      "alertas",
+      "timestamp"
+    ],
+    "metadados": {
+      "ultima_atualizacao": "2025-06-23T15:03:22.152025",
+      "atualizacao_forcada": false,
+      "tipo_ultima_atualizacao": "completa"
+    },
+    "total_consultas_historicas": 0,
+    "tamanho_disco_mb": 0.42,
+    "ultima_atualizacao": "2025-06-23T14:55:30.251637",
+    "status": "carregado",
+    "idade_horas": 0.13,
+    "atualizado": true,
+    "contagem_por_dominio": {
+      "apm": 9,
+      "browser": 5,
+      "infra": 2,
+      "db": 0,
+      "mobile": 0,
+      "iot": 0,
+      "serverless": 0,
+      "synth": 0,
+      "ext": 0,
+      "alertas": 0
+    }
+  },
+  "final_state": {
+    "total_chaves_dados": 11,
+    "chaves_dados": [
+      "apm",
+      "browser",
+      "infra",
+      "db",
+      "mobile",
+      "iot",
+      "serverless",
+      "synth",
+      "ext",
+      "alertas",
+      "timestamp"
+    ],
+    "metadados": {
+      "ultima_atualizacao": "2025-06-23T15:03:22.152025",
+      "atualizacao_forcada": false,
+      "tipo_ultima_atualizacao": "completa"
+    },
+    "total_consultas_historicas": 0,
+    "tamanho_disco_mb": 0.42,
+    "ultima_atualizacao": "2025-06-23T15:03:22.152025",
+    "status": "carregado",
+    "idade_horas": 0.0,
+    "atualizado": true,
+    "contagem_por_dominio": {
+      "apm": 9,
+      "browser": 5,
+      "infra": 2,
+      "db": 0,
+      "mobile": 0,
+      "iot": 0,
+      "serverless": 0,
+      "synth": 0,
+      "ext": 0,
+      "alertas": 0
+    }
+  },
+  "entities_from_api": 185,
+  "reporting_entities": 180,
+  "entities_by_domain": {
+    "INFRA": 153,
+    "APM": 11,
+    "BROWSER": 9,
+    "EXT": 4,
+    "SYNTH": 8
+  },
+  "cache_populated": true,
+  "timestamp_updated": true
+}

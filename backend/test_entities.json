@@ -1,0 +1,1202 @@
+[
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3MDY2MzQyMDk3NDgwNDM0NzY0",
+    "name": "<Empty>"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTIzMDAzMjU",
+    "name": "[CR\u00cdTICO] Redis Madnezz \u2013 Mem\u00f3ria acima de 75 GB"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTEyMTM",
+    "name": "[NR] APM Logs Monitoring"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2NzQ1",
+    "name": "[NR] APM Logs Monitoring / [NR] APM Logs Monitoring"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDMzNTY1MzE1NTg1NzU0NzY4OA",
+    "name": "admin"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xQT0xJQ1l8NjM0NDc5Ng",
+    "name": "Ajax Requests alert policy"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI2NzY3NTk",
+    "name": "Ajax Response Codes (>= 300)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI2NzY3NTM",
+    "name": "Ajax Throughput"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI2NzY3NTY",
+    "name": "Ajax Time to Settle Deviation"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx",
+    "name": "Api Sites"
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA",
+    "name": "Api Sites"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODg0Mjk2MDg4MTExMDYzOTY4MQ",
+    "name": "api-malltech"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNTc1Nzc2ODI3NTY5MTc4NjM0NA",
+    "name": "api-sites"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC03MTM1MDMyNTEwOTg0MTI1MTc",
+    "name": "api-sites-d62afee7"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzcyMzM3ODU2NDc4ODQyOTg3Mg",
+    "name": "api-sites/staging"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwtNjk3MzE4MjAzMzk3MDE3Nzk3Mg",
+    "name": "api.fastview.com.br"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwtMTIwODM3NDc0MDM2NDE0OTI2OQ",
+    "name": "api.madnezz.com.br"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXw3MjEwNzM5NDg0MDA2ODkxNDQx",
+    "name": "api.malltech.com.br"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwtNjA2OTgzOTc2Nzc2Mzc4MTQ2Ng",
+    "name": "api.pwnedpasswords.com"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw4NzA4OTc1OTAxMjAxODQwMDE",
+    "name": "ASP-Pricipal-a2b2"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDkyMjYyNzc4OTAxNzk0Njc3Ng",
+    "name": "ASP-Webservices-Sites"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtOTE1MDUwMjk4MDQwMzc2NzQ5Mg",
+    "name": "authserver-madnezz"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xQT0xJQ1l8NjMzMTA1Mg",
+    "name": "AZURE"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTEyMTk",
+    "name": "Azure Anomaly Detector"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2NzY5",
+    "name": "Azure Anomaly Detector / Cognitive Service Anomaly Detector"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyMTEwNjk",
+    "name": "Azure App Service Plan"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3Njk5NzAz",
+    "name": "Azure App Service Plan / Azure App Service Plan"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDcz",
+    "name": "Azure Cost Management"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODYx",
+    "name": "Azure Cost Management / Azure Cost Management"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDc1",
+    "name": "Azure Custom Vision Prediction"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODY3",
+    "name": "Azure Custom Vision Prediction / Cognitive Service Custom Vision Prediction"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDgw",
+    "name": "Azure Data Share"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODky",
+    "name": "Azure Data Share / Azure Data Share"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNjAwOTc",
+    "name": "Azure Integrations Data Ingest Analysis"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjU4",
+    "name": "Azure Integrations Data Ingest Analysis / AI & Machine Learning Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjU5",
+    "name": "Azure Integrations Data Ingest Analysis / Analytics Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjYw",
+    "name": "Azure Integrations Data Ingest Analysis / Compute Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjYx",
+    "name": "Azure Integrations Data Ingest Analysis / Database Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjYy",
+    "name": "Azure Integrations Data Ingest Analysis / Integration Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjYz",
+    "name": "Azure Integrations Data Ingest Analysis / Management & Governance Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjY0",
+    "name": "Azure Integrations Data Ingest Analysis / Networking Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjU3",
+    "name": "Azure Integrations Data Ingest Analysis / Overview"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjY1",
+    "name": "Azure Integrations Data Ingest Analysis / Security Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0NjY2",
+    "name": "Azure Integrations Data Ingest Analysis / Storage Services"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDgx",
+    "name": "Azure Machine Learning using Azure Monitor"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODk3",
+    "name": "Azure Machine Learning using Azure Monitor / Job Executions"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODk4",
+    "name": "Azure Machine Learning using Azure Monitor / Model Metrics"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTAz",
+    "name": "Azure Machine Learning using Azure Monitor / Online Endpoint Deployments"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTAy",
+    "name": "Azure Machine Learning using Azure Monitor / Online Endpoints"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2ODk5",
+    "name": "Azure Machine Learning using Azure Monitor / Quota Metrics"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTAw",
+    "name": "Azure Machine Learning using Azure Monitor / Workspace CPU Usage"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTAx",
+    "name": "Azure Machine Learning using Azure Monitor / Workspace GPU Usage"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjc1MjE1NDQ",
+    "name": "Azure MySQL"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDI0NTk3MTg1",
+    "name": "Azure MySQL / Azure MySQL"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xQT0xJQ1l8NTgxNjkzMQ",
+    "name": "Azure MySQL alert policy"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDg3",
+    "name": "Azure Personalizer"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTIz",
+    "name": "Azure Personalizer / Cognitive Service Personalizer"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDg1",
+    "name": "Azure Recovery Services Vaults"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTEw",
+    "name": "Azure Recovery Services Vaults / Azure Recovery Services Vaults"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDgz",
+    "name": "Azure redis cache"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTA1",
+    "name": "Azure redis cache / Azure redis cache"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTMxNDQ",
+    "name": "Azure SQL database"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODMyODgy",
+    "name": "Azure SQL database / Azure SQL database"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkwOTQ3MjY",
+    "name": "Azure Virtual Machines"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3MzIwMTUy",
+    "name": "Azure Virtual Machines / Azure Virtual Machines"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTEyMjI",
+    "name": "Azure Web Apps"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2Nzc3",
+    "name": "Azure Web Apps / Azure Web Apps"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTE0OTk5MjE3",
+    "name": "Backend Laravel Madnezz"
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1NA",
+    "name": "Backend Laravel Madnezz"
+  },
+  {
+    "domain": "EXT",
+    "entityType": "EXTERNAL_ENTITY",
+    "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mjc1NTE",
+    "name": "Backend Laravel Madnezz - Success"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw2MDUyNTk2ODU3Njc2MjA1NjI2",
+    "name": "backend-fastview"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzM0NzE3NTI2MjIzMTI0NjAyOQ",
+    "name": "backend-malltech"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMjY4NjU1NTQyOTAxNDAzODMz",
+    "name": "backend-prd-useast-v3-madnezz"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwxMzgwOTEwMjg2MTYwODg2ODYy",
+    "name": "backend-prd-useast-v3-madnezz/staging"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwyMTIwOTUyMjc1MzY4MTMyNzAy",
+    "name": "backend-redis2"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3NDkyMjY5MDY4Mzk3MTkwMzE3",
+    "name": "bdz-dev-useast-v3-madnezz"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC00NzgwODg3NjI3MzkzMTkyMzE2",
+    "name": "bdz-prd-us-091b6d14"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfDE5NjY1ODU1MzU2OTExNjc5OTE",
+    "name": "bdz-prd-us-28523342"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfDcxODg5MzQ0MzYyOTI0ODM3MDM",
+    "name": "bdz-prd-us-2b0fa218"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC0yMTAyMDEzMjI2Nzk4NTExMDY5",
+    "name": "bdz-prd-us-87f3245a"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC00Mjk4NDU1MjI4OTI1MjEwOTg0",
+    "name": "bdz-prd-us-bf07ada8"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfDgwNjE3NTYwMzI5NDE1NTQ0MzA",
+    "name": "bdz-prd-us-c98b1325"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC00ODM5NzY3NDE1OTc4NDQwOTUw",
+    "name": "bdz-prd-us-d7cac5f0"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfDE1ODIwMzY3OTI3OTQ5Mjc5MDE",
+    "name": "bdz-prd-us-db27e615"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC0zMjU3Njg3MTI0MTI1NTM2MjA4",
+    "name": "bdz-prd-us-fa3014bd"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNjAxODM2MTcxNTQ1MTE4NDU5",
+    "name": "bdz-prd-useast-v3-madnezz"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzg1NDk2OTc3MzA0NjMwMDU2Mw",
+    "name": "bdz-prd-useast-v3-madnezz/preprod"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwyMTk1MTk1MTM2NjAzMjgxMDAz",
+    "name": "bdz-prd-useast-v3-madnezz/staging"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwyMjczODM4NjI5MTI2Nzk3MTE5",
+    "name": "bn3p.notify.windows.com"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDk0",
+    "name": "Browser Ajax Requests"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTMx",
+    "name": "Browser Ajax Requests / Browser - AJAX"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDkx",
+    "name": "Browser Overview"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTI3",
+    "name": "Browser Overview / Browser Overview"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNjAxMTE",
+    "name": "Browser page resources"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0ODc3",
+    "name": "Browser page resources / Browser page resources"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MDk2",
+    "name": "Browser Pages Dashboard"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTM2",
+    "name": "Browser Pages Dashboard / Browser Users Dashboard"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTM3",
+    "name": "Browser Pages Dashboard / Core Web Vitals"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTM5",
+    "name": "Browser Pages Dashboard / DCX"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTQw",
+    "name": "Browser Pages Dashboard / JS Errors Dashboard"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTM4",
+    "name": "Browser Pages Dashboard / Tell Me About My Users"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTQx",
+    "name": "Browser Pages Dashboard / Trends"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MTA5",
+    "name": "Browser Segment Investigation"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTYz",
+    "name": "Browser Segment Investigation / Page View Segment Investigation"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MTA1",
+    "name": "Browser Signals"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTU3",
+    "name": "Browser Signals / Signals"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MTAw",
+    "name": "Browser Traffic Analysis"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTQ1",
+    "name": "Browser Traffic Analysis / Browser Traffic Analysis"
+  },
+  {
+    "domain": "SYNTH",
+    "entityType": "SYNTHETIC_MONITOR_ENTITY",
+    "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDYxOGY4YmNkLTk0ODMtNDE4Ni1iNGVlLTVkMzhhNGY0Yzc5NA",
+    "name": "Carrefour"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNzE2MjY",
+    "name": "Cisco Hardware Status"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODk0NTMy",
+    "name": "Cisco Hardware Status / Inventory"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODk0NTMx",
+    "name": "Cisco Hardware Status / Issues"
+  },
+  {
+    "domain": "SYNTH",
+    "entityType": "SYNTHETIC_MONITOR_ENTITY",
+    "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDk5YzVjMmMxLWI3ODgtNGU1OS04ZjhjLWEwNGRkN2Q0NGQ4MQ",
+    "name": "cockpit"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3MTQ3OTU2MjkzNzM3NDk3OTg4",
+    "name": "common-dev-eastus-lnx"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwzMTY1NjkwOTE3NzQyMjczNjUw",
+    "name": "common-prod-eastus-lnx-asp"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDI3ODU0MTY1ODg3NTcxNjg2Nw",
+    "name": "common-prod-useast-sql"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNjI3NTAxNzMxODM1MTk4MjI3NQ",
+    "name": "Connect-MgGraph"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODI3MTk0NjQwODc5Mjk0MzgwMQ",
+    "name": "cs210032001718e123a"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTEyMTA",
+    "name": "Customer experience bottom of the funnel analysis"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2NzM0",
+    "name": "Customer experience bottom of the funnel analysis / BOFU - Desktop"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2NzM1",
+    "name": "Customer experience bottom of the funnel analysis / BOFU - Mobile and other"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw1NzQ1Mzk2OTYyMTU2OTEzMTc1",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw2NzgxNjA1NTE4NTg3NTQ5ODEz",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3NTU4MTA1MzAzNzg3MDY4MzE0",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3NzE5MTA5MDg4NTY3NDE1ODYz",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMjI3NzUxNTk4ODUxMDU5MjU1NA",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNTA1ODEwNzkyMTMzMjExNDgzNA",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODU4Nzk5ODgyNzA4MzIyMjQzNQ",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtOTExODc5MDI3MDQ4NTg0NzgzOA",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwyNDU2MDczNDgzMjMzNTQ3MjIx",
+    "name": "default"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw2ODU3NTgzODE4NTU2MTA1MjQ0",
+    "name": "default2"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwxMTkyMDQ2MDcyODY1MTU0OTk0",
+    "name": "DeploymentsPublicIP"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNTQ0MTUzMzgwMjYyNjg1MDU0MQ",
+    "name": "dev-fastview"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwxMjIwMzM1OTAxMTMzMjQ0NjE0",
+    "name": "dev-fastview-api-vnet"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwxNTAxNTE3ODk0Njc2NTExNjAy",
+    "name": "dev-malltech-fastview"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwzNDkzMTc4MDQ2NTExNzgzMjYw",
+    "name": "development-guilherme-vnet"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI0OTc3NzI",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxMDI",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxMTI",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxMTk",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxMzU",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxNDA",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxNTA",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxNTk",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI1NTUxNjc",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI2MzkzNDg",
+    "name": "Error rate (%)"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw4MTc0Mjc5NTE4NDE1NDM1MDEw",
+    "name": "espaco-empreendedor"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw1MzAwOTQxMTkyMDI1MzM3MjEw",
+    "name": "espaco-empreendedor-madnezz"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzgwNDI5NjMzMzQ1NjgxMzc5Ng",
+    "name": "fastview"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NDkzNjIzNjQy",
+    "name": "Fastview Legado"
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw",
+    "name": "Fastview Legado"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC0xNzY0NTQ4NDQwMTgzMjkwNjk2",
+    "name": "fastview-l-13ab96f5"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwxMjE2Mjc4OTY4NDg1MDA5Mjk4",
+    "name": "fastview-laravel"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODUyNjY3OTQxMTA2NjIwODcwNA",
+    "name": "fastview-laravel/stagin"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODE0NTA0MjE1NTEwNjIxNDE5Ng",
+    "name": "fastview-mssql-database-ip"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw2MzE5NTcyNDAxODE0MjI2Mjg5",
+    "name": "fastview-profarma"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDc5NDU2MTY5Mzg4MTM3MTI1",
+    "name": "fastview-uploads-new"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw4MjIxOTA2MjcwNzE0MjIzNTU2",
+    "name": "fastview/development"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMjA2MzMwMTY5NzAzMjQ1MDMzMg",
+    "name": "fastview/staging"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtOTE4NDYyMDMxNjExOTQ0MzAwMg",
+    "name": "fastviewcdn"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwtNTY0MTM0ODA2MzA0MDgyNTA4Mg",
+    "name": "fcm.googleapis.com"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTI2NzY3NTU",
+    "name": "First Input Delay (75 percentile) (ms)"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw1OTQ4NDk2NzI1NjA0NjY4NzUx",
+    "name": "ftp-carrefour-contas"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwyNTM4ODI1NDc0MTEwNDU5MDYw",
+    "name": "ftp-carrefour-relatorios"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNjEzOTEzMjYyNDY1MDE1NDA4MA",
+    "name": "ftp-carrefour-treinamento"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMzc5MjUyNTU2MDQyNTc3OTYwMw",
+    "name": "ftv-prd-useast-v3-madnezz"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjEwMTA0MTEw",
+    "name": "Golden signals dashboard"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM5MDE2OTY0",
+    "name": "Golden signals dashboard / Golden signals dashboard"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIVFRQU0VSVklDRXwtMjQ4OTMyMTY3NDQ1Nzc4NDE5Mw",
+    "name": "graph.microsoft.com"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NDY0MTM0NDI",
+    "name": "High CPU Utilization"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTE2MDAzMzY",
+    "name": "High duration"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NTE2MDAzMzQ",
+    "name": "High error rate"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xDT05ESVRJT058NDY0MTM0NDE",
+    "name": "High Memory Usage"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNTExMTE",
+    "name": "Infrastructure Dashboard"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2MjEw",
+    "name": "Infrastructure Dashboard / Health of Hosts"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2MjEx",
+    "name": "Infrastructure Dashboard / Infrastructure Metrics"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODI2MjA5",
+    "name": "Infrastructure Dashboard / Infrastructure Overview"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfGRhOjkyNjAxMDU",
+    "name": "Infrastructure Signals"
+  },
+  {
+    "domain": "VIZ",
+    "entityType": "DASHBOARD_ENTITY",
+    "guid": "Mzg4MjgyMHxWSVp8REFTSEJPQVJEfDM3ODU0Nzc0",
+    "name": "Infrastructure Signals / Patterns"
+  },
+  {
+    "domain": "SYNTH",
+    "entityType": "SYNTHETIC_MONITOR_ENTITY",
+    "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDdhNDRiMWM0LWY4OGQtNDYxNi05NzY4LWYwZGE3Nzg4NjVjYg",
+    "name": "job"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xQT0xJQ1l8NjMyNDE2NA",
+    "name": "jobs fastview"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTczMzg1MTg0",
+    "name": "Jobs Fastview"
+  },
+  {
+    "domain": "EXT",
+    "entityType": "EXTERNAL_ENTITY",
+    "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mzg3ODc",
+    "name": "Jobs Fastview - Latency"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xJU1NVRXw0Mjc4ZGE0Mi1iOGVmLTQ2OGYtYTJmYS1iMzFkYzg3MDI5ZjY",
+    "name": "Jobs Fastview - Latency query result is < 25.0 on 'Service Levels default alert condition'"
+  },
+  {
+    "domain": "EXT",
+    "entityType": "EXTERNAL_ENTITY",
+    "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mzg3ODg",
+    "name": "Jobs Fastview - Success"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfC01ODY4NzcyMDcwODEzMjE1NzQy",
+    "name": "jobs-fastv-3db9d196"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxIT1NUfDI0NzcyOTY2NDYzOTMxMzIyNTg",
+    "name": "jobs-fastv-b8ae5344"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODcwOTYwODAxOTU4NTY4ODE3OQ",
+    "name": "jobs-fastview"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMTE5MzYxMDU1ODE2NTg2MDgxOA",
+    "name": "jobs-fastview/staging"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODcyODQ0MzUwMDg2MzY1NTU0",
+    "name": "jobs-malltech"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw2OTIwMzA3NTc1NzU1ODY0NjQx",
+    "name": "json-server-fastview"
+  },
+  {
+    "domain": "UNINSTRUMENTED",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxVTklOU1RSVU1FTlRFRHxEQVRBQkFTRXw3ODU4MDkxMjk4ODM0MzM1Nzc5",
+    "name": "l01.drogaven.com.br"
+  },
+  {
+    "domain": "AIOPS",
+    "entityType": "GENERIC_ENTITY",
+    "guid": "Mzg4MjgyMHxBSU9QU3xQT0xJQ1l8NjIyMDUyMw",
+    "name": "Laravel alert policy"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTcxNTMyNTMw",
+    "name": "Laravel Fastview"
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1MQ",
+    "name": "Laravel Fastview"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTMzNDU3NTA5",
+    "name": "Laravel Madnezz"
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1ODc3MA",
+    "name": "Laravel Madnezz"
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTc3OTE5NjE2",
+    "name": "Laravel Malltech"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwzMTUyNzI1MDAxOTk4MjExODYz",
+    "name": "laravel_jobs"
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtMTgzOTIwOTIzMTEwMzk5MjMzOQ",
+    "name": "LARAVEL_MONGO"
+  }
+]

@@ -1,0 +1,155 @@
+{
+  "timestamp": "2025-06-23T15:44:48.759341",
+  "resultados": {
+    "INFRA": {
+      "total": 5,
+      "com_dados": 5,
+      "entidades": [
+        {
+          "nome": "<Empty>",
+          "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3MDY2MzQyMDk3NDgwNDM0NzY0",
+          "tem_dados": true
+        },
+        {
+          "nome": "admin",
+          "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDMzNTY1MzE1NTg1NzU0NzY4OA",
+          "tem_dados": true
+        },
+        {
+          "nome": "api-malltech",
+          "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODg0Mjk2MDg4MTExMDYzOTY4MQ",
+          "tem_dados": true
+        },
+        {
+          "nome": "api-sites",
+          "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNTc1Nzc2ODI3NTY5MTc4NjM0NA",
+          "tem_dados": true
+        },
+        {
+          "nome": "api-sites/staging",
+          "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzcyMzM3ODU2NDc4ODQyOTg3Mg",
+          "tem_dados": true
+        }
+      ]
+    },
+    "APM": {
+      "total": 5,
+      "com_dados": 5,
+      "entidades": [
+        {
+          "nome": "Api Sites",
+          "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx",
+          "tem_dados": true
+        },
+        {
+          "nome": "Backend Laravel Madnezz",
+          "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTE0OTk5MjE3",
+          "tem_dados": true
+        },
+        {
+          "nome": "Fastview Legado",
+          "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NDkzNjIzNjQy",
+          "tem_dados": true
+        },
+        {
+          "nome": "Jobs Fastview",
+          "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTczMzg1MTg0",
+          "tem_dados": true
+        },
+        {
+          "nome": "Laravel Fastview",
+          "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTcxNTMyNTMw",
+          "tem_dados": true
+        }
+      ]
+    },
+    "BROWSER": {
+      "total": 5,
+      "com_dados": 5,
+      "entidades": [
+        {
+          "nome": "Api Sites",
+          "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA",
+          "tem_dados": true
+        },
+        {
+          "nome": "Backend Laravel Madnezz",
+          "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1NA",
+          "tem_dados": true
+        },
+        {
+          "nome": "Fastview Legado",
+          "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw",
+          "tem_dados": true
+        },
+        {
+          "nome": "Laravel Fastview",
+          "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1MQ",
+          "tem_dados": true
+        },
+        {
+          "nome": "Laravel Madnezz",
+          "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1ODc3MA",
+          "tem_dados": true
+        }
+      ]
+    },
+    "EXT": {
+      "total": 4,
+      "com_dados": 4,
+      "entidades": [
+        {
+          "nome": "Backend Laravel Madnezz - Success",
+          "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mjc1NTE",
+          "tem_dados": true
+        },
+        {
+          "nome": "Jobs Fastview - Latency",
+          "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mzg3ODc",
+          "tem_dados": true
+        },
+        {
+          "nome": "Jobs Fastview - Success",
+          "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mzg3ODg",
+          "tem_dados": true
+        },
+        {
+          "nome": "WebTransaction/Uri/systems/lojas/api/carrefour.php",
+          "guid": "Mzg4MjgyMHxFWFR8S0VZX1RSQU5TQUNUSU9OfDI4MjcyOTUzNjQzNjIyMjExNjA",
+          "tem_dados": true
+        }
+      ]
+    },
+    "SYNTH": {
+      "total": 5,
+      "com_dados": 5,
+      "entidades": [
+        {
+          "nome": "Carrefour",
+          "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDYxOGY4YmNkLTk0ODMtNDE4Ni1iNGVlLTVkMzhhNGY0Yzc5NA",
+          "tem_dados": true
+        },
+        {
+          "nome": "cockpit",
+          "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDk5YzVjMmMxLWI3ODgtNGU1OS04ZjhjLWEwNGRkN2Q0NGQ4MQ",
+          "tem_dados": true
+        },
+        {
+          "nome": "job",
+          "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfDdhNDRiMWM0LWY4OGQtNDYxNi05NzY4LWYwZGE3Nzg4NjVjYg",
+          "tem_dados": true
+        },
+        {
+          "nome": "PAGE_SPEED_API_KEY_CX",
+          "guid": "Mzg4MjgyMHxTWU5USHxTRUNVUkVfQ1JFRHw5MzE0NTgxZC02NTAwLTQ2MzAtYTI3ZC1hMmYzOTZjZTVmZDI",
+          "tem_dados": true
+        },
+        {
+          "nome": "website-monitoring | broken-link-monitor | https://sistemas.fastview.com.br/systems/job-react/calendario/2/",
+          "guid": "Mzg4MjgyMHxTWU5USHxNT05JVE9SfGIyNTNmM2U2LWViMTgtNDYxNy04YWE4LTAxNmQwYTViNDM2ZQ",
+          "tem_dados": true
+        }
+      ]
+    }
+  }
+}

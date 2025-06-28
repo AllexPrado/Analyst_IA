@@ -1,0 +1,806 @@
+ cache de: D:\projetos\Analyst_IA\backend\historico\cache_newrelic.json
+2025-06-18 22:35:41,065 - utils.cache - INFO - Arquivo existe: True
+2025-06-18 22:35:41,066 - utils.cache - INFO - Tamanho do arquivo: 809641 bytes
+2025-06-18 22:35:41,087 - utils.cache - INFO - Cache carregado com sucesso. Chaves: ['last_update', 'entidades', 'metricas']    
+2025-06-18 22:35:41,088 - utils.cache - INFO - Corrigindo estrutura aninhada de entidades
+2025-06-18 22:35:41,089 - utils.cache - INFO - Entidades carregadas: 20
+2025-06-18 22:35:41,090 - main - INFO - Alertas recentes: 0 total, retornando 0
+INFO:     127.0.0.1:53851 - "GET /dashboard/alertas-recentes HTTP/1.1" 200 OK
+2025-06-18 22:35:41,121 - main - INFO - Iniciando dashboard_erros_criticos
+2025-06-18 22:35:41,122 - utils.cache - INFO - Tentando carregar cache de: D:\projetos\Analyst_IA\backend\historico\cache_newrelic.json
+2025-06-18 22:35:41,122 - utils.cache - INFO - Arquivo existe: True
+2025-06-18 22:35:41,123 - utils.cache - INFO - Tamanho do arquivo: 809641 bytes
+2025-06-18 22:35:41,136 - utils.cache - INFO - Cache carregado com sucesso. Chaves: ['last_update', 'entidades', 'metricas']    
+2025-06-18 22:35:41,137 - utils.cache - INFO - Corrigindo estrutura aninhada de entidades
+2025-06-18 22:35:41,138 - utils.cache - INFO - Entidades carregadas: 20
+2025-06-18 22:35:41,139 - main - INFO - Erros críticos: 0 encontrados
+INFO:     127.0.0.1:53853 - "GET /dashboard/erros-criticos HTTP/1.1" 200 OK
+2025-06-18 22:35:41,172 - main - INFO - Iniciando dashboard_sugestoes_automaticas
+2025-06-18 22:35:41,172 - utils.cache - INFO - Tentando carregar cache de: D:\projetos\Analyst_IA\backend\historico\cache_newrelic.json
+2025-06-18 22:35:41,173 - utils.cache - INFO - Arquivo existe: True
+2025-06-18 22:35:41,173 - utils.cache - INFO - Tamanho do arquivo: 809641 bytes
+2025-06-18 22:35:41,189 - utils.cache - INFO - Cache carregado com sucesso. Chaves: ['last_update', 'entidades', 'metricas']    
+2025-06-18 22:35:41,189 - utils.cache - INFO - Corrigindo estrutura aninhada de entidades
+2025-06-18 22:35:41,190 - utils.cache - INFO - Entidades carregadas: 20
+2025-06-18 22:35:41,191 - main - INFO - Sugestões automáticas: 0 encontradas
+INFO:     127.0.0.1:53856 - "GET /dashboard/sugestoes_automaticas HTTP/1.1" 200 OK
+2025-06-18 22:35:53,064 - main - INFO - Nova pergunta recebida: Liste as APIs mais lentas dos últimos 7 dias
+2025-06-18 22:35:53,064 - main - INFO - Histórico recebido: 1 mensagens
+2025-06-18 22:35:53,064 - utils.cache - INFO - Tentando carregar cache de: D:\projetos\Analyst_IA\backend\historico\cache_newrelic.json
+2025-06-18 22:35:53,065 - utils.cache - INFO - Arquivo existe: True
+2025-06-18 22:35:53,065 - utils.cache - INFO - Tamanho do arquivo: 809641 bytes
+2025-06-18 22:35:53,080 - utils.cache - INFO - Cache carregado com sucesso. Chaves: ['last_update', 'entidades', 'metricas']    
+2025-06-18 22:35:53,081 - utils.cache - INFO - Corrigindo estrutura aninhada de entidades
+2025-06-18 22:35:53,081 - utils.cache - INFO - Entidades carregadas: 20
+2025-06-18 22:35:53,082 - main - INFO - Cache carregado com 20 entidades
+2025-06-18 22:35:53,086 - main - INFO - Histórico[0]: autor='usuario' mensagem='Liste as APIs mais lentas dos últimos 7 dias' timestamp=datetime.datetime(2025, 6, 19, 1, 35, 50, 222000, tzinfo=datetime.timezone.utc) (type: <class 'main.Mensagem'>)
+2025-06-18 22:35:53,086 - main - INFO - Contexto Markdown enviado para IA:
+# 📊 CONTEXTO TÉCNICO NEW RELIC - 20 ENTIDADES
+
+## 🏗️ DOMÍNIO: APM (11 entidades)
+
+### 🔧 **Laravel Madnezz** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 202.09ms (média), 527031.59ms (máxima), 0ms (p95)
+- **Erros:** 0.1% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:02:39
+2. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:01:55
+3. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:01:15
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTMzNDU3NTA5`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Api Sites** (APM_BACKEND)
+**Status:** 🟢 Ativo | **Confiança:** 0.7
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 186.04ms (média), 61396.86ms (máxima), 0ms (p95)
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 10:10:51
+2. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 10:06:25
+3. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 09:36:27
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx`
+**📍 Razão da Classificação:** APM com característica de backend/servidor
+
+---
+
+### 🔧 **Madnezz V3** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 173.38ms (média), 35371324.12ms (máxima), 0ms (p95)
+- **Erros:** 0.05% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 13:18:08
+2. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 13:04:24
+3. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 12:39:48
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTkwNzU1NjAy`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Laravel Fastview** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 133.77ms (média), 406873.36ms (máxima), 0ms (p95)
+- **Erros:** 0.02% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:33
+2. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:30
+3. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:08
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTcxNTMyNTMw`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Backend Laravel Madnezz** (APM_BACKEND)
+**Status:** 🔴 Inativo | **Confiança:** 0.7
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 117.69ms (média), 28074.38ms (máxima), 0ms (p95)
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (3 erros)
+1. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 10/06/2025 01:01:32
+2. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 10/06/2025 01:00:32
+3. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 09/06/2025 17:50:23
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTE0OTk5MjE3`
+**📍 Razão da Classificação:** APM com característica de backend/servidor
+
+---
+
+### 🔧 **Laravel Malltech** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 116.52ms (média), 40715.85ms (máxima), 0ms (p95)
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTc3OTE5NjE2`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Fastview Legado** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 83.3ms (média), 111965.31ms (máxima), 0ms (p95) 
+- **Erros:** 1.98% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/sql.php
+   - **Timestamp:** 16/06/2025 13:20:28
+2. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/sql.php
+   - **Timestamp:** 16/06/2025 13:20:24
+3. **Erro:** `E_WARNING`
+   - **Mensagem:** foreach() argument must be of type array|object, string given
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /service/exportador.php
+   - **Timestamp:** 16/06/2025 13:20:11
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NDkzNjIzNjQy`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Uploads Madnezz PHP** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 49.77ms (média), 58835.38ms (máxima), 0ms (p95) 
+- **Erros:** 99.97% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /11f42fd94303077bfde3197ee02decf2
+   - **Timestamp:** 16/06/2025 13:21:18
+2. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /84ae3787fb6e505d8c78e59299f31828
+   - **Timestamp:** 16/06/2025 13:21:17
+3. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /03ce6d487f6c134f5cb3672d7eaa406c
+   - **Timestamp:** 16/06/2025 13:21:17
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MjY5MzAz`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Malltech Legado** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 29.86ms (média), 52747.27ms (máxima), 0ms (p95) 
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/actions/calendario_novo.php    
+   - **Timestamp:** 13/06/2025 21:59:38
+2. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/actions/calendario_novo.php    
+   - **Timestamp:** 13/06/2025 21:59:33
+3. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/
+   - **Timestamp:** 13/06/2025 16:28:32
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTIzMDc1MTU4`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **PHP Application** (APM_APPLICATION)
+**Status:** 🔴 Inativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 0ms (média), 0ms (máxima), 0ms (p95)
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTU0MjUw`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Jobs Fastview** (WORKER)
+**Status:** 🟢 Ativo | **Confiança:** 0.8
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 74.0ms (média), 146558.97ms (máxima), 0ms (p95) 
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTczMzg1MTg0`
+**📍 Razão da Classificação:** Nome indica worker/job
+
+---
+
+## 🏗️ DOMÍNIO: BROWSER (9 entidades)
+
+### 🔧 **Api Sites** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Backend Laravel Madnezz** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1NA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Fastview Legado** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Laravel Fastview** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1MQ`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Laravel Madnezz** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1ODc3MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Madnezz V3** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTM4MTU5Nw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Malltech Legado** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQwMw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **React** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **React Fastview** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3OA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+## 📋 RESUMO EXECUTIVO
+
+- **Total de Entidades:** 20
+- **Entidades Ativas:** 14/20
+- **Entidades com Erros:** 0/20
+- **Domínios Cobertos:** APM, BROWSER
+
+
+📅 **Dados coletados em:** 2025-06-18T22:35:53.084738
+
+2025-06-18 22:35:53,626 - main - INFO - Tokens estimados no prompt: 6895
+2025-06-18 22:35:53,626 - main - INFO - Modelo escolhido: gpt-3.5-turbo (tokens: 6895)
+2025-06-18 22:36:00,394 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"        
+INFO:     127.0.0.1:53863 - "POST /chat HTTP/1.1" 200 OK
+2025-06-18 22:37:50,848 - main - INFO - Nova pergunta recebida: preciso do tracer, backtracer swift, preciso do diagnostico mais a fundo
+2025-06-18 22:37:50,848 - main - INFO - Histórico recebido: 3 mensagens
+2025-06-18 22:37:50,848 - utils.cache - INFO - Tentando carregar cache de: D:\projetos\Analyst_IA\backend\historico\cache_newrelic.json
+2025-06-18 22:37:50,848 - utils.cache - INFO - Arquivo existe: True
+2025-06-18 22:37:50,851 - utils.cache - INFO - Tamanho do arquivo: 809641 bytes
+2025-06-18 22:37:50,854 - utils.cache - INFO - Cache carregado com sucesso. Chaves: ['last_update', 'entidades', 'metricas']    
+2025-06-18 22:37:50,854 - utils.cache - INFO - Corrigindo estrutura aninhada de entidades
+2025-06-18 22:37:50,854 - utils.cache - INFO - Entidades carregadas: 20
+2025-06-18 22:37:50,854 - main - INFO - Cache carregado com 20 entidades
+2025-06-18 22:37:50,854 - main - INFO - Histórico[0]: autor='usuario' mensagem='Liste as APIs mais lentas dos últimos 7 dias' timestamp=datetime.datetime(2025, 6, 19, 1, 35, 50, 222000, tzinfo=datetime.timezone.utc) (type: <class 'main.Mensagem'>)
+2025-06-18 22:37:50,854 - main - INFO - Histórico[1]: autor='ia' mensagem='## 🔍 DIAGNÓSTICO TÉCNICO\n\n**Problema Identificado:** Identificação das APIs mais lentas nos últimos 7 dias\n**Entidade Afetada:** Api Sites\n**Severidade:** Médio - Latência acima da média\n\n### 📋 Dados Técnicos Coletados:\n- **Latência:** 186.04ms (média), 61396.86ms (máxima), 0ms (p95)\n- **Erros:** 0.0% (0 total)\n\n### APIs Mais Lentas:\n1. **Endpoint:** /api/v1/public/sites/loja\n   - **Média de Latência:** 186.04ms\n\n##  🎯 CAUSA RAIZ\n\n**Origem do Problema:** Possível ineficiência no processamento das requisições para o endpoint `/api/v1/public/sites/loja`.\n**Componentes Envolvidos:** Api Sites, Backend Laravel Madnezz.\n**Dependências Impactadas:** Possível impacto na disponibilidade e performance geral da aplicação.\n\n## 📊 IMPACTO QUANTIFICADO\n\n**Usuários Afetados:** Não houve erros reportados, mas a latência elevada pode afetar a experiência do usuário.\n**Performance Degradada:** A latência máxima de 61396.86ms indica um possível gargalo no sistema.\n**Disponibilidade:** A aplicação está ativa, porém com potencial risco de impacto negativo.\n\n## 🛠️ PLANO DE CORREÇÃO\n\n### Ações Imediatas:\n1. Analissar e otimizar o código relacionado ao endpoint `/api/v1/public/sites/loja`.\n2. Implementar cache ou melhorias no processamento das requisições.\n\n### Ações de Médio Prazo:\n1. Realizar testes de carga para identificar limitações de desempenho.\n2. Monitorar continuamente a latência dos endpoints críticos.\n\n## 📈 MONITORAMENTO\n\n**Métricas Chave:** Latência média e máxima dos endpoints, taxa de erros, throughput.\n**Alertas Sugeridos:** Configurar alertas para latências acima de um limite aceitável.\n\nFormato esperado:\n- DIAGNÓSTICO DETALHADO (com dados específicos)\n- CAUSA RAIZ (correlacionando múltiplos domínios)\n- RECOMENDAÇÕES TÉCNICAS (ações práticas priorizadas)\n- PLANO DE AÇÃO (steps concretos)\n- IMPACTO NO USUÁRIO (quantificado quando possível)\n- RESUMO EXECUTIVO (para gestores)' timestamp=datetime.datetime(2025, 6, 19, 1, 36, 0, 598000, tzinfo=datetime.timezone.utc) (type: <class 'main.Mensagem'>)
+2025-06-18 22:37:50,865 - main - INFO - Histórico[2]: autor='usuario' mensagem='preciso do tracer, backtracer swift, preciso do diagnostico mais a fundo' timestamp=datetime.datetime(2025, 6, 19, 1, 37, 50, 823000, tzinfo=datetime.timezone.utc) (type: <class 'main.Mensagem'>)
+2025-06-18 22:37:50,865 - main - INFO - Contexto Markdown enviado para IA:
+# 📊 CONTEXTO TÉCNICO NEW RELIC - 20 ENTIDADES
+
+## 🏗️ DOMÍNIO: APM (11 entidades)
+
+### 🔧 **Laravel Madnezz** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 202.09ms (média), 527031.59ms (máxima), 0ms (p95)
+- **Erros:** 0.1% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:02:39
+2. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:01:55
+3. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 163840 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 16/06/2025 01:01:15
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTMzNDU3NTA5`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Api Sites** (APM_BACKEND)
+**Status:** 🟢 Ativo | **Confiança:** 0.7
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 186.04ms (média), 61396.86ms (máxima), 0ms (p95)
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 10:10:51
+2. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 10:06:25
+3. **Erro:** `TypeError`
+   - **Mensagem:** Exception 'TypeError' with message 'count(): Argument #1 ($value) must be of type Countable|array, s...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/public/sites/loja
+   - **Timestamp:** 16/06/2025 09:36:27
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx`
+**📍 Razão da Classificação:** APM com característica de backend/servidor
+
+---
+
+### 🔧 **Madnezz V3** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 173.38ms (média), 35371324.12ms (máxima), 0ms (p95)
+- **Erros:** 0.05% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 13:18:08
+2. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 13:04:24
+3. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown colu...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/permissoes.php
+   - **Timestamp:** 16/06/2025 12:39:48
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTkwNzU1NjAy`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Laravel Fastview** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 133.77ms (média), 406873.36ms (máxima), 0ms (p95)
+- **Erros:** 0.02% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:33
+2. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:30
+3. **Erro:** `Error`
+   - **Mensagem:** Exception 'Error' with message 'Call to undefined function imagejpeg()' in /home/site/wwwroot/vendor...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/v1/trades/supervisao/export/inline      
+   - **Timestamp:** 13/06/2025 15:31:08
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTcxNTMyNTMw`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Backend Laravel Madnezz** (APM_BACKEND)
+**Status:** 🔴 Inativo | **Confiança:** 0.7
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 117.69ms (média), 28074.38ms (máxima), 0ms (p95)
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (3 erros)
+1. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 10/06/2025 01:01:32
+2. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 10/06/2025 01:00:32
+3. **Erro:** `E_ERROR`
+   - **Mensagem:** Allowed memory size of 134217728 bytes exhausted (tried to allocate 176128 bytes)
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** N/A
+   - **Timestamp:** 09/06/2025 17:50:23
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTE0OTk5MjE3`
+**📍 Razão da Classificação:** APM com característica de backend/servidor
+
+---
+
+### 🔧 **Laravel Malltech** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 116.52ms (média), 40715.85ms (máxima), 0ms (p95)
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTc3OTE5NjE2`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Fastview Legado** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 83.3ms (média), 111965.31ms (máxima), 0ms (p95) 
+- **Erros:** 1.98% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/sql.php
+   - **Timestamp:** 16/06/2025 13:20:28
+2. **Erro:** `PDOException`
+   - **Mensagem:** Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /api/sql.php
+   - **Timestamp:** 16/06/2025 13:20:24
+3. **Erro:** `E_WARNING`
+   - **Mensagem:** foreach() argument must be of type array|object, string given
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /service/exportador.php
+   - **Timestamp:** 16/06/2025 13:20:11
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NDkzNjIzNjQy`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Uploads Madnezz PHP** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 49.77ms (média), 58835.38ms (máxima), 0ms (p95) 
+- **Erros:** 99.97% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /11f42fd94303077bfde3197ee02decf2
+   - **Timestamp:** 16/06/2025 13:21:18
+2. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /84ae3787fb6e505d8c78e59299f31828
+   - **Timestamp:** 16/06/2025 13:21:17
+3. **Erro:** `E_WARNING`
+   - **Mensagem:** Undefined array key "id"
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /03ce6d487f6c134f5cb3672d7eaa406c
+   - **Timestamp:** 16/06/2025 13:21:17
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MjY5MzAz`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Malltech Legado** (APM_APPLICATION)
+**Status:** 🟢 Ativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 29.86ms (média), 52747.27ms (máxima), 0ms (p95) 
+- **Erros:** 0.0% (0 total)
+
+#### 🚨 ERROS RECENTES COM STACKTRACES (5 erros)
+1. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/actions/calendario_novo.php    
+   - **Timestamp:** 13/06/2025 21:59:38
+2. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/actions/calendario_novo.php    
+   - **Timestamp:** 13/06/2025 21:59:33
+3. **Erro:** `mysqli_sql_exception`
+   - **Mensagem:** Uncaught exception 'mysqli_sql_exception' with message 'You have an error in your SQL syntax; check ...      
+   - **Arquivo:** N/A:N/A
+   - **Endpoint:** /sistemas/job/
+   - **Timestamp:** 13/06/2025 16:28:32
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTIzMDc1MTU4`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **PHP Application** (APM_APPLICATION)
+**Status:** 🔴 Inativo | **Confiança:** 0.6
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 0ms (média), 0ms (máxima), 0ms (p95)
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTU0MjUw`
+**📍 Razão da Classificação:** Aplicação APM genérica (não é endpoint específico)
+
+---
+
+### 🔧 **Jobs Fastview** (WORKER)
+**Status:** 🟢 Ativo | **Confiança:** 0.8
+
+#### 📈 MÉTRICAS DE PERFORMANCE (7 dias)
+- **Latência:** 74.0ms (média), 146558.97ms (máxima), 0ms (p95) 
+- **Erros:** 0% (0 total)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTczMzg1MTg0`
+**📍 Razão da Classificação:** Nome indica worker/job
+
+---
+
+## 🏗️ DOMÍNIO: BROWSER (9 entidades)
+
+### 🔧 **Api Sites** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Backend Laravel Madnezz** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1NA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Fastview Legado** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Laravel Fastview** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTA1MQ`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Laravel Madnezz** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1ODc3MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Madnezz V3** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTM4MTU5Nw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **Malltech Legado** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQwMw`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **React** (BROWSER)
+**Status:** 🟢 Ativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3MA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+### 🔧 **React Fastview** (BROWSER)
+**Status:** 🔴 Inativo | **Confiança:** 0.9
+
+#### 🌐 MÉTRICAS FRONTEND (7 dias)
+
+**🔧 GUID Técnico:** `Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3OA`
+**📍 Razão da Classificação:** Domínio Browser explícito        
+
+---
+
+## 📋 RESUMO EXECUTIVO
+
+- **Total de Entidades:** 20
+- **Entidades Ativas:** 14/20
+- **Entidades com Erros:** 0/20
+- **Domínios Cobertos:** APM, BROWSER
+
+
+📅 **Dados coletados em:** 2025-06-18T22:37:50.854925
+
+2025-06-18 22:37:50,877 - main - INFO - Tokens estimados no prompt: 7530
+2025-06-18 22:37:50,879 - main - INFO - Modelo escolhido: gpt-3.5-turbo (tokens: 7530)
+2025-06-18 22:37:52,522 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"        
+INFO:     127.0.0.1:53886 - "POST /chat HTTP/1.1" 200 OK

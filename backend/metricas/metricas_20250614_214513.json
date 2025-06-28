@@ -1,0 +1,2292 @@
+[
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw3MDY2MzQyMDk3NDgwNDM0NzY0",
+    "name": "<Empty>",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.account",
+        "values": [
+          "madnezz-backend"
+        ]
+      },
+      {
+        "key": "azure.database",
+        "values": [
+          "admin"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "<Empty>"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "West US"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "webapp-prd-v3-backend"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "d8a91ece-d4bd-4af1-b1a0-743eeb7a31c9"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.DocumentDB/databaseAccounts"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "<Empty>"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Madnezz"
+        ]
+      },
+      {
+        "key": "label.defaultExperience",
+        "values": [
+          "Azure Cosmos DB for MongoDB API"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "242145"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "MADWEB SERVICOS DE INFORMATICA LTDA"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZURECOSMOSDBCOLLECTION",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDMzNTY1MzE1NTg1NzU0NzY4OA",
+    "name": "admin",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.account",
+        "values": [
+          "madnezz-backend"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "admin"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "West US"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "webapp-prd-v3-backend"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "d8a91ece-d4bd-4af1-b1a0-743eeb7a31c9"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.DocumentDB/databaseAccounts"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "admin"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Madnezz"
+        ]
+      },
+      {
+        "key": "label.defaultExperience",
+        "values": [
+          "Azure Cosmos DB for MongoDB API"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "242145"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "MADWEB SERVICOS DE INFORMATICA LTDA"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZURECOSMOSDBDATABASE",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "APM",
+    "entityType": "APM_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx",
+    "name": "Api Sites",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "agentVersion",
+        "values": [
+          "11.9.0.23"
+        ]
+      },
+      {
+        "key": "instrumentation.name",
+        "values": [
+          "apm"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "newRelic"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente value: MadnezzWebsites"
+        ]
+      },
+      {
+        "key": "language",
+        "values": [
+          "php"
+        ]
+      },
+      {
+        "key": "nr.logAccountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "nr.logEventType",
+        "values": [
+          "Log"
+        ]
+      },
+      {
+        "key": "nr.tracing",
+        "values": [
+          "standard"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "APPLICATION",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": 0.16725713388792965
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": 2.23248
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": 0.0
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 6365,
+              "f": 8,
+              "s": 5886,
+              "score": 0.96,
+              "t": 471
+            },
+            "count": 6365,
+            "f": 8,
+            "s": 5886,
+            "score": 0.96,
+            "t": 471
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 213.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": 0.18235460912898196
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": 6.93955
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": 0.0013389426102418398
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 373428,
+              "f": 1519,
+              "s": 343142,
+              "score": 0.96,
+              "t": 28767
+            },
+            "count": 373428,
+            "f": 1519,
+            "s": 343142,
+            "score": 0.96,
+            "t": 28767
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 259.325
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": 0.19205227911465608
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": 61.39686
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": 0.0016246218402555762
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 2585215,
+              "f": 9652,
+              "s": 2399789,
+              "score": 0.96,
+              "t": 175774
+            },
+            "count": 2585215,
+            "f": 9652,
+            "s": 2399789,
+            "score": 0.96,
+            "t": 175774
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 256.46964285714284
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "BROWSER",
+    "entityType": "BROWSER_APPLICATION_ENTITY",
+    "guid": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA",
+    "name": "Api Sites",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "clusterAgentId",
+        "values": [
+          "569148461"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "APPLICATION",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtODg0Mjk2MDg4MTExMDYzOTY4MQ",
+    "name": "api-malltech",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.availabilityState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "azure.defaultHostName",
+        "values": [
+          "api-malltech.azurewebsites.net"
+        ]
+      },
+      {
+        "key": "azure.enabled",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "api-malltech"
+        ]
+      },
+      {
+        "key": "azure.netFrameworkVersion",
+        "values": [
+          "v4.0"
+        ]
+      },
+      {
+        "key": "azure.platformArchitecture",
+        "values": [
+          "X86"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "East US"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "Malltech-WebApps"
+        ]
+      },
+      {
+        "key": "azure.state",
+        "values": [
+          "Stopped"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "0f6fe34e-bd87-4a71-b62c-56af9d988646"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.Web/sites"
+        ]
+      },
+      {
+        "key": "azure.usageState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "api-malltech"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Fastview"
+        ]
+      },
+      {
+        "key": "operatingSystem",
+        "values": [
+          "linux"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "257248"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "Fastview"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZUREAPPSERVICEWEBAPP",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNTc1Nzc2ODI3NTY5MTc4NjM0NA",
+    "name": "api-sites",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.availabilityState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "azure.defaultHostName",
+        "values": [
+          "api-sites-a8btb4arf8fxfdep.eastus2-01.azurewebsites.net"
+        ]
+      },
+      {
+        "key": "azure.enabled",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "api-sites"
+        ]
+      },
+      {
+        "key": "azure.netFrameworkVersion",
+        "values": [
+          "v4.0"
+        ]
+      },
+      {
+        "key": "azure.platformArchitecture",
+        "values": [
+          "X86"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "East US 2"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "Webservices-Principal-Madnezz_group"
+        ]
+      },
+      {
+        "key": "azure.state",
+        "values": [
+          "Running"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "56431770-bfd3-4114-ad49-29370c3108cc"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.Web/sites"
+        ]
+      },
+      {
+        "key": "azure.usageState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "api-sites"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Madnezz"
+        ]
+      },
+      {
+        "key": "label.resource",
+        "values": [
+          "webapp"
+        ]
+      },
+      {
+        "key": "label.tenant",
+        "values": [
+          "webservices"
+        ]
+      },
+      {
+        "key": "operatingSystem",
+        "values": [
+          "linux"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "255579"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "Madnezz-Sites"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZUREAPPSERVICEWEBAPP",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNzcyMzM3ODU2NDc4ODQyOTg3Mg",
+    "name": "api-sites/staging",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.availabilityState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "azure.defaultHostName",
+        "values": [
+          "api-sites-a8btb4arf8fxfdep.eastus2-01.azurewebsites.net"
+        ]
+      },
+      {
+        "key": "azure.enabled",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "api-sites/staging"
+        ]
+      },
+      {
+        "key": "azure.netFrameworkVersion",
+        "values": [
+          "v4.0"
+        ]
+      },
+      {
+        "key": "azure.platformArchitecture",
+        "values": [
+          "X86"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "East US 2"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "Webservices-Principal-Madnezz_group"
+        ]
+      },
+      {
+        "key": "azure.state",
+        "values": [
+          "Running"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "56431770-bfd3-4114-ad49-29370c3108cc"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.Web/sites/slots"
+        ]
+      },
+      {
+        "key": "azure.usageState",
+        "values": [
+          "Normal"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "api-sites/staging"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Madnezz"
+        ]
+      },
+      {
+        "key": "label.resource",
+        "values": [
+          "webapp"
+        ]
+      },
+      {
+        "key": "label.tenant",
+        "values": [
+          "webservices"
+        ]
+      },
+      {
+        "key": "operatingSystem",
+        "values": [
+          "linux"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "255579"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "Madnezz-Sites"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZUREAPPSERVICEWEBAPP",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXw4NzA4OTc1OTAxMjAxODQwMDE",
+    "name": "ASP-Pricipal-a2b2",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.capacity",
+        "values": [
+          "1"
+        ]
+      },
+      {
+        "key": "azure.maxInstances",
+        "values": [
+          "30"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "ASP-Pricipal-a2b2"
+        ]
+      },
+      {
+        "key": "azure.numberOfWebApps",
+        "values": [
+          "0"
+        ]
+      },
+      {
+        "key": "azure.perSiteScaling",
+        "values": [
+          "false"
+        ]
+      },
+      {
+        "key": "azure.pricingTier",
+        "values": [
+          "PremiumV3_P1v3"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "East US"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "Pricipal"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "0f6fe34e-bd87-4a71-b62c-56af9d988646"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.Web/serverfarms"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "ASP-Pricipal-a2b2"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Fastview"
+        ]
+      },
+      {
+        "key": "operatingSystem",
+        "values": [
+          "windows"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "257248"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "Fastview"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZUREAPPSERVICEPLAN",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "INFRA",
+    "entityType": "GENERIC_INFRASTRUCTURE_ENTITY",
+    "guid": "Mzg4MjgyMHxJTkZSQXxOQXwtNDkyMjYyNzc4OTAxNzk0Njc3Ng",
+    "name": "ASP-Webservices-Sites",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "azure.capacity",
+        "values": [
+          "0"
+        ]
+      },
+      {
+        "key": "azure.maxInstances",
+        "values": [
+          "1"
+        ]
+      },
+      {
+        "key": "azure.name",
+        "values": [
+          "ASP-Webservices-Sites"
+        ]
+      },
+      {
+        "key": "azure.numberOfWebApps",
+        "values": [
+          "0"
+        ]
+      },
+      {
+        "key": "azure.perSiteScaling",
+        "values": [
+          "false"
+        ]
+      },
+      {
+        "key": "azure.pricingTier",
+        "values": [
+          "Free_F1"
+        ]
+      },
+      {
+        "key": "azure.regionName",
+        "values": [
+          "East US 2"
+        ]
+      },
+      {
+        "key": "azure.resourceGroupName",
+        "values": [
+          "WebServices-Sites_group"
+        ]
+      },
+      {
+        "key": "azure.subscriptionId",
+        "values": [
+          "56431770-bfd3-4114-ad49-29370c3108cc"
+        ]
+      },
+      {
+        "key": "azure.type",
+        "values": [
+          "Microsoft.Web/serverfarms"
+        ]
+      },
+      {
+        "key": "collector.name",
+        "values": [
+          "cloud-integrations"
+        ]
+      },
+      {
+        "key": "displayName",
+        "values": [
+          "ASP-Webservices-Sites"
+        ]
+      },
+      {
+        "key": "instrumentation.provider",
+        "values": [
+          "azure"
+        ]
+      },
+      {
+        "key": "key",
+        "values": [
+          "Ambiente  value: Madnezz"
+        ]
+      },
+      {
+        "key": "label.resource",
+        "values": [
+          "app-plan-service"
+        ]
+      },
+      {
+        "key": "label.tenant",
+        "values": [
+          "webservices"
+        ]
+      },
+      {
+        "key": "operatingSystem",
+        "values": [
+          "windows"
+        ]
+      },
+      {
+        "key": "providerAccountId",
+        "values": [
+          "255579"
+        ]
+      },
+      {
+        "key": "providerAccountName",
+        "values": [
+          "Madnezz-Sites"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "AZUREAPPSERVICEPLAN",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  },
+  {
+    "domain": "EXT",
+    "entityType": "EXTERNAL_ENTITY",
+    "guid": "Mzg4MjgyMHxFWFR8U0VSVklDRV9MRVZFTHw3Mjc1NTE",
+    "name": "Backend Laravel Madnezz - Success",
+    "reporting": true,
+    "tags": [
+      {
+        "key": "account",
+        "values": [
+          "Account 3882820"
+        ]
+      },
+      {
+        "key": "accountId",
+        "values": [
+          "3882820"
+        ]
+      },
+      {
+        "key": "category",
+        "values": [
+          "success"
+        ]
+      },
+      {
+        "key": "nr.associatedEntityGuid",
+        "values": [
+          "Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTE0OTk5MjE3"
+        ]
+      },
+      {
+        "key": "nr.associatedEntityName",
+        "values": [
+          "Backend Laravel Madnezz"
+        ]
+      },
+      {
+        "key": "nr.associatedEntityType",
+        "values": [
+          "APM_APPLICATION"
+        ]
+      },
+      {
+        "key": "nr.sliComplianceCategory",
+        "values": [
+          "Compliant"
+        ]
+      },
+      {
+        "key": "nr.sloPeriod",
+        "values": [
+          "7d"
+        ]
+      },
+      {
+        "key": "nr.sloTarget",
+        "values": [
+          "99.0%"
+        ]
+      },
+      {
+        "key": "trustedAccountId",
+        "values": [
+          "3882820"
+        ]
+      }
+    ],
+    "type": "SERVICE_LEVEL",
+    "metricas_nrql": {
+      "30min": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "24h": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      },
+      "7d": {
+        "response_time_avg": [
+          {
+            "average.duration": null
+          }
+        ],
+        "response_time_max": [
+          {
+            "max.duration": null
+          }
+        ],
+        "error_rate": [
+          {
+            "percentage": null
+          }
+        ],
+        "apdex_score": [
+          {
+            "apdex.duration": {
+              "count": 0,
+              "f": 0,
+              "s": 0,
+              "score": 0.0,
+              "t": 0
+            },
+            "count": 0,
+            "f": 0,
+            "s": 0,
+            "score": 0.0,
+            "t": 0
+          }
+        ],
+        "throughput": [
+          {
+            "rate.count": 0.0
+          }
+        ]
+      }
+    },
+    "alertas": []
+  }
+]

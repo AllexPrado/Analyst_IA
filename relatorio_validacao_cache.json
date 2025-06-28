@@ -1,0 +1,13 @@
+{
+  "data": "2025-06-27T23:52:36.354508",
+  "resultados": {
+    "Importação": true,
+    "Verificação": true,
+    "Inicialização": true,
+    "Busca": true,
+    "Status": true
+  },
+  "total_testes": 5,
+  "testes_sucesso": 5,
+  "status_geral": "OK"
+}
