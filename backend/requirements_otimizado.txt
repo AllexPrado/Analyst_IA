@@ -1,0 +1,22 @@
+# Dependências para o sistema otimizado do Analyst IA
+# Instale com: pip install -r requirements_otimizado.txt
+
+# Bibliotecas principais
+aiohttp>=3.8.0
+fastapi>=0.95.0
+uvicorn>=0.17.0
+python-dotenv>=1.0.0
+pydantic>=1.10.0
+
+# Para coleta e processamento de dados
+asyncio>=3.4.3
+PyPDF2>=3.0.0
+tiktoken>=0.3.0
+
+# Para visualização e monitoramento (opcional)
+matplotlib>=3.7.0
+numpy>=1.24.0
+
+# Para testes
+pytest>=7.3.0
+pytest-asyncio>=0.21.0

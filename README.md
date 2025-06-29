@@ -4,6 +4,19 @@
 
 Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi otimizada para reduzir o consumo de tokens da API OpenAI.
 
+## Otimização de Tokens
+
+O sistema foi aprimorado para economizar tokens da API OpenAI através de:
+
+- **Filtragem Rigorosa**: Apenas entidades com dados reais são processadas
+- **Processamento Inteligente**: Eliminação automática de dados nulos/vazios
+- **Monitoramento de Economia**: Acompanhamento e visualização da economia de tokens
+- **Coleta Avançada Otimizada**: Integração entre coletor avançado e filtros rigorosos
+
+Para mais detalhes, consulte:
+- [OTIMIZACAO_TOKENS.md](backend/OTIMIZACAO_TOKENS.md) - Detalhes técnicos da otimização
+- [README_ECONOMIZADOR_TOKENS.md](backend/README_ECONOMIZADOR_TOKENS.md) - Guia completo
+
 ## Componentes do Sistema
 
 O sistema é composto por três componentes principais:
@@ -47,6 +60,12 @@ git rm --cached -r backend/historico/ backend/contexts/ logs/
 
    ```bash
    python install_dependencies.py
+   
+   # Para versão otimizada com economia de tokens
+   pip install -r backend/requirements_otimizado.txt
+   
+   # Verificar se todas as dependências estão instaladas
+   python backend/verificar_dependencias.py
    ```
 
 ## Como Executar
@@ -59,7 +78,22 @@ Execute o script de inicialização para iniciar todo o sistema:
 python start_all.py
 ```
 
-### Opção 2: Iniciar Cada Componente Separadamente
+### Opção 2: Sistema Otimizado com Economia de Tokens
+
+Execute o script de coleta otimizada para economizar tokens:
+
+```bash
+cd backend
+python executar_coleta_otimizada.py
+```
+
+Depois monitore a economia de tokens:
+
+```bash
+python monitor_economia_tokens.py
+```
+
+### Opção 3: Iniciar Cada Componente Separadamente
 
 1. Inicie o backend principal:
 

@@ -25,8 +25,8 @@ class TestCacheUpdateImport(unittest.TestCase):
     def test_cache_configuracoes(self):
         try:
             cache = importlib.import_module('utils.cache')
-            # Verificar se o período de atualização está configurado para 24h
-            self.assertEqual(cache.CACHE_UPDATE_INTERVAL, 86400)
+            # Verificar se o período de atualização está configurado para 1h
+            self.assertEqual(cache.CACHE_UPDATE_INTERVAL, 3600)
             # Verificar se o cache em memória está inicializado corretamente
             self.assertTrue("metadados" in cache._cache)
             self.assertTrue("dados" in cache._cache)

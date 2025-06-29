@@ -98,54 +98,46 @@ class RateLimitController:
             delay = min(self.base_backoff ** min(self.consecutive_failures, 8), self.max_delay)
             # Adiciona jitter para evitar thundering herd
             jitter = delay * 0.1 * random.random()
-            total_delay = delay + jitter
-            logger.warning(f"Rate limit adaptativo: aguardando {total_delay:.2f}s após {self.consecutive_failures} falhas consecutivas")
-            await asyncio.sleep(total_delay)
+            logger.info(f"Backoff adaptativo: {delay:.2f}s + {jitter:.2f}s jitter ({self.consecutive_failures} falhas consecutivas)")
+            await asyncio.sleep(delay + jitter)
         
-        # Rate limiting básico - mínimo entre requests
-        time_since_last = current_time - self.last_request_time
-        if time_since_last < self.min_delay:
-            sleep_time = self.min_delay - time_since_last
-            await asyncio.sleep(sleep_time)
+        # Delay mínimo entre requests para evitar sobrecarga
+        elif current_time - self.last_request_time < self.min_delay:
+            wait_time = self.min_delay - (current_time - self.last_request_time)
+            await asyncio.sleep(wait_time)
             
         self.last_request_time = time.time()
         self.request_count += 1
     
-    def record_success(self):
-        """Registra sucesso - reseta contadores de falha e gerencia circuit breaker"""
-        self.consecutive_failures = 0
-        
-        if self.circuit_state == "HALF_OPEN":
-            self.consecutive_successes += 1
-            logger.info(f"Circuit breaker HALF_OPEN: {self.consecutive_successes}/{self.success_threshold} sucessos")
-            
-            if self.consecutive_successes >= self.success_threshold:
-                logger.info("Circuit breaker: Transicionando de HALF_OPEN para CLOSED")
-                self.circuit_state = "CLOSED"
-                self.consecutive_successes = 0
-    
     def record_failure(self, is_rate_limit=False):
-        """Registra falha - incrementa contadores e gerencia circuit breaker"""
+        """Registra uma falha no controlador, potencialmente ativando circuit breaker"""
         self.consecutive_failures += 1
+        self.consecutive_successes = 0
         
         if is_rate_limit:
-            # Se foi rate limit, aumenta drasticamente o delay
-            self.consecutive_failures += 2
-            logger.warning(f"Rate limit detectado! Total de falhas consecutivas: {self.consecutive_failures}")
-        
-        # Circuit breaker: abre o circuito se muitas falhas
-        if self.consecutive_failures >= self.max_failures and self.circuit_state == "CLOSED":
-            logger.error(f"Circuit breaker: Abrindo circuito após {self.consecutive_failures} falhas consecutivas")
+            # Rate limits são críticos, ativamos o circuit breaker mais rapidamente
+            logger.warning(f"Rate limit detectado! ({self.consecutive_failures} falhas consecutivas)")
+            if self.consecutive_failures >= 3:
+                logger.error("Circuit breaker ABERTO devido a múltiplos rate limits")
+                self.circuit_state = "OPEN"
+                self.circuit_opened_at = time.time()
+                self.circuit_timeout = min(60 * (2 ** min(self.consecutive_failures - 3, 3)), 600)  # Máximo 10 min
+        elif self.consecutive_failures >= self.max_failures:
+            logger.error(f"Circuit breaker ABERTO devido a {self.consecutive_failures} falhas consecutivas")
             self.circuit_state = "OPEN"
             self.circuit_opened_at = time.time()
-            self.consecutive_successes = 0
+            self.circuit_timeout = min(30 * (2 ** min(self.consecutive_failures - self.max_failures, 3)), 600)  # Máximo 10 min
+    
+    def record_success(self):
+        """Registra um sucesso, possivelmente fechando o circuit breaker"""
+        if self.circuit_state == "HALF_OPEN":
+            self.consecutive_successes += 1
+            if self.consecutive_successes >= self.success_threshold:
+                logger.info(f"Circuit breaker FECHADO após {self.consecutive_successes} sucessos")
+                self.circuit_state = "CLOSED"
+                self.consecutive_failures = 0
         
-        # Se estava em HALF_OPEN e falhou, volta para OPEN
-        elif self.circuit_state == "HALF_OPEN":
-            logger.warning("Circuit breaker: Retornando de HALF_OPEN para OPEN após falha")
-            self.circuit_state = "OPEN"
-            self.circuit_opened_at = time.time()
-            self.consecutive_successes = 0
+        self.consecutive_failures = 0
     
     def get_status(self):
         """Retorna status detalhado do rate controller"""
@@ -248,54 +240,44 @@ class NewRelicCollector:
                                         
                                     raise Exception(f"Erro GraphQL: {error_msg}")
                                 
-                                # Extrai os resultados
-                                actor = data.get("data", {}).get("actor")
-                                if not actor:
-                                    raise Exception("Resposta sem 'actor'")
+                                # Verifica se a resposta tem dados válidos
+                                results = data.get("data", {}).get("actor", {}).get("account", {}).get("nrql", {}).get("results", [])
+                                if results is None:
+                                    logger.warning("Resposta GraphQL sem resultados válidos")
+                                    self.rate_controller.record_failure()
+                                    if attempt < max_retries - 1:
+                                        await asyncio.sleep(2 ** attempt)
+                                        continue
+                                    else:
+                                        raise Exception("Resposta GraphQL sem resultados válidos")
                                 
-                                account = actor.get("account")
-                                if not account:
-                                    raise Exception("Resposta sem 'account'")
-                                
-                                nrql_result = account.get("nrql")
-                                if not nrql_result:
-                                    raise Exception("Resposta sem 'nrql'")
-                                
-                                results = nrql_result.get("results", [])
-                                
-                                # Sucesso!
+                                logger.debug(f"Query executada com sucesso. Resultados: {len(results) if isinstance(results, list) else 'N/A'}")
                                 self.rate_controller.record_success()
                                 self.last_successful_request = datetime.now().isoformat()
                                 
-                                logger.debug(f"NRQL executado com sucesso. Resultados: {len(results)}")
-                                return {"results": results}
+                                return results
                             
-                            except json.JSONDecodeError as e:
-                                logger.error(f"Erro ao decodificar JSON: {e}")
+                            except json.JSONDecodeError:
+                                logger.error(f"Resposta não é um JSON válido: {response_text[:200]}...")
                                 self.rate_controller.record_failure()
-                                raise Exception(f"Resposta inválida da API do New Relic: {e}")
+                                if attempt < max_retries - 1:
+                                    await asyncio.sleep(2 ** attempt)
+                                    continue
+                                else:
+                                    raise Exception("Falha ao decodificar resposta JSON")
                         
                         elif response.status == 429:
-                            # Rate limit detectado
-                            logger.error(f"Rate limit atingido (429). Headers: {dict(response.headers)}")
+                            logger.error("Rate limit atingido")
                             self.rate_controller.record_failure(is_rate_limit=True)
                             
-                            # Busca reset time no header se disponível
-                            reset_header = response.headers.get('X-RateLimit-Reset')
-                            if reset_header:
-                                reset_time = int(reset_header)
-                                wait_time = max(reset_time - int(time.time()), 60)  # Mínimo 1 minuto
-                                logger.warning(f"Rate limit reset em {wait_time}s")
-                                if attempt < max_retries - 1:
-                                    await asyncio.sleep(min(wait_time, 300))  # Máximo 5 minutos
-                                    continue
+                            if attempt < max_retries - 1:
+                                # Backoff exponencial com jitter para rate limit
+                                backoff_time = min((5 ** attempt) + random.uniform(0, 3), 300)
+                                logger.info(f"Rate limit: aguardando {backoff_time:.2f}s antes da próxima tentativa...")
+                                await asyncio.sleep(backoff_time)
+                                continue
                             else:
-                                # Backoff exponencial padrão para rate limit
-                                if attempt < max_retries - 1:
-                                    backoff_time = min(60 * (2 ** attempt), 300)  # Máximo 5 minutos
-                                    logger.warning(f"Rate limit: aguardando {backoff_time}s (tentativa {attempt + 1})")
-                                    await asyncio.sleep(backoff_time)
-                                    continue
+                                raise Exception("Rate limit atingido, tentativas esgotadas")
                         
                         elif response.status in [403, 401]:
                             logger.error(f"Erro de autenticação/autorização ({response.status}): {response_text[:500]}")
@@ -416,6 +398,205 @@ class NewRelicCollector:
             logger.error(f"Erro ao coletar entidades: {e}")
             raise e
     
+    async def collect_entity_metrics(self, entity):
+        """
+        Coleta métricas para uma entidade específica com base no seu tipo
+        Implementa estratégias específicas por domínio/tipo para maximizar dados úteis
+        """
+        try:
+            guid = entity.get('guid')
+            name = entity.get('name', 'Desconhecido')
+            domain = entity.get('domain', '').upper()
+            entity_type = entity.get('entityType', '')
+            
+            if not guid:
+                logger.warning(f"Entidade sem GUID não pode ter métricas coletadas: {name}")
+                return {}
+                
+            logger.info(f"Coletando métricas para entidade: {name} ({domain}/{entity_type})")
+            
+            metrics = {}
+            
+            # Coleta métricas para cada período temporal
+            for period_key, period_query in PERIODOS.items():
+                metrics[period_key] = {}
+                
+                # Estratégia baseada no domínio da entidade
+                if domain == 'APM':
+                    # Coleta Apdex
+                    try:
+                        apdex_query = f"SELECT apdexScore as score FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        apdex_result = await self.execute_nrql_query(apdex_query)
+                        if apdex_result and isinstance(apdex_result, list) and len(apdex_result) > 0:
+                            metrics[period_key]['apdex'] = apdex_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Apdex para {name}: {e}")
+                    
+                    # Coleta Response Time
+                    try:
+                        response_time_query = f"SELECT max(duration) as 'max.duration' FROM Transaction WHERE entity.guid = '{guid}' {period_query}"
+                        response_time_result = await self.execute_nrql_query(response_time_query)
+                        if response_time_result and isinstance(response_time_result, list) and len(response_time_result) > 0:
+                            metrics[period_key]['response_time_max'] = response_time_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Response Time para {name}: {e}")
+                    
+                    # Coleta Error Rate
+                    try:
+                        error_query = f"SELECT latest(errorRate) as 'error_rate' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        error_result = await self.execute_nrql_query(error_query)
+                        if error_result and isinstance(error_result, list) and len(error_result) > 0:
+                            metrics[period_key]['error_rate'] = error_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Error Rate para {name}: {e}")
+                    
+                    # Coleta erros recentes
+                    try:
+                        recent_errors_query = f"SELECT count(*), error.message, error.class, httpResponseCode FROM TransactionError WHERE entity.guid = '{guid}' {period_query} LIMIT 10"
+                        recent_errors_result = await self.execute_nrql_query(recent_errors_query)
+                        if recent_errors_result and isinstance(recent_errors_result, list) and len(recent_errors_result) > 0:
+                            metrics[period_key]['recent_error'] = recent_errors_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar erros recentes para {name}: {e}")
+                    
+                    # Coleta Throughput
+                    try:
+                        throughput_query = f"SELECT average(newRelic.throughput) as 'avg.qps' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        throughput_result = await self.execute_nrql_query(throughput_query)
+                        if throughput_result and isinstance(throughput_result, list) and len(throughput_result) > 0:
+                            metrics[period_key]['throughput'] = throughput_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Throughput para {name}: {e}")
+                
+                elif domain == 'BROWSER':
+                    # Coleta Apdex para Browser
+                    try:
+                        apdex_query = f"SELECT apdexScore as score FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        apdex_result = await self.execute_nrql_query(apdex_query)
+                        if apdex_result and isinstance(apdex_result, list) and len(apdex_result) > 0:
+                            metrics[period_key]['apdex'] = apdex_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Apdex para Browser {name}: {e}")
+                    
+                    # Coleta Page Load Time
+                    try:
+                        load_time_query = f"SELECT average(pageLoadTime) as 'avg.loadTime' FROM PageView WHERE entity.guid = '{guid}' {period_query}"
+                        load_time_result = await self.execute_nrql_query(load_time_query)
+                        if load_time_result and isinstance(load_time_result, list) and len(load_time_result) > 0:
+                            metrics[period_key]['page_load_time'] = load_time_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Page Load Time para Browser {name}: {e}")
+                    
+                    # Coleta JavaScript Errors
+                    try:
+                        js_error_query = f"SELECT count(*) as 'error_count', errorMessage FROM JavaScriptError WHERE entity.guid = '{guid}' {period_query} LIMIT 10"
+                        js_error_result = await self.execute_nrql_query(js_error_query)
+                        if js_error_result and isinstance(js_error_result, list) and len(js_error_result) > 0:
+                            metrics[period_key]['js_errors'] = js_error_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar JavaScript Errors para Browser {name}: {e}")
+                    
+                elif domain == 'INFRA':
+                    # Coleta CPU Usage
+                    try:
+                        cpu_query = f"SELECT average(cpuPercent) as 'avg.cpu' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        cpu_result = await self.execute_nrql_query(cpu_query)
+                        if cpu_result and isinstance(cpu_result, list) and len(cpu_result) > 0:
+                            metrics[period_key]['cpu_usage'] = cpu_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar CPU Usage para {name}: {e}")
+                    
+                    # Coleta Memory Usage
+                    try:
+                        memory_query = f"SELECT average(memoryUsedBytes)/average(memoryTotalBytes)*100 as 'memory_percent' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        memory_result = await self.execute_nrql_query(memory_query)
+                        if memory_result and isinstance(memory_result, list) and len(memory_result) > 0:
+                            metrics[period_key]['memory_usage'] = memory_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Memory Usage para {name}: {e}")
+                    
+                    # Coleta Disk Usage
+                    try:
+                        disk_query = f"SELECT average(diskUsedPercent) as 'disk_percent' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
+                        disk_result = await self.execute_nrql_query(disk_query)
+                        if disk_result and isinstance(disk_result, list) and len(disk_result) > 0:
+                            metrics[period_key]['disk_usage'] = disk_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar Disk Usage para {name}: {e}")
+                
+                else:
+                    # Para outros tipos de entidades, tenta métricas genéricas
+                    try:
+                        generic_query = f"SELECT * FROM Metric WHERE entity.guid = '{guid}' {period_query} LIMIT 10"
+                        generic_result = await self.execute_nrql_query(generic_query)
+                        if generic_result and isinstance(generic_result, list) and len(generic_result) > 0:
+                            metrics[period_key]['generic'] = generic_result
+                    except Exception as e:
+                        logger.warning(f"Erro ao coletar métricas genéricas para {name}: {e}")
+            
+            # Adiciona timestamp da coleta
+            metrics['timestamp'] = datetime.now().isoformat()
+            
+            # Adiciona métricas na entidade
+            entity['metricas'] = metrics
+            
+            # Converte para string JSON para compatibilidade com código existente que espera 'detalhe'
+            entity['detalhe'] = json.dumps(metrics)
+            
+            metrics_count = sum(1 for period in metrics.values() if isinstance(period, dict) 
+                               for metric in period.values() if metric)
+            
+            logger.info(f"Coletadas {metrics_count} métricas para {name}")
+            return entity
+            
+        except Exception as e:
+            logger.error(f"Erro ao coletar métricas para entidade {entity.get('name', 'Desconhecida')}: {e}")
+            logger.error(traceback.format_exc())
+            return entity
+    
+    async def collect_entities_with_metrics(self):
+        """
+        Coleta entidades e suas respectivas métricas
+        """
+        try:
+            # Coleta entidades base
+            entities = await self.collect_entities()
+            logger.info(f"Coletadas {len(entities)} entidades base. Coletando métricas...")
+            
+            # Limita processamento para não sobrecarregar API
+            MAX_CONCURRENT = 5
+            semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+            
+            async def process_entity_with_semaphore(entity):
+                async with semaphore:
+                    return await self.collect_entity_metrics(entity)
+            
+            # Processa entidades em paralelo, mas limitado
+            processed_entities = await asyncio.gather(
+                *[process_entity_with_semaphore(entity) for entity in entities],
+                return_exceptions=True
+            )
+            
+            # Filtra entidades com erro
+            valid_entities = []
+            errors = 0
+            
+            for result in processed_entities:
+                if isinstance(result, Exception):
+                    errors += 1
+                    logger.error(f"Erro ao processar entidade: {result}")
+                else:
+                    valid_entities.append(result)
+            
+            logger.info(f"Coleta concluída: {len(valid_entities)} entidades válidas, {errors} erros")
+            
+            return valid_entities
+            
+        except Exception as e:
+            logger.error(f"Erro na coleta de entidades com métricas: {e}")
+            logger.error(traceback.format_exc())
+            return []
+    
     def get_health_status(self) -> Dict:
         """
         Retorna status de saúde completo do coletor
@@ -486,6 +667,19 @@ async def main():
         for i, entity in enumerate(entities[:3]):
             print(f"  Entidade {i+1}: {entity.get('name', 'N/A')} ({entity.get('entityType', 'N/A')})")
             
+        # Teste de coleta de métricas
+        if entities:
+            print("\n--- Teste 3: Coleta de métricas ---")
+            entity_with_metrics = await collector.collect_entity_metrics(entities[0])
+            
+            if entity_with_metrics and entity_with_metrics.get('metricas'):
+                print(f"✅ Métricas coletadas para {entity_with_metrics.get('name')}")
+                metrics = entity_with_metrics.get('metricas', {})
+                for period, data in metrics.items():
+                    if period != 'timestamp' and isinstance(data, dict):
+                        print(f"  Período {period}: {len(data)} tipos de métricas")
+            else:
+                print("❌ Falha ao coletar métricas")
     except Exception as e:
         print(f"❌ Erro na coleta de entidades: {e}")
     
@@ -494,16 +688,20 @@ async def main():
     final_health = collector.get_health_status()
     print(f"Status final: {final_health}")
 
-# Funções antigas para compatibilidade (stubs)
+# Função principal para coleta completa
 async def coletar_contexto_completo():
-    """Stub para compatibilidade com código existente"""
+    """
+    Coleta o contexto completo do New Relic incluindo entidades e suas métricas
+    """
     collector = NewRelicCollector(NEW_RELIC_API_KEY, NEW_RELIC_ACCOUNT_ID)
     try:
-        entities = await collector.collect_entities()
-        return {"entidades": entities}
+        # Coleta entidades com métricas
+        entities = await collector.collect_entities_with_metrics()
+        return {"entidades": entities, "timestamp": datetime.now().isoformat()}
     except Exception as e:
         logger.error(f"Erro na coleta de contexto: {e}")
-        return {"entidades": []}
+        logger.error(traceback.format_exc())
+        return {"entidades": [], "timestamp": datetime.now().isoformat(), "error": str(e)}
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -30,9 +30,9 @@ class TestSimpleCache(unittest.TestCase):
         self.assertIn("dados", self.cache_module._cache)
         self.assertIn("consultas_historicas", self.cache_module._cache)
 
-    def test_cache_intervalo_diario(self):
-        """Verifica se o intervalo de cache está configurado para diário (86400 segundos)"""
-        self.assertEqual(self.cache_module.CACHE_UPDATE_INTERVAL, 86400)
+    def test_cache_intervalo_horario(self):
+        """Verifica se o intervalo de cache está configurado para horário (3600 segundos)"""
+        self.assertEqual(self.cache_module.CACHE_UPDATE_INTERVAL, 3600)
     
     def test_diagnostico_cache(self):
         """Verifica se o diagnóstico do cache retorna as informações corretas"""

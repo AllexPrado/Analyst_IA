@@ -100,82 +100,264 @@ class ContextEnricher:
         return contexto_enriquecido
     
     def _detectar_topicos(self, pergunta: str) -> List[str]:
-        """Detecta tópicos na pergunta do usuário"""
+        """
+        Detecta tópicos relevantes na pergunta do usuário.
+        Versão expandida para capturar uma gama mais ampla de tópicos e subtópicos,
+        garantindo análise completa de todos os aspectos do ambiente monitorado.
+        """
         pergunta_lower = pergunta.lower()
-        
         topicos = []
         
-        # Mapeamento de palavras-chave para tópicos
+        # Mapeia palavras-chave para tópicos - versão expandida
         mapeamento_topicos = {
-            'performance': ['lent', 'performance', 'desempenho', 'lento', 'rapido', 'apdex', 'resposta'],
-            'erro': ['erro', 'falha', 'exception', 'crash', 'bug', 'exceção', 'problema'],
-            'sql': ['sql', 'query', 'consulta', 'banco', 'database', 'tabela'],
-            'frontend': ['frontend', 'browser', 'javascript', 'página', 'site', 'web', 'carregamento'],
-            'infra': ['servidor', 'infra', 'cpu', 'memória', 'rede', 'disk', 'cloud', 'azure'],
-            'alertas': ['alerta', 'incidente', 'notificação'],
-            'causa_raiz': ['causa', 'raiz', 'root', 'cause', 'motivo', 'origem'],
-            'tendencia': ['tendência', 'padrão', 'histórico', 'evolução'],
-            'recomendacao': ['recomendação', 'sugestão', 'como melhorar', 'como resolver']
+            # Performance e latência
+            'performance': ['performance', 'lent', 'lenta', 'devagar', 'latência', 'apdex', 'resposta', 'throughput', 'tempo', 'carregamento', 
+                           'otimiz', 'velocidade', 'rápid', 'demorad', 'lerdo', 'millisegundo', 'segundo', 'performance', 'desempenho',
+                           'responsividade', 'responsivo', 'carga', 'benchmark', 'transaction', 'transação'],
+            
+            # Erros, exceções e problemas
+            'erro': ['erro', 'crash', 'exception', 'falha', 'bug', 'problema', 'crítico', 'alerta', 'incidente', 'exceção',
+                    'traceback', 'stack trace', 'stacktrace', 'error rate', 'taxa de erro', 'failure', 'failed', 'timeout',
+                    'code', 'status', 'http 5', 'http 4', 'quebrado', 'interrompido', 'panic', 'fatal', 'quebra'],
+            
+            # Banco de dados e queries
+            'database': ['sql', 'database', 'banco de dados', 'query', 'db', 'consulta', 'índice', 'index', 'tabela', 'join',
+                        'relacionamento', 'foreign key', 'primary key', 'procedure', 'stored procedure', 'trigger', 'transaction',
+                        'commit', 'rollback', 'lock', 'deadlock', 'row', 'column', 'select', 'insert', 'update', 'delete',
+                        'slow query', 'consulta lenta', 'postgre', 'mysql', 'oracle', 'sqlserver', 'mongodb', 'nosql'],
+            
+            # Frontend e experiência do usuário
+            'frontend': ['frontend', 'browser', 'javascript', 'css', 'html', 'web', 'página', 'interface', 'ui', 'usuario', 'cliente',
+                        'ajax', 'xhr', 'fetch', 'dom', 'render', 'spa', 'single page', 'react', 'angular', 'vue', 'webpack',
+                        'web vital', 'lcp', 'fid', 'cls', 'ttfb', 'first paint', 'first contentful', 'core web vital',
+                        'experiência', 'ux', 'usabilidade', 'mobile', 'responsivo', 'navegador', 'chrome', 'firefox', 'safari'],
+            
+            # Backend e APIs
+            'backend': ['backend', 'api', 'serviço', 'microserviço', 'serviços', 'apm', 'função', 'método', 'controller',
+                       'endpoint', 'rest', 'soap', 'graphql', 'grpc', 'websocket', 'http', 'https', 'post', 'get', 'put',
+                       'delete', 'patch', 'middleware', 'gateway', 'load balancer', 'proxy', 'reverse proxy', 'serverless',
+                       'lambda', 'function', 'rotas', 'request', 'response'],
+            
+            # Infraestrutura e recursos
+            'infra': ['servidor', 'infra', 'infraestrutura', 'cpu', 'memória', 'disco', 'rede', 'network', 'host', 'vm', 'container',
+                     'kubernetes', 'k8s', 'docker', 'escalabilidade', 'nuvem', 'cloud', 'aws', 'azure', 'gcp', 'datacenter',
+                     'hardware', 'virtualização', 'storage', 'armazenamento', 'load', 'carga', 'consumo', 'throughput',
+                     'bandwidth', 'largura de banda', 'latency', 'jitter', 'packet loss', 'perda de pacote', 'firewall',
+                     'dns', 'http', 'tcp', 'udp', 'ip', 'ipv4', 'ipv6', 'tls', 'ssl', 'cdn', 'tráfego', 'traffic'],
+            
+            # Logs e monitoramento
+            'log': ['log', 'trace', 'stack', 'depuração', 'debug', 'monitoramento', 'alerta', 'logging', 'rastreamento',
+                   'audit', 'auditoria', 'event', 'evento', 'registro', 'record', 'monitorar', 'observabilidade',
+                   'telemetria', 'trace', 'span', 'distributed tracing', 'rastreamento distribuído', 'correlation id'],
+            
+            # Tendências e análise histórica
+            'tendencia': ['tendência', 'histórico', 'comparação', 'baseline', 'anomalia', 'padrão', 'sazonalidade', 'previsto',
+                         'forecast', 'previsão', 'projeção', 'regressão', 'crescimento', 'queda', 'pico', 'valley', 'vale',
+                         'outlier', 'desvio', 'normalidade', 'anormal', 'média', 'mediana', 'percentil', 'correlação',
+                         'causa raiz', 'causa-efeito', 'root cause', 'machine learning', 'ai', 'previsão'],
+            
+            # Segurança e compliance
+            'security': ['segurança', 'vulnerabilidade', 'ataque', 'acesso', 'autenticação', 'autorização', 'token',
+                        'jwt', 'oauth', 'permissão', 'privilégio', 'brute force', 'força bruta', 'sql injection',
+                        'xss', 'csrf', 'cross-site', 'ddos', 'firewall', 'waf', 'criptografia', 'encryption',
+                        'password', 'senha', 'hash', 'certificado', 'compliance', 'gdpr', 'lgpd', 'pci', 'hipaa',
+                        'vazamento', 'data breach', 'incident', 'incidente', 'malware', 'vírus', 'trojan', 'ransomware'],
+                        
+            # Métricas e visualizações
+            'metricas': ['gráfico', 'dashboard', 'métrica', 'kpi', 'indicador', 'sli', 'slo', 'sla', 'objective', 'objetivo',
+                        'meta', 'target', 'threshold', 'limite', 'orçamento', 'budget', 'disponibilidade', 'availability',
+                        'reliabilidade', 'reliability', 'visualização', 'visualization', 'monitor', 'alert', 'alerta',
+                        'notification', 'notificação', 'relatorio', 'report'],
+                        
+            # Mobile e aplicativos
+            'mobile': ['mobile', 'app', 'aplicativo', 'android', 'ios', 'smartphone', 'tablet', 'cellular', 'celular',
+                      'push notification', 'notificação', 'crash', 'anr', 'not responding', 'freeze', 'travamento',
+                      'battery', 'bateria', 'offline', 'online', 'sincronização', 'sync'],
+                      
+            # Custo e eficiência
+            'custo': ['custo', 'gasto', 'despesa', 'economia', 'otimização', 'redução', 'cloud cost', 'billing', 'fatura',
+                     'cobrança', 'orçamento', 'budget', 'uso', 'utilização', 'eficiência', 'rightsizing', 'saving', 'economia'],
+                     
+            # Resiliência e confiabilidade
+            'resiliencia': ['resiliência', 'confiabilidade', 'failover', 'disaster recovery', 'recuperação', 'circuit breaker',
+                           'retry', 'retentativa', 'backoff', 'timeout', 'fallback', 'degradação', 'graceful', 'gracioso', 
+                           'self-healing', 'auto-recuperação', 'alta disponibilidade', 'high availability', 'redundância']
         }
         
-        # Detecta tópicos na pergunta
-        for topico, keywords in mapeamento_topicos.items():
-            for keyword in keywords:
-                if keyword in pergunta_lower:
-                    topicos.append(topico)
-                    break
+        # Verifica cada tópico com detecção avançada de contexto
+        for topico, palavras_chave in mapeamento_topicos.items():
+            # Verifica correspondência exata de palavras ou partes de palavras
+            if any(palavra in pergunta_lower for palavra in palavras_chave):
+                topicos.append(topico)
+            # Verifica correspondências parciais em palavras longas
+            elif any(any(palavra in word for word in pergunta_lower.split()) for palavra in palavras_chave if len(palavra) > 4):
+                topicos.append(topico)
         
+        # Detecção de casos específicos com alta prioridade
+        if 'critico' in pergunta_lower or 'crítico' in pergunta_lower or 'urgente' in pergunta_lower:
+            if 'erro' not in topicos:
+                topicos.append('erro')
+            
+        if 'lent' in pergunta_lower and 'api' in pergunta_lower:
+            if 'performance' not in topicos:
+                topicos.append('performance')
+            if 'backend' not in topicos:
+                topicos.append('backend')
+        
+        if ('sql' in pergunta_lower and ('lent' in pergunta_lower or 'performance' in pergunta_lower)):
+            if 'database' not in topicos:
+                topicos.append('database')
+            if 'performance' not in topicos:
+                topicos.append('performance')
+        
+        # Se não detectou nenhum tópico específico, adiciona tópico geral
+        if not topicos:
+            topicos.append('geral')
+            
         return topicos
     
     def _analisar_performance(self, entidades: List[Dict]) -> Dict:
-        """Analisa métricas de performance entre entidades"""
+        """
+        Análise avançada de métricas de performance entre entidades.
+        Examina múltiplas dimensões de performance: latência, throughput, apdex, erros e tendências.
+        """
         resultado = {
-            'entidades_lentas': [],
+            'entidades_lentas': {},
             'metricas_destacadas': {},
-            'analise': ""
+            'analise': "",
+            'gargalos_identificados': [],
+            'correlacoes_performance': [],
+            'tendencias_performance': []
         }
         
-        # Análise de performance
+        # Arrays para diferentes métricas de performance
         entidades_com_apdex = []
         entidades_com_latencia = []
+        entidades_com_throughput_anormal = []
+        entidades_com_degradacao = []
+        endpoints_mais_usados = []
+        
+        # Valores agregados para análise holística
+        total_requests = 0
+        total_erros = 0
+        latencia_media_global = []
+        apdex_medio_global = []
         
         for entidade in entidades:
+            nome = entidade.get('name', 'Desconhecido')
+            tipo = entidade.get('domain', 'Desconhecido')
+            guid = entidade.get('guid', 'sem-guid')
+            
             metricas = entidade.get('metricas', {})
             if not metricas:
                 continue
                 
-            # Analisa métricas dos últimos 30 minutos
+            # Análise dos últimos 30 minutos
             periodo_30min = metricas.get('30min', {})
+            if not periodo_30min:
+                continue
             
-            # Verifica Apdex
-            if periodo_30min and 'apdex' in periodo_30min:
-                apdex_data = periodo_30min['apdex']
-                if apdex_data and isinstance(apdex_data, list) and apdex_data[0]:
-                    apdex = apdex_data[0].get('score')
-                    if apdex is not None and apdex < 0.85:  # Apdex abaixo do ideal
+            # Extração avançada de métricas de performance
+            performance_metrics = {
+                'apdex': None,
+                'latencia_max': None,
+                'latencia_avg': None,
+                'throughput': None,
+                'erros': 0,
+                'taxa_erro': None,
+                'cpu': None,
+                'memory': None,
+                'saturation': None,
+                'top_endpoints': []
+            }
+            
+            # Extrai Apdex (satisfação do usuário)
+            if 'apdex' in periodo_30min and periodo_30min['apdex'] and isinstance(periodo_30min['apdex'], list) and periodo_30min['apdex'][0]:
+                apdex = periodo_30min['apdex'][0].get('score')
+                performance_metrics['apdex'] = apdex
+                
+                if apdex is not None:
+                    apdex_medio_global.append(apdex)
+                    
+                    # Categoriza por severidade do problema de Apdex
+                    if apdex < 0.7:  # Ruim
+                        severidade = "crítico"
+                    elif apdex < 0.85:  # Abaixo do ideal
+                        severidade = "alerta"
+                    else:
+                        severidade = "ok"
+                        
+                    if apdex < 0.85:  # Somente adiciona se estiver abaixo do ideal
                         entidades_com_apdex.append({
-                            'nome': entidade.get('name', 'Desconhecido'),
-                            'tipo': entidade.get('domain', 'Desconhecido'),
+                            'nome': nome,
+                            'tipo': tipo,
                             'apdex': apdex,
-                            'guid': entidade.get('guid')
+                            'guid': guid,
+                            'severidade': severidade
                         })
             
-            # Verifica latência
-            if periodo_30min and 'response_time_max' in periodo_30min:
-                latencia_data = periodo_30min['response_time_max']
-                if latencia_data and isinstance(latencia_data, list) and latencia_data[0]:
-                    latencia = latencia_data[0].get('max.duration')
-                    if latencia is not None and latencia > 1.0:  # Latência alta (>1s)
+            # Extrai latência (max e avg)
+            if 'response_time_max' in periodo_30min and periodo_30min['response_time_max'] and isinstance(periodo_30min['response_time_max'], list):
+                latencia_max = periodo_30min['response_time_max'][0].get('max.duration') if periodo_30min['response_time_max'][0] else None
+                performance_metrics['latencia_max'] = latencia_max
+                
+                if latencia_max is not None:
+                    latencia_media_global.append(latencia_max)
+                    
+                    # Categoriza por severidade do problema de latência
+                    if latencia_max > 3.0:  # Extremamente lento
+                        severidade = "crítico"
+                    elif latencia_max > 1.0:  # Lento
+                        severidade = "alerta"
+                    else:
+                        severidade = "ok"
+                        
+                    if latencia_max > 1.0:  # Somente adiciona se for lento
                         entidades_com_latencia.append({
-                            'nome': entidade.get('name', 'Desconhecido'),
-                            'tipo': entidade.get('domain', 'Desconhecido'),
-                            'latencia': latencia,
-                            'guid': entidade.get('guid')
+                            'nome': nome,
+                            'tipo': tipo,
+                            'latencia': latencia_max,
+                            'guid': guid,
+                            'severidade': severidade
                         })
-        
-        # Ordena entidades por problemas de performance
-        entidades_com_apdex.sort(key=lambda x: x.get('apdex', 1.0))
-        entidades_com_latencia.sort(key=lambda x: x.get('latencia', 0), reverse=True)
+            
+            # Extrai throughput (qps - queries por segundo)
+            if 'throughput' in periodo_30min and periodo_30min['throughput'] and isinstance(periodo_30min['throughput'], list):
+                throughput = periodo_30min['throughput'][0].get('avg.qps') if periodo_30min['throughput'][0] else None
+                performance_metrics['throughput'] = throughput
+                
+                if throughput is not None:
+                    total_requests += throughput
+                    
+                    # Detecta anomalias em throughput (muito alto ou muito baixo)
+                    if throughput > 100:  # Alto volume
+                        entidades_com_throughput_anormal.append({
+                            'nome': nome,
+                            'tipo': tipo,
+                            'throughput': throughput,
+                            'guid': guid,
+                            'anomalia': 'alto_volume'
+                        })
+                    elif throughput < 0.1 and tipo != 'INFRA':  # Volume muito baixo (exceto para infra)
+                        entidades_com_throughput_anormal.append({
+                            'nome': nome,
+                            'tipo': tipo,
+                            'throughput': throughput,
+                            'guid': guid,
+                            'anomalia': 'volume_baixo'
+                        })
+            
+            # Extrai erros
+            if 'recent_error' in periodo_30min:
+                erros = periodo_30min['recent_error']
+                num_erros = len(erros) if isinstance(erros, list) else 0
+                performance_metrics['erros'] = num_erros
+                total_erros += num_erros
+                
+                # Calcula taxa de erro se tiver throughput
+                if performance_metrics['throughput'] and performance_metrics['throughput'] > 0:
+                    taxa_erro = min(100, (num_erros / performance_metrics['throughput']) * 100) if performance_metrics['throughput'] > 0 else 0
+                    performance_metrics['taxa_erro'] = taxa_erro
         
         # Compila resultados
         resultado['entidades_lentas'] = {
@@ -203,6 +385,155 @@ class ContextEnricher:
             resultado['analise'] = " ".join(analise)
         else:
             resultado['analise'] = "Nenhum problema significativo de performance detectado."
+        
+        # Detecção de degradação comparando com 24h atrás
+        periodo_24h = metricas.get('24h', {})
+        if periodo_24h:
+            # Comparação de latência com 24h atrás
+            latencia_24h = None
+            if 'response_time_max' in periodo_24h and periodo_24h['response_time_max'] and isinstance(periodo_24h['response_time_max'], list):
+                latencia_24h = periodo_24h['response_time_max'][0].get('max.duration') if periodo_24h['response_time_max'][0] else None
+            
+            if latencia_24h and performance_metrics['latencia_max']:
+                # Detecta degradação de latência maior que 25%
+                if performance_metrics['latencia_max'] > (latencia_24h * 1.25) and performance_metrics['latencia_max'] > 0.5:
+                    entidades_com_degradacao.append({
+                        'nome': nome,
+                        'tipo': tipo,
+                        'latencia_atual': performance_metrics['latencia_max'],
+                        'latencia_anterior': latencia_24h,
+                        'aumento_percentual': round(((performance_metrics['latencia_max'] - latencia_24h) / latencia_24h) * 100, 1),
+                        'guid': guid
+                    })
+        
+        # Extrai consumo de CPU e memória para serviços APM 
+        if 'cpu' in periodo_30min and periodo_30min['cpu'] and isinstance(periodo_30min['cpu'], list):
+            cpu_usage = periodo_30min['cpu'][0].get('avg.usage') if periodo_30min['cpu'][0] else None
+            performance_metrics['cpu'] = cpu_usage
+            
+        if 'memory' in periodo_30min and periodo_30min['memory'] and isinstance(periodo_30min['memory'], list):
+            memory_usage = periodo_30min['memory'][0].get('avg.usage') if periodo_30min['memory'][0] else None
+            performance_metrics['memory'] = memory_usage
+            
+        # Detecção avançada: extração de endpoints mais usados
+        if 'top_endpoints' in periodo_30min and periodo_30min['top_endpoints'] and isinstance(periodo_30min['top_endpoints'], list):
+            for endpoint in periodo_30min['top_endpoints'][:5]:  # Top 5 endpoints
+                if endpoint:
+                    endpoints_mais_usados.append({
+                        'entidade': nome,
+                        'endpoint': endpoint.get('name', 'Desconhecido'),
+                        'latencia': endpoint.get('avg.duration', 0),
+                        'throughput': endpoint.get('avg.qps', 0)
+                    })
+        
+        # Ordena entidades por problemas de performance
+        entidades_com_apdex.sort(key=lambda x: x.get('apdex', 1.0))
+        entidades_com_latencia.sort(key=lambda x: x.get('latencia', 0), reverse=True)
+        entidades_com_degradacao.sort(key=lambda x: x.get('aumento_percentual', 0), reverse=True)
+        endpoints_mais_usados.sort(key=lambda x: x.get('latencia', 0), reverse=True)
+        
+        # Identifica possíveis gargalos com base nas métricas
+        gargalos = []
+        
+        # Gargalos baseados em latência extrema
+        for entidade in entidades_com_latencia[:3]:  # Top 3 mais lentas
+            if entidade.get('severidade') == "crítico":
+                gargalos.append({
+                    'tipo': 'latencia_critica',
+                    'entidade': entidade.get('nome'),
+                    'valor': f"{entidade.get('latencia', 0):.2f}s",
+                    'recomendacao': "Investigar urgentemente bottlenecks, queries SQL lentas ou bloqueios"
+                })
+        
+        # Gargalos baseados em degradação recente
+        for entidade in entidades_com_degradacao[:3]:  # Top 3 com maior degradação
+            if entidade.get('aumento_percentual', 0) > 50:  # Aumento de mais de 50%
+                gargalos.append({
+                    'tipo': 'degradacao_recente',
+                    'entidade': entidade.get('nome'),
+                    'valor': f"+{entidade.get('aumento_percentual', 0):.1f}%",
+                    'recomendacao': "Verificar mudanças recentes, deploy ou alterações de configuração"
+                })
+        
+        # Busca correlações entre problemas de performance
+        correlacoes = []
+        
+        # Correlação entre latência e Apdex baixo
+        entidades_criticas = set([e.get('nome') for e in entidades_com_latencia if e.get('severidade') == "crítico"])
+        entidades_apdex_baixo = set([e.get('nome') for e in entidades_com_apdex if e.get('apdex', 1.0) < 0.7])
+        
+        # Entidades que aparecem em ambas as listas têm problema grave
+        entidades_problema_duplo = entidades_criticas.intersection(entidades_apdex_baixo)
+        if entidades_problema_duplo:
+            correlacoes.append({
+                'tipo': 'latencia_apdex',
+                'entidades': list(entidades_problema_duplo),
+                'analise': f"Entidades com problemas críticos tanto de latência quanto de satisfação do usuário (Apdex)",
+                'severidade': 'crítico'
+            })
+        
+        # Compila resultados
+        resultado['entidades_lentas'] = {
+            'por_apdex': entidades_com_apdex[:10],  # Limita para os 10 piores
+            'por_latencia': entidades_com_latencia[:10],  # Limita para os 10 piores
+            'com_degradacao': entidades_com_degradacao[:5]  # Top 5 com degradação
+        }
+        resultado['gargalos_identificados'] = gargalos
+        resultado['correlacoes_performance'] = correlacoes
+        resultado['endpoints_lentos'] = endpoints_mais_usados[:10]
+        
+        # Métricas agregadas
+        if apdex_medio_global:
+            resultado['metricas_destacadas']['apdex_medio_global'] = round(sum(apdex_medio_global) / len(apdex_medio_global), 2)
+        
+        if latencia_media_global:
+            resultado['metricas_destacadas']['latencia_media_global'] = round(sum(latencia_media_global) / len(latencia_media_global), 2)
+        
+        resultado['metricas_destacadas']['total_requests'] = round(total_requests, 1)
+        resultado['metricas_destacadas']['total_erros'] = total_erros
+        
+        # Gera análise textual avançada
+        analises = []
+        
+        # Análise de problemas de Apdex
+        if entidades_com_apdex:
+            criticas = len([e for e in entidades_com_apdex if e.get('severidade') == 'crítico'])
+            alerta = len([e for e in entidades_com_apdex if e.get('severidade') == 'alerta'])
+            
+            if criticas > 0:
+                analises.append(f"Crítico: {criticas} entidades com Apdex extremamente baixo (<0.7), indicando sérios problemas de satisfação do usuário.")
+            if alerta > 0:
+                analises.append(f"Alerta: {alerta} entidades com Apdex abaixo do ideal (<0.85), requerendo atenção.")
+                
+        # Análise de problemas de latência
+        if entidades_com_latencia:
+            criticas = len([e for e in entidades_com_latencia if e.get('severidade') == 'crítico'])
+            alerta = len([e for e in entidades_com_latencia if e.get('severidade') == 'alerta'])
+            
+            if criticas > 0:
+                analises.append(f"Crítico: {criticas} entidades com latência extremamente alta (>3s), causando experiência ruim ao usuário.")
+            if alerta > 0:
+                analises.append(f"Alerta: {alerta} entidades com latência alta (>1s), requerendo otimização.")
+                
+        # Análise de degradação
+        if entidades_com_degradacao:
+            total_degradacao = len(entidades_com_degradacao)
+            degradacao_grave = len([e for e in entidades_com_degradacao if e.get('aumento_percentual', 0) > 50])
+            
+            if degradacao_grave > 0:
+                analises.append(f"Alerta: {degradacao_grave} entidades com degradação severa de performance (>50%) nas últimas 24h.")
+            elif total_degradacao > 0:
+                analises.append(f"Observação: {total_degradacao} entidades apresentam degradação de performance nas últimas 24h.")
+                
+        # Análise de gargalos identificados
+        if gargalos:
+            analises.append(f"Identificados {len(gargalos)} potenciais gargalos no sistema que precisam de atenção imediata.")
+            
+        # Conclusão
+        if analises:
+            resultado['analise'] = " ".join(analises)
+        else:
+            resultado['analise'] = "Nenhum problema significativo de performance detectado no ambiente."
         
         return resultado
     
@@ -415,100 +746,185 @@ class ContextEnricher:
         
         return resultado
     
-    def _analisar_correlacoes(self, entidades, alertas):
+    def _analisar_correlacoes(self, entidades: List[Dict], alertas: List[Dict]) -> Dict:
         """
-        Analisa correlações entre entidades e alertas para identificar padrões
-        e possíveis relações causais.
-        
-        Args:
-            entidades (list): Lista de entidades para análise
-            alertas (list): Lista de alertas ativos
-            
-        Returns:
-            dict: Dicionário com correlações identificadas
+        Analisa correlações entre entidades e alertas para detectar padrões.
+        Versão avançada com detecção de relações causais.
         """
-        logger.info("Analisando correlações entre entidades e alertas...")
-        correlacoes = {
-            "padroes": [],
-            "relacionamentos": [],
-            "causas_potenciais": []
+        resultado = {
+            'correlacoes_detectadas': [],
+            'relacionamentos': {},
+            'causas_potenciais': [],
+            'analise': ""
         }
         
-        # Implementação básica inicial
-        if not entidades or len(entidades) < 2:
-            logger.info("Poucas entidades para análise de correlação")
-            return correlacoes
-            
         try:
-            # Identificar entidades com problemas semelhantes
-            entidades_com_erros = [e for e in entidades if e.get('errorRate', 0) > 2]
-            entidades_com_latencia = [e for e in entidades if e.get('responseTime', 0) > 1000]
+            # Se não tem dados suficientes para correlação
+            if not entidades or len(entidades) <= 1:
+                resultado['analise'] = "Não há entidades suficientes para análise de correlação."
+                return resultado
             
-            # Detectar correlações por domínio
-            dominios = {}
-            for entidade in entidades:
-                dominio = entidade.get('domain', 'desconhecido')
-                if dominio not in dominios:
-                    dominios[dominio] = []
-                dominios[dominio].append(entidade)
+            # Categoriza entidades por status
+            entidades_por_status = {"ERRO": [], "ALERTA": [], "OK": []}
+            entidades_com_erros = []
+            entidades_com_latencia = []
             
-            # Identificar relações por domínio
-            for dominio, ents in dominios.items():
-                if len(ents) > 1:
-                    correlacoes["relacionamentos"].append({
-                        "tipo": "dominio",
-                        "valor": dominio,
-                        "entidades": len(ents),
-                        "saude_media": sum(e.get('health', 0) for e in ents) / len(ents)
-                    })
-            
-            # Analisar entidades com problemas
-            if entidades_com_erros and entidades_com_latencia:
-                # Verificar sobreposição
-                erros_guids = [e.get('guid') for e in entidades_com_erros]
-                latencia_guids = [e.get('guid') for e in entidades_com_latencia]
+            # Mapeia entidades para poder referenciar por nome/guid
+            entidades_map = {}
+            for e in entidades:
+                nome = e.get('name')
+                guid = e.get('guid')
+                if nome:
+                    entidades_map[nome] = e
+                if guid:
+                    entidades_map[guid] = e
+                    
+                # Determina status da entidade
+                status = "OK"
+                metricas = e.get('metricas', {}).get('30min', {})
                 
-                overlap = set(erros_guids).intersection(set(latencia_guids))
-                if overlap:
-                    correlacoes["padroes"].append({
-                        "tipo": "erro_latencia",
-                        "descricao": f"{len(overlap)} entidades apresentam tanto erros quanto alta latência",
-                        "severidade": "alta"
-                    })
-                    
-                    # Identificar possíveis causas
-                    correlacoes["causas_potenciais"].append({
-                        "tipo": "sobrecarga",
-                        "descricao": "Possível sobrecarga de sistema afetando múltiplas entidades",
-                        "confianca": 0.7,
-                        "entidades_afetadas": list(overlap)
-                    })
-            
-            # Analisar correlação com alertas
-            if alertas:
-                for alerta in alertas:
-                    entidades_relacionadas = [
-                        e for e in entidades 
-                        if e.get('guid') == alerta.get('entityGuid') or 
-                           e.get('name') == alerta.get('entityName')
-                    ]
-                    
-                    if entidades_relacionadas:
-                        correlacoes["padroes"].append({
-                            "tipo": "alerta_entidade",
-                            "descricao": f"Alerta '{alerta.get('name')}' relacionado a {len(entidades_relacionadas)} entidades",
-                            "severidade": alerta.get('severity', 'média')
-                        })
+                # Verifica erros
+                erros = metricas.get('recent_error', [])
+                if erros and len(erros) > 0:
+                    status = "ERRO"
+                    entidades_com_erros.append((nome, len(erros), erros[0].get('message', '') if erros[0] else ''))
+                
+                # Verifica latência alta
+                latencia = None
+                if 'response_time_max' in metricas and metricas['response_time_max']:
+                    if isinstance(metricas['response_time_max'], list) and metricas['response_time_max'][0]:
+                        latencia = metricas['response_time_max'][0].get('max.duration')
                         
-            logger.info(f"Análise de correlação concluída: {len(correlacoes['padroes'])} padrões, "
-                           f"{len(correlacoes['relacionamentos'])} relacionamentos, "
-                           f"{len(correlacoes['causas_potenciais'])} causas potenciais")
-                           
-        except Exception as e:
-            logger.error(f"Erro na análise de correlações: {str(e)}")
-            logger.debug(traceback.format_exc())
+                if latencia and latencia > 1.0:  # Mais de 1 segundo
+                    if status == "OK":  # Não sobrescreve ERRO
+                        status = "ALERTA"
+                    entidades_com_latencia.append((nome, latencia))
+                
+                # Verifica Apdex baixo
+                apdex = None
+                if 'apdex' in metricas and metricas['apdex']:
+                    if isinstance(metricas['apdex'], list) and metricas['apdex'][0]:
+                        apdex = metricas['apdex'][0].get('score')
+                        
+                if apdex and apdex < 0.7:  # Apdex muito baixo
+                    if status == "OK":  # Não sobrescreve ERRO ou ALERTA
+                        status = "ALERTA"
+                
+                # Adiciona à categoria
+                entidades_por_status[status].append(e)
             
-        return correlacoes
+            # Detecta correlações entre entidades em ERRO
+            if entidades_por_status["ERRO"]:
+                # Agrupa erros por tipo/mensagem
+                erros_por_tipo = {}
+                for nome, qtd, mensagem in entidades_com_erros:
+                    erro_tipo = mensagem[:50]  # Usa os primeiros 50 chars como chave
+                    if erro_tipo not in erros_por_tipo:
+                        erros_por_tipo[erro_tipo] = []
+                    erros_por_tipo[erro_tipo].append((nome, qtd))
+                
+                # Verifica erros do mesmo tipo em múltiplas entidades
+                for erro_tipo, entidades_erro in erros_por_tipo.items():
+                    if len(entidades_erro) > 1:
+                        nomes_entidades = ", ".join([e[0] for e in entidades_erro])
+                        resultado['correlacoes_detectadas'].append(
+                            f"Erro comum detectado em múltiplas entidades ({nomes_entidades}): {erro_tipo}..."
+                        )
+                        
+                        # Procura por causa comum
+                        if len(entidades_erro) > 2:
+                            resultado['causas_potenciais'].append(
+                                f"Potencial problema sistêmico causando erros em {len(entidades_erro)} entidades"
+                            )
+            
+            # Detecta correlações de latência
+            if entidades_com_latencia:
+                # Ordena por latência
+                entidades_com_latencia.sort(key=lambda x: x[1], reverse=True)
+                
+                # Agrupa entidades com latência alta
+                if len(entidades_com_latencia) > 1:
+                    top_5 = entidades_com_latencia[:5]
+                    nomes = ", ".join([e[0] for e in top_5])
+                    valores = ", ".join([f"{e[1]:.2f}s" for e in top_5])
+                    resultado['correlacoes_detectadas'].append(
+                        f"Problema de latência afetando múltiplas entidades: {nomes} (valores: {valores})"
+                    )
+            
+            # Constrói grafo de relacionamentos para análise de dependência
+            # Uma análise básica conectando entidades que chamam umas às outras
+            grafo_dependencias = {}
+            
+            # Para cada entidade, verifica suas transações para identificar relações
+            for e in entidades:
+                nome = e.get('name')
+                metricas = e.get('metricas', {}).get('30min', {})
+                
+                # Procura por transações chamando outras entidades
+                for metrica_nome, metrica_valor in metricas.items():
+                    if 'extservice' in metrica_nome or 'external' in metrica_nome:
+                        if not isinstance(metrica_valor, list):
+                            continue
+                        
+                        for item in metrica_valor:
+                            if isinstance(item, dict):
+                                # Tenta encontrar nome da entidade chamada
+                                service_name = item.get('name') or item.get('host') or item.get('target')
+                                if service_name:
+                                    # Adiciona relação no grafo
+                                    if nome not in grafo_dependencias:
+                                        grafo_dependencias[nome] = []
+                                    if service_name not in grafo_dependencias[nome]:
+                                        grafo_dependencias[nome].append(service_name)
+                                        
+                                        # Registra o relacionamento
+                                        resultado['relacionamentos'][nome] = resultado['relacionamentos'].get(nome, [])
+                                        resultado['relacionamentos'][nome].append(service_name)
+            
+            # Constrói lista de correlações a partir do grafo
+            if grafo_dependencias:
+                for origem, destinos in grafo_dependencias.items():
+                    if destinos:
+                        # Verifica se a origem está em ERRO e tem dependências
+                        origem_entity = next((e for e in entidades if e.get('name') == origem), None)
+                        if origem_entity and origem in [e[0] for e in entidades_com_erros]:
+                            for destino in destinos:
+                                destino_entity = next((e for e in entidades if e.get('name') == destino), None)
+                                # Se o destino também está com erro, possível correlação
+                                if destino_entity and destino in [e[0] for e in entidades_com_erros]:
+                                    resultado['correlacoes_detectadas'].append(
+                                        f"Possível propagação de erro: {origem} → {destino}"
+                                    )
+            
+            # Análise de causa raiz - entidade que afeta mais outras
+            if resultado['relacionamentos']:
+                impacto_por_entidade = {}
+                for origem, destinos in resultado['relacionamentos'].items():
+                    impacto_por_entidade[origem] = len(destinos)
+                
+                # Ordena por impacto
+                mais_impacto = sorted(impacto_por_entidade.items(), key=lambda x: x[1], reverse=True)
+                if mais_impacto:
+                    top_impacto = mais_impacto[0]
+                    if top_impacto[1] > 1:  # Se afeta mais de uma entidade
+                        # Verifica se está com erro
+                        if top_impacto[0] in [e[0] for e in entidades_com_erros]:
+                            resultado['causas_potenciais'].append(
+                                f"Entidade {top_impacto[0]} pode ser causa raiz - afeta {top_impacto[1]} outras entidades"
+                            )
+            
+            # Gera resumo da análise
+            num_correlacoes = len(resultado['correlacoes_detectadas'])
+            num_relacoes = sum(len(deps) for deps in resultado['relacionamentos'].values())
+            num_causas = len(resultado['causas_potenciais'])
+            
+            resultado['analise'] = f"Análise de correlação concluída: {num_correlacoes} padrões, {num_relacoes} relacionamentos, {num_causas} causas potenciais"
+            
+            return resultado
+        except Exception as e:
+            logger.error(f"Erro na análise de correlação: {str(e)}")
+            resultado['analise'] = f"Erro na análise de correlação: {str(e)}"
+            return resultado
     
     def _formatar_stacktrace(self, stacktrace: str) -> str:
         """

@@ -76,6 +76,16 @@ class ChatResponse(BaseModel):
     contexto: Optional[Dict[str, Any]] = None
 
 from utils.newrelic_collector import coletar_contexto_completo, safe_first, NewRelicCollector
+
+# Importa o coletor avançado se disponível
+try:
+    from utils.newrelic_advanced_collector import collect_full_data as coletar_contexto_avancado
+    COLETOR_AVANCADO_DISPONIVEL = True
+    logger.info("✅ Coletor avançado do New Relic disponível e será utilizado por padrão")
+except ImportError:
+    COLETOR_AVANCADO_DISPONIVEL = False
+    logger.warning("⚠️ Coletor avançado do New Relic não disponível, usando coletor padrão")
+
 from utils.persona_detector import detectar_persona, montar_prompt_por_persona
 from utils.openai_connector import gerar_resposta_ia
 from utils.cache import (
@@ -97,9 +107,13 @@ newrelic_collector = NewRelicCollector(
 
 @app.on_event("startup")
 async def startup_tasks():
-    # Iniciar loop de atualização do cache
+    # Iniciar loop de atualização do cache usando o coletor avançado se disponível
     loop = asyncio.get_event_loop()
-    loop.create_task(cache_updater_loop(coletar_contexto_completo))
+    
+    # Usa o coletor avançado se disponível, caso contrário usa o padrão
+    coletor_fn = coletar_contexto_avancado if COLETOR_AVANCADO_DISPONIVEL else coletar_contexto_completo
+    logger.info(f"Iniciando loop de cache com coletor: {'avançado' if COLETOR_AVANCADO_DISPONIVEL else 'padrão'}")
+    loop.create_task(cache_updater_loop(coletor_fn))
     
     # Consolidar entidades na inicialização
     logger.info("Consolidando entidades no startup...")
@@ -135,10 +149,65 @@ async def api_diagnostico_cache():
 
 @app.post("/api/cache/atualizar")
 async def api_atualizar_cache():
-    """Endpoint para forçar atualização do cache"""
-    sucesso = await forcar_atualizacao_cache(coletar_contexto_completo)
-    return {"sucesso": sucesso, "timestamp": datetime.now().isoformat()}
+    """Endpoint para forçar atualização do cache com o coletor avançado"""
+    # Usa o coletor avançado se disponível, caso contrário usa o padrão
+    coletor_fn = coletar_contexto_avancado if COLETOR_AVANCADO_DISPONIVEL else coletar_contexto_completo
+    sucesso = await forcar_atualizacao_cache(coletor_fn)
+    return {
+        "sucesso": sucesso, 
+        "timestamp": datetime.now().isoformat(),
+        "coletor_usado": "avançado" if COLETOR_AVANCADO_DISPONIVEL else "padrão"
+    }
 
+@app.post("/api/cache/atualizar_avancado")
+async def api_atualizar_cache_avancado():
+    """Endpoint para forçar atualização do cache usando explicitamente o coletor avançado"""
+    try:
+        # Verifica se o coletor avançado está disponível
+        if not COLETOR_AVANCADO_DISPONIVEL:
+            logger.warning("Coletor avançado não disponível")
+            return {
+                "sucesso": False, 
+                "timestamp": datetime.now().isoformat(),
+                "erro": "Coletor avançado não disponível"
+            }
+            
+        # Importa o script de atualização de cache completo
+        try:
+            # Tenta importar e executar o script específico para coleta avançada
+            import sys
+            from pathlib import Path
+            
+            script_dir = Path(__file__).parent
+            sys.path.append(str(script_dir))
+            
+            from atualizar_cache_completo import atualizar_cache_completo as atualizar_cache_completo_script
+            
+            logger.info("Executando script de atualização completa de cache com dados avançados")
+            resultado = await atualizar_cache_completo_script()
+            
+            return {
+                "sucesso": resultado, 
+                "timestamp": datetime.now().isoformat(),
+                "coletor_usado": "avançado (script completo)"
+            }
+        except ImportError as e:
+            logger.error(f"Erro ao importar script de atualização completa: {e}")
+            
+            # Fallback para o coletor avançado direto
+            sucesso = await forcar_atualizacao_cache(coletar_contexto_avancado)
+            return {
+                "sucesso": sucesso, 
+                "timestamp": datetime.now().isoformat(),
+                "coletor_usado": "avançado (fallback direto)"
+            }
+    except Exception as e:
+        logger.error(f"Erro ao atualizar cache avançado: {e}", exc_info=True)
+        return {
+            "sucesso": False,
+            "timestamp": datetime.now().isoformat(),
+            "erro": str(e)
+        }
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(input: ChatInput):
     try:
@@ -221,8 +290,31 @@ async def chat_endpoint(input: ChatInput):
             if e.get("metricas"):
                 # Verifica se há pelo menos uma métrica real
                 has_data = False
-                for period_data in e["metricas"].values():
-                    if period_data and any(period_data.values()):
+                for period_key, period_data in e["metricas"].items():
+                    # Ignora a chave timestamp
+                    if period_key == 'timestamp':
+                        continue
+                    
+                    # Verifica se period_data é um dicionário antes de usar .values()
+                    if isinstance(period_data, dict):
+                        if period_data and any(period_data.values()):
+                            has_data = True
+                            break
+                    elif isinstance(period_data, str):
+                        # Tenta converter string JSON para dicionário
+                        try:
+                            json_data = json.loads(period_data.replace("'", "\""))
+                            if json_data and any(json_data.values()):
+                                # Atualiza o valor para ser um dicionário real
+                                e["metricas"][period_key] = json_data
+                                has_data = True
+                                break
+                        except:
+                            # Se não for JSON válido, mas não for vazio, considera como dado
+                            if period_data:
+                                has_data = True
+                                break
+                    elif period_data:  # Se não for dicionário mas não for vazio
                         has_data = True
                         break
                         
@@ -401,15 +493,15 @@ async def chat_endpoint(input: ChatInput):
                     
                     # Entidades lentas por Apdex
                     if perf.get("entidades_lentas", {}).get("por_apdex"):
-                        analises_enriquecidas += "\nEntidades com pior Apdex:\n"
-                        for e in perf["entidades_lentas"]["por_apdex"][:3]:
-                            analises_enriquecidas += f"- {e.get('nome')}: {e.get('apdex')}\n"
+                        analises_enriquecidas += "\n#### Entidades com pior Apdex:\n"
+                        for e in perf["entidades_lentas"]["por_apdex"][:5]: # Mostra até 5
+                            analises_enriquecidas += f"- **{e.get('nome')}**: Apdex={e.get('apdex')} (valor ideal > 0.90)\n"
                     
                     # Entidades lentas por latência
                     if perf.get("entidades_lentas", {}).get("por_latencia"):
-                        analises_enriquecidas += "\nEntidades com maior latência:\n"
-                        for e in perf["entidades_lentas"]["por_latencia"][:3]:
-                            analises_enriquecidas += f"- {e.get('nome')}: {e.get('latencia')}s\n"
+                        analises_enriquecidas += "\n#### Entidades com maior latência:\n"
+                        for e in perf["entidades_lentas"]["por_latencia"][:5]: # Mostra até 5
+                            analises_enriquecidas += f"- **{e.get('nome')}**: Latência={e.get('latencia')}s (valor ideal < 1.0s)\n"
                 
                 # Erros
                 if contexto["analises"].get("erros"):
@@ -417,6 +509,36 @@ async def chat_endpoint(input: ChatInput):
                     analises_enriquecidas += "\n### Erros\n"
                     if erros.get("entidades_com_erros"):
                         analises_enriquecidas += f"Encontradas {len(erros['entidades_com_erros'])} entidades com erros.\n"
+                        
+                        if erros.get("erros_recentes"):
+                            analises_enriquecidas += "\n#### Erros recentes:\n"
+                            for erro in erros.get("erros_recentes", [])[:5]: # Limita a 5 erros
+                                analises_enriquecidas += f"- **{erro.get('entidade')}**: {erro.get('message')}\n"
+                                if erro.get('stack'):
+                                    analises_enriquecidas += f"  ```stacktrace\n  {erro.get('stack')[:300]}...\n  ```\n"
+                
+                # Database
+                if contexto["analises"].get("database"):
+                    db = contexto["analises"]["database"]
+                    analises_enriquecidas += "\n### Banco de Dados\n"
+                    analises_enriquecidas += f"{db.get('analise', '')}\n"
+                    
+                    if db.get("queries_lentas"):
+                        analises_enriquecidas += "\n#### Queries mais lentas:\n"
+                        for q in db.get("queries_lentas", [])[:3]:
+                            analises_enriquecidas += f"- **{q.get('app')}**: {q.get('tempo')}ms\n"
+                            analises_enriquecidas += f"  ```sql\n  {q.get('query', '')[:200]}...\n  ```\n"
+                
+                # Frontend
+                if contexto["analises"].get("frontend"):
+                    fe = contexto["analises"]["frontend"]
+                    analises_enriquecidas += "\n### Frontend\n"
+                    analises_enriquecidas += f"{fe.get('analise', '')}\n"
+                    
+                    if fe.get("paginas_lentas"):
+                        analises_enriquecidas += "\n#### Páginas mais lentas:\n"
+                        for p in fe.get("paginas_lentas", [])[:3]:
+                            analises_enriquecidas += f"- **{p.get('nome')}**: {p.get('load_time')}s, Apdex: {p.get('apdex')}\n"
                 
                 # Correlações
                 if contexto["analises"].get("correlacao", {}).get("correlacoes_detectadas"):
@@ -425,46 +547,208 @@ async def chat_endpoint(input: ChatInput):
                         analises_enriquecidas += "\n### Correlações Detectadas\n"
                         for corr in correlacoes:
                             analises_enriquecidas += f"- {corr}\n"
+                
+                # Adiciona exemplos de NRQL específicas com base nos problemas detectados
+                analises_enriquecidas += "\n### Consultas NRQL Recomendadas\n"
+                
+                # Erros
+                if contexto["analises"].get("erros", {}).get("entidades_com_erros"):
+                    entidades_com_erro = [e[0] for e in contexto["analises"]["erros"].get("entidades_com_erros", [])[:3]]
+                    if entidades_com_erro:
+                        analises_enriquecidas += f"\n#### Consulta para análise de erros:\n"
+                        nrql_apps = "', '".join(entidades_com_erro)
+                        analises_enriquecidas += f"```sql\nSELECT count(*), error.message FROM TransactionError WHERE appName IN ('{nrql_apps}') FACET error.class, error.message SINCE 1 hour ago LIMIT 10\n```\n"
+                
+                # Performance
+                if contexto["analises"].get("performance", {}).get("entidades_lentas", {}).get("por_latencia"):
+                    entidades_lentas = [e.get('nome') for e in contexto["analises"]["performance"]["entidades_lentas"]["por_latencia"][:3]]
+                    if entidades_lentas:
+                        analises_enriquecidas += f"\n#### Consulta para análise de performance:\n"
+                        nrql_apps_lentas = "', '".join(entidades_lentas)
+                        analises_enriquecidas += f"```sql\nSELECT average(duration) FROM Transaction WHERE appName IN ('{nrql_apps_lentas}') FACET name TIMESERIES SINCE 1 hour ago LIMIT 10\n```\n"
             
             # Prompt detalhado com TODAS as entidades e dados reais
+            # Adiciona seções específicas para enriquecer o contexto
+            top_erros = []
+            top_latencia = []
+            
+            # Extrai os top 5 erros mais relevantes com detalhes
+            for dominio, entidades_dominio in entidades_por_dominio.items():
+                for e in entidades_dominio:
+                    erros = e.get('metricas', {}).get('30min', {}).get('recent_error', [])
+                    if erros and len(erros) > 0:
+                        for erro in erros[:3]:  # Apenas os 3 primeiros erros por entidade
+                            if isinstance(erro, dict):
+                                top_erros.append({
+                                    "entidade": e.get('name', 'Desconhecido'),
+                                    "mensagem": erro.get('message', 'Erro desconhecido'),
+                                    "tipo": erro.get('class', 'Desconhecido'),
+                                    "stack": erro.get('stack', 'Sem stack trace')
+                                })
+            
+            # Extrai top 5 entidades com maior latência
+            entidades_por_latencia = []
+            for dominio, entidades_dominio in entidades_por_dominio.items():
+                for e in entidades_dominio:
+                    latencia = safe_first(e.get('metricas',{}).get('30min',{}).get('response_time_max',[]),{}).get('max.duration')
+                    if latencia is not None:
+                        entidades_por_latencia.append((e, latencia))
+            
+            # Ordena por latência e pega os top 5
+            entidades_por_latencia.sort(key=lambda x: x[1], reverse=True)
+            for e, latencia in entidades_por_latencia[:5]:
+                top_latencia.append({
+                    "entidade": e.get('name', 'Desconhecido'),
+                    "latencia": latencia,
+                    "apdex": safe_first(e.get('metricas',{}).get('30min',{}).get('apdex',[]),{}).get('score'),
+                    "erros": len(e.get('metricas',{}).get('30min',{}).get('recent_error',[])),
+                    "throughput": safe_first(e.get('metricas',{}).get('30min',{}).get('throughput',[]),{}).get('avg.qps')
+                })
+            
+            # Formata seção de erros para o prompt
+            erros_section = ""
+            if top_erros:
+                erros_section = "\n## ERROS MAIS RELEVANTES\n\n"
+                for i, erro in enumerate(top_erros[:5]):
+                    erros_section += f"### Erro #{i+1} em {erro['entidade']}\n"
+                    erros_section += f"**Tipo:** {erro['tipo']}\n"
+                    erros_section += f"**Mensagem:** {erro['mensagem']}\n"
+                    if erro['stack']:
+                        stack_resumido = erro['stack'][:500] + "..." if len(erro['stack']) > 500 else erro['stack']
+                        erros_section += f"**Stack Trace:**\n```\n{stack_resumido}\n```\n\n"
+            
+            # Formata seção de latência para o prompt
+            latencia_section = ""
+            if top_latencia:
+                latencia_section = "\n## ENTIDADES MAIS LENTAS\n\n"
+                latencia_section += "| Entidade | Latência (s) | Apdex | Erros | Throughput |\n"
+                latencia_section += "|----------|-------------|-------|-------|----------|\n"
+                for item in top_latencia:
+                    apdex_str = f"{item['apdex']:.2f}" if item['apdex'] is not None else "N/A"
+                    throughput_str = f"{item['throughput']:.1f}" if item['throughput'] is not None else "N/A"
+                    latencia_section += f"| {item['entidade']} | {item['latencia']:.3f} | {apdex_str} | {item['erros']} | {throughput_str} |\n"
+            
+            # Adiciona exemplos de consultas NRQL específicas para o caso
+            consultas_nrql = "\n## CONSULTAS NRQL RECOMENDADAS\n\n"
+            
+            # Consulta para erros (com verificação de segurança para o tipo)
+            erros_detectados = False
+            for dominio, totais_por_status in entidades_por_dominio.items():
+                if isinstance(totais_por_status, dict) and totais_por_status.get("ERRO", 0) > 0:
+                    erros_detectados = True
+                    break
+                    
+            if erros_detectados:
+                consultas_nrql += """### Consulta para análise de erros
+```sql
+SELECT count(*), error.message FROM TransactionError WHERE appName IN ("""
+                
+                # Adiciona até 3 entidades com erro
+                entidades_com_erro = []
+                for dominio, entidades_dominio in entidades_por_dominio.items():
+                    for e in entidades_dominio:
+                        erros = e.get('metricas', {}).get('30min', {}).get('recent_error', [])
+                        if erros and len(erros) > 0:
+                            entidades_com_erro.append(e.get('name', 'Desconhecido'))
+                            if len(entidades_com_erro) >= 3:
+                                break
+                
+                entidades_str = "', '".join(entidades_com_erro[:3])
+                consultas_nrql += f"'{entidades_str}') FACET appName, error.class, error.message SINCE 1 hour ago LIMIT 10\n```\n\n"
+            
+            # Consulta para latência
+            consultas_nrql += """### Consulta para análise de latência
+```sql
+SELECT average(duration), percentile(duration, 95) FROM Transaction"""
+            
+            if top_latencia:
+                entidades_str = "', '".join([item['entidade'] for item in top_latencia[:3]])
+                consultas_nrql += f" WHERE appName IN ('{entidades_str}')"
+            
+            consultas_nrql += " FACET appName, name TIMESERIES SINCE 1 hour ago LIMIT 10\n```\n\n"
+            
+            # Determina a persona com base na pergunta
+            persona = "DESENVOLVEDOR"  # Valor padrão
+            
+            # Termos comuns para detectar perfil gerencial
+            termos_gestao = ["executivo", "resumo", "negócio", "impacto", "financeiro", 
+                           "orçamento", "custo", "lucro", "gasto", "roi"]
+            
+            pergunta_lower = input.pergunta.lower()
+            if any(termo in pergunta_lower for termo in termos_gestao):
+                persona = "GESTOR"
+            
+            # Monta o prompt final com todas as seções
             prompt_compacto = (
                 f"# CONTEXTO COMPLETO DE MONITORAMENTO\n\n"
                 f"{diagnostico_completo}\n\n"
                 f"{analises_enriquecidas}\n\n"
+                f"{erros_section}\n"
+                f"{latencia_section}\n"
+                f"{consultas_nrql}\n"
                 f"# PERGUNTA DO USUÁRIO\n{input.pergunta}\n\n"
                 "# INSTRUÇÕES\n"
-                "Forneça uma análise técnica detalhada baseada nos dados acima. "
-                "Identifique tendências, anomalias, e correlações entre os serviços. "
-                "Priorize problemas mais críticos (ERRO > ALERTA > OK) e sugira ações específicas. "
-                "Recomende NRQL específicas quando relevante. Se a pergunta for sobre algum serviço específico, "
-                "foque sua análise nele, mas mencione sua relação com outros serviços quando relevante.\n\n"
+                "ANALISE 100% DOS DADOS DISPONÍVEIS acima para fornecer um diagnóstico completo e profundo. "
+                "Você deve investigar até a raiz de qualquer problema, correlacionando dados entre diferentes serviços e componentes.\n\n"
+                
+                "ADAPTE SUA RESPOSTA PARA A PERSONA DETECTADA:\n"
+                f"- Persona atual: {persona}\n"
+                "- Para GESTORES: Inicie com um resumo executivo de 3-5 linhas, focando no impacto de negócio e status geral do ambiente. Use linguagem simples e direta.\n"
+                "- Para DESENVOLVEDORES: Forneça análise técnica detalhada, com valores específicos, logs relevantes, e ações técnicas concretas.\n\n"
+                
+                "REGRAS MANDATÓRIAS:\n"
+                "1. NUNCA use frases genéricas como 'há problemas de performance' - sempre especifique valores exatos das métricas\n"
+                "2. SEMPRE identifique as entidades específicas pelo nome exato\n"
+                "3. SEMPRE priorize problemas pela severidade (ERRO > ALERTA > OK)\n"
+                "4. SEJA PROATIVO: destaque anomalias ou correlações mesmo que não explicitamente perguntadas\n"
+                "5. CONCLUA com ações específicas, recomendações e consultas NRQL para investigação adicional\n\n"
+                
+                "ESTRUTURE SUA RESPOSTA:\n"
+                "1. DIAGNÓSTICO EXECUTIVO: resumo claro e direto do status\n"
+                "2. ANÁLISE DETALHADA: métricas específicas, correlações entre serviços e componentes\n"
+                "3. AÇÕES RECOMENDADAS: priorizadas e específicas\n"
+                "4. CONSULTAS NRQL AVANÇADAS: para investigação adicional\n\n"
+                
                 f"{instrucoes_especificas if instrucoes_especificas else ''}"
             )
         
         # System prompt aprimorado para análises mais profundas e técnicas
         system_prompt = """
-        Você é um Arquiteto de Observabilidade sênior especialista em New Relic e SRE, com profundo conhecimento técnico em:
+        Você é uma Inteligência Artificial de monitoramento avançado, o cérebro analítico completo da infraestrutura monitorada pelo New Relic. 
+        Você possui expertise em todas as áreas de observabilidade:
         
-        1. Análise avançada de métricas de APM, Browser, e infraestrutura
-        2. Correlação entre indicadores de diferentes domínios e serviços
-        3. Consultas NRQL complexas e dashboards analíticos avançados
-        4. Troubleshooting aprofundado de problemas de performance e disponibilidade
-        5. Otimização de SLAs, SLOs e design de arquitetura resiliente
-        6. Root Cause Analysis (RCA) e técnicas de diagnóstico sistemático
+        1. APM completo: transações, traces, métricas, logs, backtraces, erros
+        2. Browser/Frontend: AJAX, web vitals, page views, user sessions, JavaScript errors
+        3. Infraestrutura: hosts, containers, Kubernetes, serverless, cloud providers (AWS, Azure, GCP)
+        4. Banco de dados: queries SQL, performance, slow queries, connections, plan execution
+        5. Mobile & IoT: crashes, network issues, device metrics
+        6. Integrações: Azure DevOps, Jira, PagerDuty, Slack
+        7. SRE: SLIs, SLOs, error budgets, disponibilidade, latência, throughput
+        8. Root Cause Analysis (RCA): técnicas avançadas de diagnóstico sistemático
         
-        REGRAS ESSENCIAIS:
-        - Responda APENAS baseado nos dados fornecidos no contexto, nunca invente métricas
-        - Seja altamente técnico, específico e analítico - este é seu principal diferencial
-        - Analise padrões, anomalias e correlações entre diferentes serviços e domínios
-        - Sempre inclua exemplos de consultas NRQL detalhadas quando relevante
-        - Mencione entidades específicas, suas métricas e status identificados nos dados
-        - Priorize problemas por severidade (ERRO > ALERTA > OK)
-        - Sempre que possível, sugira ações técnicas específicas de remediação
-        - Se não tiver dados suficientes, seja transparente e explique exatamente quais dados seriam necessários
-        - Use formatação markdown avançada para estruturar sua resposta técnica
-        - Suas respostas devem ter pelo menos 3 seções: Diagnóstico, Análise Técnica e Recomendações
+        COMPORTAMENTO ESSENCIAL:
+        - Adapte seu estilo baseado na persona:
+          * PARA GESTORES: Seja direto, objetivo e visual. Use linguagem simples, frases curtas e conclusões claras.
+          * PARA DESENVOLVEDORES: Forneça detalhes técnicos, códigos e ações concretas para solucionar problemas.
         
-        Seus insights devem ser profundamente técnicos, acionáveis e baseados em uma análise sistemática e exaustiva dos dados fornecidos.
+        - Nunca seja superficial: investigue sempre até a raiz do problema, buscando correlações entre diferentes componentes
+        - Seja PROATIVO: se identificar anomalias ou padrões suspeitos, destaque-os mesmo que não perguntados
+        - Use SEMPRE valores ESPECÍFICOS e REAIS nas métricas (ex: "API X com latência de 2.3s")
+        - NUNCA use frases genéricas como "há problemas de performance" - especifique exatamente o que está fora do ideal
+        - Seja CONCLUSIVO: não deixe análises pela metade, ofereça diagnóstico completo e soluções claras
+        
+        ESTRUTURA DAS SUAS RESPOSTAS:
+        1. DIAGNÓSTICO EXECUTIVO (para gestores): resumo claro, direto, com impacto no negócio (3-5 linhas)
+        2. ANÁLISE TÉCNICA DETALHADA (para desenvolvedores):
+           - Root cause identificada com valores específicos
+           - Correlações entre serviços e componentes
+           - Impactos na performance, disponibilidade e experiência do usuário
+        3. AÇÕES RECOMENDADAS: priorizadas, específicas e acionáveis
+        4. CONSULTAS NRQL AVANÇADAS: para investigação adicional
+        
+        Você deve analisar 100% do ambiente usando todos os dados disponíveis: métricas, logs, traces, erros, queries SQL, etc. 
+        Impressione pelo alto nível de análise, clareza e confiabilidade. Facilite a vida dos gestores com insights diretos
+        e dos desenvolvedores com diagnósticos precisos e soluções técnicas.
         """
         
         logger.info(f"Enviando prompt para OpenAI com {len(prompt_compacto)} caracteres")
@@ -680,14 +964,78 @@ async def get_kpis():
             {"nome": "Latência Máxima", "valor": 0, "unidade": "ms"}
         ], "mensagem": "Nenhum dado disponível. Configure a instrumentação no New Relic para visualizar KPIs."}
     def safe_apdex(e):
-        return safe_first(e.get("metricas", {}).get("30min", {}).get("apdex", []), {}).get("score", 0)
+        try:
+            apdex = safe_first(e.get("metricas", {}).get("30min", {}).get("apdex", []), {}).get("score")
+            return apdex if apdex is not None else 0
+        except (TypeError, AttributeError):
+            return 0
+            
     def safe_latencia(e):
-        return safe_first(e.get("metricas", {}).get("30min", {}).get("response_time_max", []), {}).get("max.duration", 0)
-    entidades_com_metricas = [e for e in entidades if e.get("metricas") and any(e["metricas"].values())]
+        try:
+            latencia = safe_first(e.get("metricas", {}).get("30min", {}).get("response_time_max", []), {}).get("max.duration")
+            return latencia if latencia is not None else 0
+        except (TypeError, AttributeError):
+            return 0
+    
+    # Identifica entidades com métricas válidas
+    entidades_com_metricas = []
+    for e in entidades:
+        if e.get("metricas"):
+            # Verifica se há pelo menos uma métrica real (usando dicionários)
+            has_data = False
+            for period_key, period_data in e["metricas"].items():
+                if period_key == 'timestamp':
+                    continue
+                if isinstance(period_data, dict) and period_data:
+                    has_data = True
+                    break
+                elif isinstance(period_data, str):
+                    # Tenta converter string JSON para dicionário
+                    try:
+                        json_data = json.loads(period_data.replace("'", "\""))
+                        if json_data:
+                            # Atualiza o valor para ser um dicionário real
+                            e["metricas"][period_key] = json_data
+                            has_data = True
+                            break
+                    except:
+                        # Se não for JSON válido, mas não for vazio, considera como dado
+                        if period_data:
+                            has_data = True
+                            break
+                elif period_data:  # Se não for dicionário mas não for vazio
+                    has_data = True
+                    break
+            
+            if has_data:
+                entidades_com_metricas.append(e)
+                
     total_metricas = len(entidades_com_metricas) if entidades_com_metricas else 1
-    disponibilidade = sum(safe_apdex(e) for e in entidades_com_metricas) / total_metricas * 100
-    taxa_erro = sum(len(e.get("metricas", {}).get("30min", {}).get("recent_error", [])) for e in entidades_com_metricas) / total_metricas
-    latencia = sum(safe_latencia(e) for e in entidades_com_metricas) / total_metricas
+    
+    # Usa o método sum com tratamento seguro de None
+    apdex_values = [safe_apdex(e) for e in entidades_com_metricas]
+    # Filtra None e usa valores válidos
+    apdex_values = [v for v in apdex_values if v is not None]
+    disponibilidade = sum(apdex_values) / total_metricas * 100 if apdex_values else 0
+    
+    # Calcula taxa de erro com segurança para tipos diferentes
+    def safe_error_count(e):
+        try:
+            errors = e.get("metricas", {}).get("30min", {}).get("recent_error", [])
+            return len(errors) if errors else 0
+        except (TypeError, AttributeError):
+            return 0
+            
+    error_values = [safe_error_count(e) for e in entidades_com_metricas]
+    # Filtra None e usa valores válidos
+    error_values = [v for v in error_values if v is not None]
+    taxa_erro = sum(error_values) / total_metricas if error_values else 0
+    
+    # Calcula latência com segurança
+    latencia_values = [safe_latencia(e) for e in entidades_com_metricas]
+    # Filtra None e usa valores válidos
+    latencia_values = [v for v in latencia_values if v is not None]
+    latencia = sum(latencia_values) / total_metricas if latencia_values else 0
     kpis = [
         {"nome": "Disponibilidade", "valor": round(disponibilidade, 2), "unidade": "%"},
         {"nome": "Taxa de Erro", "valor": round(taxa_erro, 2), "unidade": "%"},
@@ -725,13 +1073,48 @@ async def get_insights():
     cache = await get_cache()
     entidades = cache.get("entidades", [])
     insights = []
+    
+    # Função segura para extrair latência com tratamento robusto para valores nulos
     def safe_latencia(e):
-        return safe_first(e.get("metricas", {}).get("30min", {}).get("response_time_max", []), {}).get("max.duration", 0)
-    for e in sorted(entidades, key=lambda x: safe_latencia(x), reverse=True)[:5]:
-        insights.append({
-            "entidade": e.get("name"),
-            "latencia_max_ms": safe_latencia(e) * 1000
-        })
+        try:
+            latencia = safe_first(e.get("metricas", {}).get("30min", {}).get("response_time_max", []), {}).get("max.duration")
+            return latencia if latencia is not None else 0
+        except (TypeError, AttributeError):
+            return 0
+    
+    # Garante que cada entidade tem um valor de latência válido para ordenação
+    entidades_processadas = []
+    for e in entidades:
+        latencia_valor = safe_latencia(e)
+        # Só adiciona entidades com valores válidos de latência
+        if latencia_valor is not None:
+            # Cria uma cópia para não modificar o original
+            e_copia = e.copy() if isinstance(e, dict) else e
+            # Adiciona um campo específico para ordenação para evitar problemas
+            if isinstance(e_copia, dict):
+                e_copia["_latencia_ordenacao"] = latencia_valor
+                entidades_processadas.append(e_copia)
+    
+    # Se não tiver entidades com latência válida, usa todas as entidades e sorteia
+    if not entidades_processadas and entidades:
+        # Pega até 5 entidades aleatórias
+        import random
+        entidades_amostra = random.sample(entidades, min(5, len(entidades)))
+        for e in entidades_amostra:
+            insights.append({
+                "entidade": e.get("name", "Desconhecido"),
+                "latencia_max_ms": 0,
+                "mensagem": "Sem dados de latência disponíveis"
+            })
+    else:
+        # Ordena entidades usando o campo específico para ordenação
+        entidades_ordenadas = sorted(entidades_processadas, key=lambda x: x.get("_latencia_ordenacao", 0), reverse=True)
+        for e in entidades_ordenadas[:5]:
+            insights.append({
+                "entidade": e.get("name", "Desconhecido"),
+                "latencia_max_ms": safe_latencia(e) * 1000
+            })
+    
     if not insights:
         return {"insights": [], "mensagem": "Nenhum insight disponível. Configure a instrumentação no New Relic para visualizar insights executivos."}
     return {"insights": insights}

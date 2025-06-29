@@ -16,102 +16,76 @@ def is_entity_valid(entity: Dict) -> bool:
     Verifica se uma entidade possui dados válidos e não-nulos
     que justifiquem enviá-la para o frontend.
     
-    Critérios relaxados para garantir mais dados disponíveis para análise,
-    mesmo que eles não sejam completamente ideais.
+    Critérios BALANCEADOS para garantir que apenas entidades com dados reais
+    sejam enviadas ao frontend, economizando tokens.
     """
-    if not entity:
-        logger.debug("Entidade rejeitada: vazia")
+    # Verifica se a entidade existe
+    if entity is None or not isinstance(entity, dict):
+        logger.debug("Entidade rejeitada: vazia ou não é dicionário")
         return False
     
     # Verifica campos básicos obrigatórios
-    if not entity.get('name') or not entity.get('domain'):
-        logger.debug(f"Entidade rejeitada: sem nome ou domínio - {entity.get('guid', 'sem-guid')}")
+    if not entity.get('name'):
+        logger.debug(f"Entidade rejeitada: sem nome - {entity.get('guid', 'sem-guid')}")
         return False
     
     # Rejeita entidades com problemas explícitos de coleta
-    if entity.get('problema') in ['INVALID_QUERY', 'NO_DATA', 'RATE_LIMITED']:
-        logger.info(f"Entidade rejeitada: problema conhecido - {entity.get('name')} - {entity.get('problema')}")
+    if entity.get('problema') in ['INVALID_QUERY', 'NO_DATA', 'NO_VALID_METRICS', 'INVALID_JSON_DETAIL', 'PROCESSING_ERROR']:
+        logger.debug(f"Entidade rejeitada: problema conhecido - {entity.get('name')} - {entity.get('problema')}")
         return False
         
-    # Requer métricas para análise de qualidade
+    # Rejeita entidades sem métricas
     if not entity.get('metricas'):
-        logger.debug(f"Entidade rejeitada: sem métricas - {entity.get('name')}")
+        logger.debug(f"Entidade rejeitada: sem métricas: {entity.get('name')} - domínio: {entity.get('domain')}")
         return False
     
-    # Verificação de métricas úteis, com critérios mais relaxados
+    # Verificação de métricas úteis
     has_real_data = False
-    metrics_quality_score = 0
-    
-    # Métricas essenciais para análise de APIs (especialmente lentas)
-    required_metrics = ['apdex', 'response_time', 'throughput', 'error_rate', 'recent_error']
-    
-    # Métricas adicionais relevantes para análise de SQL e causa raiz
-    advanced_metrics = ['database', 'sql', 'query', 'transaction', 'db_call', 'stacktrace', 'error_detail', 'trace']
     
     # Verifica se há pelo menos alguma métrica real útil
-    for period, metrics in entity.get('metricas', {}).items():
-        if not metrics:
-            continue
-            
-        # Verifica todas as métricas do período
-        for metric_name, metric_data in metrics.items():
-            # Ignora métricas vazias
-            if not metric_data:
+    try:
+        for period, metrics in entity.get('metricas', {}).items():
+            if not metrics:
                 continue
                 
-            # Se for uma lista com dados reais 
-            if isinstance(metric_data, list) and len(metric_data) > 0:
-                has_real_data = True
-                
-                # Calcula um score de qualidade pelas métricas importantes
-                if any(required in metric_name.lower() for required in required_metrics):
-                    metrics_quality_score += 1
-                    
-                # Métricas avançadas recebem score extra (2 pontos) pois são mais valiosas para análise de causa raiz
-                if any(advanced in metric_name.lower() for advanced in advanced_metrics):
-                    metrics_quality_score += 2
-                    
-                # Métricas específicas para a pergunta sobre APIs lentas (pontuação extra)
-                if 'api' in metric_name.lower() or 'latency' in metric_name.lower() or 'slow' in metric_name.lower():
-                    metrics_quality_score += 2
-            
-            # Se não for lista, mas for um valor escalar não nulo
-            elif metric_data is not None and metric_data != "":
-                has_real_data = True
-                
-                # Calcula um score de qualidade pelas métricas importantes
-                if any(required in metric_name.lower() for required in required_metrics):
-                    metrics_quality_score += 1
-                
-                # Métricas avançadas recebem score extra
-                if any(advanced in metric_name.lower() for advanced in advanced_metrics):
-                    metrics_quality_score += 2
-                    
-                # Métricas específicas para APIs lentas
-                if 'api' in metric_name.lower() or 'latency' in metric_name.lower() or 'slow' in metric_name.lower():
-                    metrics_quality_score += 2
-    
-    # Menos rigoroso: Se tiver dados reais, aceita mesmo com score baixo
-    if not has_real_data:
-        logger.debug(f"Entidade rejeitada: sem dados reais nas métricas - {entity.get('name')}")
+            # Verifica se metrics é um dicionário antes de tentar usá-lo como tal
+            if isinstance(metrics, dict):
+                # Verifica se há pelo menos uma métrica com valor não nulo
+                for metric_name, metric_value in metrics.items():
+                    if metric_value is not None and metric_value != "" and metric_value != []:
+                        has_real_data = True
+                        break
+            elif isinstance(metrics, str) and metrics.strip():
+                # Tenta converter string para dicionário se for JSON
+                try:
+                    metrics_dict = json.loads(metrics.replace("'", "\""))
+                    if metrics_dict:
+                        # Verifica se há pelo menos um valor não nulo
+                        for metric_name, metric_value in metrics_dict.items():
+                            if metric_value is not None and metric_value != "" and metric_value != []:
+                                # Atualiza a entrada no dicionário para ser um dicionário real
+                                entity['metricas'][period] = metrics_dict
+                                has_real_data = True
+                                break
+                except Exception:
+                    # Não é JSON válido, verificamos se é uma string não vazia
+                    if metrics.strip():
+                        has_real_data = True
+                        break
+                        
+            # Se já encontrou dados reais, não precisa verificar mais
+            if has_real_data:
+                break
+    except Exception as e:
+        logger.error(f"Erro ao validar entidade {entity.get('name', 'unknown')}: {str(e)}")
         return False
     
-    # MODIFICAÇÃO: Aceita mesmo entidades com score 0 (se tiver algum dado real)
-    if metrics_quality_score <= 0 and has_real_data:
-        logger.info(f"Entidade aceita com score zero porque tem dados reais: {entity.get('name')} - Score: {metrics_quality_score}")
-        entity['dados_parciais'] = True
-        return True
+    # Rejeita entidades sem dados reais nas métricas
+    if not has_real_data:
+        logger.debug(f"Entidade rejeitada: sem dados reais nas métricas: {entity.get('name')}")
+        return False
     
-    # MODIFICAÇÃO: Não rejeita mais entidades com score 0 como critério pois isso pode estar filtrando demais
-    # if metrics_quality_score == 0:
-    #    logger.info(f"Entidade rejeitada - dados insuficientes: {entity.get('name')} - Score: {metrics_quality_score}")
-    #    return False
-        
-    # Se o score for baixo (apenas 1 métrica), marca como dados parciais mas ainda aceita
-    if metrics_quality_score <= 1:
-        logger.info(f"Entidade com poucos dados aceitáveis: {entity.get('name')} - Score: {metrics_quality_score}")
-        entity['dados_parciais'] = True
-    
+    # Se chegou até aqui, a entidade é válida
     return True
 
 def process_entity_details(entity: Dict) -> Dict:
@@ -152,28 +126,66 @@ def process_entity_details(entity: Dict) -> Dict:
                     if period not in processed['metricas']:
                         processed['metricas'][period] = {}
                     
-                    # Processa cada métrica do período
-                    for metric_name, metric_data in period_data.items():
-                        # Pula métricas vazias ou nulas
-                        if not metric_data:
+                    # Garantir que period_data seja um dicionário se for string JSON
+                    if isinstance(period_data, str):
+                        try:
+                            # Tenta converter string para dicionário se for JSON
+                            period_data_str = period_data.replace("'", "\"")
+                            period_data = json.loads(period_data_str)
+                        except json.JSONDecodeError:
+                            # Se não for JSON válido, mantém como string
+                            processed['metricas'][period] = period_data
                             continue
-                            
-                        # Se a métrica for uma lista de resultados, filtra resultados nulos
-                        if isinstance(metric_data, list):
-                            # Filtra itens nulos da lista
-                            valid_items = []
-                            for item in metric_data:
-                                if item and isinstance(item, dict):
-                                    # Remove chaves com valores nulos do dicionário
-                                    item = {k: v for k, v in item.items() if v is not None}
-                                    if item:  # Se ainda tem dados após filtrar
-                                        valid_items.append(item)
-                            
-                            if valid_items:  # Só adiciona se tiver itens válidos
-                                processed['metricas'][period][metric_name] = valid_items
+                    
+                    # Processa cada métrica do período, garantindo que period_data seja um dicionário
+                    if isinstance(period_data, dict):
+                        # Cria um novo dicionário apenas com métricas válidas
+                        valid_metrics = {}
+                        for metric_name, metric_data in period_data.items():
+                            # Pula métricas vazias, nulas ou em branco
+                            if metric_data is None or metric_data == "" or metric_data == []:
+                                continue
+                                
+                            # Se a métrica for uma lista de resultados, filtra resultados nulos
+                            if isinstance(metric_data, list):
+                                # Filtra itens nulos da lista
+                                valid_items = []
+                                for item in metric_data:
+                                    if item and isinstance(item, dict):
+                                        # Remove chaves com valores nulos do dicionário
+                                        item = {k: v for k, v in item.items() if v is not None and v != "" and v != []}
+                                        if item:  # Se ainda tem dados após filtrar
+                                            valid_items.append(item)
+                                
+                                if valid_items:  # Só adiciona se tiver itens válidos
+                                    valid_metrics[metric_name] = valid_items
+                            else:
+                                # Para métricas simples, adiciona diretamente se não for nula
+                                valid_metrics[metric_name] = metric_data
+                        
+                        # Só adiciona o período se tiver métricas válidas
+                        if valid_metrics:
+                            processed['metricas'][period] = valid_metrics
                         else:
-                            # Para métricas simples, adiciona diretamente se não for nula
-                            processed['metricas'][period][metric_name] = metric_data
+                            # Remove o período se não tem métricas válidas
+                            if period in processed['metricas']:
+                                del processed['metricas'][period]
+                    elif isinstance(period_data, str):
+                        # Tenta processar strings como JSON
+                        try:
+                            json_data = json.loads(period_data.replace("'", "\""))
+                            if json_data and isinstance(json_data, dict):
+                                # Substitui a string por um dicionário processado
+                                processed['metricas'][period] = {}
+                                for metric_name, metric_data in json_data.items():
+                                    if metric_data:  # Pula dados vazios
+                                        processed['metricas'][period][metric_name] = metric_data
+                        except:
+                            # Não é JSON válido, mantém como está
+                            processed['metricas'][period] = period_data
+                    else:
+                        # Para outros tipos, mantém como está
+                        processed['metricas'][period] = period_data
                 
                 # Se não tem métricas válidas após processamento, marca como problemática
                 if not any(period_data for period_data in processed.get('metricas', {}).values()):
@@ -194,10 +206,10 @@ def process_entity_details(entity: Dict) -> Dict:
 def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
     """
     Filtra uma lista de entidades para retornar apenas aquelas 
-    com dados válidos para o frontend.
+    com dados válidos e reais para o frontend.
     
     Também processa cada entidade para garantir formato consistente.
-    Aplica critérios rigorosos para garantir qualidade dos dados.
+    Aplica critérios RIGOROSOS para economizar tokens.
     """
     if not entities:
         logger.warning("Nenhuma entidade para filtrar")
@@ -214,32 +226,52 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
         'has_throughput': 0
     }
     
-    logger.info(f"Iniciando filtragem de {len(entities)} entidades")
+    logger.info(f"Iniciando filtragem rigorosa de {len(entities)} entidades")
     
+    # Primeira passagem: processar todas as entidades e coletar estatísticas
     for entity in entities:
         try:
             # Processa a entidade
             processed = process_entity_details(entity)
             processed_count += 1
             
+            # Pula entidades que não puderam ser processadas
+            if not processed:
+                rejected_count += 1
+                logger.debug("Entidade rejeitada: erro no processamento")
+                continue
+                
             # Contagem por domínio
             domain = entity.get('domain', 'UNKNOWN')
             processed_domains[domain] = processed_domains.get(domain, 0) + 1
             
             # Verificação pré-validação (estatísticas)
+            has_metrics = False
             if processed and processed.get('metricas'):
-                for period in processed['metricas'].values():
-                    if 'apdex' in period:
-                        metrics_stats['has_apdex'] += 1
-                    if 'response_time_max' in period:
-                        metrics_stats['has_response_time'] += 1
-                    if 'error_rate' in period or 'recent_error' in period:
-                        metrics_stats['has_error_rate'] += 1
-                    if 'throughput' in period:
-                        metrics_stats['has_throughput'] += 1
+                for period, period_data in processed['metricas'].items():
+                    if isinstance(period_data, dict):
+                        if 'apdex' in period_data and period_data['apdex'] is not None:
+                            metrics_stats['has_apdex'] += 1
+                            has_metrics = True
+                        if 'response_time_max' in period_data and period_data['response_time_max'] is not None:
+                            metrics_stats['has_response_time'] += 1
+                            has_metrics = True
+                        if ('error_rate' in period_data and period_data['error_rate'] is not None) or \
+                           ('recent_error' in period_data and period_data['recent_error'] is not None):
+                            metrics_stats['has_error_rate'] += 1
+                            has_metrics = True
+                        if 'throughput' in period_data and period_data['throughput'] is not None:
+                            metrics_stats['has_throughput'] += 1
+                            has_metrics = True
             
-            # Verifica se a entidade processada é válida
-            if processed and is_entity_valid(processed):
+            # Rejeita entidades sem métricas válidas
+            if not has_metrics:
+                rejected_count += 1
+                logger.debug(f"Entidade rejeitada: sem métricas válidas - {processed.get('name')}")
+                continue
+            
+            # Verifica se a entidade é válida usando critérios rigorosos
+            if is_entity_valid(processed):
                 valid_entities.append(processed)
             else:
                 rejected_count += 1
@@ -255,109 +287,3 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
                f"Response Time: {metrics_stats['has_response_time']}, " +
                f"Error Rate: {metrics_stats['has_error_rate']}, " +
                f"Throughput: {metrics_stats['has_throughput']}")
-    
-    # Taxa de rejeição para alerta
-    rejection_rate = rejected_count / processed_count if processed_count > 0 else 0
-    if rejection_rate > 0.5:  # Se mais de 50% das entidades foram rejeitadas
-        logger.warning(f"ALERTA: Taxa de rejeição muito alta ({rejection_rate:.1%})! " +
-                      "Verifique a instrumentação do New Relic ou as queries.")
-    
-    # Verificação final de qualidade
-    if not valid_entities:
-        logger.critical("CRÍTICO: Nenhuma entidade válida após filtragem!")
-        # Mesmo sem entidades válidas, retorna uma lista vazia para evitar None
-    elif len(valid_entities) < 5 and processed_count > 10:
-        logger.warning(f"ALERTA: Apenas {len(valid_entities)} entidades válidas de {processed_count}!")
-    
-    return valid_entities
-
-if __name__ == "__main__":
-    """
-    Módulo para teste independente do processador de entidades.
-    """
-    # Configuração de logging para testes
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    
-    try:
-        # Tenta carregar o cache do disco
-        print("🔍 Testando processador de entidades...")
-        cache_file = Path("historico/cache_completo.json")
-        
-        if not cache_file.exists():
-            print(f"❌ Arquivo de cache não encontrado: {cache_file}")
-            sys.exit(1)
-            
-        with open(cache_file, "r", encoding="utf-8") as f:
-            cache = json.load(f)
-            
-        entidades = cache.get("entidades", [])
-        print(f"📊 Total de entidades no cache: {len(entidades)}")
-        
-        if not entidades:
-            print("❌ Nenhuma entidade encontrada no cache!")
-            sys.exit(1)
-            
-        # Processar as entidades
-        entidades_processadas = []
-        entidades_validas = []
-        metricas_nulas = 0
-        metricas_totais = 0
-        
-        for i, entity in enumerate(entidades):
-            if i < 3:
-                print(f"\n🔍 Analisando entidade: {entity.get('name', 'Unknown')}")
-                print(f"   Domain: {entity.get('domain', 'Unknown')}")
-                print(f"   Tem detalhe: {'✅' if entity.get('detalhe') else '❌'}")
-                print(f"   Tem métricas: {'✅' if entity.get('metricas') else '❌'}")
-                
-            processed = process_entity_details(entity)
-            if processed:
-                entidades_processadas.append(processed)
-                
-                # Contar métricas nulas
-                detalhe = processed.get('detalhe', '{}')
-                if isinstance(detalhe, str):
-                    try:
-                        detalhe_dict = json.loads(detalhe.replace("'", "\""))
-                        for period, metrics in detalhe_dict.items():
-                            if isinstance(metrics, dict):
-                                for metric_name, metric_value in metrics.items():
-                                    metricas_totais += 1
-                                    if metric_value is None:
-                                        metricas_nulas += 1
-                    except:
-                        pass
-                
-                # Verificar se é válida
-                if is_entity_valid(processed):
-                    entidades_validas.append(processed)
-        
-        print(f"\n✅ Processamento concluído:")
-        print(f"   - Entidades processadas: {len(entidades_processadas)}")
-        print(f"   - Entidades válidas: {len(entidades_validas)}")
-        print(f"   - Métricas nulas: {metricas_nulas}/{metricas_totais} ({round(metricas_nulas/max(1,metricas_totais)*100, 2)}%)")
-        
-        # Verificar o resultado para uma entidade exemplo
-        if entidades_validas:
-            exemplo = entidades_validas[0]
-            print("\n🔍 Exemplo de entidade processada:")
-            print(f"   Nome: {exemplo.get('name', 'N/A')}")
-            print(f"   Domínio: {exemplo.get('domain', 'N/A')}")
-            print(f"   GUID: {exemplo.get('guid', 'N/A')}")
-            print(f"   Problema: {exemplo.get('problema', 'Nenhum')}")
-            
-            # Mostrar estrutura de métricas
-            metricas = exemplo.get('metricas', {})
-            if metricas:
-                print(f"   Períodos disponíveis: {', '.join(metricas.keys())}")
-                if '30min' in metricas:
-                    print(f"   Métricas em 30min: {', '.join(metricas['30min'].keys())}")
-            else:
-                print("   Sem métricas processadas")
-                
-        print("\n✅ Teste concluído!")
-        
-    except Exception as e:
-        print(f"❌ Erro ao testar processador de entidades: {e}")
-        import traceback
-        traceback.print_exc()
