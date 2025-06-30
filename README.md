@@ -14,6 +14,7 @@ O sistema foi aprimorado para economizar tokens da API OpenAI através de:
 - **Coleta Avançada Otimizada**: Integração entre coletor avançado e filtros rigorosos
 
 Para mais detalhes, consulte:
+
 - [OTIMIZACAO_TOKENS.md](backend/OTIMIZACAO_TOKENS.md) - Detalhes técnicos da otimização
 - [README_ECONOMIZADOR_TOKENS.md](backend/README_ECONOMIZADOR_TOKENS.md) - Guia completo
 

@@ -5,6 +5,7 @@ Este conjunto de scripts e modificações otimiza o Analyst IA para economizar t
 ## Problema Resolvido
 
 O sistema estava consumindo tokens desnecessariamente ao processar:
+
 - Entidades sem dados reais
 - Métricas vazias, nulas ou em branco
 - Estruturas de dados incompletas ou inválidas
@@ -14,6 +15,7 @@ O sistema estava consumindo tokens desnecessariamente ao processar:
 ### 1. Filtragem Rigorosa de Entidades
 
 Modificamos o `entity_processor.py` para:
+
 - Validar dados reais antes de processamento
 - Descartar entidades sem métricas significativas
 - Converter corretamente strings JSON para dicionários
@@ -22,6 +24,7 @@ Modificamos o `entity_processor.py` para:
 ### 2. Coleta Otimizada Integrada com Coletor Avançado
 
 Criamos `coleta_otimizada.py` que:
+
 - Usa o coletor avançado para obter todos os tipos de dados do New Relic
 - Aplica filtragem rigorosa durante o processamento
 - Gera cache otimizado separado para validação
@@ -30,6 +33,7 @@ Criamos `coleta_otimizada.py` que:
 ### 3. Monitoramento de Economia
 
 Implementamos `monitor_economia_tokens.py` para:
+
 - Calcular economia estimada de tokens
 - Acompanhar histórico de consumo
 - Gerar gráficos de desempenho
@@ -38,6 +42,7 @@ Implementamos `monitor_economia_tokens.py` para:
 ### 4. Execução Simplificada
 
 O script `executar_coleta_otimizada.py` integra:
+
 - Coleta avançada com filtragem rigorosa
 - Geração de relatórios de economia
 - Validação de cache otimizado
@@ -54,6 +59,7 @@ python executar_coleta_otimizada.py
 ```
 
 Isso executará todo o pipeline otimizado e gerará:
+
 - Cache otimizado em `historico/cache_otimizado.json`
 - Relatório de economia em `relatorios/economia_tokens/`
 - Log detalhado do processo
@@ -82,10 +88,12 @@ python analise_economia_tokens.py
 
 ## Arquivos Criados/Modificados
 
-### Arquivos Modificados:
+### Arquivos Modificados
+
 - `utils/entity_processor.py` - Implementação de filtragem rigorosa
 
-### Arquivos Criados:
+### Arquivos Criados
+
 - `coleta_otimizada.py` - Coleta com filtro rigoroso
 - `monitor_economia_tokens.py` - Análise de economia
 - `analise_economia_tokens.py` - Teste de impacto
