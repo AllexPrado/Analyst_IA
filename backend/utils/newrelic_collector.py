@@ -21,6 +21,7 @@ if not logger.hasHandlers():
     logger.addHandler(handler)
 
 NEW_RELIC_API_KEY = os.getenv("NEW_RELIC_API_KEY")
+NEW_RELIC_QUERY_KEY = os.getenv("NEW_RELIC_QUERY_KEY")
 NEW_RELIC_ACCOUNT_ID = os.getenv("NEW_RELIC_ACCOUNT_ID")
 
 # Configurações de timeout ajustadas para prevenir bloqueios no frontend
@@ -29,9 +30,9 @@ DEFAULT_TIMEOUT = 30.0  # Timeout padrão de 30 segundos para requisições HTTP
 MAX_RETRIES = 2  # Número máximo de tentativas
 RETRY_DELAY = 1.0  # Tempo de espera entre tentativas (segundos)
 
-if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID:
-    logger.critical("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
-    raise RuntimeError("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID or not NEW_RELIC_QUERY_KEY:
+    logger.critical("NEW_RELIC_API_KEY, NEW_RELIC_QUERY_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+    raise RuntimeError("NEW_RELIC_API_KEY, NEW_RELIC_QUERY_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
 
 # Log para confirmar que as credenciais foram carregadas corretamente
 logger.info(f"New Relic Account ID carregado: {NEW_RELIC_ACCOUNT_ID}")
@@ -159,15 +160,16 @@ class NewRelicCollector:
     Coletor principal do New Relic com circuit breaker, rate limiting e fallback
     """
     
-    def __init__(self, api_key: str, account_id: str):
+    def __init__(self, api_key: str, account_id: str, query_key: str = None):
         self.api_key = api_key
+        self.query_key = query_key or NEW_RELIC_QUERY_KEY
         self.account_id = account_id
         self.base_url = "https://api.newrelic.com/graphql"
         self.rate_controller = RateLimitController()
         self.last_successful_request = None
         
-        if not api_key or not account_id:
-            raise ValueError("API Key e Account ID são obrigatórios")
+        if not api_key or not account_id or not self.query_key:
+            raise ValueError("API Key, Query Key e Account ID são obrigatórios")
     
     async def execute_nrql_query(self, query: str, timeout: int = None) -> Dict:
         """
@@ -176,7 +178,7 @@ class NewRelicCollector:
         # Usa o timeout definido globalmente se não for especificado
         if timeout is None:
             timeout = DEFAULT_TIMEOUT
-            
+        
         max_retries = MAX_RETRIES
         
         for attempt in range(max_retries):
@@ -188,7 +190,7 @@ class NewRelicCollector:
                 
                 # Preparar request GraphQL
                 headers = {
-                    'Api-Key': self.api_key,
+                    'Api-Key': self.query_key,
                     'Content-Type': 'application/json'
                 }
                 
@@ -402,6 +404,7 @@ class NewRelicCollector:
         """
         Coleta métricas para uma entidade específica com base no seu tipo
         Implementa estratégias específicas por domínio/tipo para maximizar dados úteis
+        Ajustado para extrair o valor real das métricas essenciais.
         """
         try:
             guid = entity.get('guid')
@@ -412,7 +415,7 @@ class NewRelicCollector:
             if not guid:
                 logger.warning(f"Entidade sem GUID não pode ter métricas coletadas: {name}")
                 return {}
-                
+            
             logger.info(f"Coletando métricas para entidade: {name} ({domain}/{entity_type})")
             
             metrics = {}
@@ -428,7 +431,9 @@ class NewRelicCollector:
                         apdex_query = f"SELECT apdexScore as score FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         apdex_result = await self.execute_nrql_query(apdex_query)
                         if apdex_result and isinstance(apdex_result, list) and len(apdex_result) > 0:
-                            metrics[period_key]['apdex'] = apdex_result
+                            value = apdex_result[0].get('score')
+                            if value is not None:
+                                metrics[period_key]['apdex'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Apdex para {name}: {e}")
                     
@@ -437,7 +442,10 @@ class NewRelicCollector:
                         response_time_query = f"SELECT max(duration) as 'max.duration' FROM Transaction WHERE entity.guid = '{guid}' {period_query}"
                         response_time_result = await self.execute_nrql_query(response_time_query)
                         if response_time_result and isinstance(response_time_result, list) and len(response_time_result) > 0:
-                            metrics[period_key]['response_time_max'] = response_time_result
+                            value = response_time_result[0].get('max.duration')
+                            if value is not None:
+                                metrics[period_key]['response_time_max'] = value
+                                metrics[period_key]['response_time'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Response Time para {name}: {e}")
                     
@@ -446,7 +454,9 @@ class NewRelicCollector:
                         error_query = f"SELECT latest(errorRate) as 'error_rate' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         error_result = await self.execute_nrql_query(error_query)
                         if error_result and isinstance(error_result, list) and len(error_result) > 0:
-                            metrics[period_key]['error_rate'] = error_result
+                            value = error_result[0].get('error_rate')
+                            if value is not None:
+                                metrics[period_key]['error_rate'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Error Rate para {name}: {e}")
                     
@@ -464,7 +474,9 @@ class NewRelicCollector:
                         throughput_query = f"SELECT average(newRelic.throughput) as 'avg.qps' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         throughput_result = await self.execute_nrql_query(throughput_query)
                         if throughput_result and isinstance(throughput_result, list) and len(throughput_result) > 0:
-                            metrics[period_key]['throughput'] = throughput_result
+                            value = throughput_result[0].get('avg.qps')
+                            if value is not None:
+                                metrics[period_key]['throughput'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Throughput para {name}: {e}")
                 
@@ -474,7 +486,9 @@ class NewRelicCollector:
                         apdex_query = f"SELECT apdexScore as score FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         apdex_result = await self.execute_nrql_query(apdex_query)
                         if apdex_result and isinstance(apdex_result, list) and len(apdex_result) > 0:
-                            metrics[period_key]['apdex'] = apdex_result
+                            value = apdex_result[0].get('score')
+                            if value is not None:
+                                metrics[period_key]['apdex'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Apdex para Browser {name}: {e}")
                     
@@ -483,7 +497,9 @@ class NewRelicCollector:
                         load_time_query = f"SELECT average(pageLoadTime) as 'avg.loadTime' FROM PageView WHERE entity.guid = '{guid}' {period_query}"
                         load_time_result = await self.execute_nrql_query(load_time_query)
                         if load_time_result and isinstance(load_time_result, list) and len(load_time_result) > 0:
-                            metrics[period_key]['page_load_time'] = load_time_result
+                            value = load_time_result[0].get('avg.loadTime')
+                            if value is not None:
+                                metrics[period_key]['page_load_time'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Page Load Time para Browser {name}: {e}")
                     
@@ -495,14 +511,16 @@ class NewRelicCollector:
                             metrics[period_key]['js_errors'] = js_error_result
                     except Exception as e:
                         logger.warning(f"Erro ao coletar JavaScript Errors para Browser {name}: {e}")
-                    
+                
                 elif domain == 'INFRA':
                     # Coleta CPU Usage
                     try:
                         cpu_query = f"SELECT average(cpuPercent) as 'avg.cpu' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         cpu_result = await self.execute_nrql_query(cpu_query)
                         if cpu_result and isinstance(cpu_result, list) and len(cpu_result) > 0:
-                            metrics[period_key]['cpu_usage'] = cpu_result
+                            value = cpu_result[0].get('avg.cpu')
+                            if value is not None:
+                                metrics[period_key]['cpu_usage'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar CPU Usage para {name}: {e}")
                     
@@ -511,7 +529,9 @@ class NewRelicCollector:
                         memory_query = f"SELECT average(memoryUsedBytes)/average(memoryTotalBytes)*100 as 'memory_percent' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         memory_result = await self.execute_nrql_query(memory_query)
                         if memory_result and isinstance(memory_result, list) and len(memory_result) > 0:
-                            metrics[period_key]['memory_usage'] = memory_result
+                            value = memory_result[0].get('memory_percent')
+                            if value is not None:
+                                metrics[period_key]['memory_usage'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Memory Usage para {name}: {e}")
                     
@@ -520,7 +540,9 @@ class NewRelicCollector:
                         disk_query = f"SELECT average(diskUsedPercent) as 'disk_percent' FROM Metric WHERE entity.guid = '{guid}' {period_query}"
                         disk_result = await self.execute_nrql_query(disk_query)
                         if disk_result and isinstance(disk_result, list) and len(disk_result) > 0:
-                            metrics[period_key]['disk_usage'] = disk_result
+                            value = disk_result[0].get('disk_percent')
+                            if value is not None:
+                                metrics[period_key]['disk_usage'] = value
                     except Exception as e:
                         logger.warning(f"Erro ao coletar Disk Usage para {name}: {e}")
                 
@@ -634,13 +656,14 @@ async def main():
     load_dotenv()
     
     api_key = os.getenv('NEW_RELIC_API_KEY')
+    query_key = os.getenv('NEW_RELIC_QUERY_KEY')
     account_id = os.getenv('NEW_RELIC_ACCOUNT_ID')
     
-    if not api_key or not account_id:
-        logger.error("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID devem estar configurados no .env")
+    if not api_key or not account_id or not query_key:
+        logger.error("NEW_RELIC_API_KEY, NEW_RELIC_QUERY_KEY e NEW_RELIC_ACCOUNT_ID devem estar configurados no .env")
         return
     
-    collector = NewRelicCollector(api_key=api_key, account_id=account_id)
+    collector = NewRelicCollector(api_key=api_key, account_id=account_id, query_key=query_key)
     
     print("=== TESTE DO NEW RELIC COLLECTOR ===")
     
@@ -693,7 +716,7 @@ async def coletar_contexto_completo():
     """
     Coleta o contexto completo do New Relic incluindo entidades e suas métricas
     """
-    collector = NewRelicCollector(NEW_RELIC_API_KEY, NEW_RELIC_ACCOUNT_ID)
+    collector = NewRelicCollector(NEW_RELIC_API_KEY, NEW_RELIC_ACCOUNT_ID, NEW_RELIC_QUERY_KEY)
     try:
         # Coleta entidades com métricas
         entities = await collector.collect_entities_with_metrics()

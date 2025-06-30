@@ -1,0 +1,36 @@
+{
+  "status_geral": "CRÍTICO",
+  "alertas_ativos": 0,
+  "entidades_monitoradas": 195,
+  "indicadores": {
+    "apdex": 0.75,
+    "erro": 0.57,
+    "latencia": 0.8,
+    "throughput": 4136
+  },
+  "entidades_por_status": {
+    "saudaveis": 123,
+    "atencao": 28,
+    "criticas": 5
+  },
+  "principais_alertas": [
+    {
+      "entidade": "api-gateway",
+      "severidade": "CRÍTICO",
+      "mensagem": "Latência elevada nas chamadas externas",
+      "desde": "2025-06-29T08:15:30Z"
+    },
+    {
+      "entidade": "payment-service",
+      "severidade": "ATENÇÃO",
+      "mensagem": "Taxa de erro acima do limiar",
+      "desde": "2025-06-29T09:30:00Z"
+    },
+    {
+      "entidade": "user-db",
+      "severidade": "ATENÇÃO",
+      "mensagem": "Uso de CPU elevado",
+      "desde": "2025-06-28T23:45:10Z"
+    }
+  ]
+}

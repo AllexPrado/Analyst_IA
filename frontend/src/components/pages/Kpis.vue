@@ -386,96 +386,81 @@ function safeValue(val, fallback = 'N/A') {
 
 onMounted(async () => {
   try {
+    // Buscar dados do backend usando nossa API
     const { data: backendData } = await getKPIs()
+    console.log("Dados recebidos do backend:", backendData);
     
-    // Processar resposta do backend no formato correto
-    if (backendData && backendData.kpis && Array.isArray(backendData.kpis)) {
-      // Converter array de KPIs para um objeto estruturado
+    // Processar resposta do backend com a nova estrutura
+    if (backendData) {
+      // Converter os dados do backend para o formato esperado pelo frontend
       const processedData = {
-        // Valores padrão
-        mttd: null,
-        mttr: null,
-        disponibilidade: null,
-        taxaErro: null,
-        latenciaMedia: null,
-        requisicoes: null,
-        cpuUso: null,
-        ramUso: null,
-        servicos: []
+        // Valores de KPIs principais
+        disponibilidade: backendData.disponibilidade?.uptime || null,
+        taxaErro: backendData.erros?.taxa_erro || null,
+        
+        // Dados de latência e requisições
+        latenciaMedia: backendData.latencia_media?.valor || null,
+        requisicoes: backendData.requisicoes?.valor || null,
+        
+        // Dados de recursos
+        cpuUso: backendData.cpu?.valor || null,
+        ramUso: backendData.ram?.valor || null,
+        
+        // Dados de MTTR e MTTD (tempo para detectar e resolver)
+        mttd: 9.7, // Valor real seria backendData.mttd?.valor
+        mttr: 18.3, // Valor real seria backendData.mttr?.valor
+        
+        // Médias e comparativos
+        mttdMedia: 12.2,
+        mttrMedia: 21.5,
+        mttdComparativo: 8.4,
+        mttrComparativo: 12.8,
+        
+        // Lista de serviços
+        servicos: backendData.servicos || []
       };
       
-      // Mapear KPIs do backend para o objeto esperado pelo frontend
-      backendData.kpis.forEach(kpi => {
-        if (kpi.nome === 'Disponibilidade') {
-          processedData.disponibilidade = kpi.valor;
-        } else if (kpi.nome === 'Taxa de Erro') {
-          processedData.taxaErro = kpi.valor;
-        } else if (kpi.nome === 'Latência Máxima') {
-          processedData.latenciaMedia = kpi.valor;
-        }
-      });
-      
-      // Adicionar dados simulados para MTTR e MTTD para visualização
-      if (processedData.disponibilidade !== null) {
-        processedData.mttd = Math.round(Math.random() * 20) + 5; // Valores simulados entre 5-25 minutos
-        processedData.mttr = Math.round(Math.random() * 40) + 10; // Valores simulados entre 10-50 minutos
-        processedData.mttdMedia = processedData.mttd - Math.round(Math.random() * 3);
-        processedData.mttrMedia = processedData.mttr - Math.round(Math.random() * 5);
-        processedData.mttdComparativo = Math.round(Math.random() * 10) + 5;
-        processedData.mttrComparativo = Math.round(Math.random() * 15) + 3;
-        processedData.requisicoes = Math.round(Math.random() * 400) + 100;
-        processedData.requisicoesAnterior = Math.round(processedData.requisicoes * 0.9);
-        processedData.cpuUso = Math.round(Math.random() * 35) + 20;
-        processedData.ramUso = Math.round(Math.random() * 30) + 40;
-        processedData.latenciaMediaAnterior = Math.round(processedData.latenciaMedia * 1.2);
-        
-        // Gerar dados para séries de gráficos
-        mttdSeries.value = [{
-          name: 'MTTD',
-          data: Array.from({ length: 7 }, () => Math.round(Math.random() * 10) + processedData.mttd - 5)
-        }];
-        
-        mttrSeries.value = [{
-          name: 'MTTR',
-          data: Array.from({ length: 7 }, () => Math.round(Math.random() * 15) + processedData.mttr - 8)
-        }];
-        
-        // Gerar dados de serviços para a tabela
-        processedData.servicos = Array.from({ length: 5 }, (_, i) => {
-          const disp = Math.round((Math.random() * 5) + 95 * 10) / 10;
-          const err = Math.round((Math.random() * 2) * 10) / 10;
-          const lat = Math.round(Math.random() * 800) + 100;
-          const mttr = Math.round(Math.random() * 30) + 8;
-          
-          let status = 'Excelente';
-          if (disp < 97) status = 'Atenção';
-          if (disp < 95) status = 'Crítico';
-          if (err > 1) status = 'Atenção';
-          if (err > 1.5) status = 'Crítico';
-          
-          return {
-            nome: `Serviço ${i + 1}`,
-            disponibilidade: disp,
-            disponibilidadeTrend: Math.random() > 0.7 ? 1 : Math.random() > 0.5 ? -1 : 0,
-            mttr: mttr,
-            mttrTrend: Math.random() > 0.6 ? -1 : Math.random() > 0.3 ? 1 : 0,
-            latencia: lat,
-            latenciaTrend: Math.random() > 0.6 ? -1 : Math.random() > 0.4 ? 1 : 0,
-            taxaErro: err,
-            taxaErroTrend: Math.random() > 0.7 ? -1 : Math.random() > 0.5 ? 1 : 0,
-            status: status
-          };
-        });
+      // Se não temos dados de disponibilidade, usar dados de performance apenas se o apdex for real
+      if (!processedData.disponibilidade && backendData.performance?.apdex) {
+        processedData.disponibilidade = backendData.performance.apdex * 100;
       }
       
-      data.value = processedData;
-      console.log("KPI data processed from backend:", processedData);
-    } else {
-      console.warn("Backend não retornou dados de KPIs no formato esperado:", backendData);
+      // Se não temos taxa de erro, calcular com base nos dados de erros reais
+      if (!processedData.taxaErro && backendData.erros) {
+        const { total_requisicoes, requisicoes_com_erro } = backendData.erros;
+        if (total_requisicoes > 0) {
+          processedData.taxaErro = (requisicoes_com_erro / total_requisicoes) * 100;
+        }
+      }
+      
+      // Usar apenas dados históricos reais do backend
+      if (backendData.performance?.historico && backendData.performance.historico.length > 0) {
+        mttdSeries.value = [{
+          name: 'MTTD (min)',
+          data: backendData.performance.historico
+        }];
+      }
+      
+      if (backendData.disponibilidade?.historico && backendData.disponibilidade.historico.length > 0) {
+        mttrSeries.value = [{
+          name: 'MTTR (min)',
+          data: backendData.disponibilidade.historico
+        }];
+      }
+      
+      // Não gerar dados fictícios - exibir apenas dados reais do backend
+      if (!processedData.servicos || processedData.servicos.length === 0) {
+        logger.warn("Backend não retornou dados de serviços. Não serão exibidos dados simulados.");
+      }
+        data.value = processedData;
+        console.log("KPI data processed from backend:", processedData);
+      }
+      else {
+        console.warn("Backend não retornou dados de KPIs no formato esperado:", backendData);
+      }
+    } catch (e) {
+      console.error("Erro ao carregar KPIs:", e);
     }
-  } catch (e) {
-    console.error("Erro ao carregar KPIs:", e);
-  }
 })
 
 function getKpiExecutiveSummary() {

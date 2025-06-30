@@ -1,14 +1,27 @@
-# Analyst_IA: Sistema Integrado de Monitoramento e Análise (Versão Econômica)
+# Analyst_IA: Sistema Integrado de Monitoramento e Análise (Versão Avançada)
 
 ## Sobre o Projeto
 
-Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi otimizada para reduzir o consumo de tokens da API OpenAI.
+Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi aprimorada com o coletor avançado do New Relic e sistema avançado de economia de tokens.
 
-## Otimização de Tokens
+## Recursos Avançados
+
+### Coletor Avançado New Relic
+
+O sistema agora utiliza o coletor avançado que obtém todos os tipos de dados disponíveis na plataforma New Relic:
+
+- **Métricas Tradicionais**: Apdex, Response Time, Error Rate, Throughput
+- **Logs Detalhados**: Mensagens de log com contexto completo
+- **Traces Distribuídos**: Fluxos de execução entre serviços
+- **Queries SQL**: Consultas SQL com parâmetros e tempos de execução
+- **Backtraces de Erros**: Pilhas de erros detalhadas
+- **Métricas de Infraestrutura**: CPU, Memória, Disco, Rede
+
+### Sistema de Economia de Tokens
 
 O sistema foi aprimorado para economizar tokens da API OpenAI através de:
 
-- **Filtragem Rigorosa**: Apenas entidades com dados reais são processadas
+- **Filtragem Rigorosa**: Apenas entidades com dados reais são processadas (economia de 30-60%)
 - **Processamento Inteligente**: Eliminação automática de dados nulos/vazios
 - **Monitoramento de Economia**: Acompanhamento e visualização da economia de tokens
 - **Coleta Avançada Otimizada**: Integração entre coletor avançado e filtros rigorosos
@@ -16,7 +29,9 @@ O sistema foi aprimorado para economizar tokens da API OpenAI através de:
 Para mais detalhes, consulte:
 
 - [OTIMIZACAO_TOKENS.md](backend/OTIMIZACAO_TOKENS.md) - Detalhes técnicos da otimização
-- [README_ECONOMIZADOR_TOKENS.md](backend/README_ECONOMIZADOR_TOKENS.md) - Guia completo
+- [README_ECONOMIZADOR_TOKENS.md](backend/README_ECONOMIZADOR_TOKENS.md) - Guia completo do sistema de economia
+- [RESUMO_INTEGRACOES.md](RESUMO_INTEGRACOES.md) - Resumo das integrações realizadas
+- [BACKUP_E_RECUPERACAO.md](BACKUP_E_RECUPERACAO.md) - Procedimentos de backup e recuperação
 
 ## Componentes do Sistema
 

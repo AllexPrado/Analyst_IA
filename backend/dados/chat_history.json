@@ -1,0 +1,107 @@
+[
+  {
+    "pergunta": "status",
+    "resposta": "O sistema está operacional e monitorando seus ambientes através do New Relic. Use este chat para obter análises e insights sobre seus serviços.",
+    "timestamp": "2025-06-29T19:00:00.000000"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T20:21:40.474286"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T20:21:43.081388"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "Não encontrei dados de performance suficientes. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-06-29T20:22:10.229098"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T20:55:57.727636"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T21:11:08.470370"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 5 entidades monitoradas APM: 2, INFRA: 2, BROWSER: 1. O Apdex score médio é 0.90. A taxa de erro média é 0.74%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T22:56:14.358342"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T23:09:49.058936"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T23:10:11.065249"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T23:10:26.778644"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T23:10:50.286876"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimos 7 dias? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo.",
+    "resposta": "Não encontrei dados de erros suficientes. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-06-29T23:11:22.843060"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-29T23:23:00.331553"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:00:18.241121"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:00:29.769152"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:01:24.402276"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo.",
+    "resposta": "Não encontrei dados de erros suficientes. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-06-30T00:01:35.849506"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:05:59.633301"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:06:14.048387"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:17:45.460268"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T00:17:50.243071"
+  }
+]

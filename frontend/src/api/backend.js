@@ -18,6 +18,8 @@ export const getInsights = () => api.get('/insights')
 export const getChatResposta = (pergunta) => api.post('/chat', { pergunta: pergunta })
 export const getEntidades = () => api.get('/entidades')
 export const atualizarCacheAPI = () => api.post('/cache/atualizar')
+export const atualizarCacheAvancadoAPI = () => api.post('/cache/atualizar_avancado')
+export const getDiagnosticoCache = () => api.get('/cache/diagnostico')
 export const getHealth = () => api.get('/health')
 export const resetTokenLimits = () => api.post('/limits/reset')
 

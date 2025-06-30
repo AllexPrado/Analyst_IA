@@ -88,6 +88,17 @@
                     {{ getEntityErrors(entity) }}
                   </div>
                 </div>
+                
+                <!-- Painel de dados avançados -->
+                <div v-if="hasAdvancedData(entity)" class="mt-4 pt-4 border-t border-gray-700">
+                  <div class="flex items-center mb-3">
+                    <h5 class="font-medium text-blue-300">Dados avançados</h5>
+                    <span v-if="getAdvancedDataCount(entity) > 0" class="ml-2 text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded-full">
+                      {{ getAdvancedDataCount(entity) }} registros
+                    </span>
+                  </div>
+                  <advanced-data-panel :entity-data="entity" />
+                </div>
               </template>
 
               <template v-else-if="selectedDomain === 'BROWSER'">
@@ -111,6 +122,17 @@
                     {{ getEntityJsErrors(entity) }}
                   </div>
                 </div>
+                
+                <!-- Painel de dados avançados para Browser -->
+                <div v-if="hasAdvancedData(entity)" class="mt-4 pt-4 border-t border-gray-700">
+                  <div class="flex items-center mb-3">
+                    <h5 class="font-medium text-blue-300">Dados avançados</h5>
+                    <span v-if="getAdvancedDataCount(entity) > 0" class="ml-2 text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded-full">
+                      {{ getAdvancedDataCount(entity) }} registros
+                    </span>
+                  </div>
+                  <advanced-data-panel :entity-data="entity" />
+                </div>
               </template>
 
               <template v-else-if="selectedDomain === 'INFRA'">
@@ -127,6 +149,17 @@
                     <div class="text-gray-400">Uptime</div>
                     <div class="font-bold text-white">{{ formatUptimeValue(getEntityMetric(entity, 'uptime')) }}</div>
                   </div>
+                </div>
+                
+                <!-- Painel de dados avançados para Infra -->
+                <div v-if="hasAdvancedData(entity)" class="mt-4 pt-4 border-t border-gray-700">
+                  <div class="flex items-center mb-3">
+                    <h5 class="font-medium text-blue-300">Dados avançados</h5>
+                    <span v-if="getAdvancedDataCount(entity) > 0" class="ml-2 text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded-full">
+                      {{ getAdvancedDataCount(entity) }} registros
+                    </span>
+                  </div>
+                  <advanced-data-panel :entity-data="entity" />
                 </div>
               </template>
 
@@ -150,6 +183,17 @@
                   <div class="bg-gray-900 p-3 rounded text-xs overflow-auto max-h-40">
                     {{ getEntitySlowQueries(entity) }}
                   </div>
+                </div>
+                
+                <!-- Painel de dados avançados para DB -->
+                <div v-if="hasAdvancedData(entity)" class="mt-4 pt-4 border-t border-gray-700">
+                  <div class="flex items-center mb-3">
+                    <h5 class="font-medium text-blue-300">Dados avançados</h5>
+                    <span v-if="getAdvancedDataCount(entity) > 0" class="ml-2 text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded-full">
+                      {{ getAdvancedDataCount(entity) }} registros
+                    </span>
+                  </div>
+                  <advanced-data-panel :entity-data="entity" />
                 </div>
               </template>
 
@@ -489,6 +533,39 @@ const formatUptimeValue = (seconds) => {
 
 const selectDomain = (domain) => {
   selectedDomain.value = domain
+}
+
+// Métodos para dados avançados
+const hasAdvancedData = (entity) => {
+  return entity && (
+    (entity.logs && entity.logs.length > 0) || 
+    (entity.traces && entity.traces.length > 0) || 
+    (entity.queries && entity.queries.length > 0) ||
+    (entity.errors && entity.errors.length > 0)
+  )
+}
+
+const getAdvancedDataCount = (entity) => {
+  if (!entity) return 0
+  let count = 0
+  
+  if (entity.logs) count += entity.logs.length
+  if (entity.traces) count += entity.traces.length
+  if (entity.queries) count += entity.queries.length
+  if (entity.errors) count += entity.errors.length
+  
+  return count
+}
+
+// Importar componentes necessários
+import AdvancedDataPanel from './AdvancedDataPanel.vue'
+</script>
+
+<script>
+export default {
+  components: {
+    AdvancedDataPanel
+  }
 }
 </script>
 

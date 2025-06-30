@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import sys
 import json
 import logging
@@ -19,12 +22,17 @@ except ImportError:
     TIKTOKEN_AVAILABLE = False
     print("Warning: tiktoken não disponível. Usando fallback para contagem de tokens.")
 
+# Importar o router principal
+from core_router import api_router
+
+import uvicorn
+from core_router import api_router
+
 import uvicorn
 from fastapi import FastAPI, HTTPException, status, BackgroundTasks, Request, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 
 # Configuração de logging
@@ -46,9 +54,6 @@ logging.getLogger('').addHandler(console)
 
 logger = logging.getLogger(__name__)
 
-# Carrega variáveis de ambiente
-load_dotenv()
-
 # Configuração da aplicação
 app = FastAPI(
     title="Analyst-IA API",
@@ -64,6 +69,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Incluir os endpoints do router principal
+app.include_router(api_router, prefix="/api")
+
+# Criar diretório de dados se não existir
+os.makedirs("dados", exist_ok=True)
 
 class ChatInput(BaseModel):
     pergunta: str = ""
@@ -242,18 +253,23 @@ async def chat_endpoint(input: ChatInput):
         if entidades_removidas > 0:
             logger.info(f"Limpeza de cache removeu {entidades_removidas} entidades inválidas antes de processar pergunta")
         
-        # Agora busca no cache limpo
+        # Agora busca no cache limpo usando o coletor avançado se disponível
+        # Usa o coletor avançado se disponível, caso contrário usa o padrão
+        coletor_fn = coletar_contexto_avancado if COLETOR_AVANCADO_DISPONIVEL else coletar_contexto_completo
+        coletor_nome = "avançado" if COLETOR_AVANCADO_DISPONIVEL else "padrão"
+        logger.info(f"Usando coletor {coletor_nome} para buscar no cache")
+        
         for tentativa in range(2):
             contexto = await buscar_no_cache_por_pergunta(
                 input.pergunta,
                 atualizar_se_necessario=True,
-                coletar_contexto_fn=coletar_contexto_completo
+                coletar_contexto_fn=coletor_fn
             )
             entidades = contexto.get("entidades", [])
             if entidades:
                 break
             logger.info("Nenhuma entidade encontrada no cache, forçando atualização...")
-            await forcar_atualizacao_cache(coletar_contexto_completo)
+            await forcar_atualizacao_cache(coletor_fn)
             
         # Garante que as entidades sejam filtradas para ter apenas dados reais
         entidades_originais = contexto.get("entidades", [])
@@ -449,7 +465,7 @@ async def chat_endpoint(input: ChatInput):
                     "2. Analisar as queries SQL associadas que possam estar causando lentidão\n"
                     "3. Examinar stacktraces para identificar funções problemáticas\n"
                     "4. Correlacionar tempos de resposta com throughput e erros\n"
-                    "5. Sugerir consultas NRQL específicas para análise aprofundada de performance\n"
+                    "5. Realizar consultas NRQL específicas para análise aprofundada de performance\n"
                     "6. Oferecer recomendações concretas para otimização\n"
                 )
             elif intent_info['tipo_consulta'] == 'sql_performance':
@@ -1210,13 +1226,12 @@ async def get_entidades():
     try:
         cache = await get_cache()
         entidades = cache.get("entidades", [])
-        
-        # Processa e filtra entidades para garantir dados válidos
+        entidades = entidades or []
         entidades_validas = filter_entities_with_data(entidades)
-        
+        entidades_validas = entidades_validas or []
         logger.info(f"Retornando {len(entidades_validas)} entidades válidas de {len(entidades)} totais")
         return entidades_validas
-    
     except Exception as e:
-        logger.error(f"Erro ao buscar entidades: {e}", exc_info=True)
+        logger.error(f"Erro ao buscar entidades: {e}")
+        logger.error(traceback.format_exc())
         return []

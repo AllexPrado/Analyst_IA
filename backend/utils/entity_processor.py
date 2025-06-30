@@ -15,9 +15,7 @@ def is_entity_valid(entity: Dict) -> bool:
     """
     Verifica se uma entidade possui dados válidos e não-nulos
     que justifiquem enviá-la para o frontend.
-    
-    Critérios BALANCEADOS para garantir que apenas entidades com dados reais
-    sejam enviadas ao frontend, economizando tokens.
+    Critérios: aceitar entidades com pelo menos UMA métrica essencial real em qualquer período.
     """
     # Verifica se a entidade existe
     if entity is None or not isinstance(entity, dict):
@@ -25,68 +23,30 @@ def is_entity_valid(entity: Dict) -> bool:
         return False
     
     # Verifica campos básicos obrigatórios
-    if not entity.get('name'):
-        logger.debug(f"Entidade rejeitada: sem nome - {entity.get('guid', 'sem-guid')}")
+    if not entity.get('name') or not entity.get('guid') or not entity.get('domain'):
+        logger.debug(f"Entidade rejeitada: sem dados básicos obrigatórios - {entity.get('guid', 'sem-guid')}")
         return False
     
     # Rejeita entidades com problemas explícitos de coleta
-    if entity.get('problema') in ['INVALID_QUERY', 'NO_DATA', 'NO_VALID_METRICS', 'INVALID_JSON_DETAIL', 'PROCESSING_ERROR']:
+    if entity.get('problema') in ['INVALID_QUERY', 'NO_DATA', 'NO_VALID_METRICS', 'INVALID_JSON_DETAIL', 'PROCESSING_ERROR', 'NOT_FOUND']:
         logger.debug(f"Entidade rejeitada: problema conhecido - {entity.get('name')} - {entity.get('problema')}")
         return False
         
     # Rejeita entidades sem métricas
-    if not entity.get('metricas'):
-        logger.debug(f"Entidade rejeitada: sem métricas: {entity.get('name')} - domínio: {entity.get('domain')}")
+    if not entity.get('metricas') or not isinstance(entity.get('metricas'), dict):
+        logger.debug(f"Entidade rejeitada: sem métricas ou formato inválido: {entity.get('name')} - domínio: {entity.get('domain')}")
         return False
     
-    # Verificação de métricas úteis
-    has_real_data = False
+    # Verifica se há pelo menos um período com dados reais
+    essential_metrics = ['apdex', 'response_time', 'error_rate', 'throughput']
+    for periodo_key, periodo_data in entity.get('metricas', {}).items():
+        if isinstance(periodo_data, dict) and periodo_data:
+            for essential_metric in essential_metrics:
+                if essential_metric in periodo_data and periodo_data[essential_metric] is not None and periodo_data[essential_metric] != "" and periodo_data[essential_metric] != []:
+                    return True  # Aceita se encontrar pelo menos uma métrica essencial real
     
-    # Verifica se há pelo menos alguma métrica real útil
-    try:
-        for period, metrics in entity.get('metricas', {}).items():
-            if not metrics:
-                continue
-                
-            # Verifica se metrics é um dicionário antes de tentar usá-lo como tal
-            if isinstance(metrics, dict):
-                # Verifica se há pelo menos uma métrica com valor não nulo
-                for metric_name, metric_value in metrics.items():
-                    if metric_value is not None and metric_value != "" and metric_value != []:
-                        has_real_data = True
-                        break
-            elif isinstance(metrics, str) and metrics.strip():
-                # Tenta converter string para dicionário se for JSON
-                try:
-                    metrics_dict = json.loads(metrics.replace("'", "\""))
-                    if metrics_dict:
-                        # Verifica se há pelo menos um valor não nulo
-                        for metric_name, metric_value in metrics_dict.items():
-                            if metric_value is not None and metric_value != "" and metric_value != []:
-                                # Atualiza a entrada no dicionário para ser um dicionário real
-                                entity['metricas'][period] = metrics_dict
-                                has_real_data = True
-                                break
-                except Exception:
-                    # Não é JSON válido, verificamos se é uma string não vazia
-                    if metrics.strip():
-                        has_real_data = True
-                        break
-                        
-            # Se já encontrou dados reais, não precisa verificar mais
-            if has_real_data:
-                break
-    except Exception as e:
-        logger.error(f"Erro ao validar entidade {entity.get('name', 'unknown')}: {str(e)}")
-        return False
-    
-    # Rejeita entidades sem dados reais nas métricas
-    if not has_real_data:
-        logger.debug(f"Entidade rejeitada: sem dados reais nas métricas: {entity.get('name')}")
-        return False
-    
-    # Se chegou até aqui, a entidade é válida
-    return True
+    logger.debug(f"Entidade rejeitada: sem nenhuma métrica essencial real: {entity.get('name')}")
+    return False
 
 def process_entity_details(entity: Dict) -> Dict:
     """

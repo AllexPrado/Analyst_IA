@@ -28,25 +28,30 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 NEW_RELIC_API_KEY = os.getenv("NEW_RELIC_API_KEY")
+NEW_RELIC_QUERY_KEY = os.getenv("NEW_RELIC_QUERY_KEY")
 NEW_RELIC_ACCOUNT_ID = os.getenv("NEW_RELIC_ACCOUNT_ID")
 
-if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID:
-    logger.critical("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
-    raise RuntimeError("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID or not NEW_RELIC_QUERY_KEY:
+    logger.critical("NEW_RELIC_API_KEY, NEW_RELIC_QUERY_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+    raise RuntimeError("NEW_RELIC_API_KEY, NEW_RELIC_QUERY_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
 
 # Configurações
 TIMEOUT = 60.0  # Timeout maior para consultas complexas
 MAX_RETRIES = 3
-RETRY_DELAY = 2.0
-BATCH_SIZE = 10  # Número de consultas em paralelo
+RETRY_DELAY = 5.0  # Aumentado para evitar bloqueio
+BATCH_SIZE = 2  # Reduzido para evitar rate limit
 
 # Endpoints da API do New Relic
 NR_GRAPHQL_URL = "https://api.newrelic.com/graphql"
 NR_API_URL = f"https://api.newrelic.com/v2"
 NR_NRDB_URL = f"https://insights-api.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/query"
 
-# Headers padrão para requisições
-HEADERS = {
+# Headers separados para cada tipo de requisição
+NRQL_HEADERS = {
+    "X-Query-Key": NEW_RELIC_QUERY_KEY,
+    "Content-Type": "application/json"
+}
+GRAPHQL_HEADERS = {
     "Api-Key": NEW_RELIC_API_KEY,
     "Content-Type": "application/json"
 }
@@ -81,7 +86,7 @@ async def execute_nrql_query(nrql: str, timeout: float = TIMEOUT) -> Dict:
                 try:
                     async with session.post(
                         NR_NRDB_URL,
-                        headers=HEADERS,
+                        headers=NRQL_HEADERS,  # <-- Corrigido
                         json=data,
                         timeout=timeout
                     ) as response:
@@ -137,7 +142,7 @@ async def execute_graphql_query(query: str, variables: Optional[Dict] = None, ti
                 try:
                     async with session.post(
                         NR_GRAPHQL_URL,
-                        headers=HEADERS,
+                        headers=GRAPHQL_HEADERS,  # <-- Corrigido
                         json=data,
                         timeout=timeout
                     ) as response:

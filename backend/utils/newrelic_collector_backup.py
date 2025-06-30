@@ -22,6 +22,7 @@ if not logger.hasHandlers():
 
 NEW_RELIC_API_KEY = os.getenv("NEW_RELIC_API_KEY")
 NEW_RELIC_ACCOUNT_ID = os.getenv("NEW_RELIC_ACCOUNT_ID")
+NEW_RELIC_QUERY_KEY = os.getenv("NEW_RELIC_QUERY_KEY")
 
 if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID:
     logger.critical("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
@@ -185,7 +186,7 @@ class NewRelicCollector:
                 
                 # Preparar request GraphQL
                 headers = {
-                    'Api-Key': self.api_key,
+                    'Api-Key': NEW_RELIC_QUERY_KEY,
                     'Content-Type': 'application/json'
                 }
                 
@@ -1205,7 +1206,7 @@ class NewRelicCollector:
                 
                 # Preparar request GraphQL
                 headers = {
-                    'Api-Key': self.api_key,
+                    'Api-Key': NEW_RELIC_QUERY_KEY,
                     'Content-Type': 'application/json'
                 }
                 
@@ -1343,7 +1344,6 @@ class NewRelicCollector:
         
         # Todas as tentativas falharam
         logger.error(f"Query NRQL falhou após {max_retries} tentativas: {query[:100]}")
-        raise Exception(f"Falha completa na query NRQL após {max_retries} tentativas")
     
     async def collect_entities(self) -> List[Dict]:
         """

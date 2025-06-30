@@ -1,0 +1,3044 @@
+[
+  {
+    "id": "ent-0-browser",
+    "guid": "NR-BROWSER-25492",
+    "name": "browser-entity-0",
+    "domain": "BROWSER",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.889931046188688,
+        "response_time_max": 1797.2942071708458,
+        "throughput": 512.6745489698163,
+        "error_rate": 1.2035917156925775
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:11:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 0-0",
+        "context": {
+          "service": "browser-entity-0",
+          "request_id": "req-8740"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:16:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 0-1",
+        "context": {
+          "service": "browser-entity-0",
+          "request_id": "req-7701"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:51:40.062030Z",
+        "name": "transaction-0-0",
+        "duration": 1130.1441473114273,
+        "endpoint": "/api/orders/52",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 166.94183504453838
+          },
+          {
+            "name": "span-1",
+            "duration": 179.8778049503856
+          },
+          {
+            "name": "span-2",
+            "duration": 138.69223069155885
+          },
+          {
+            "name": "span-3",
+            "duration": 89.74747229654247
+          },
+          {
+            "name": "span-4",
+            "duration": 104.55538072205401
+          },
+          {
+            "name": "span-5",
+            "duration": 85.98805358758013
+          },
+          {
+            "name": "span-6",
+            "duration": 198.55862792315
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "name": "transaction-0-1",
+        "duration": 954.5766146600903,
+        "endpoint": "/api/products/34",
+        "spans": []
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 277.425736652636,
+        "query": "SELECT * FROM table_1 WHERE id = 279"
+      },
+      {
+        "timestamp": "2025-06-29T17:56:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 382.31538418693157,
+        "query": "SELECT * FROM table_1 WHERE id = 965"
+      },
+      {
+        "timestamp": "2025-06-29T17:17:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 192.11059392382938,
+        "query": "SELECT * FROM table_10 WHERE id = 99"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:14:40.062030Z",
+        "message": "Error in service: null reference",
+        "type": "ConnectionError",
+        "stack": "at function_72 (line 423)\nat module_14 (line 303)"
+      }
+    ]
+  },
+  {
+    "id": "ent-1-browser",
+    "guid": "NR-BROWSER-68931",
+    "name": "browser-entity-1",
+    "domain": "BROWSER",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7873081060432294,
+        "response_time_max": 1706.8399417635883,
+        "throughput": 349.2671987436281,
+        "error_rate": 3.236957223596211
+      }
+    },
+    "logs": [],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:41:40.062030Z",
+        "name": "transaction-1-0",
+        "duration": 645.5870306458258,
+        "endpoint": "/api/orders/87",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 190.89164719332427
+          },
+          {
+            "name": "span-1",
+            "duration": 102.40416743206373
+          }
+        ]
+      }
+    ],
+    "queries": [],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:09:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "ConnectionError",
+        "stack": "at function_31 (line 15)\nat module_20 (line 24)"
+      },
+      {
+        "timestamp": "2025-06-29T17:07:40.062030Z",
+        "message": "Error in service: null reference",
+        "type": "RuntimeError",
+        "stack": "at function_90 (line 279)\nat module_9 (line 176)"
+      }
+    ]
+  },
+  {
+    "id": "ent-2-apm",
+    "guid": "NR-APM-10245",
+    "name": "apm-entity-2",
+    "domain": "APM",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7618453621826915,
+        "response_time_max": 1860.6582145895625,
+        "throughput": 133.24379401929576,
+        "error_rate": 0.10608310760539919
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:19:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 2-0",
+        "context": {
+          "service": "apm-entity-2",
+          "request_id": "req-3773"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:12:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 2-1",
+        "context": {
+          "service": "apm-entity-2",
+          "request_id": "req-6737"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:54:40.062030Z",
+        "name": "transaction-2-0",
+        "duration": 1016.1588612429664,
+        "endpoint": "/api/orders/45",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 103.470954828417
+          },
+          {
+            "name": "span-1",
+            "duration": 195.06418573530254
+          },
+          {
+            "name": "span-2",
+            "duration": 61.31622698684637
+          },
+          {
+            "name": "span-3",
+            "duration": 146.15126538281655
+          },
+          {
+            "name": "span-4",
+            "duration": 49.55930697342184
+          },
+          {
+            "name": "span-5",
+            "duration": 121.26563292287665
+          },
+          {
+            "name": "span-6",
+            "duration": 188.84822308999108
+          },
+          {
+            "name": "span-7",
+            "duration": 136.39959376156224
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:07:40.062030Z",
+        "name": "transaction-2-1",
+        "duration": 795.836959453657,
+        "endpoint": "/api/orders/88",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 47.63799102921947
+          },
+          {
+            "name": "span-1",
+            "duration": 45.56674357262307
+          },
+          {
+            "name": "span-2",
+            "duration": 116.30477701926509
+          },
+          {
+            "name": "span-3",
+            "duration": 135.09407106407573
+          },
+          {
+            "name": "span-4",
+            "duration": 16.60860565519003
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:31:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 263.64835789862514,
+        "query": "SELECT * FROM table_9 WHERE id = 581"
+      },
+      {
+        "timestamp": "2025-06-29T17:16:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 159.55595752903977,
+        "query": "SELECT * FROM table_8 WHERE id = 707"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-3-browser",
+    "guid": "NR-BROWSER-99758",
+    "name": "browser-entity-3",
+    "domain": "BROWSER",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.864782059311451,
+        "response_time_max": 1565.7233775004102,
+        "throughput": 988.0472582461683,
+        "error_rate": 0.37629268428720664
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:31:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 3-0",
+        "context": {
+          "service": "browser-entity-3",
+          "request_id": "req-5150"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 3-1",
+        "context": {
+          "service": "browser-entity-3",
+          "request_id": "req-8512"
+        }
+      }
+    ],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:09:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 142.27016058045515,
+        "query": "SELECT * FROM table_3 WHERE id = 829"
+      },
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 225.6513636439349,
+        "query": "SELECT * FROM table_7 WHERE id = 480"
+      },
+      {
+        "timestamp": "2025-06-29T17:16:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 231.00666552199266,
+        "query": "SELECT * FROM table_6 WHERE id = 252"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-4-apm",
+    "guid": "NR-APM-62621",
+    "name": "apm-entity-4",
+    "domain": "APM",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.708544941352179,
+        "response_time_max": 731.6211102159201,
+        "throughput": 675.0797143425677,
+        "error_rate": 0.9922893414544148
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:21:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 4-0",
+        "context": {
+          "service": "apm-entity-4",
+          "request_id": "req-2478"
+        }
+      }
+    ],
+    "traces": [],
+    "queries": [],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T18:02:40.062030Z",
+        "message": "Error in service: validation error",
+        "type": "ConnectionError",
+        "stack": "at function_86 (line 449)\nat module_8 (line 331)"
+      },
+      {
+        "timestamp": "2025-06-29T17:53:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "TypeError",
+        "stack": "at function_27 (line 468)\nat module_7 (line 49)"
+      }
+    ]
+  },
+  {
+    "id": "ent-5-mobile",
+    "guid": "NR-MOBILE-35848",
+    "name": "mobile-entity-5",
+    "domain": "MOBILE",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8653020018224876,
+        "response_time_max": 1554.7821681284825,
+        "throughput": 356.7570748628969,
+        "error_rate": 1.5884787122087367
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:48:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 5-0",
+        "context": {
+          "service": "mobile-entity-5",
+          "request_id": "req-5371"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:54:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 5-1",
+        "context": {
+          "service": "mobile-entity-5",
+          "request_id": "req-7537"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:22:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 5-2",
+        "context": {
+          "service": "mobile-entity-5",
+          "request_id": "req-3425"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:24:40.062030Z",
+        "name": "transaction-5-0",
+        "duration": 314.21878977695786,
+        "endpoint": "/api/products/4",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 197.3125464748576
+          },
+          {
+            "name": "span-1",
+            "duration": 35.81153597479785
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "name": "transaction-5-1",
+        "duration": 1484.514767607192,
+        "endpoint": "/api/products/85",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 96.48913280163625
+          },
+          {
+            "name": "span-1",
+            "duration": 92.79766171280986
+          },
+          {
+            "name": "span-2",
+            "duration": 182.6670055208108
+          },
+          {
+            "name": "span-3",
+            "duration": 141.87291317257782
+          },
+          {
+            "name": "span-4",
+            "duration": 80.5881454250734
+          },
+          {
+            "name": "span-5",
+            "duration": 53.16656805043097
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 398.75996920619815,
+        "query": "SELECT * FROM table_2 WHERE id = 292"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-6-browser",
+    "guid": "NR-BROWSER-97127",
+    "name": "browser-entity-6",
+    "domain": "BROWSER",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8147238962768663,
+        "response_time_max": 522.0686003453907,
+        "throughput": 118.64696656936557,
+        "error_rate": 3.492554683315301
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T18:01:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 6-0",
+        "context": {
+          "service": "browser-entity-6",
+          "request_id": "req-6973"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:41:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 6-1",
+        "context": {
+          "service": "browser-entity-6",
+          "request_id": "req-8738"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:55:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 6-2",
+        "context": {
+          "service": "browser-entity-6",
+          "request_id": "req-9367"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:57:40.062030Z",
+        "name": "transaction-6-0",
+        "duration": 668.2791204818017,
+        "endpoint": "/api/orders/92",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 10.698456727161275
+          },
+          {
+            "name": "span-1",
+            "duration": 143.06588546094375
+          },
+          {
+            "name": "span-2",
+            "duration": 104.9283526822369
+          },
+          {
+            "name": "span-3",
+            "duration": 90.93577431653327
+          }
+        ]
+      }
+    ],
+    "queries": [],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:40:40.062030Z",
+        "message": "Error in service: null reference",
+        "type": "ValidationError",
+        "stack": "at function_15 (line 484)\nat module_11 (line 140)"
+      },
+      {
+        "timestamp": "2025-06-29T17:45:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "TypeError",
+        "stack": "at function_14 (line 353)\nat module_10 (line 266)"
+      }
+    ]
+  },
+  {
+    "id": "ent-7-mobile",
+    "guid": "NR-MOBILE-77112",
+    "name": "mobile-entity-7",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.9191678324783417,
+        "response_time_max": 410.4549450872164,
+        "throughput": 337.3435008000922,
+        "error_rate": 0.011622657701561012
+      }
+    },
+    "logs": [],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:50:40.062030Z",
+        "name": "transaction-7-0",
+        "duration": 1947.2079038490363,
+        "endpoint": "/api/users/71",
+        "spans": []
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:41:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 384.0138604831807,
+        "query": "SELECT * FROM table_2 WHERE id = 402"
+      },
+      {
+        "timestamp": "2025-06-29T17:37:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 98.83655033976062,
+        "query": "SELECT * FROM table_3 WHERE id = 514"
+      },
+      {
+        "timestamp": "2025-06-29T17:29:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 84.32382700526699,
+        "query": "SELECT * FROM table_9 WHERE id = 545"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:32:40.062030Z",
+        "message": "Error in service: validation error",
+        "type": "ConnectionError",
+        "stack": "at function_32 (line 12)\nat module_17 (line 209)"
+      },
+      {
+        "timestamp": "2025-06-29T18:03:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "RuntimeError",
+        "stack": "at function_51 (line 131)\nat module_15 (line 445)"
+      }
+    ]
+  },
+  {
+    "id": "ent-8-apm",
+    "guid": "NR-APM-68430",
+    "name": "apm-entity-8",
+    "domain": "APM",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.9760429439465732,
+        "response_time_max": 1672.1041518385764,
+        "throughput": 613.9415952538255,
+        "error_rate": 0.456601979092191
+      }
+    },
+    "logs": [],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T18:02:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 258.29585728886025,
+        "query": "SELECT * FROM table_6 WHERE id = 866"
+      },
+      {
+        "timestamp": "2025-06-29T17:53:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 260.62898726532296,
+        "query": "SELECT * FROM table_8 WHERE id = 284"
+      },
+      {
+        "timestamp": "2025-06-29T17:49:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 185.95395258476978,
+        "query": "SELECT * FROM table_10 WHERE id = 627"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:45:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "TypeError",
+        "stack": "at function_99 (line 184)\nat module_15 (line 152)"
+      },
+      {
+        "timestamp": "2025-06-29T17:48:40.062030Z",
+        "message": "Error in service: connection refused",
+        "type": "TypeError",
+        "stack": "at function_86 (line 232)\nat module_9 (line 190)"
+      }
+    ]
+  },
+  {
+    "id": "ent-9-infra",
+    "guid": "NR-INFRA-56346",
+    "name": "infra-entity-9",
+    "domain": "INFRA",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7134348375914106,
+        "response_time_max": 213.51920359299976,
+        "throughput": 785.3026290853264,
+        "error_rate": 1.4235779208586852
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:55:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 9-0",
+        "context": {
+          "service": "infra-entity-9",
+          "request_id": "req-9109"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:09:40.062030Z",
+        "name": "transaction-9-0",
+        "duration": 1350.9581023709159,
+        "endpoint": "/api/orders/33",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 154.5389472588771
+          },
+          {
+            "name": "span-1",
+            "duration": 163.64543831428188
+          },
+          {
+            "name": "span-2",
+            "duration": 11.079268373639882
+          },
+          {
+            "name": "span-3",
+            "duration": 75.23299233213972
+          },
+          {
+            "name": "span-4",
+            "duration": 133.19383131348093
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 469.5979016147096,
+        "query": "SELECT * FROM table_3 WHERE id = 655"
+      },
+      {
+        "timestamp": "2025-06-29T17:29:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 428.181045961019,
+        "query": "SELECT * FROM table_3 WHERE id = 806"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:33:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "ValidationError",
+        "stack": "at function_50 (line 390)\nat module_5 (line 350)"
+      },
+      {
+        "timestamp": "2025-06-29T17:21:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "ConnectionError",
+        "stack": "at function_92 (line 399)\nat module_1 (line 43)"
+      }
+    ]
+  },
+  {
+    "id": "ent-10-apm",
+    "guid": "NR-APM-64322",
+    "name": "apm-entity-10",
+    "domain": "APM",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.799551271625825,
+        "response_time_max": 1905.230034193622,
+        "throughput": 311.46814017604777,
+        "error_rate": 4.427285539068449
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:51:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 10-0",
+        "context": {
+          "service": "apm-entity-10",
+          "request_id": "req-8004"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 10-1",
+        "context": {
+          "service": "apm-entity-10",
+          "request_id": "req-4847"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:55:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 10-2",
+        "context": {
+          "service": "apm-entity-10",
+          "request_id": "req-6225"
+        }
+      }
+    ],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:29:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 94.65227104575848,
+        "query": "SELECT * FROM table_6 WHERE id = 825"
+      },
+      {
+        "timestamp": "2025-06-29T18:00:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 271.6405778693265,
+        "query": "SELECT * FROM table_8 WHERE id = 887"
+      },
+      {
+        "timestamp": "2025-06-29T17:05:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 317.67385710839415,
+        "query": "SELECT * FROM table_2 WHERE id = 226"
+      },
+      {
+        "timestamp": "2025-06-29T17:33:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 36.12296925279428,
+        "query": "SELECT * FROM table_6 WHERE id = 520"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:28:40.062030Z",
+        "message": "Error in service: null reference",
+        "type": "RuntimeError",
+        "stack": "at function_51 (line 260)\nat module_10 (line 141)"
+      }
+    ]
+  },
+  {
+    "id": "ent-11-mobile",
+    "guid": "NR-MOBILE-63703",
+    "name": "mobile-entity-11",
+    "domain": "MOBILE",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7048032162316819,
+        "response_time_max": 867.3900719700742,
+        "throughput": 656.7181321294714,
+        "error_rate": 0.5719080697403528
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 11-0",
+        "context": {
+          "service": "mobile-entity-11",
+          "request_id": "req-2763"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:58:40.062030Z",
+        "name": "transaction-11-0",
+        "duration": 1681.4896945074515,
+        "endpoint": "/api/users/68",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 194.6993188876691
+          },
+          {
+            "name": "span-1",
+            "duration": 185.47030181580118
+          },
+          {
+            "name": "span-2",
+            "duration": 174.48082816231368
+          },
+          {
+            "name": "span-3",
+            "duration": 56.93432445441504
+          },
+          {
+            "name": "span-4",
+            "duration": 142.37599533529897
+          },
+          {
+            "name": "span-5",
+            "duration": 12.45191316860036
+          },
+          {
+            "name": "span-6",
+            "duration": 66.21177412085962
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:16:40.062030Z",
+        "name": "transaction-11-1",
+        "duration": 117.519851944643,
+        "endpoint": "/api/products/5",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 155.43865852157282
+          }
+        ]
+      }
+    ],
+    "queries": [],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:43:40.062030Z",
+        "message": "Error in service: connection refused",
+        "type": "ValidationError",
+        "stack": "at function_22 (line 124)\nat module_20 (line 139)"
+      },
+      {
+        "timestamp": "2025-06-29T17:19:40.062030Z",
+        "message": "Error in service: connection refused",
+        "type": "ConnectionError",
+        "stack": "at function_11 (line 26)\nat module_6 (line 382)"
+      }
+    ]
+  },
+  {
+    "id": "ent-12-apm",
+    "guid": "NR-APM-81904",
+    "name": "apm-entity-12",
+    "domain": "APM",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8156541194038001,
+        "response_time_max": 1534.9821541560104,
+        "throughput": 568.5965681653616,
+        "error_rate": 3.6349520400513406
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:06:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 12-0",
+        "context": {
+          "service": "apm-entity-12",
+          "request_id": "req-2927"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:50:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 12-1",
+        "context": {
+          "service": "apm-entity-12",
+          "request_id": "req-1936"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:11:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 12-2",
+        "context": {
+          "service": "apm-entity-12",
+          "request_id": "req-1158"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T18:01:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 12-3",
+        "context": {
+          "service": "apm-entity-12",
+          "request_id": "req-4767"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:25:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 12-4",
+        "context": {
+          "service": "apm-entity-12",
+          "request_id": "req-7483"
+        }
+      }
+    ],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:36:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 359.2380073409084,
+        "query": "SELECT * FROM table_4 WHERE id = 424"
+      },
+      {
+        "timestamp": "2025-06-29T17:50:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 194.6740654081532,
+        "query": "SELECT * FROM table_5 WHERE id = 791"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-13-mobile",
+    "guid": "NR-MOBILE-84097",
+    "name": "mobile-entity-13",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8448387827510448,
+        "response_time_max": 1574.1044612658134,
+        "throughput": 971.585413650775,
+        "error_rate": 2.3947407708528723
+      }
+    },
+    "logs": [],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:45:40.062030Z",
+        "name": "transaction-13-0",
+        "duration": 1763.6968349299912,
+        "endpoint": "/api/users/16",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 119.84188264150873
+          },
+          {
+            "name": "span-1",
+            "duration": 102.71607164587878
+          },
+          {
+            "name": "span-2",
+            "duration": 41.96786441667792
+          },
+          {
+            "name": "span-3",
+            "duration": 178.02342848114347
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:09:40.062030Z",
+        "name": "transaction-13-1",
+        "duration": 1740.2947134927952,
+        "endpoint": "/api/users/74",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 68.33132815772784
+          },
+          {
+            "name": "span-1",
+            "duration": 14.985428793456082
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:41:40.062030Z",
+        "name": "transaction-13-2",
+        "duration": 1104.4733914316755,
+        "endpoint": "/api/auth/27",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 162.95198849408135
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:53:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 176.4446197628308,
+        "query": "SELECT * FROM table_4 WHERE id = 336"
+      },
+      {
+        "timestamp": "2025-06-29T17:58:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 342.97640515198515,
+        "query": "SELECT * FROM table_3 WHERE id = 139"
+      },
+      {
+        "timestamp": "2025-06-29T17:33:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 66.26223288656685,
+        "query": "SELECT * FROM table_4 WHERE id = 832"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:13:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "RuntimeError",
+        "stack": "at function_31 (line 39)\nat module_13 (line 144)"
+      },
+      {
+        "timestamp": "2025-06-29T17:37:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "ConnectionError",
+        "stack": "at function_36 (line 56)\nat module_11 (line 173)"
+      }
+    ]
+  },
+  {
+    "id": "ent-14-apm",
+    "guid": "NR-APM-31411",
+    "name": "apm-entity-14",
+    "domain": "APM",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.810943777675826,
+        "response_time_max": 1108.677919097894,
+        "throughput": 311.16981440842477,
+        "error_rate": 4.585948570985575
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:06:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 14-0",
+        "context": {
+          "service": "apm-entity-14",
+          "request_id": "req-5004"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:13:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 14-1",
+        "context": {
+          "service": "apm-entity-14",
+          "request_id": "req-5645"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:36:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 14-2",
+        "context": {
+          "service": "apm-entity-14",
+          "request_id": "req-4196"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 14-3",
+        "context": {
+          "service": "apm-entity-14",
+          "request_id": "req-7461"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 14-4",
+        "context": {
+          "service": "apm-entity-14",
+          "request_id": "req-5441"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:36:40.062030Z",
+        "name": "transaction-14-0",
+        "duration": 1022.9955536380045,
+        "endpoint": "/api/orders/42",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 27.079163508804346
+          },
+          {
+            "name": "span-1",
+            "duration": 53.923548766846785
+          },
+          {
+            "name": "span-2",
+            "duration": 134.74304846194184
+          },
+          {
+            "name": "span-3",
+            "duration": 81.05159790423222
+          },
+          {
+            "name": "span-4",
+            "duration": 78.12690520180438
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:16:40.062030Z",
+        "name": "transaction-14-1",
+        "duration": 1092.3156017719323,
+        "endpoint": "/api/orders/94",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 11.840786787776961
+          },
+          {
+            "name": "span-1",
+            "duration": 99.53375210556473
+          },
+          {
+            "name": "span-2",
+            "duration": 84.98910335712368
+          },
+          {
+            "name": "span-3",
+            "duration": 58.31803908357362
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:49:40.062030Z",
+        "name": "transaction-14-2",
+        "duration": 1079.9535228355064,
+        "endpoint": "/api/auth/86",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 24.56263238077941
+          },
+          {
+            "name": "span-1",
+            "duration": 88.77469774147627
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:15:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 211.90521275364048,
+        "query": "SELECT * FROM table_7 WHERE id = 31"
+      },
+      {
+        "timestamp": "2025-06-29T17:29:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 464.40217504464886,
+        "query": "SELECT * FROM table_9 WHERE id = 352"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:19:40.062030Z",
+        "message": "Error in service: null reference",
+        "type": "ValidationError",
+        "stack": "at function_29 (line 146)\nat module_7 (line 42)"
+      }
+    ]
+  },
+  {
+    "id": "ent-15-infra",
+    "guid": "NR-INFRA-36897",
+    "name": "infra-entity-15",
+    "domain": "INFRA",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8037431799853056,
+        "response_time_max": 1860.9274694806627,
+        "throughput": 251.88149797679895,
+        "error_rate": 2.9816303137521087
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:30:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 15-0",
+        "context": {
+          "service": "infra-entity-15",
+          "request_id": "req-7469"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 15-1",
+        "context": {
+          "service": "infra-entity-15",
+          "request_id": "req-7819"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:35:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 15-2",
+        "context": {
+          "service": "infra-entity-15",
+          "request_id": "req-4235"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:37:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 15-3",
+        "context": {
+          "service": "infra-entity-15",
+          "request_id": "req-9925"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:40:40.062030Z",
+        "name": "transaction-15-0",
+        "duration": 250.91994750533843,
+        "endpoint": "/api/auth/14",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 46.56857654708788
+          },
+          {
+            "name": "span-1",
+            "duration": 178.553827204587
+          },
+          {
+            "name": "span-2",
+            "duration": 155.2181120495249
+          },
+          {
+            "name": "span-3",
+            "duration": 13.579369236159573
+          },
+          {
+            "name": "span-4",
+            "duration": 128.70524241530325
+          },
+          {
+            "name": "span-5",
+            "duration": 14.599545789997457
+          },
+          {
+            "name": "span-6",
+            "duration": 107.5415660864118
+          },
+          {
+            "name": "span-7",
+            "duration": 102.25729237838169
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:48:40.062030Z",
+        "name": "transaction-15-1",
+        "duration": 75.9813017660672,
+        "endpoint": "/api/users/4",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 179.72204402164255
+          },
+          {
+            "name": "span-1",
+            "duration": 67.72488793656343
+          },
+          {
+            "name": "span-2",
+            "duration": 39.95540226246069
+          },
+          {
+            "name": "span-3",
+            "duration": 21.587741542300616
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:49:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 278.77553781022885,
+        "query": "SELECT * FROM table_7 WHERE id = 700"
+      },
+      {
+        "timestamp": "2025-06-29T17:15:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 229.85192588823648,
+        "query": "SELECT * FROM table_7 WHERE id = 732"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-16-mobile",
+    "guid": "NR-MOBILE-65545",
+    "name": "mobile-entity-16",
+    "domain": "MOBILE",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8218678314835248,
+        "response_time_max": 595.5980331511741,
+        "throughput": 17.16211269608904,
+        "error_rate": 2.538799479478882
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T18:03:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 16-0",
+        "context": {
+          "service": "mobile-entity-16",
+          "request_id": "req-7505"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:56:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 16-1",
+        "context": {
+          "service": "mobile-entity-16",
+          "request_id": "req-1625"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:36:40.062030Z",
+        "name": "transaction-16-0",
+        "duration": 1261.8318929846519,
+        "endpoint": "/api/products/64",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 20.00586671304623
+          },
+          {
+            "name": "span-1",
+            "duration": 63.09401168405248
+          },
+          {
+            "name": "span-2",
+            "duration": 78.12831369636943
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:19:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 159.49243444262623,
+        "query": "SELECT * FROM table_4 WHERE id = 530"
+      },
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 307.2288225151008,
+        "query": "SELECT * FROM table_2 WHERE id = 298"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-17-mobile",
+    "guid": "NR-MOBILE-39998",
+    "name": "mobile-entity-17",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8435363410648165,
+        "response_time_max": 1100.5773319868495,
+        "throughput": 873.6976149729137,
+        "error_rate": 1.2855535189777862
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 17-0",
+        "context": {
+          "service": "mobile-entity-17",
+          "request_id": "req-7426"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:46:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 17-1",
+        "context": {
+          "service": "mobile-entity-17",
+          "request_id": "req-6966"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:08:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 17-2",
+        "context": {
+          "service": "mobile-entity-17",
+          "request_id": "req-8470"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:14:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 17-3",
+        "context": {
+          "service": "mobile-entity-17",
+          "request_id": "req-4808"
+        }
+      }
+    ],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 141.33222646246455,
+        "query": "SELECT * FROM table_3 WHERE id = 12"
+      },
+      {
+        "timestamp": "2025-06-29T17:41:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 311.01638117038107,
+        "query": "SELECT * FROM table_7 WHERE id = 924"
+      },
+      {
+        "timestamp": "2025-06-29T17:57:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 152.49129772153253,
+        "query": "SELECT * FROM table_1 WHERE id = 977"
+      },
+      {
+        "timestamp": "2025-06-29T17:50:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 424.441534363485,
+        "query": "SELECT * FROM table_6 WHERE id = 275"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-18-infra",
+    "guid": "NR-INFRA-81806",
+    "name": "infra-entity-18",
+    "domain": "INFRA",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7630002018493747,
+        "response_time_max": 501.7109103189776,
+        "throughput": 484.3363665548858,
+        "error_rate": 4.3107670665417634
+      }
+    },
+    "logs": [],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:27:40.062030Z",
+        "name": "transaction-18-0",
+        "duration": 606.9343372671447,
+        "endpoint": "/api/orders/98",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 137.07380266194733
+          },
+          {
+            "name": "span-1",
+            "duration": 22.156177762654735
+          },
+          {
+            "name": "span-2",
+            "duration": 159.8514248746002
+          },
+          {
+            "name": "span-3",
+            "duration": 84.48595400310704
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:25:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 248.97692476363957,
+        "query": "SELECT * FROM table_2 WHERE id = 283"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-19-browser",
+    "guid": "NR-BROWSER-52499",
+    "name": "browser-entity-19",
+    "domain": "BROWSER",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8251708184832813,
+        "response_time_max": 345.5026160238003,
+        "throughput": 809.7070223306343,
+        "error_rate": 2.1963647481163555
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:30:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 19-0",
+        "context": {
+          "service": "browser-entity-19",
+          "request_id": "req-4583"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:58:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 19-1",
+        "context": {
+          "service": "browser-entity-19",
+          "request_id": "req-8243"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:32:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 19-2",
+        "context": {
+          "service": "browser-entity-19",
+          "request_id": "req-5299"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 19-3",
+        "context": {
+          "service": "browser-entity-19",
+          "request_id": "req-6835"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "name": "transaction-19-0",
+        "duration": 1168.7944939798047,
+        "endpoint": "/api/products/7",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 198.98178835916198
+          },
+          {
+            "name": "span-1",
+            "duration": 80.90498515537732
+          },
+          {
+            "name": "span-2",
+            "duration": 90.97227488770916
+          },
+          {
+            "name": "span-3",
+            "duration": 68.68915153867096
+          },
+          {
+            "name": "span-4",
+            "duration": 173.33141699565354
+          },
+          {
+            "name": "span-5",
+            "duration": 115.20537525146902
+          },
+          {
+            "name": "span-6",
+            "duration": 189.4794923235765
+          },
+          {
+            "name": "span-7",
+            "duration": 80.64699937551364
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:51:40.062030Z",
+        "name": "transaction-19-1",
+        "duration": 1474.2368503437706,
+        "endpoint": "/api/auth/70",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 33.88148560224865
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:08:40.062030Z",
+        "name": "transaction-19-2",
+        "duration": 1571.5809801016023,
+        "endpoint": "/api/users/76",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 22.816017823757576
+          },
+          {
+            "name": "span-1",
+            "duration": 78.81918407333882
+          },
+          {
+            "name": "span-2",
+            "duration": 39.057441614277145
+          },
+          {
+            "name": "span-3",
+            "duration": 32.23679117432131
+          },
+          {
+            "name": "span-4",
+            "duration": 37.193684261319525
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:14:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 30.142478909450823,
+        "query": "SELECT * FROM table_5 WHERE id = 549"
+      },
+      {
+        "timestamp": "2025-06-29T17:38:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 255.72198533206415,
+        "query": "SELECT * FROM table_9 WHERE id = 9"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-20-browser",
+    "guid": "NR-BROWSER-23267",
+    "name": "browser-entity-20",
+    "domain": "BROWSER",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8007576310975989,
+        "response_time_max": 1050.0450440428613,
+        "throughput": 802.1847917480637,
+        "error_rate": 2.8092253265583143
+      }
+    },
+    "logs": [],
+    "traces": [],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:10:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 238.20704877786343,
+        "query": "SELECT * FROM table_10 WHERE id = 606"
+      },
+      {
+        "timestamp": "2025-06-29T18:00:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 455.59877746593094,
+        "query": "SELECT * FROM table_9 WHERE id = 409"
+      },
+      {
+        "timestamp": "2025-06-29T17:25:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 288.34412190139176,
+        "query": "SELECT * FROM table_2 WHERE id = 758"
+      },
+      {
+        "timestamp": "2025-06-29T17:06:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 313.8373539671093,
+        "query": "SELECT * FROM table_1 WHERE id = 28"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-21-apm",
+    "guid": "NR-APM-18760",
+    "name": "apm-entity-21",
+    "domain": "APM",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7326561112802038,
+        "response_time_max": 1448.878029361897,
+        "throughput": 227.93633942389658,
+        "error_rate": 1.114609679322796
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:18:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 21-0",
+        "context": {
+          "service": "apm-entity-21",
+          "request_id": "req-2061"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 21-1",
+        "context": {
+          "service": "apm-entity-21",
+          "request_id": "req-8263"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:30:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 21-2",
+        "context": {
+          "service": "apm-entity-21",
+          "request_id": "req-4228"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:56:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 21-3",
+        "context": {
+          "service": "apm-entity-21",
+          "request_id": "req-1288"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:55:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 21-4",
+        "context": {
+          "service": "apm-entity-21",
+          "request_id": "req-2932"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:10:40.062030Z",
+        "name": "transaction-21-0",
+        "duration": 1884.3339429185958,
+        "endpoint": "/api/auth/8",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 134.3772218142092
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:25:40.062030Z",
+        "name": "transaction-21-1",
+        "duration": 1467.940801234926,
+        "endpoint": "/api/products/45",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 45.6547901817712
+          },
+          {
+            "name": "span-1",
+            "duration": 115.89088751625101
+          },
+          {
+            "name": "span-2",
+            "duration": 49.224257376351986
+          },
+          {
+            "name": "span-3",
+            "duration": 122.23059666833488
+          },
+          {
+            "name": "span-4",
+            "duration": 52.0633949122202
+          },
+          {
+            "name": "span-5",
+            "duration": 86.25518717874236
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:39:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 310.63938415520937,
+        "query": "SELECT * FROM table_5 WHERE id = 710"
+      },
+      {
+        "timestamp": "2025-06-29T17:29:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 441.04045025469,
+        "query": "SELECT * FROM table_2 WHERE id = 486"
+      },
+      {
+        "timestamp": "2025-06-29T17:31:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 122.10005346137683,
+        "query": "SELECT * FROM table_5 WHERE id = 161"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-22-browser",
+    "guid": "NR-BROWSER-70602",
+    "name": "browser-entity-22",
+    "domain": "BROWSER",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7541000687538643,
+        "response_time_max": 1860.922730346646,
+        "throughput": 379.88416262763315,
+        "error_rate": 4.427103811405414
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 22-0",
+        "context": {
+          "service": "browser-entity-22",
+          "request_id": "req-6088"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:24:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 22-1",
+        "context": {
+          "service": "browser-entity-22",
+          "request_id": "req-3081"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:51:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 22-2",
+        "context": {
+          "service": "browser-entity-22",
+          "request_id": "req-1457"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:06:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 22-3",
+        "context": {
+          "service": "browser-entity-22",
+          "request_id": "req-3528"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "name": "transaction-22-0",
+        "duration": 1981.6594483889678,
+        "endpoint": "/api/users/55",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 176.637217584976
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "name": "transaction-22-1",
+        "duration": 1241.2586058020781,
+        "endpoint": "/api/users/7",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 127.61405408043761
+          },
+          {
+            "name": "span-1",
+            "duration": 145.41882404163567
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:08:40.062030Z",
+        "name": "transaction-22-2",
+        "duration": 461.0065037281026,
+        "endpoint": "/api/auth/43",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 61.47529853914132
+          },
+          {
+            "name": "span-1",
+            "duration": 54.956917612499105
+          },
+          {
+            "name": "span-2",
+            "duration": 62.796207173086884
+          },
+          {
+            "name": "span-3",
+            "duration": 121.30860351079579
+          },
+          {
+            "name": "span-4",
+            "duration": 134.24673245851443
+          },
+          {
+            "name": "span-5",
+            "duration": 62.90076231777778
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:11:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 371.23528431554644,
+        "query": "SELECT * FROM table_2 WHERE id = 379"
+      },
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 473.53889525342527,
+        "query": "SELECT * FROM table_5 WHERE id = 569"
+      },
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 101.61800717381607,
+        "query": "SELECT * FROM table_9 WHERE id = 589"
+      },
+      {
+        "timestamp": "2025-06-29T17:46:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 158.82251517639233,
+        "query": "SELECT * FROM table_1 WHERE id = 505"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:33:40.062030Z",
+        "message": "Error in service: connection refused",
+        "type": "TypeError",
+        "stack": "at function_33 (line 495)\nat module_20 (line 381)"
+      }
+    ]
+  },
+  {
+    "id": "ent-23-infra",
+    "guid": "NR-INFRA-63636",
+    "name": "infra-entity-23",
+    "domain": "INFRA",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7136245381129703,
+        "response_time_max": 785.7719462249216,
+        "throughput": 449.6259633822182,
+        "error_rate": 0.4213289752633559
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:28:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 23-0",
+        "context": {
+          "service": "infra-entity-23",
+          "request_id": "req-9231"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:05:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 23-1",
+        "context": {
+          "service": "infra-entity-23",
+          "request_id": "req-7620"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:40:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 23-2",
+        "context": {
+          "service": "infra-entity-23",
+          "request_id": "req-7719"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:55:40.062030Z",
+        "name": "transaction-23-0",
+        "duration": 320.0265635554896,
+        "endpoint": "/api/products/77",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 92.94244873283876
+          },
+          {
+            "name": "span-1",
+            "duration": 144.19326422011736
+          },
+          {
+            "name": "span-2",
+            "duration": 179.0123153945439
+          },
+          {
+            "name": "span-3",
+            "duration": 116.52466965952794
+          },
+          {
+            "name": "span-4",
+            "duration": 97.17230252334515
+          },
+          {
+            "name": "span-5",
+            "duration": 176.47412494024366
+          },
+          {
+            "name": "span-6",
+            "duration": 57.69670732705562
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:47:40.062030Z",
+        "name": "transaction-23-1",
+        "duration": 85.39510172978773,
+        "endpoint": "/api/products/3",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 123.02310960807378
+          },
+          {
+            "name": "span-1",
+            "duration": 193.0787606227055
+          },
+          {
+            "name": "span-2",
+            "duration": 34.59804668255182
+          },
+          {
+            "name": "span-3",
+            "duration": 189.97196960279143
+          },
+          {
+            "name": "span-4",
+            "duration": 111.34657854159167
+          },
+          {
+            "name": "span-5",
+            "duration": 147.0862512358063
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:27:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 164.29352167691616,
+        "query": "SELECT * FROM table_8 WHERE id = 775"
+      },
+      {
+        "timestamp": "2025-06-29T17:40:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 66.62323297493664,
+        "query": "SELECT * FROM table_5 WHERE id = 559"
+      },
+      {
+        "timestamp": "2025-06-29T17:18:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 296.70347555538353,
+        "query": "SELECT * FROM table_7 WHERE id = 855"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:37:40.062030Z",
+        "message": "Error in service: connection refused",
+        "type": "ConnectionError",
+        "stack": "at function_2 (line 132)\nat module_5 (line 491)"
+      }
+    ]
+  },
+  {
+    "id": "ent-24-apm",
+    "guid": "NR-APM-17940",
+    "name": "apm-entity-24",
+    "domain": "APM",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8098143681084721,
+        "response_time_max": 384.4802036089232,
+        "throughput": 329.84435604373886,
+        "error_rate": 1.0467324621758873
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:46:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 24-0",
+        "context": {
+          "service": "apm-entity-24",
+          "request_id": "req-5753"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:47:40.062030Z",
+        "level": "INFO",
+        "message": "Log message 24-1",
+        "context": {
+          "service": "apm-entity-24",
+          "request_id": "req-1976"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:47:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 24-2",
+        "context": {
+          "service": "apm-entity-24",
+          "request_id": "req-1617"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 24-3",
+        "context": {
+          "service": "apm-entity-24",
+          "request_id": "req-9596"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 24-4",
+        "context": {
+          "service": "apm-entity-24",
+          "request_id": "req-3224"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:53:40.062030Z",
+        "name": "transaction-24-0",
+        "duration": 1108.2095084516375,
+        "endpoint": "/api/orders/31",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 199.60341789308265
+          },
+          {
+            "name": "span-1",
+            "duration": 122.98831401953026
+          },
+          {
+            "name": "span-2",
+            "duration": 148.24450947966082
+          },
+          {
+            "name": "span-3",
+            "duration": 96.11220584689129
+          },
+          {
+            "name": "span-4",
+            "duration": 181.66942373907702
+          },
+          {
+            "name": "span-5",
+            "duration": 146.452930767614
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "name": "transaction-24-1",
+        "duration": 1685.8631448506287,
+        "endpoint": "/api/auth/72",
+        "spans": []
+      },
+      {
+        "timestamp": "2025-06-29T17:45:40.062030Z",
+        "name": "transaction-24-2",
+        "duration": 1584.981614461905,
+        "endpoint": "/api/orders/18",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 53.7217859277692
+          },
+          {
+            "name": "span-1",
+            "duration": 44.093557973898754
+          },
+          {
+            "name": "span-2",
+            "duration": 57.01249020399787
+          },
+          {
+            "name": "span-3",
+            "duration": 136.4559979673657
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:38:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 50.35830196643227,
+        "query": "SELECT * FROM table_4 WHERE id = 923"
+      },
+      {
+        "timestamp": "2025-06-29T17:42:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 282.5999433680965,
+        "query": "SELECT * FROM table_6 WHERE id = 322"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T18:02:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "TypeError",
+        "stack": "at function_53 (line 40)\nat module_13 (line 427)"
+      },
+      {
+        "timestamp": "2025-06-29T17:22:40.062030Z",
+        "message": "Error in service: timeout",
+        "type": "TypeError",
+        "stack": "at function_79 (line 97)\nat module_19 (line 221)"
+      }
+    ]
+  },
+  {
+    "id": "ent-25-mobile",
+    "guid": "NR-MOBILE-73139",
+    "name": "mobile-entity-25",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7288308636975841,
+        "response_time_max": 642.6225294636299,
+        "throughput": 584.1709692748292,
+        "error_rate": 4.536266622974105
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:54:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 25-0",
+        "context": {
+          "service": "mobile-entity-25",
+          "request_id": "req-7481"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:59:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 25-1",
+        "context": {
+          "service": "mobile-entity-25",
+          "request_id": "req-9911"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:19:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 25-2",
+        "context": {
+          "service": "mobile-entity-25",
+          "request_id": "req-1287"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "name": "transaction-25-0",
+        "duration": 1547.45973229126,
+        "endpoint": "/api/orders/76",
+        "spans": []
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:44:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 73.38116406394691,
+        "query": "SELECT * FROM table_7 WHERE id = 612"
+      },
+      {
+        "timestamp": "2025-06-29T17:32:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 446.1242679454759,
+        "query": "SELECT * FROM table_6 WHERE id = 440"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:51:40.062030Z",
+        "message": "Error in service: validation error",
+        "type": "RuntimeError",
+        "stack": "at function_27 (line 373)\nat module_9 (line 444)"
+      }
+    ]
+  },
+  {
+    "id": "ent-26-mobile",
+    "guid": "NR-MOBILE-30444",
+    "name": "mobile-entity-26",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.7693862976865345,
+        "response_time_max": 1272.642247739791,
+        "throughput": 687.2240025215935,
+        "error_rate": 2.6763623665806744
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:31:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 26-0",
+        "context": {
+          "service": "mobile-entity-26",
+          "request_id": "req-2366"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:39:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 26-1",
+        "context": {
+          "service": "mobile-entity-26",
+          "request_id": "req-8042"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:47:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 26-2",
+        "context": {
+          "service": "mobile-entity-26",
+          "request_id": "req-1538"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T18:04:40.062030Z",
+        "name": "transaction-26-0",
+        "duration": 703.9624454003097,
+        "endpoint": "/api/products/24",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 11.756383356249122
+          },
+          {
+            "name": "span-1",
+            "duration": 44.1684176747426
+          },
+          {
+            "name": "span-2",
+            "duration": 9.582682941018408
+          },
+          {
+            "name": "span-3",
+            "duration": 157.774063609176
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T18:03:40.062030Z",
+        "name": "transaction-26-1",
+        "duration": 1533.7406713947312,
+        "endpoint": "/api/products/59",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 41.885168710853016
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "database": "postgres",
+        "operation": "DELETE",
+        "duration": 253.65893323451792,
+        "query": "SELECT * FROM table_10 WHERE id = 292"
+      },
+      {
+        "timestamp": "2025-06-29T17:15:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 465.8416116034771,
+        "query": "SELECT * FROM table_7 WHERE id = 106"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-27-mobile",
+    "guid": "NR-MOBILE-70243",
+    "name": "mobile-entity-27",
+    "domain": "MOBILE",
+    "status": "OK",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8826643717197866,
+        "response_time_max": 858.8629355341468,
+        "throughput": 889.4536697170184,
+        "error_rate": 3.7096472978568595
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:07:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 27-0",
+        "context": {
+          "service": "mobile-entity-27",
+          "request_id": "req-7788"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:32:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 27-1",
+        "context": {
+          "service": "mobile-entity-27",
+          "request_id": "req-8916"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:34:40.062030Z",
+        "level": "ERROR",
+        "message": "Log message 27-2",
+        "context": {
+          "service": "mobile-entity-27",
+          "request_id": "req-2826"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:27:40.062030Z",
+        "name": "transaction-27-0",
+        "duration": 160.2778095471604,
+        "endpoint": "/api/orders/58",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 26.914303313849285
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:15:40.062030Z",
+        "name": "transaction-27-1",
+        "duration": 1768.2249278994645,
+        "endpoint": "/api/auth/14",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 55.44415881242039
+          },
+          {
+            "name": "span-1",
+            "duration": 189.72177752569948
+          },
+          {
+            "name": "span-2",
+            "duration": 86.47896947667385
+          },
+          {
+            "name": "span-3",
+            "duration": 29.518072779140912
+          },
+          {
+            "name": "span-4",
+            "duration": 31.055943015962047
+          },
+          {
+            "name": "span-5",
+            "duration": 8.811235769849187
+          },
+          {
+            "name": "span-6",
+            "duration": 5.730027079318152
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:36:40.062030Z",
+        "name": "transaction-27-2",
+        "duration": 1122.2700459375048,
+        "endpoint": "/api/users/7",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 75.72150189506395
+          },
+          {
+            "name": "span-1",
+            "duration": 119.60345197494547
+          },
+          {
+            "name": "span-2",
+            "duration": 95.54659808185161
+          },
+          {
+            "name": "span-3",
+            "duration": 3.911349385250492
+          },
+          {
+            "name": "span-4",
+            "duration": 31.45175150195763
+          },
+          {
+            "name": "span-5",
+            "duration": 109.83565007769661
+          },
+          {
+            "name": "span-6",
+            "duration": 174.25328344736644
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:09:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 148.50156527611034,
+        "query": "SELECT * FROM table_7 WHERE id = 717"
+      },
+      {
+        "timestamp": "2025-06-29T17:11:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 440.9359279485486,
+        "query": "SELECT * FROM table_5 WHERE id = 325"
+      },
+      {
+        "timestamp": "2025-06-29T17:43:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 219.30559322732097,
+        "query": "SELECT * FROM table_7 WHERE id = 602"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-28-mobile",
+    "guid": "NR-MOBILE-30035",
+    "name": "mobile-entity-28",
+    "domain": "MOBILE",
+    "status": "ALERTA",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.701928412416421,
+        "response_time_max": 144.35192507450864,
+        "throughput": 179.15293158945286,
+        "error_rate": 0.7468193407038404
+      }
+    },
+    "logs": [
+      {
+        "timestamp": "2025-06-29T17:20:40.062030Z",
+        "level": "DEBUG",
+        "message": "Log message 28-0",
+        "context": {
+          "service": "mobile-entity-28",
+          "request_id": "req-6457"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:50:40.062030Z",
+        "level": "CRITICAL",
+        "message": "Log message 28-1",
+        "context": {
+          "service": "mobile-entity-28",
+          "request_id": "req-4543"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:56:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 28-2",
+        "context": {
+          "service": "mobile-entity-28",
+          "request_id": "req-7861"
+        }
+      },
+      {
+        "timestamp": "2025-06-29T17:37:40.062030Z",
+        "level": "WARNING",
+        "message": "Log message 28-3",
+        "context": {
+          "service": "mobile-entity-28",
+          "request_id": "req-4776"
+        }
+      }
+    ],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:43:40.062030Z",
+        "name": "transaction-28-0",
+        "duration": 1709.7752303454351,
+        "endpoint": "/api/auth/80",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 133.6812003303194
+          },
+          {
+            "name": "span-1",
+            "duration": 2.1609234501616243
+          },
+          {
+            "name": "span-2",
+            "duration": 63.97230924802758
+          },
+          {
+            "name": "span-3",
+            "duration": 37.77882696492306
+          },
+          {
+            "name": "span-4",
+            "duration": 83.31430174582063
+          },
+          {
+            "name": "span-5",
+            "duration": 164.8638234307338
+          },
+          {
+            "name": "span-6",
+            "duration": 43.48604071056556
+          },
+          {
+            "name": "span-7",
+            "duration": 139.31504905785698
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:07:40.062030Z",
+        "name": "transaction-28-1",
+        "duration": 1757.528372084838,
+        "endpoint": "/api/orders/34",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 105.73339136962791
+          },
+          {
+            "name": "span-1",
+            "duration": 36.82951811003923
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:43:40.062030Z",
+        "name": "transaction-28-2",
+        "duration": 727.6053753527855,
+        "endpoint": "/api/products/8",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 112.35836737949965
+          },
+          {
+            "name": "span-1",
+            "duration": 74.43559560399991
+          },
+          {
+            "name": "span-2",
+            "duration": 70.10287786454414
+          },
+          {
+            "name": "span-3",
+            "duration": 100.63578060175443
+          },
+          {
+            "name": "span-4",
+            "duration": 23.15968493144365
+          },
+          {
+            "name": "span-5",
+            "duration": 81.54534560692036
+          },
+          {
+            "name": "span-6",
+            "duration": 153.64949353742458
+          },
+          {
+            "name": "span-7",
+            "duration": 167.45033340544
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:12:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 363.517964396684,
+        "query": "SELECT * FROM table_1 WHERE id = 330"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "id": "ent-29-infra",
+    "guid": "NR-INFRA-70351",
+    "name": "infra-entity-29",
+    "domain": "INFRA",
+    "status": "ERRO",
+    "metricas": {
+      "ultima_hora": {
+        "apdex": 0.8373862661722844,
+        "response_time_max": 1365.7183505325954,
+        "throughput": 42.96495785153203,
+        "error_rate": 1.7115098541053986
+      }
+    },
+    "logs": [],
+    "traces": [
+      {
+        "timestamp": "2025-06-29T17:12:40.062030Z",
+        "name": "transaction-29-0",
+        "duration": 1547.5890111069891,
+        "endpoint": "/api/products/89",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 9.723875100212313
+          },
+          {
+            "name": "span-1",
+            "duration": 43.211506726031445
+          },
+          {
+            "name": "span-2",
+            "duration": 61.28894317005856
+          },
+          {
+            "name": "span-3",
+            "duration": 163.36374359752844
+          },
+          {
+            "name": "span-4",
+            "duration": 127.86608986045952
+          },
+          {
+            "name": "span-5",
+            "duration": 135.75288248469226
+          },
+          {
+            "name": "span-6",
+            "duration": 82.09163660463143
+          },
+          {
+            "name": "span-7",
+            "duration": 63.92250085634575
+          }
+        ]
+      },
+      {
+        "timestamp": "2025-06-29T17:27:40.062030Z",
+        "name": "transaction-29-1",
+        "duration": 341.9268726209394,
+        "endpoint": "/api/users/38",
+        "spans": [
+          {
+            "name": "span-0",
+            "duration": 120.44500499293589
+          },
+          {
+            "name": "span-1",
+            "duration": 13.021942919967067
+          },
+          {
+            "name": "span-2",
+            "duration": 40.72634921338622
+          },
+          {
+            "name": "span-3",
+            "duration": 176.13789387654697
+          },
+          {
+            "name": "span-4",
+            "duration": 45.986439957034115
+          },
+          {
+            "name": "span-5",
+            "duration": 114.71682897672697
+          },
+          {
+            "name": "span-6",
+            "duration": 52.24365987029227
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "timestamp": "2025-06-29T17:06:40.062030Z",
+        "database": "postgres",
+        "operation": "UPDATE",
+        "duration": 270.13446804518736,
+        "query": "SELECT * FROM table_9 WHERE id = 598"
+      },
+      {
+        "timestamp": "2025-06-29T17:23:40.062030Z",
+        "database": "postgres",
+        "operation": "INSERT",
+        "duration": 83.84711324561528,
+        "query": "SELECT * FROM table_10 WHERE id = 649"
+      },
+      {
+        "timestamp": "2025-06-29T17:22:40.062030Z",
+        "database": "postgres",
+        "operation": "SELECT",
+        "duration": 263.9226546974894,
+        "query": "SELECT * FROM table_1 WHERE id = 825"
+      }
+    ],
+    "errors": [
+      {
+        "timestamp": "2025-06-29T17:18:40.062030Z",
+        "message": "Error in service: validation error",
+        "type": "TypeError",
+        "stack": "at function_16 (line 391)\nat module_6 (line 128)"
+      }
+    ]
+  }
+]

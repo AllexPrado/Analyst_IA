@@ -18,7 +18,7 @@ import {
   faClipboardCheck, faTools, faUserCog, faCodeBranch, faMemory,
   faCloudDownloadAlt, faExternalLinkAlt, faLink,
   faThumbsUp, faThumbsDown, faQuestion, faExchangeAlt, faTrashAlt,
-  faBrain
+  faBrain, faFileAlt, faProjectDiagram, faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -32,7 +32,7 @@ library.add(
   faExclamationTriangle, faTimesCircle, faRocket,
   faTimes, faRobot, faSun, faMoon, faCheckCircle,
   faChevronRight, faChevronLeft, faExclamationCircle,
-  faServer, faDatabase, faMobileAlt, faMicrochip, faCloud,
+  faServer, /* faDatabase already added above */ faMobileAlt, faMicrochip, faCloud,
   faBolt, faNetworkWired, faClock, faDesktop, faTablet,
   faToolbox, faChartPie, faChartArea, faPaperPlane, faCopy,
   faSync, faTrash, faCommentDots, faUser, faEye, faGlobe,
@@ -41,7 +41,7 @@ library.add(
   faClipboardCheck, faTools, faUserCog, faCodeBranch, faMemory,
   faCloudDownloadAlt, faExternalLinkAlt, faLink,
   faThumbsUp, faThumbsDown, faQuestion, faExchangeAlt, faTrashAlt,
-  faBrain
+  faBrain, faFileAlt, faProjectDiagram, faInfoCircle
 )
 
 const app = createApp(App)

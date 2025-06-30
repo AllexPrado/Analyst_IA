@@ -1,0 +1,15 @@
+{
+  "servidor": "online",
+  "cache": "atualizado",
+  "ultima_atualizacao": "2025-06-29T18:05:40Z",
+  "servicos": {
+    "coleta": "ativo",
+    "analise": "ativo",
+    "alerta": "ativo"
+  },
+  "metricas": {
+    "entidades_monitoradas": 157,
+    "dados_coletados_mb": 1230,
+    "alertas_ativos": 3
+  }
+}

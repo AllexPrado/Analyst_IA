@@ -674,7 +674,7 @@ async def limpar_cache_de_entidades_invalidas():
         await salvar_cache_no_disco()
         
         return total_antes - total_depois
-        
+
     except Exception as e:
         logger.error(f"Erro ao limpar cache: {e}")
         logger.error(traceback.format_exc())
@@ -773,3 +773,68 @@ async def invalidar_cache_seletivo(criterio, coletar_contexto_fn=None):
         logger.error(f"Erro ao invalidar cache seletivamente: {e}")
         logger.error(traceback.format_exc())
         return False
+
+async def _initialize_cache(force=False):
+    """
+    Inicializa o cache garantindo que esteja carregado em memória.
+    
+    Args:
+        force: Se True, força o carregamento do cache mesmo que já esteja carregado
+    
+    Returns:
+        bool: True se bem sucedido, False caso contrário
+    """
+    global _cache
+    
+    try:
+        # Se o cache já estiver inicializado e não forçarmos, não fazemos nada
+        if _cache["dados"] and not force:
+            logger.debug("Cache já inicializado")
+            return True
+        
+        # Carrega o cache do disco
+        success = await carregar_cache_do_disco()
+        
+        # Se não conseguir carregar do disco, tenta inicializar vazio
+        if not success:
+            logger.warning("Não foi possível carregar cache do disco, inicializando vazio")
+            _cache["dados"] = {
+                "timestamp": datetime.now().isoformat(),
+                "entidades": [],
+                "contagem_por_dominio": {}
+            }
+            
+            # Tenta criar o arquivo de cache vazio
+            os.makedirs(CACHE_HISTORICO_DIR, exist_ok=True)
+            with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+                json.dump(_cache["dados"], f, ensure_ascii=False, indent=2)
+        
+        return True
+    except Exception as e:
+        logger.error(f"Erro ao inicializar cache: {e}")
+        return False
+
+# Versão síncrona do get_cache para uso em contextos não-async
+def get_cache_sync():
+    """
+    Versão síncrona de get_cache para contextos não-async.
+    Retorna o cache atual sem verificar atualizações.
+    
+    Returns:
+        dict: Conteúdo atual do cache
+    """
+    global _cache
+    
+    # Se o cache não estiver carregado, carrega do disco de forma síncrona
+    if not _cache["dados"]:
+        try:
+            if CACHE_FILE.exists():
+                with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                    dados_carregados = json.load(f)
+                    _cache["dados"] = dados_carregados
+                    _cache["metadados"]["ultima_atualizacao"] = dados_carregados.get("timestamp")
+                    logger.info(f"Cache carregado de forma síncrona. Timestamp: {_cache['metadados']['ultima_atualizacao']}")
+        except Exception as e:
+            logger.error(f"Erro ao carregar cache síncrono: {e}")
+    
+    return _cache["dados"]
