@@ -31,9 +31,9 @@ try:
     from backend.utils.context_enricher import ContextEnricher
     from backend.utils.intent_extractor import extract_metrics_for_query
     from backend.utils.learning_integration import learning_integration
-except ImportError as e:
-    logger.error(f"Erro ao importar módulos do backend: {e}")
-    print(f"Erro ao importar módulos do backend: {e}")
+except ImportError as import_error:
+    logger.error(f"Erro ao importar módulos do backend: {import_error}")
+    print(f"Erro ao importar módulos do backend: {import_error}")
     sys.exit(1)
 
 async def diagnosticar_cache():

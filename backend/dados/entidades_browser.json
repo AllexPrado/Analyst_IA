@@ -1,0 +1,32 @@
+[
+  {
+    "id": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA",
+    "name": "Api Sites",
+    "domain": "BROWSER",
+    "metrics": {}
+  },
+  {
+    "id": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw",
+    "name": "Fastview Legado",
+    "domain": "BROWSER",
+    "metrics": {}
+  },
+  {
+    "id": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTM4MTU5Nw",
+    "name": "Madnezz V3",
+    "domain": "BROWSER",
+    "metrics": {}
+  },
+  {
+    "id": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQwMw",
+    "name": "Malltech Legado",
+    "domain": "BROWSER",
+    "metrics": {}
+  },
+  {
+    "id": "Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3MA",
+    "name": "React",
+    "domain": "BROWSER",
+    "metrics": {}
+  }
+]

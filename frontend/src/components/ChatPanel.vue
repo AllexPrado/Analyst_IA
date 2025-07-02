@@ -58,25 +58,59 @@
                 </div>
               </div>
               <div :class="`px-5 py-3 rounded-2xl max-w-[70%] shadow ${mensagem.erro ? 'bg-red-900 border border-red-800' : 'bg-gray-700'}`">
-                <div v-if="mensagem.carregando" class="flex items-center min-h-[24px]"><div class="dot-flashing"></div></div>
-                <div v-else>
-                  <div v-html="formatarResposta(mensagem.texto)" class="prose prose-invert max-w-none"></div>
-                  <div class="flex items-center mt-3" v-if="!mensagem.erro">
-                    <button 
-                      @click="copiarResposta(mensagem.texto)" 
-                      class="text-xs bg-gray-800 hover:bg-gray-600 px-3 py-1 rounded-md mr-2 flex items-center">
-                      <font-awesome-icon icon="copy" class="mr-1" /> Copiar
-                    </button>
-                    <button 
-                      v-if="mensagem.botaoReset" 
-                      @click="resetarLimiteTokens" 
-                      class="text-xs bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md flex items-center">
-                      <font-awesome-icon icon="sync" class="mr-1" /> Resetar Limite de Tokens
-                    </button>
+                <div v-if="!mensagem.erro" class="text-white">
+                  <div v-html="formatarResposta(mensagem.texto)"></div>
+                  
+                  <!-- Mostra dados de entidade específica, se disponível -->
+                  <div v-if="mensagem.entidadesDetalhadas && mensagem.entidadesDetalhadas.length" class="mt-3 border-t border-gray-600 pt-3">
+                    <div v-for="(entidade, idx) in mensagem.entidadesDetalhadas" :key="idx" class="mb-2 p-2 rounded bg-gray-800/50">
+                      <div class="font-medium text-blue-300">{{ entidade.name }}</div>
+                      <div class="grid grid-cols-2 gap-2 text-sm mt-1">
+                        <div class="flex justify-between">
+                          <span class="text-gray-400">Apdex:</span>
+                          <span :class="getColorClass(entidade.metricas?.['24h']?.apdex, 'apdex')">{{ formatarValor(entidade.metricas?.['24h']?.apdex) }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                          <span class="text-gray-400">Erros:</span>
+                          <span :class="getColorClass(entidade.metricas?.['24h']?.error_rate, 'error')">{{ formatarValor(entidade.metricas?.['24h']?.error_rate, '%') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                          <span class="text-gray-400">Resposta:</span>
+                          <span>{{ formatarValor(entidade.metricas?.['24h']?.response_time, 'ms') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                          <span class="text-gray-400">Throughput:</span>
+                          <span>{{ formatarValor(entidade.metricas?.['24h']?.throughput, 'req/min') }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Resumo de métricas globais, se disponível -->
+                  <div v-if="mensagem.resumoMetricas" class="mt-3 border-t border-gray-600 pt-3 text-sm">
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
+                        <span class="text-gray-400">Disponibilidade:</span>
+                        <span :class="getColorClass(mensagem.resumoMetricas.disponibilidade, 'disponibilidade')">{{ formatarValor(mensagem.resumoMetricas.disponibilidade, '%') }}</span>
+                      </div>
+                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
+                        <span class="text-gray-400">Apdex médio:</span>
+                        <span :class="getColorClass(mensagem.resumoMetricas.apdex_medio, 'apdex')">{{ formatarValor(mensagem.resumoMetricas.apdex_medio) }}</span>
+                      </div>
+                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
+                        <span class="text-gray-400">Taxa de erro média:</span>
+                        <span :class="getColorClass(mensagem.resumoMetricas.taxa_erro_media, 'error')">{{ formatarValor(mensagem.resumoMetricas.taxa_erro_media, '%') }}</span>
+                      </div>
+                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
+                        <span class="text-gray-400">Total de entidades:</span>
+                        <span>{{ formatarValor(mensagem.resumoMetricas.total_entidades) }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div v-if="!mensagem.carregando" class="text-right mt-1">
-                  <span class="text-xs text-gray-400">{{ mensagem.timestamp || 'Agora' }}</span>
+                <p class="text-red-300 font-semibold" v-else>{{ mensagem.texto || 'Ocorreu um erro ao obter resposta do backend. Nenhum dado real disponível.' }}</p>
+                <div class="text-right mt-1">
+                  <span class="text-xs" :class="mensagem.erro ? 'text-red-200' : 'text-blue-300'">{{ mensagem.timestamp || 'Agora' }}</span>
                 </div>
               </div>
             </div>
@@ -174,6 +208,38 @@ const copiarResposta = (texto) => {
   })
 }
 
+// Formatar valores numéricos com unidade
+const formatarValor = (valor, unidade = '') => {
+  if (valor === null || valor === undefined) return 'N/A'
+  
+  if (typeof valor === 'number') {
+    // Formata número com 2 casas decimais
+    const formatado = valor.toFixed(2)
+    return unidade ? `${formatado}${unidade}` : formatado
+  }
+  
+  return unidade ? `${valor}${unidade}` : valor
+}
+
+// Determinar classe de cor baseado no valor e tipo de métrica
+const getColorClass = (valor, tipo) => {
+  if (valor === null || valor === undefined) return 'text-gray-400'
+  
+  switch(tipo) {
+    case 'apdex':
+      return valor >= 0.9 ? 'text-green-400' : 
+             valor >= 0.7 ? 'text-yellow-400' : 'text-red-400'
+    case 'error':
+      return valor <= 1 ? 'text-green-400' : 
+             valor <= 5 ? 'text-yellow-400' : 'text-red-400'
+    case 'disponibilidade':
+      return valor >= 99 ? 'text-green-400' : 
+             valor >= 95 ? 'text-yellow-400' : 'text-red-400'
+    default:
+      return 'text-white'
+  }
+}
+
 const enviarPergunta = async (texto) => {
   if (!texto.trim()) return
   
@@ -207,68 +273,53 @@ const enviarPergunta = async (texto) => {
   if (chatHistory.value) {
     chatHistory.value.scrollTop = chatHistory.value.scrollHeight
   }
-  
+
   try {
-    // Atualiza os dados do contexto antes de enviar para garantir dados frescos
     await carregarDados()
-    
-    // Chamada real à API com contexto timeout maior para perguntas que precisam de análise profunda
-    const { data } = await getChatResposta(texto.trim())
-    
-    // Atualiza a última mensagem (resposta) com o conteúdo recebido
+    // Chamada real à API
+    const data = await getChatResposta(texto.trim())
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.'
-    ultimaMensagem.carregando = false
     
-    // Verifica se a resposta contém dados reais ou é genérica
-    if (ultimaMensagem.texto.includes('não há dados suficientes') || 
-        ultimaMensagem.texto.includes('Não tenho informações específicas') ||
-        ultimaMensagem.texto.includes('Por favor, forneça mais detalhes')) {
+    if (data && !data.erro) {
+      ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.'
+      ultimaMensagem.carregando = false
+      
+      // Processar o contexto recebido e extrair informações relevantes
+      if (data.contexto) {
+        contexto.value = {
+          ...contexto.value,
+          ...data.contexto,
+          atualizadoEm: new Date(data.contexto.atualizadoEm || new Date())
+        }
+        
+        // Extrair entidades detalhadas, se disponíveis no contexto
+        if (data.contexto.entidades && Array.isArray(data.contexto.entidades)) {
+          // Limitar a 3 entidades para não sobrecarregar a interface
+          ultimaMensagem.entidadesDetalhadas = data.contexto.entidades.slice(0, 3)
+        }
+        
+        // Extrair resumo de métricas, se disponível
+        if (data.contexto.metricas || data.contexto.resumo) {
+          ultimaMensagem.resumoMetricas = {
+            disponibilidade: data.contexto.disponibilidade || data.contexto.metricas?.disponibilidade,
+            apdex_medio: data.contexto.apdex_medio || data.contexto.metricas?.apdex_medio,
+            taxa_erro_media: data.contexto.taxa_erro_media || data.contexto.metricas?.taxa_erro_media,
+            total_entidades: data.contexto.totalEntidades || data.contexto.entidades?.length || 0
+          }
+        }
+      }
+    } else {
+      ultimaMensagem.texto = data?.mensagem || 'Erro ao obter resposta da IA.'
+      ultimaMensagem.carregando = false
       ultimaMensagem.erro = true
     }
-    
-    // Atualiza o contexto se recebido da API
-    if (data.contexto) {
-      contexto.value = {
-        ...contexto.value,
-        ...data.contexto,
-        atualizadoEm: new Date(data.contexto.atualizadoEm || new Date())
-      }
-    }
   } catch (error) {
-    // Em caso de erro, exibe a mensagem real do backend quando disponível
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    
-    // Tratamento específico para erro de tokens excedidos
-    if (error.response?.status === 400 && 
-        (error.response?.data?.mensagem?.includes('context_length_exceeded') ||
-         error.response?.data?.mensagem?.includes('context length'))) {
-      ultimaMensagem.texto = "Sua pergunta é muito extensa para o modelo de IA processar. Por favor, tente ser mais específico ou divida em partes menores."
-    } else if (ultimaMensagem.texto && ultimaMensagem.texto.includes("limite diário de uso da API")) {
-      // Se o limite de tokens foi atingido, mostrar botão para reset
-      ultimaMensagem.texto = "Desculpe, o limite diário de uso da API foi atingido. Por favor, tente novamente amanhã ou use o botão abaixo para reiniciar o limite (apenas em ambiente de teste)."
-      ultimaMensagem.botaoReset = true
-    } else {
-      // Tenta extrair a mensagem real do backend em ordem de prioridade
-      const backendMensagem = 
-        // Formato novo com campo mensagem + ação sugerida
-        error.response?.data?.mensagem ? 
-          `${error.response.data.mensagem}${error.response.data.acao_sugerida ? '\n\n' + error.response.data.acao_sugerida : ''}` :
-        // Formato alternativo com campo detail
-        error.response?.data?.detail ? 
-          error.response.data.detail : 
-        // Formato antigo ou outro erro
-        error.message || 'Desculpe, ocorreu um erro ao processar sua pergunta. Por favor, tente novamente.'
-      
-      ultimaMensagem.texto = backendMensagem
-    }
-    
+    ultimaMensagem.texto = error?.message || 'Erro inesperado ao processar sua pergunta.'
     ultimaMensagem.carregando = false
-    ultimaMensagem.erro = true // Flag para estilização específica
+    ultimaMensagem.erro = true
   } finally {
     carregando.value = false
-    
-    // Rola para o final do chat novamente para mostrar a resposta
     await nextTick()
     if (chatHistory.value) {
       chatHistory.value.scrollTop = chatHistory.value.scrollHeight
@@ -285,12 +336,14 @@ function formatarResposta(texto) {
   // Adiciona classes utilitárias do Tailwind para tabelas, listas e blocos de código
   html = html
     .replace(/<table>/g, '<table class="min-w-full text-sm text-left text-gray-300 border border-gray-700 my-2">')
+    .replace(/<thead>/g, '<thead class="bg-gray-800">')
     .replace(/<th>/g, '<th class="bg-gray-800 px-2 py-1 border-b border-gray-700">')
     .replace(/<td>/g, '<td class="px-2 py-1 border-b border-gray-700">')
     .replace(/<ul>/g, '<ul class="list-disc ml-6 my-2">')
     .replace(/<ol>/g, '<ol class="list-decimal ml-6 my-2">')
     .replace(/<pre>/g, '<pre class="bg-gray-800 rounded p-2 overflow-x-auto my-2">')
     .replace(/<code>/g, '<code class="text-green-400">')
+    .replace(/<a /g, '<a class="text-blue-400 hover:underline" ')
 
   return html
 }
@@ -382,18 +435,29 @@ const carregarDados = async () => {
 // Inicializa com mensagem de boas-vindas
 onMounted(async () => {
   try {
-    const { data } = await getChatResposta('mensagem_inicial')
-    if (data && data.resposta) {
-      mensagens.value.push({
-        tipo: 'resposta',
-        texto: data.resposta
-      })
-      
-      if (data.contexto) {
-        contexto.value = {
-          ...contexto.value,
-          ...data.contexto,
-          atualizadoEm: new Date()
+    // Carregar histórico salvo, se existir
+    const historico = localStorage.getItem('chatHistory')
+    if (historico) {
+      try {
+        mensagens.value = JSON.parse(historico)
+      } catch (e) {
+        console.error('Erro ao carregar histórico:', e)
+      }
+    } else {
+      // Sem histórico, carrega mensagem inicial
+      const data = await getChatResposta('mensagem_inicial')
+      if (data && data.resposta) {
+        mensagens.value.push({
+          tipo: 'resposta',
+          texto: data.resposta
+        })
+        
+        if (data.contexto) {
+          contexto.value = {
+            ...contexto.value,
+            ...data.contexto,
+            atualizadoEm: new Date()
+          }
         }
       }
     }
@@ -404,6 +468,13 @@ onMounted(async () => {
   // Carrega dados iniciais quando o componente for montado
   carregarDados()
 })
+
+// Salvar histórico sempre que as mensagens mudarem
+watch(mensagens, (novasMensagens) => {
+  if (novasMensagens.length > 0) {
+    localStorage.setItem('chatHistory', JSON.stringify(novasMensagens))
+  }
+}, { deep: true })
 </script>
 
 <style scoped>

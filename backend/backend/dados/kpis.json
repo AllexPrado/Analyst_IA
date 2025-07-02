@@ -1,22 +1,22 @@
 {
   "performance": {
-    "apdex": 0.8,
-    "tempo_resposta": 0.84,
-    "tendencia": -2.8,
+    "apdex": 0.87,
+    "tempo_resposta": 1.2,
+    "tendencia": 5.2,
     "historico": [
       0.72,
       0.75,
       0.78,
       0.82,
       0.85,
-      0.89
+      0.87
     ]
   },
   "disponibilidade": {
     "uptime": 99.85,
-    "total_servicos": 44,
-    "servicos_disponiveis": 54,
-    "tendencia": -0.63,
+    "total_servicos": 54,
+    "servicos_disponiveis": 53,
+    "tendencia": 0.3,
     "historico": [
       98.5,
       98.7,
@@ -27,10 +27,10 @@
     ]
   },
   "erros": {
-    "taxa_erro": 1.28,
-    "tendencia": -19.4,
-    "total_requisicoes": 360561,
-    "requisicoes_com_erro": 1996,
+    "taxa_erro": 1.2,
+    "tendencia": -12.5,
+    "total_requisicoes": 356789,
+    "requisicoes_com_erro": 4281,
     "historico": [
       2.5,
       2.2,
@@ -41,110 +41,16 @@
     ]
   },
   "throughput": {
-    "requisicoes_por_minuto": 3661,
-    "tendencia": 10.0,
-    "pico": 5487,
+    "requisicoes_por_minuto": 3400,
+    "tendencia": 8.2,
+    "pico": 7850,
     "historico": [
       2200,
       2500,
       2800,
       3100,
-      3500,
+      3400,
       3800
     ]
-  },
-  "latencia_media": {
-    "valor": 0.15,
-    "unidade": "ms",
-    "tendencia": -5.0,
-    "historico": [
-      0.12,
-      0.11,
-      0.1,
-      0.09,
-      0.08,
-      0.07
-    ]
-  },
-  "requisicoes": {
-    "valor": 3179,
-    "unidade": "/seg",
-    "tendencia": 1.7,
-    "historico": [
-      1200,
-      1500,
-      2000,
-      2500,
-      3000,
-      3500
-    ]
-  },
-  "cpu": {
-    "valor": 89.0,
-    "unidade": "%",
-    "tendencia": 2.2,
-    "historico": [
-      45,
-      50,
-      55,
-      60,
-      65,
-      60
-    ]
-  },
-  "ram": {
-    "valor": 44.8,
-    "unidade": "%",
-    "tendencia": -3.1,
-    "historico": [
-      50,
-      55,
-      60,
-      65,
-      70,
-      65
-    ]
-  },
-  "servicos": [
-    {
-      "nome": "API Gateway",
-      "disponibilidade": 99.5,
-      "mttr": 20.8,
-      "latencia": 0.05,
-      "taxa_erro": 0.32,
-      "status": "normal"
-    },
-    {
-      "nome": "Autenticação",
-      "disponibilidade": 99.8,
-      "mttr": 16.4,
-      "latencia": 0.29,
-      "taxa_erro": 0.04,
-      "status": "normal"
-    },
-    {
-      "nome": "Processamento",
-      "disponibilidade": 99.06,
-      "mttr": 15.5,
-      "latencia": 0.51,
-      "taxa_erro": 0.79,
-      "status": "normal"
-    },
-    {
-      "nome": "Banco de Dados",
-      "disponibilidade": 99.05,
-      "mttr": 33.4,
-      "latencia": 0.17,
-      "taxa_erro": 0.08,
-      "status": "alerta"
-    },
-    {
-      "nome": "Cache",
-      "disponibilidade": 99.54,
-      "mttr": 11.8,
-      "latencia": 0.07,
-      "taxa_erro": 0.1,
-      "status": "normal"
-    }
-  ]
+  }
 }

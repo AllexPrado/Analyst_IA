@@ -218,5 +218,430 @@
     "pergunta": "mensagem_inicial",
     "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
     "timestamp": "2025-06-30T19:12:07.234325"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:10:52.576375"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:26:40.775444"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:26:54.544035"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:27:06.127902"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:31:05.649842"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:31:17.459703"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo.",
+    "resposta": "As 3 entidades com mais erros são: API-Pagamentos (1.50%), API-Autenticacao (1.20%), Database-Principal (0.30%)",
+    "timestamp": "2025-06-30T20:31:32.298680"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:31:38.001587"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:38:58.651262"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:39:11.883998"
+  },
+  {
+    "pergunta": "Quais entidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:40:38.066172"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:47:03.255289"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T20:47:16.860927"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:00:28.896321"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:03:49.033727"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:03:56.524282"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:07:59.458042"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:12:11.088515"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:12:21.019242"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:13:36.635564"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:14:45.537158"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:21:49.658370"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:22:14.159055"
+  },
+  {
+    "pergunta": "Como está o desempenho da aplicação?",
+    "resposta": "As 3 entidades com pior performance são: Database-Principal (380.50ms), API-Pagamentos (180.20ms), API-Autenticacao (150.10ms)",
+    "timestamp": "2025-06-30T21:22:26.976051"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:29:44.001238"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.",
+    "timestamp": "2025-06-30T21:29:48.054506"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:29:53.287853"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:33:12.481745"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:46:16.710225"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Não encontrei métricas suficientes nas entidades monitoradas. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-06-30T21:46:22.972057"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:51:52.760141"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:52:15.247663"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:55:16.601532"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T21:59:14.623527"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:02:12.327373"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:09:35.536778"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:10:29.583173"
+  },
+  {
+    "pergunta": "Mostre os principais alertas de hoje",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:10:33.747790"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:20:29.697268"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:20:52.332384"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:22:04.326449"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 0 entidades monitoradas . Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:23:21.151236"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Não encontrei métricas suficientes nas entidades monitoradas. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-06-30T22:23:25.018055"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.",
+    "timestamp": "2025-06-30T22:55:26.024460"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:55:26.108912"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T22:58:23.146847"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.",
+    "timestamp": "2025-06-30T22:58:28.129572"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:10:01.174518"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:14:27.084881"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:25:10.006153"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:25:16.109566"
+  },
+  {
+    "pergunta": "Como está o desempenho do sistema?",
+    "resposta": "As 3 entidades com pior performance são: Database-Principal (380.50ms), API-Pagamentos (180.20ms), API-Autenticacao (150.10ms)",
+    "timestamp": "2025-06-30T23:31:29.852741"
+  },
+  {
+    "pergunta": "Como está o desempenho do sistema?",
+    "resposta": "As 3 entidades com pior performance são: Database-Principal (380.50ms), API-Pagamentos (180.20ms), API-Autenticacao (150.10ms)",
+    "timestamp": "2025-06-30T23:31:49.671848"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:33:01.596104"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-06-30T23:33:15.823625"
+  },
+  {
+    "pergunta": "Como está o sistema?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T10:17:14.969995"
+  },
+  {
+    "pergunta": "Como está o sistema?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:09:57.644601"
+  },
+  {
+    "pergunta": "Como está o sistema?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:09:59.731785"
+  },
+  {
+    "pergunta": "Quais são as métricas mais importantes?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.",
+    "timestamp": "2025-07-01T11:10:01.805009"
+  },
+  {
+    "pergunta": "Algum problema de performance?",
+    "resposta": "As 3 entidades com pior performance são: Database-Principal (380.50ms), API-Pagamentos (180.20ms), API-Autenticacao (150.10ms)",
+    "timestamp": "2025-07-01T11:10:03.996508"
+  },
+  {
+    "pergunta": "Qual é o status da infraestrutura?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:10:06.090277"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:11:46.750937"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.",
+    "timestamp": "2025-07-01T11:11:59.825329"
+  },
+  {
+    "pergunta": "Quais entidades estão sendo monitoradas?",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:12:16.722986"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "Com base nos dados reais do New Relic, posso informar que temos 3 entidades monitoradas APM: 2, INFRA: 1. O Apdex score médio é 0.87. A taxa de erro média é 1.00%. Para uma análise mais específica, por favor, detalhe sua pergunta sobre métricas, performance, erros, infraestrutura, impacto no negócio ou recomendações.",
+    "timestamp": "2025-07-01T11:19:47.009094"
+  },
+  {
+    "pergunta": "Quais ententidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T14:39:36.074342"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo.",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-01T15:29:46.693422"
+  },
+  {
+    "pergunta": "Como está o sistema?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T15:31:00.002942"
+  },
+  {
+    "pergunta": "Como está o sistema?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T15:35:12.087915"
+  },
+  {
+    "pergunta": "Quais são as principais métricas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.\n\nEntidades com métricas mais relevantes:\n- Database-Principal: Apdex 0.82, Taxa de erro 0.3%\n- API-Pagamentos: Apdex 0.9, Taxa de erro 1.5%\n- API-Autenticacao: Apdex 0.89, Taxa de erro 1.2%",
+    "timestamp": "2025-07-01T15:35:14.148946"
+  },
+  {
+    "pergunta": "Existem alertas ativos?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T15:35:16.323738"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-01T15:56:16.473497"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-01T16:01:42.436963"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T16:01:49.209522"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-01T19:07:16.537195"
+  },
+  {
+    "pergunta": "Quais entidades estão sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-01T21:18:37.131960"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-01T21:50:41.125485"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-01T21:51:16.495471"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.\n\nEntidades com métricas mais relevantes:\n- API-Pagamentos: Apdex 0.9, Taxa de erro 1.5%\n- API-Autenticacao: Apdex 0.89, Taxa de erro 1.2%\n- Database-Principal: Apdex 0.82, Taxa de erro 0.3%",
+    "timestamp": "2025-07-02T09:05:44.854756"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-02T09:05:57.473846"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-02T10:06:31.314880"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-02T10:08:55.759919"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-02T10:18:26.739679"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 0 entidades monitoradas, posso informar que:\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-02T10:18:39.689297"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-02T19:47:03.488596"
   }
 ]

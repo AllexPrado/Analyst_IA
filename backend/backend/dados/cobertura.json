@@ -1,7 +1,7 @@
 {
   "total_entidades": 157,
-  "monitoradas": 153,
-  "porcentagem": 97.5,
+  "monitoradas": 138,
+  "porcentagem": 87.9,
   "por_dominio": {
     "APM": {
       "total": 53,

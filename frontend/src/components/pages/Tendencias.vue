@@ -1,207 +1,214 @@
 <template>
   <div class="py-8">
-    <!-- Seleção de períodos e filtros -->
-    <div class="mb-6 flex space-x-2">
-      <button v-for="periodo in ['7d', '30d', '90d', '12m']" :key="periodo" 
-              class="px-4 py-1 rounded-md"
-              :class="periodoSelecionado === periodo ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300'"
-              @click="periodoSelecionado = periodo">
-        {{ periodo }}
-      </button>
-      <div class="ml-auto flex space-x-2">
-        <select v-model="tipoGrafico" class="bg-gray-800 text-gray-300 py-1 px-3 rounded-md border-none">
-          <option value="linha">Gráfico de Linha</option>
-          <option value="barra">Gráfico de Barras</option>
-          <option value="area">Gráfico de Área</option>
-        </select>
-        <select v-model="recursoFiltrado" class="bg-gray-800 text-gray-300 py-1 px-3 rounded-md border-none">
-          <option value="todos">Todos os recursos</option>
-          <option v-for="recurso in dados.recursos" :key="recurso.id" :value="recurso.id">
-            {{ recurso.nome }}
-          </option>
-        </select>
+    <div v-if="erroTendencias" class="flex flex-col items-center justify-center h-96">
+      <font-awesome-icon icon="exclamation-triangle" class="text-yellow-400 text-3xl mb-2" />
+      <span class="text-yellow-300 text-lg">{{ mensagemErroTendencias || 'Erro ao carregar dados de tendências.' }}</span>
+      <button @click="fetchTendencias" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tentar novamente</button>
+    </div>
+    <div v-else>
+      <!-- Seleção de períodos e filtros -->
+      <div class="mb-6 flex space-x-2">
+        <button v-for="periodo in ['7d', '30d', '90d', '12m']" :key="periodo" 
+                class="px-4 py-1 rounded-md"
+                :class="periodoSelecionado === periodo ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300'"
+                @click="periodoSelecionado = periodo">
+          {{ periodo }}
+        </button>
+        <div class="ml-auto flex space-x-2">
+          <select v-model="tipoGrafico" class="bg-gray-800 text-gray-300 py-1 px-3 rounded-md border-none">
+            <option value="linha">Gráfico de Linha</option>
+            <option value="barra">Gráfico de Barras</option>
+            <option value="area">Gráfico de Área</option>
+          </select>
+          <select v-model="recursoFiltrado" class="bg-gray-800 text-gray-300 py-1 px-3 rounded-md border-none">
+            <option value="todos">Todos os recursos</option>
+            <option v-for="recurso in dados.recursos" :key="recurso.id" :value="recurso.id">
+              {{ recurso.nome }}
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <!-- Removido botão Atualizar para evitar consumo de tokens -->
-    <div class="flex justify-end items-center mb-4">
-      <span class="text-sm text-gray-400">
-        Última atualização: {{ ultimaAtualizacao }}
-      </span>
-    </div>
+      <!-- Removido botão Atualizar para evitar consumo de tokens -->
+      <div class="flex justify-end items-center mb-4">
+        <span class="text-sm text-gray-400">
+          Última atualização: {{ ultimaAtualizacao }}
+        </span>
+      </div>
 
-    <!-- Gráfico principal de tendências -->
-    <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white mb-8">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Tendências de Desempenho</h3>
-        <div class="flex space-x-2">
-          <div v-for="(metrica, idx) in metricas" :key="idx" 
-               class="flex items-center cursor-pointer" 
-               @click="toggleMetrica(metrica.id)">
-            <div :class="`w-3 h-3 rounded-full mr-1 ${metrica.cor}`"></div>
-            <div :class="metricasSelecionadas.includes(metrica.id) ? 'text-white' : 'text-gray-500'">
-              {{ metrica.nome }}
+      <!-- Gráfico principal de tendências -->
+      <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Tendências de Desempenho</h3>
+          <div class="flex space-x-2">
+            <div v-for="(metrica, idx) in metricas" :key="idx" 
+                 class="flex items-center cursor-pointer" 
+                 @click="toggleMetrica(metrica.id)">
+              <div :class="`w-3 h-3 rounded-full mr-1 ${metrica.cor}`"></div>
+              <div :class="metricasSelecionadas.includes(metrica.id) ? 'text-white' : 'text-gray-500'">
+                {{ metrica.nome }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h-80">
+          <SafeApexChart 
+            type="line"
+            height="100%"
+            :options="chartOptions"
+            :series="seriesData"
+            noDataMessage="Nenhum dado de tendência disponível"
+            noDataIcon="chart-line">
+          </SafeApexChart>
+        </div>
+      </div>
+
+      <!-- Anomalias detectadas -->
+      <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Anomalias Detectadas</h3>
+          <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded">Ver histórico</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-left text-sm text-gray-400 border-b border-gray-700">
+                <th class="pb-2">Data/Hora</th>
+                <th class="pb-2">Recurso</th>
+                <th class="pb-2">Métrica</th>
+                <th class="pb-2">Desvio</th>
+                <th class="pb-2">Duração</th>
+                <th class="pb-2">Severidade</th>
+                <th class="pb-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(anomalia, idx) in dados.anomaliasRecentes" :key="idx" class="border-b border-gray-800">
+                <td class="py-3">{{ anomalia.dataHora }}</td>
+                <td class="py-3 font-medium">{{ anomalia.recurso }}</td>
+                <td class="py-3">{{ anomalia.metrica }}</td>
+                <td class="py-3">{{ anomalia.desvio }}%</td>
+                <td class="py-3">{{ anomalia.duracao }}</td>
+                <td class="py-3">
+                  <span :class="`px-2 py-1 rounded text-xs ${
+                    anomalia.severidade === 'Baixa' ? 'bg-blue-900 text-blue-200' : 
+                    anomalia.severidade === 'Média' ? 'bg-yellow-900 text-yellow-200' :
+                    'bg-red-900 text-red-200'
+                  }`">{{ anomalia.severidade }}</span>
+                </td>
+                <td class="py-3">
+                  <span :class="`px-2 py-1 rounded text-xs ${
+                    anomalia.status === 'Resolvido' ? 'bg-green-900 text-green-200' : 
+                    anomalia.status === 'Em Análise' ? 'bg-yellow-900 text-yellow-200' :
+                    'bg-red-900 text-red-200'
+                  }`">{{ anomalia.status }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Projeções e Previsões -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Previsões futuras -->
+        <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
+          <h3 class="text-xl font-semibold mb-4">Previsões para os próximos 30 dias</h3>
+          <div class="h-64">
+            <SafeApexChart 
+              type="area"
+              height="100%"
+              :options="previsaoOptions"
+              :series="previsaoSeries"
+              noDataMessage="Nenhuma previsão disponível"
+              noDataIcon="crystal-ball">
+            </SafeApexChart>
+          </div>
+          <div class="mt-4 p-4 border border-gray-700 rounded-lg bg-gray-800">
+            <div class="font-semibold mb-2">Análise Preditiva:</div>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li v-for="(previsao, idx) in dados.previsoes" :key="idx">
+                <span :class="`mr-2 ${
+                  previsao.tendencia === 'positiva' ? 'text-green-400' : 
+                  previsao.tendencia === 'negativa' ? 'text-red-400' : 
+                  'text-yellow-400'
+                }`">{{ previsao.tendencia === 'positiva' ? '↑' : previsao.tendencia === 'negativa' ? '↓' : '⚠' }}</span>
+                {{ previsao.texto }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Análise de Padrões -->
+        <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
+          <h3 class="text-xl font-semibold mb-4">Análise de Padrões</h3>
+          <div class="mb-4">
+            <div class="flex justify-between text-sm mb-1">
+              <div>Padrões Sazonais</div>
+              <div>Confiança: 87%</div>
+            </div>
+            <div class="h-28 mb-4">
+              <SafeApexChart 
+                type="heatmap"
+                height="100%"
+                :options="padraoOptions"
+                :series="padraoSeries"
+                noDataMessage="Nenhum padrão identificado"
+                noDataIcon="th">
+              </SafeApexChart>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div v-for="(padrao, idx) in dados.padroes" :key="idx" class="p-3 border border-gray-700 rounded-lg">
+              <div class="font-medium mb-1">{{ padrao.titulo }}</div>
+              <div class="text-gray-400">{{ padrao.descricao }}</div>
+              <div :class="`mt-2 text-xs font-medium ${
+                padrao.impacto === 'Positivo' ? 'text-green-400' : 
+                padrao.impacto === 'Negativo' ? 'text-red-400' : 
+                'text-yellow-400'
+              }`">Impacto: {{ padrao.impacto }}</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="h-80">
-        <SafeApexChart 
-          type="line"
-          height="100%"
-          :options="chartOptions"
-          :series="seriesData"
-          noDataMessage="Nenhum dado de tendência disponível"
-          noDataIcon="chart-line">
-        </SafeApexChart>
-      </div>
-    </div>
 
-    <!-- Anomalias detectadas -->
-    <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white mb-8">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Anomalias Detectadas</h3>
-        <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded">Ver histórico</button>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="text-left text-sm text-gray-400 border-b border-gray-700">
-              <th class="pb-2">Data/Hora</th>
-              <th class="pb-2">Recurso</th>
-              <th class="pb-2">Métrica</th>
-              <th class="pb-2">Desvio</th>
-              <th class="pb-2">Duração</th>
-              <th class="pb-2">Severidade</th>
-              <th class="pb-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(anomalia, idx) in dados.anomaliasRecentes" :key="idx" class="border-b border-gray-800">
-              <td class="py-3">{{ anomalia.dataHora }}</td>
-              <td class="py-3 font-medium">{{ anomalia.recurso }}</td>
-              <td class="py-3">{{ anomalia.metrica }}</td>
-              <td class="py-3">{{ anomalia.desvio }}%</td>
-              <td class="py-3">{{ anomalia.duracao }}</td>
-              <td class="py-3">
-                <span :class="`px-2 py-1 rounded text-xs ${
-                  anomalia.severidade === 'Baixa' ? 'bg-blue-900 text-blue-200' : 
-                  anomalia.severidade === 'Média' ? 'bg-yellow-900 text-yellow-200' :
-                  'bg-red-900 text-red-200'
-                }`">{{ anomalia.severidade }}</span>
-              </td>
-              <td class="py-3">
-                <span :class="`px-2 py-1 rounded text-xs ${
-                  anomalia.status === 'Resolvido' ? 'bg-green-900 text-green-200' : 
-                  anomalia.status === 'Em Análise' ? 'bg-yellow-900 text-yellow-200' :
-                  'bg-red-900 text-red-200'
-                }`">{{ anomalia.status }}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Projeções e Previsões -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-      <!-- Previsões futuras -->
+      <!-- Recomendações baseadas em tendências -->
       <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
-        <h3 class="text-xl font-semibold mb-4">Previsões para os próximos 30 dias</h3>
-        <div class="h-64">
-          <SafeApexChart 
-            type="area"
-            height="100%"
-            :options="previsaoOptions"
-            :series="previsaoSeries"
-            noDataMessage="Nenhuma previsão disponível"
-            noDataIcon="crystal-ball">
-          </SafeApexChart>
-        </div>
-        <div class="mt-4 p-4 border border-gray-700 rounded-lg bg-gray-800">
-          <div class="font-semibold mb-2">Análise Preditiva:</div>
-          <ul class="text-sm text-gray-300 space-y-1">
-            <li v-for="(previsao, idx) in dados.previsoes" :key="idx">
-              <span :class="`mr-2 ${
-                previsao.tendencia === 'positiva' ? 'text-green-400' : 
-                previsao.tendencia === 'negativa' ? 'text-red-400' : 
-                'text-yellow-400'
-              }`">{{ previsao.tendencia === 'positiva' ? '↑' : previsao.tendencia === 'negativa' ? '↓' : '⚠' }}</span>
-              {{ previsao.texto }}
-            </li>
-          </ul>
+        <h3 class="text-xl font-semibold mb-4">Recomendações Baseadas em Tendências</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div v-for="(recomendacao, idx) in dados.recomendacoes" :key="idx" class="p-4 border border-gray-700 rounded-lg">
+            <div :class="`h-10 w-10 rounded-full mb-3 flex items-center justify-center ${
+              recomendacao.categoria === 'performance' ? 'bg-blue-900 text-blue-200' : 
+              recomendacao.categoria === 'capacidade' ? 'bg-purple-900 text-purple-200' :
+              'bg-green-900 text-green-200'
+            }`">
+              <i :class="`fas ${
+                recomendacao.categoria === 'performance' ? 'fa-bolt' : 
+                recomendacao.categoria === 'capacidade' ? 'fa-server' :
+                'fa-chart-line'
+              }`"></i>
+            </div>
+            <h4 class="font-semibold mb-2">{{ recomendacao.titulo }}</h4>
+            <p class="text-sm text-gray-400 mb-4">{{ recomendacao.descricao }}</p>
+            <div class="flex justify-between text-xs">
+              <div>{{ recomendacao.impacto }}</div>
+              <div :class="`font-medium ${
+                recomendacao.urgencia === 'Alta' ? 'text-red-400' : 
+                recomendacao.urgencia === 'Média' ? 'text-yellow-400' :
+                'text-blue-400'
+              }`">Urgência: {{ recomendacao.urgencia }}</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Análise de Padrões -->
+      <!-- Resumo Executivo -->
       <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
-        <h3 class="text-xl font-semibold mb-4">Análise de Padrões</h3>
-        <div class="mb-4">
-          <div class="flex justify-between text-sm mb-1">
-            <div>Padrões Sazonais</div>
-            <div>Confiança: 87%</div>
-          </div>
-          <div class="h-28 mb-4">
-            <SafeApexChart 
-              type="heatmap"
-              height="100%"
-              :options="padraoOptions"
-              :series="padraoSeries"
-              noDataMessage="Nenhum padrão identificado"
-              noDataIcon="th">
-            </SafeApexChart>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div v-for="(padrao, idx) in dados.padroes" :key="idx" class="p-3 border border-gray-700 rounded-lg">
-            <div class="font-medium mb-1">{{ padrao.titulo }}</div>
-            <div class="text-gray-400">{{ padrao.descricao }}</div>
-            <div :class="`mt-2 text-xs font-medium ${
-              padrao.impacto === 'Positivo' ? 'text-green-400' : 
-              padrao.impacto === 'Negativo' ? 'text-red-400' : 
-              'text-yellow-400'
-            }`">Impacto: {{ padrao.impacto }}</div>
-          </div>
-        </div>
+        <h3 class="text-xl font-semibold mb-4">Resumo Executivo</h3>
+        <p class="text-sm text-gray-300">
+          {{ getTendenciasExecutiveSummary() }}
+        </p>
       </div>
-    </div>
-
-    <!-- Recomendações baseadas em tendências -->
-    <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
-      <h3 class="text-xl font-semibold mb-4">Recomendações Baseadas em Tendências</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div v-for="(recomendacao, idx) in dados.recomendacoes" :key="idx" class="p-4 border border-gray-700 rounded-lg">
-          <div :class="`h-10 w-10 rounded-full mb-3 flex items-center justify-center ${
-            recomendacao.categoria === 'performance' ? 'bg-blue-900 text-blue-200' : 
-            recomendacao.categoria === 'capacidade' ? 'bg-purple-900 text-purple-200' :
-            'bg-green-900 text-green-200'
-          }`">
-            <i :class="`fas ${
-              recomendacao.categoria === 'performance' ? 'fa-bolt' : 
-              recomendacao.categoria === 'capacidade' ? 'fa-server' :
-              'fa-chart-line'
-            }`"></i>
-          </div>
-          <h4 class="font-semibold mb-2">{{ recomendacao.titulo }}</h4>
-          <p class="text-sm text-gray-400 mb-4">{{ recomendacao.descricao }}</p>
-          <div class="flex justify-between text-xs">
-            <div>{{ recomendacao.impacto }}</div>
-            <div :class="`font-medium ${
-              recomendacao.urgencia === 'Alta' ? 'text-red-400' : 
-              recomendacao.urgencia === 'Média' ? 'text-yellow-400' :
-              'text-blue-400'
-            }`">Urgência: {{ recomendacao.urgencia }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Resumo Executivo -->
-    <div class="rounded-xl shadow-lg p-6 bg-gray-900 text-white">
-      <h3 class="text-xl font-semibold mb-4">Resumo Executivo</h3>
-      <p class="text-sm text-gray-300">
-        {{ getTendenciasExecutiveSummary() }}
-      </p>
     </div>
   </div>
 </template>
@@ -227,6 +234,8 @@ const metricas = [
 
 const metricasSelecionadas = ref(['cpu', 'memoria', 'latencia'])
 const dados = ref({})
+const erroTendencias = ref(false)
+const mensagemErroTendencias = ref('')
 
 const toggleMetrica = (id) => {
   if (metricasSelecionadas.value.includes(id)) {
@@ -430,16 +439,25 @@ const padraoSeries = [
   }
 ]
 
-onMounted(async () => {
+const fetchTendencias = async () => {
+  erroTendencias.value = false
+  mensagemErroTendencias.value = ''
   try {
-    const { data } = await getTendencias()
-    dados.value = data || { metricas: {} }
-    ultimaAtualizacao.value = new Date().toLocaleString()
+    const tendencias = await getTendencias()
+    if (tendencias && tendencias.erro) {
+      erroTendencias.value = true
+      mensagemErroTendencias.value = tendencias.mensagem || 'Nenhum dado real de tendências disponível.'
+    } else {
+      dados.value = tendencias
+    }
   } catch (e) {
-    console.error("Erro ao carregar tendências:", e)
-    dados.value = { metricas: {} }
-    ultimaAtualizacao.value = "Erro na atualização"
+    erroTendencias.value = true
+    mensagemErroTendencias.value = 'Erro ao acessar o backend.'
   }
+}
+
+onMounted(() => {
+  fetchTendencias()
 })
 
 // Função para gerar um resumo executivo das tendências

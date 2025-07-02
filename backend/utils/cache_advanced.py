@@ -22,6 +22,24 @@ from .cache import (
 from .cache_initializer import inicializar_cache, verificar_integridade_cache
 from .cache_collector import coletar_contexto_completo as coletar_contexto_completo_avancado
 
+# Função de coleta de dados de cache para importação externa
+async def collect_cached_data():
+    """
+    Função para coletar dados completos para o cache.
+    Esta é uma função proxy para coletar_contexto_completo_avancado
+    que pode ser importada por outros módulos.
+    
+    Returns:
+        Dict: Dados coletados para o cache
+    """
+    logger.info("Coletando dados de cache usando o coletor avançado")
+    try:
+        return await coletar_contexto_completo_avancado()
+    except Exception as e:
+        logger.error(f"Erro ao coletar dados de cache avançado: {e}")
+        # Em caso de erro, retornar um objeto vazio mas válido
+        return {"entidades": [], "timestamp": None, "status": "error"}
+
 def replace_function_in_module(module, function_name, new_function):
     """
     Substitui uma função em um módulo por uma nova função.
@@ -187,5 +205,6 @@ __all__ = [
     'inicializar_sistema_cache',
     'status_cache',
     'atualizar_cache_incremental',
-    'coletar_contexto_completo_avancado'
+    'coletar_contexto_completo_avancado',
+    'collect_cached_data'
 ]

@@ -10,37 +10,36 @@
     ],
     "series": [
       {
-        "name": "Apdex",
+        "name": "Web",
         "data": [
+          0.72,
+          0.75,
+          0.78,
           0.82,
-          0.84,
+          0.85,
+          0.87
+        ]
+      },
+      {
+        "name": "Mobile",
+        "data": [
+          0.68,
+          0.71,
+          0.75,
+          0.79,
+          0.82,
+          0.84
+        ]
+      },
+      {
+        "name": "API",
+        "data": [
           0.81,
           0.83,
-          0.87,
-          0.89
-        ]
-      }
-    ]
-  },
-  "disponibilidade": {
-    "labels": [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun"
-    ],
-    "series": [
-      {
-        "name": "Uptime",
-        "data": [
-          99.2,
-          99.3,
-          99.1,
-          99.5,
-          99.7,
-          99.8
+          0.84,
+          0.86,
+          0.88,
+          0.91
         ]
       }
     ]
@@ -56,14 +55,59 @@
     ],
     "series": [
       {
-        "name": "Taxa de Erros",
+        "name": "Erros por minuto",
         "data": [
-          2.5,
-          2.2,
-          2.7,
-          2.0,
-          1.5,
-          1.1
+          42,
+          38,
+          35,
+          30,
+          25,
+          18
+        ]
+      }
+    ]
+  },
+  "tempos_resposta": {
+    "labels": [
+      "Jan",
+      "Fev",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun"
+    ],
+    "series": [
+      {
+        "name": "Web (ms)",
+        "data": [
+          320,
+          310,
+          290,
+          275,
+          260,
+          240
+        ]
+      },
+      {
+        "name": "Mobile (ms)",
+        "data": [
+          380,
+          360,
+          340,
+          330,
+          315,
+          300
+        ]
+      },
+      {
+        "name": "API (ms)",
+        "data": [
+          120,
+          115,
+          110,
+          105,
+          100,
+          95
         ]
       }
     ]
@@ -81,198 +125,14 @@
       {
         "name": "Requisições/min",
         "data": [
-          1200,
-          1350,
-          1500,
-          1700,
-          1900,
-          2100
+          2200,
+          2500,
+          2800,
+          3100,
+          3400,
+          3800
         ]
       }
     ]
-  },
-  "previsao_cpu": {
-    "labels": [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18",
-      "19",
-      "20",
-      "21",
-      "22",
-      "23",
-      "24",
-      "25",
-      "26",
-      "27",
-      "28",
-      "29",
-      "30"
-    ],
-    "series": [
-      {
-        "name": "Utilização da CPU",
-        "data": [
-          60,
-          61,
-          63,
-          65,
-          66,
-          68,
-          69,
-          71,
-          72,
-          74,
-          75,
-          76,
-          78,
-          79,
-          80,
-          81,
-          82,
-          83,
-          84,
-          85,
-          86,
-          87,
-          88,
-          89,
-          90,
-          91,
-          92,
-          92,
-          93,
-          94
-        ]
-      },
-      {
-        "name": "Previsão com otimização",
-        "data": [
-          60,
-          61,
-          63,
-          65,
-          66,
-          67,
-          68,
-          69,
-          70,
-          71,
-          72,
-          73,
-          74,
-          75,
-          76,
-          77,
-          78,
-          79,
-          80,
-          81,
-          81,
-          82,
-          82,
-          83,
-          83,
-          84,
-          84,
-          84,
-          85,
-          85
-        ]
-      }
-    ]
-  },
-  "anomalias": [
-    {
-      "data": "2025-06-25",
-      "hora": "14:32:15",
-      "recurso": "API Gateway",
-      "metrica": "Latência",
-      "desvio": "+245%",
-      "duracao": "12 min",
-      "severidade": "Alta",
-      "status": "Resolvido"
-    },
-    {
-      "data": "2025-06-26",
-      "hora": "08:15:22",
-      "recurso": "Database",
-      "metrica": "CPU",
-      "desvio": "+180%",
-      "duracao": "28 min",
-      "severidade": "Média",
-      "status": "Resolvido"
-    },
-    {
-      "data": "2025-06-27",
-      "hora": "19:45:03",
-      "recurso": "Auth Service",
-      "metrica": "Erros",
-      "desvio": "+520%",
-      "duracao": "5 min",
-      "severidade": "Crítica",
-      "status": "Resolvido"
-    },
-    {
-      "data": "2025-06-28",
-      "hora": "22:12:48",
-      "recurso": "Cache",
-      "metrica": "Hit Rate",
-      "desvio": "-75%",
-      "duracao": "45 min",
-      "severidade": "Média",
-      "status": "Resolvido"
-    }
-  ],
-  "padroes": {
-    "sazonais": {
-      "confianca": 87,
-      "dados": [
-        {
-          "dia": "Dom",
-          "valor": 0.2
-        },
-        {
-          "dia": "Seg",
-          "valor": 0.8
-        },
-        {
-          "dia": "Ter",
-          "valor": 0.9
-        },
-        {
-          "dia": "Qua",
-          "valor": 0.85
-        },
-        {
-          "dia": "Qui",
-          "valor": 0.95
-        },
-        {
-          "dia": "Sex",
-          "valor": 0.92
-        },
-        {
-          "dia": "Sab",
-          "valor": 0.3
-        }
-      ]
-    }
-  },
-  "previsao_texto": "Análise preditiva indica tendência de aumento de 12% na utilização de CPU nos próximos 30 dias. Recomenda-se avaliar escalabilidade dos recursos."
+  }
 }

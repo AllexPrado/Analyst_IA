@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Mzg4MjgyMHxJTkZSQXxOQXw1MDE3MjQzMzE0NDIxNTcwMzEz",
+    "name": "madnezz-mssql-database",
+    "domain": "INFRA",
+    "metrics": {}
+  },
+  {
+    "id": "Mzg4MjgyMHxJTkZSQXxOQXwtMzQyOTI2MzY1MTE4NjYyMDc3NA",
+    "name": "Websites",
+    "domain": "INFRA",
+    "metrics": {}
+  }
+]

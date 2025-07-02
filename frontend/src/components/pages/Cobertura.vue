@@ -1,13 +1,9 @@
 <template>
   <div class="py-8">
-    <div v-if="loading" class="flex justify-center items-center h-96">
-      <span class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></span>
-      <span class="ml-4 text-blue-300">Carregando dados de cobertura...</span>
-    </div>
-    <div v-else-if="error" class="flex flex-col items-center justify-center h-96">
+    <div v-if="erroCobertura" class="flex flex-col items-center justify-center h-96">
       <font-awesome-icon icon="exclamation-triangle" class="text-yellow-400 text-3xl mb-2" />
-      <span class="text-yellow-300 text-lg">Erro ao carregar dados de cobertura.</span>
-      <button @click="fetchData" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tentar novamente</button>
+      <span class="text-yellow-300 text-lg">{{ mensagemErroCobertura || 'Erro ao carregar dados de cobertura.' }}</span>
+      <button @click="fetchCobertura" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tentar novamente</button>
     </div>
     <div v-else>
       <!-- Resumo Executivo de Cobertura -->
@@ -321,6 +317,8 @@ const error = ref(false)
 const todosRecursos = ref([])
 const recursosSemCobertura = ref([])
 const acoesRecomendadas = ref([]) // Inicializa como array vazio
+const erroCobertura = ref(false)
+const mensagemErroCobertura = ref('')
 
 // Obtém ícone específico para cada tipo de recurso
 const getIconForResourceType = (type) => {
@@ -509,6 +507,23 @@ const fetchData = async () => {
     acoesRecomendadas.value = []
   } finally {
     loading.value = false
+  }
+}
+
+const fetchCobertura = async () => {
+  erroCobertura.value = false
+  mensagemErroCobertura.value = ''
+  try {
+    const cobertura = await getCobertura()
+    if (cobertura && cobertura.erro) {
+      erroCobertura.value = true
+      mensagemErroCobertura.value = cobertura.mensagem || 'Nenhum dado real de cobertura disponível.'
+    } else {
+      data.value = cobertura
+    }
+  } catch (e) {
+    erroCobertura.value = true
+    mensagemErroCobertura.value = 'Erro ao acessar o backend.'
   }
 }
 

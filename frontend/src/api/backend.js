@@ -9,18 +9,33 @@ const api = axios.create({
   }
 })
 
-export const getResumoGeral = () => api.get('/resumo-geral')
-export const getStatus = () => api.get('/status')
-export const getKPIs = () => api.get('/kpis')
-export const getCobertura = () => api.get('/cobertura')
-export const getTendencias = () => api.get('/tendencias')
-export const getInsights = () => api.get('/insights')
-export const getChatResposta = (pergunta) => api.post('/chat', { pergunta: pergunta })
-export const getEntidades = () => api.get('/entidades')
-export const atualizarCacheAPI = () => api.post('/cache/atualizar')
-export const atualizarCacheAvancadoAPI = () => api.post('/cache/atualizar_avancado')
-export const getDiagnosticoCache = () => api.get('/cache/diagnostico')
-export const getHealth = () => api.get('/health')
-export const resetTokenLimits = () => api.post('/limits/reset')
+// Função utilitária para tratar respostas e erros
+const handleApiResponse = async (promise) => {
+  try {
+    const response = await promise
+    if (response.data && response.data.erro) {
+      // Backend retornou erro explícito
+      return { erro: true, mensagem: response.data.mensagem || 'Dados indisponíveis no momento.' }
+    }
+    return response.data
+  } catch (error) {
+    // Erro de rede, timeout ou backend fora
+    return { erro: true, mensagem: error?.response?.data?.mensagem || 'Erro ao acessar dados do backend.' }
+  }
+}
+
+export const getResumoGeral = () => handleApiResponse(api.get('/resumo-geral'))
+export const getStatus = () => handleApiResponse(api.get('/status'))
+export const getKPIs = () => handleApiResponse(api.get('/kpis'))
+export const getCobertura = () => handleApiResponse(api.get('/cobertura'))
+export const getTendencias = () => handleApiResponse(api.get('/tendencias'))
+export const getInsights = () => handleApiResponse(api.get('/insights'))
+export const getChatResposta = (pergunta) => handleApiResponse(api.post('/chat', { pergunta: pergunta }))
+export const getEntidades = () => handleApiResponse(api.get('/entidades'))
+export const atualizarCacheAPI = () => handleApiResponse(api.post('/cache/atualizar'))
+export const atualizarCacheAvancadoAPI = () => handleApiResponse(api.post('/cache/atualizar_avancado'))
+export const getDiagnosticoCache = () => handleApiResponse(api.get('/cache/diagnostico'))
+export const getHealth = () => handleApiResponse(api.get('/health'))
+export const resetTokenLimits = () => handleApiResponse(api.post('/limits/reset'))
 
 export default api

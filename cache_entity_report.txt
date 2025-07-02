@@ -1,0 +1,55 @@
+===== Cache Entity Count Report =====
+
+Cache timestamp: 2025-06-23T12:56:47.563735
+
+Section         Entity Count   
+------------------------------
+alertas         0              
+apm             9              
+browser         5              
+db              0              
+ext             0              
+infra           2              
+iot             0              
+mobile          0              
+serverless      0              
+synth           0              
+------------------------------
+TOTAL           16             
+
+===== Detailed Cache Entity Report =====
+
+
+Section: APM (9 entities)
+--------------------------------------------------
+No specific entity types found
+
+Entities:
+1. Api Sites (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MTQ4NDYx)
+2. Fastview Legado (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NDkzNjIzNjQy)
+3. Jobs Fastview (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTczMzg1MTg0)
+4. Laravel Fastview (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTcxNTMyNTMw)
+5. Laravel Madnezz (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTMzNDU3NTA5)
+6. Laravel Malltech (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTc3OTE5NjE2)
+7. Madnezz V3 (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTkwNzU1NjAy)
+8. Malltech Legado (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTIzMDc1MTU4)
+9. Uploads Madnezz PHP (GUID: Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTY5MjY5MzAz)
+
+Section: BROWSER (5 entities)
+--------------------------------------------------
+No specific entity types found
+
+Entities:
+1. Api Sites (GUID: Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1Njk0MA)
+2. Fastview Legado (GUID: Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQ0Mw)
+3. Madnezz V3 (GUID: Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTM4MTU5Nw)
+4. Malltech Legado (GUID: Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1OTQwMw)
+5. React (GUID: Mzg4MjgyMHxCUk9XU0VSfEFQUExJQ0FUSU9OfDYwMTU1NjU3MA)
+
+Section: INFRA (2 entities)
+--------------------------------------------------
+No specific entity types found
+
+Entities:
+1. madnezz-mssql-database (GUID: Mzg4MjgyMHxJTkZSQXxOQXw1MDE3MjQzMzE0NDIxNTcwMzEz)
+2. Websites (GUID: Mzg4MjgyMHxJTkZSQXxOQXwtMzQyOTI2MzY1MTE4NjYyMDc3NA)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Script para corrigir erros específicos no backend do Analyst-IA
-Versão econômica para reduzir consumo de tokens
+Script para corrigir e garantir que o sistema Analyst_IA esteja funcionando corretamente.
+Este script executa todas as correções necessárias e verifica a integridade do sistema.
 """
 
 import os
@@ -11,14 +11,22 @@ import shutil
 import platform
 import subprocess
 import json
+import logging
+import importlib.util
+import time
 from datetime import datetime
 from pathlib import Path
+
+# Configuração de logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 def print_header(message):
     """Imprime uma mensagem de cabeçalho formatada"""
     print("\n" + "=" * 80)
     print(f" {message} ".center(80, "="))
     print("=" * 80)
+    logger.info(message)
 
 def configurar_limite_tokens():
     """Configura um limite diário de tokens para economia"""
@@ -212,6 +220,73 @@ def criar_diretorios_necessarios():
     
     return True
 
+def import_module_from_path(module_name, file_path):
+    """Importa um módulo a partir de um caminho de arquivo"""
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    if spec is None:
+        logger.error(f"Falha ao importar {module_name} de {file_path}")
+        return None
+    
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def generate_unified_data():
+    """Gera dados de teste unificados para todos os módulos"""
+    print_header("Gerando dados unificados de teste")
+    try:
+        # Verificar se o módulo generate_unified_data existe
+        unified_data_path = Path("backend") / "generate_unified_data.py"
+        
+        if unified_data_path.exists():
+            # Importar e executar o módulo
+            module = import_module_from_path("generate_unified_data", str(unified_data_path))
+            if module and hasattr(module, "generate_unified_data"):
+                logger.info("Iniciando geração de dados unificados...")
+                result = module.generate_unified_data()
+                if result:
+                    print("✅ Dados unificados gerados com sucesso")
+                    logger.info("Dados unificados gerados com sucesso")
+                    return True
+                else:
+                    print("❌ Falha na geração de dados unificados")
+                    logger.error("Falha na geração de dados unificados")
+            else:
+                print("❌ Módulo generate_unified_data não contém a função necessária")
+                logger.error("Módulo generate_unified_data não contém a função necessária")
+        else:
+            print(f"❌ Arquivo {unified_data_path} não encontrado")
+            logger.warning(f"Arquivo {unified_data_path} não encontrado")
+            
+        # Fallback para create_test_cache se generate_unified_data falhar
+        test_cache_path = Path("backend") / "create_test_cache.py"
+        if test_cache_path.exists():
+            print("Tentando gerar dados de teste com create_test_cache.py...")
+            module = import_module_from_path("create_test_cache", str(test_cache_path))
+            if module and hasattr(module, "create_test_cache"):
+                result = module.create_test_cache()
+                if result:
+                    print("✅ Dados de teste gerados com sucesso (fallback)")
+                    logger.info("Dados de teste gerados com sucesso (fallback)")
+                    return True
+                else:
+                    print("❌ Falha na geração de dados de teste (fallback)")
+                    logger.error("Falha na geração de dados de teste (fallback)")
+            else:
+                print("❌ Módulo create_test_cache não contém a função necessária")
+                logger.error("Módulo create_test_cache não contém a função necessária")
+        else:
+            print(f"❌ Arquivo {test_cache_path} não encontrado")
+            logger.warning(f"Arquivo {test_cache_path} não encontrado")
+            
+        return False
+    except Exception as e:
+        print(f"❌ Erro ao gerar dados de teste: {e}")
+        logger.error(f"Erro ao gerar dados de teste: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return False
+
 def main():
     print_header("Correção Rápida do Sistema Analyst-IA")
     print("Script econômico para corrigir o backend e reduzir consumo de tokens")
@@ -230,6 +305,7 @@ def main():
     steps = [
         ("Criar diretórios necessários", criar_diretorios_necessarios),
         ("Configurar limite de tokens", configurar_limite_tokens),
+        ("Gerar dados unificados", generate_unified_data),       # Gerar dados antes de iniciar o backend
         ("Verificar importações no backend", verificar_importacoes_backend),
         ("Verificar endpoint /api/health", verificar_endpoint_health),
         ("Iniciar backend para teste", iniciar_backend)

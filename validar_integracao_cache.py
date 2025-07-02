@@ -67,9 +67,9 @@ async def teste_1_importacao():
         print("✅ Módulo de integração importado com sucesso")
         
         return True
-    except ImportError as e:
-        logger.error(f"Erro ao importar módulos: {e}")
-        print(f"❌ Erro ao importar: {e}")
+    except ImportError as import_error:
+        logger.error(f"Erro ao importar módulos: {import_error}")
+        print(f"❌ Erro ao importar: {import_error}")
         return False
 
 async def teste_2_verificacao_cache():

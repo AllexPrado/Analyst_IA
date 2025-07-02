@@ -1,12 +1,17 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 import logging
-import json
-import os
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 import random
-from pathlib import Path
+
+# Tentativa de importação das funções de processamento de entidade
+try:
+    from backend.utils.entity_processor import is_entity_valid, process_entity_details
+    from backend.utils.data_loader import load_json_data
+except ImportError:
+    from utils.entity_processor import is_entity_valid, process_entity_details
+    from utils.data_loader import load_json_data
 
 # Configuração do logger
 logger = logging.getLogger(__name__)
@@ -117,55 +122,46 @@ def generate_sample_cobertura_data():
 
 @router.get("/cobertura")
 async def get_cobertura():
+    """
+    Endpoint para obter dados de cobertura.
+    Carrega dados do arquivo cobertura.json e processa para garantir que apenas dados válidos sejam retornados.
+    """
     try:
-        # Lista de possíveis localizações para o arquivo de cobertura
-        possible_paths = [
-            "dados/cobertura.json",               # Relativo ao diretório atual
-            "backend/dados/cobertura.json",       # Relativo ao diretório raiz
-            "../dados/cobertura.json",            # Um nível acima (se estamos em backend)
-            "../backend/dados/cobertura.json"     # Um nível acima, então em backend
-        ]
+        # Carregar dados usando a função centralizada
+        cobertura_data = load_json_data("cobertura.json")
         
-        # Tentar cada caminho
-        for path in possible_paths:
-            if os.path.exists(path):
-                try:
-                    with open(path, 'r', encoding='utf-8') as file:
-                        data = json.load(file)
-                        logger.info(f"Dados de cobertura carregados do arquivo: {path}")
-                        return data
-                except Exception as e:
-                    logger.error(f"Erro ao ler dados de cobertura do arquivo {path}: {e}")
-        
-        # Se não encontrou em nenhum lugar, procurar em qualquer lugar usando Path.glob
-        root_dir = Path('.').resolve()
-        for data_file in root_dir.glob('**/dados/cobertura.json'):
-            try:
-                with open(data_file, 'r', encoding='utf-8') as file:
-                    data = json.load(file)
-                    logger.info(f"Dados de cobertura carregados do arquivo (busca global): {data_file}")
-                    return data
-            except Exception as e:
-                logger.error(f"Erro ao ler dados de cobertura do arquivo {data_file}: {e}")
-        
-        # Se não houver arquivo ou houver erro, gerar dados simulados
-        logger.warning("Nenhum arquivo de dados de cobertura encontrado. Gerando dados simulados.")
-        data = generate_sample_cobertura_data()
-        
-        # Tentar salvar os dados simulados para uso futuro (em pelo menos um local)
-        try:
-            for path in ["dados/cobertura.json", "backend/dados/cobertura.json"]:
-                dir_path = os.path.dirname(path)
-                if not os.path.exists(dir_path):
-                    os.makedirs(dir_path, exist_ok=True)
-                    
-                with open(path, 'w', encoding='utf-8') as f:
-                    json.dump(data, f, ensure_ascii=False, indent=2)
-                logger.info(f"Dados simulados salvos em {path}")
-        except Exception as e:
-            logger.error(f"Erro ao salvar dados simulados: {e}")
+        # Verificar se houve erro na carga
+        if cobertura_data.get("erro"):
+            return cobertura_data
             
-        return data
+        # Processar dados com base na estrutura (lista ou dicionário)
+        valid_cobertura = []
+        if isinstance(cobertura_data, list):
+            valid_cobertura = [process_entity_details(item) for item in cobertura_data if is_entity_valid(item)]
+        elif isinstance(cobertura_data, dict):
+            # Para dados de cobertura que geralmente são um único objeto com estatísticas
+            # não precisamos processar como entidade, apenas retornar diretamente
+            if 'total_entidades' in cobertura_data and 'monitoradas' in cobertura_data:
+                logger.info("Dados de cobertura já estão no formato correto")
+                return cobertura_data
+            else:
+                valid_cobertura = [process_entity_details(cobertura_data)] if is_entity_valid(cobertura_data) else []
+        
+        # Remover campos vazios/nulos
+        valid_cobertura = [i for i in valid_cobertura if i and i != {}]
+        
+        # Verificar se temos dados de cobertura válidos
+        if valid_cobertura:
+            logger.info(f"Retornando {len(valid_cobertura)} dados de cobertura válidos")
+            return valid_cobertura[0] if len(valid_cobertura) == 1 else valid_cobertura
+            
+        # Se não encontrou dados válidos, retornar mensagem de erro
+        logger.warning("Nenhum dado de cobertura válido encontrado após processamento")
+        return {
+            "erro": True,
+            "mensagem": "Não foram encontrados dados reais de cobertura válidos no cache. Execute generate_unified_data.py para criar dados de teste ou atualize o cache com dados do New Relic.",
+            "timestamp": datetime.now().isoformat()
+        }
     except Exception as e:
         logger.error(f"Erro ao processar requisição de cobertura: {e}")
         raise HTTPException(status_code=500, detail=str(e))

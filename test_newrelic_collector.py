@@ -53,8 +53,8 @@ try:
             async with aiohttp.ClientSession() as session:
                 return await buscar_todas_entidades(session)
                 
-except ImportError as e:
-    print(f"Erro no import: {e}")
+except ImportError as import_error:
+    print(f"Erro no import: {import_error}")
     print("Tentando import direto...")
     
     # Fallback: import direto dos arquivos

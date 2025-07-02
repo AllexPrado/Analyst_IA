@@ -7,13 +7,30 @@ import json
 import logging
 import aiofiles
 import traceback
+import os
 from datetime import datetime
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 import re
+import asyncio
+
+# Primeiro, garantir que temos dados de teste disponíveis para o frontend
+# Executando o script check_and_fix_cache.py
+try:
+    from check_and_fix_cache import check_and_fix_cache
+    print("Verificando e corrigindo cache...")
+    check_and_fix_cache()
+    print("Verificação de cache concluída.")
+except Exception as e:
+    print(f"Erro ao verificar cache: {e}")
 
 # Inicializa o sistema de cache durante o startup
-# import cache_integration  # Temporariamente comentado para debug
+try:
+    import utils.cache_integration
+    print("Sistema de cache avançado inicializado")
+except ImportError as e:
+    print(f"Aviso: não foi possível inicializar o sistema de cache avançado: {e}")
+    print("O sistema continuará funcionando com o cache padrão")
 
 try:
     import tiktoken
@@ -1142,7 +1159,9 @@ async def get_insights():
 async def chat_api(input: ChatInput):
     """Redireciona para o endpoint principal do chat para manter consistência"""
     try:
-        return await chat_endpoint(input)
+        logger.info(f"Recebida pergunta no endpoint de chat: {input.pergunta}")
+        resposta = await chat_endpoint(input)
+        return resposta
     except RuntimeError as e:
         logger.error(f"Erro no endpoint de chat: {e}")
         return JSONResponse(

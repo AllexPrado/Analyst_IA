@@ -47,6 +47,18 @@ def check_and_fix_cache():
             if entities_count > 0:
                 print("✅ Cache contém entidades, não é necessário criar dados de teste")
                 
+                # Garantir que os arquivos de dados também existam
+                try:
+                    from generate_unified_data import generate_unified_data
+                    print("Verificando arquivos de dados unificados...")
+                    generate_unified_data()
+                    print("✅ Arquivos de dados unificados verificados/gerados com sucesso")
+                except Exception as e:
+                    print(f"❌ Erro ao gerar arquivos de dados unificados: {e}")
+                if not Path("dados/entidades.json").exists() or not Path("dados/kpis.json").exists():
+                    print("⚠️ Arquivos de dados podem estar faltando. Tentando gerar dados unificados...")
+                    generate_unified_data()
+                
                 # Mostra informações sobre as entidades
                 domains = {}
                 for entity in entities:
@@ -57,12 +69,36 @@ def check_and_fix_cache():
                 return True
             else:
                 print("⚠️ Cache existe, mas não contém entidades")
+                # Tentar primeiro gerar dados unificados
+                try:
+                    from generate_unified_data import generate_unified_data
+                    print("Gerando dados unificados...")
+                    if generate_unified_data():
+                        print("✅ Dados unificados gerados com sucesso")
+                        return True
+                    else:
+                        print("⚠️ Falha ao gerar dados unificados, usando fallback para dados de teste simples")
+                except Exception as e:
+                    print(f"❌ Erro ao gerar dados unificados: {e}")
+                    print("Usando fallback para dados de teste simples")
         except Exception as e:
             print(f"❌ Erro ao ler o arquivo de cache: {e}")
-            print("Criando novo arquivo de cache...")
+            print("Tentando gerar dados unificados...")
+            # Tentar primeiro gerar dados unificados
+            try:
+                from generate_unified_data import generate_unified_data
+                print("Gerando dados unificados...")
+                if generate_unified_data():
+                    print("✅ Dados unificados gerados com sucesso")
+                    return True
+                else:
+                    print("⚠️ Falha ao gerar dados unificados, usando fallback para dados de teste simples")
+            except Exception as e:
+                print(f"❌ Erro ao gerar dados unificados: {e}")
+                print("Usando fallback para dados de teste simples")
     
     # Se chegamos aqui, precisamos criar dados de teste
-    print("\n=== CRIANDO DADOS DE TESTE ===")
+    print("\n=== CRIANDO DADOS DE TESTE SIMPLES ===")
     
     # Dados de teste
     test_data = {
@@ -182,5 +218,47 @@ def check_and_fix_cache():
         print(f"❌ Erro ao criar dados de teste: {e}")
         return False
 
+def import_module_from_path(module_name, file_path):
+    """Importa um módulo a partir de um caminho de arquivo"""
+    import importlib.util
+    
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    if spec is None:
+        print(f"❌ Falha ao importar {module_name} de {file_path}")
+        return None
+    
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def generate_unified_data():
+    """Gera dados de teste unificados usando o script dedicado"""
+    print("\n=== GERANDO DADOS UNIFICADOS ===")
+    
+    unified_data_path = Path("generate_unified_data.py")
+    if unified_data_path.exists():
+        try:
+            # Importar e executar o módulo
+            module = import_module_from_path("generate_unified_data", str(unified_data_path))
+            if module and hasattr(module, "generate_unified_data"):
+                print("Iniciando geração de dados unificados...")
+                result = module.generate_unified_data()
+                if result:
+                    print("✅ Dados unificados gerados com sucesso")
+                    return True
+                else:
+                    print("❌ Falha na geração de dados unificados")
+            else:
+                print("❌ Módulo generate_unified_data não contém a função necessária")
+        except Exception as e:
+            print(f"❌ Erro ao executar generate_unified_data: {e}")
+            import traceback
+            print(traceback.format_exc())
+    else:
+        print(f"❓ Arquivo {unified_data_path} não encontrado")
+    
+    return False
+
 if __name__ == "__main__":
-    check_and_fix_cache()
+    if check_and_fix_cache():
+        generate_unified_data()

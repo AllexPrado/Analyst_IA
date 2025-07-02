@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-07-01T11:10:06.105289",
+  "results": [
+    {
+      "endpoint": "/status",
+      "method": "GET",
+      "success": true,
+      "status_code": 200
+    },
+    {
+      "endpoint": "/kpis",
+      "method": "GET",
+      "success": true,
+      "status_code": 200
+    },
+    {
+      "endpoint": "/cobertura",
+      "method": "GET",
+      "success": true,
+      "status_code": 200
+    },
+    {
+      "endpoint": "/tendencias",
+      "method": "GET",
+      "success": true,
+      "status_code": 200
+    },
+    {
+      "endpoint": "/insights",
+      "method": "GET",
+      "success": true,
+      "status_code": 200
+    },
+    {
+      "endpoint": "/chat",
+      "method": "POST",
+      "success": true,
+      "status_code": 200
+    }
+  ]
+}

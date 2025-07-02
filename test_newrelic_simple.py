@@ -40,8 +40,8 @@ try:
         NEW_RELIC_ACCOUNT_ID
     )
     print("✅ Importação das funções originais bem-sucedida")
-except ImportError as e:
-    print(f"❌ Erro no import das funções originais: {e}")
+except ImportError as import_error:
+    print(f"❌ Erro no import das funções originais: {import_error}")
     sys.exit(1)
 
 class NewRelicCollector:

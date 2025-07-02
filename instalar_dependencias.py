@@ -106,8 +106,8 @@ rich>=13.4.2
         import pydantic
         import openai
         print("✓ Dependências principais do backend verificadas com sucesso")
-    except ImportError as e:
-        print(f"Erro: Falha ao importar biblioteca: {e}")
+    except ImportError as import_error:
+        print(f"Erro: Falha ao importar biblioteca: {import_error}")
         print("Tente instalar manualmente: pip install fastapi uvicorn pydantic openai")
         return 1
     

@@ -1,0 +1,602 @@
+{
+  "timestamp": "2025-07-02T08:44:43.012758",
+  "endpoints": {
+    "/avancado/kubernetes": {
+      "success": true,
+      "timestamp": "2025-07-02T08:44:45.211222",
+      "sample_data": {
+        "clusters": [
+          {
+            "name": "production-cluster",
+            "version": "1.26.3",
+            "status": "healthy",
+            "nodes": 6,
+            "pods": 48,
+            "cpu_usage": 72,
+            "memory_usage": 65,
+            "issues": 0
+          },
+          {
+            "name": "staging-cluster",
+            "version": "1.25.8",
+            "status": "healthy",
+            "nodes": 3,
+            "pods": 27,
+            "cpu_usage": 42,
+            "memory_usage": 38,
+            "issues": 0
+          },
+          {
+            "name": "development-cluster",
+            "version": "1.27.1",
+            "status": "warning",
+            "nodes": 2,
+            "pods": 18,
+            "cpu_usage": 85,
+            "memory_usage": 78,
+            "issues": 2
+          }
+        ],
+        "nodes": [
+          {
+            "name": "node-production-cluster-1",
+            "cluster": "production-cluster",
+            "status": "ready",
+            "cpu": {
+              "capacity": 8,
+              "usage_percent": 65
+            },
+            "memory": {
+              "capacity_gb": 32,
+              "usage_percent": 70
+            },
+            "pods": 18,
+            "conditions": [
+              {
+                "type": "DiskPressure",
+                "status": "False"
+              },
+              {
+                "type": "MemoryPressure",
+                "status": "False"
+              }
+            ]
+          },
+          {
+            "name": "node-production-cluster-2",
+            "cluster": "production-cluster",
+            "status": "ready",
+            "cpu": {
+              "capacity": 8,
+              "usage_percent": 55
+            },
+            "memory": {
+              "capacity_gb": 32,
+              "usage_percent": 60
+            },
+            "pods": 16,
+            "conditions": [
+              {
+                "type": "DiskPressure",
+                "status": "False"
+              },
+              {
+                "type": "MemoryPressure",
+                "status": "False"
+              }
+            ]
+          },
+          {
+            "name": "node-staging-cluster-1",
+            "cluster": "staging-cluster",
+            "status": "ready",
+            "cpu": {
+              "capacity": 4,
+              "usage_percent": 42
+            },
+            "memory": {
+              "capacity_gb": 16,
+              "usage_percent": 38
+            },
+            "pods": 12,
+            "conditions": [
+              {
+                "type": "DiskPressure",
+                "status": "False"
+              },
+              {
+                "type": "MemoryPressure",
+                "status": "False"
+              }
+            ]
+          },
+          {
+            "name": "node-development-cluster-1",
+            "cluster": "development-cluster",
+            "status": "not-ready",
+            "cpu": {
+              "capacity": 4,
+              "usage_percent": 95
+            },
+            "memory": {
+              "capacity_gb": 16,
+              "usage_percent": 92
+            },
+            "pods": 10,
+            "conditions": [
+              {
+                "type": "DiskPressure",
+                "status": "True"
+              },
+              {
+                "type": "MemoryPressure",
+                "status": "True"
+              }
+            ]
+          }
+        ],
+        "pods": [
+          {
+            "name": "web-app-pod-1",
+            "namespace": "default",
+            "cluster": "production-cluster",
+            "status": "Running",
+            "containers": 2,
+            "restarts": 0,
+            "age_hours": 240,
+            "cpu_usage": 45,
+            "memory_usage": 52,
+            "issues": []
+          },
+          {
+            "name": "api-service-pod-1",
+            "namespace": "default",
+            "cluster": "production-cluster",
+            "status": "Running",
+            "containers": 3,
+            "restarts": 0,
+            "age_hours": 168,
+            "cpu_usage": 62,
+            "memory_usage": 58,
+            "issues": []
+          },
+          {
+            "name": "redis-cache-pod-1",
+            "namespace": "kube-system",
+            "cluster": "staging-cluster",
+            "status": "Running",
+            "containers": 1,
+            "restarts": 1,
+            "age_hours": 72,
+            "cpu_usage": 25,
+            "memory_usage": 40,
+            "issues": []
+          },
+          {
+            "name": "database-pod-1",
+            "namespace": "app-namespace",
+            "cluster": "development-cluster",
+            "status": "CrashLoopBackOff",
+            "containers": 1,
+            "restarts": 8,
+            "age_hours": 12,
+            "cpu_usage": 0,
+            "memory_usage": 0,
+            "issues": [
+              "CrashLoopBackOff"
+            ]
+          },
+          {
+            "name": "logging-pod-1",
+            "namespace": "monitoring",
+            "cluster": "development-cluster",
+            "status": "Pending",
+            "containers": 2,
+            "restarts": 0,
+            "age_hours": 4,
+            "cpu_usage": 0,
+            "memory_usage": 0,
+            "issues": [
+              "ImagePullBackOff"
+            ]
+          }
+        ],
+        "summary": {
+          "total_clusters": 3,
+          "total_nodes": 11,
+          "total_pods": 93,
+          "healthy_pods_percent": 94,
+          "resource_usage": {
+            "cpu": 62,
+            "memory": 57,
+            "storage": 48
+          }
+        }
+      },
+      "validation": true
+    },
+    "/avancado/infraestrutura": {
+      "success": true,
+      "timestamp": "2025-07-02T08:44:47.281571",
+      "sample_data": {
+        "servers": [
+          {
+            "id": "srv-us-east-1",
+            "name": "api-server-us-east-1",
+            "type": "api-server",
+            "region": "us-east",
+            "status": "healthy",
+            "cpu": {
+              "cores": 16,
+              "usage_percent": 62
+            },
+            "memory": {
+              "total_gb": 64,
+              "usage_percent": 58
+            },
+            "disk": {
+              "total_gb": 500,
+              "usage_percent": 45
+            },
+            "network": {
+              "throughput_mbps": 850,
+              "packets_per_second": 42000
+            },
+            "uptime_days": 186,
+            "issues": []
+          },
+          {
+            "id": "srv-us-east-2",
+            "name": "web-server-us-east-1",
+            "type": "web-server",
+            "region": "us-east",
+            "status": "healthy",
+            "cpu": {
+              "cores": 8,
+              "usage_percent": 48
+            },
+            "memory": {
+              "total_gb": 32,
+              "usage_percent": 52
+            },
+            "disk": {
+              "total_gb": 200,
+              "usage_percent": 38
+            },
+            "network": {
+              "throughput_mbps": 620,
+              "packets_per_second": 35000
+            },
+            "uptime_days": 124,
+            "issues": []
+          },
+          {
+            "id": "srv-us-west-1",
+            "name": "database-server-us-west-1",
+            "type": "database-server",
+            "region": "us-west",
+            "status": "warning",
+            "cpu": {
+              "cores": 32,
+              "usage_percent": 78
+            },
+            "memory": {
+              "total_gb": 128,
+              "usage_percent": 72
+            },
+            "disk": {
+              "total_gb": 1000,
+              "usage_percent": 88
+            },
+            "network": {
+              "throughput_mbps": 480,
+              "packets_per_second": 28000
+            },
+            "uptime_days": 92,
+            "issues": [
+              "high_cpu",
+              "disk_full"
+            ]
+          },
+          {
+            "id": "srv-eu-central-1",
+            "name": "cache-server-eu-central-1",
+            "type": "cache-server",
+            "region": "eu-central",
+            "status": "critical",
+            "cpu": {
+              "cores": 8,
+              "usage_percent": 92
+            },
+            "memory": {
+              "total_gb": 64,
+              "usage_percent": 95
+            },
+            "disk": {
+              "total_gb": 200,
+              "usage_percent": 62
+            },
+            "network": {
+              "throughput_mbps": 380,
+              "packets_per_second": 22000
+            },
+            "uptime_days": 3,
+            "issues": [
+              "memory_leak",
+              "high_cpu"
+            ]
+          },
+          {
+            "id": "srv-ap-southeast-1",
+            "name": "worker-ap-southeast-1",
+            "type": "worker",
+            "region": "ap-southeast",
+            "status": "healthy",
+            "cpu": {
+              "cores": 4,
+              "usage_percent": 28
+            },
+            "memory": {
+              "total_gb": 16,
+              "usage_percent": 35
+            },
+            "disk": {
+              "total_gb": 100,
+              "usage_percent": 42
+            },
+            "network": {
+              "throughput_mbps": 120,
+              "packets_per_second": 8000
+            },
+            "uptime_days": 45,
+            "issues": []
+          }
+        ],
+        "summary": {
+          "total_servers": 28,
+          "healthy_percent": 92,
+          "regions": 4,
+          "resource_usage": {
+            "cpu": 65,
+            "memory": 72,
+            "disk": 58,
+            "network": 42
+          }
+        },
+        "alerts": [
+          {
+            "id": "alert-1",
+            "server_id": "srv-us-west-1",
+            "server_name": "database-server-us-west-1",
+            "type": "disk",
+            "severity": "warning",
+            "message": "High disk usage on database-server-us-west-1",
+            "timestamp": "2025-07-01T14:30:00",
+            "duration_minutes": 45
+          },
+          {
+            "id": "alert-2",
+            "server_id": "srv-eu-central-1",
+            "server_name": "cache-server-eu-central-1",
+            "type": "memory",
+            "severity": "critical",
+            "message": "Memory leak detected on cache-server-eu-central-1",
+            "timestamp": "2025-07-01T12:15:00",
+            "duration_minutes": 95
+          },
+          {
+            "id": "alert-3",
+            "server_id": "srv-eu-central-1",
+            "server_name": "cache-server-eu-central-1",
+            "type": "cpu",
+            "severity": "critical",
+            "message": "CPU utilization above threshold on cache-server-eu-central-1",
+            "timestamp": "2025-07-01T13:05:00",
+            "duration_minutes": 85
+          }
+        ]
+      },
+      "validation": true
+    },
+    "/avancado/topologia": {
+      "success": true,
+      "timestamp": "2025-07-02T08:44:49.452314",
+      "sample_data": {
+        "nodes": [
+          {
+            "id": "frontend",
+            "name": "Frontend",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.96,
+              "response_time": 45.8,
+              "throughput": 850,
+              "error_rate": 0.002
+            }
+          },
+          {
+            "id": "api-gateway",
+            "name": "API Gateway",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.92,
+              "response_time": 62.3,
+              "throughput": 720,
+              "error_rate": 0.005
+            }
+          },
+          {
+            "id": "auth-service",
+            "name": "Auth Service",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.94,
+              "response_time": 38.6,
+              "throughput": 425,
+              "error_rate": 0.001
+            }
+          },
+          {
+            "id": "user-service",
+            "name": "User Service",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.91,
+              "response_time": 52.1,
+              "throughput": 380,
+              "error_rate": 0.008
+            }
+          },
+          {
+            "id": "product-service",
+            "name": "Product Service",
+            "type": "service",
+            "status": "degraded",
+            "metrics": {
+              "apdex": 0.76,
+              "response_time": 128.4,
+              "throughput": 290,
+              "error_rate": 0.021
+            }
+          },
+          {
+            "id": "payment-service",
+            "name": "Payment Service",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.97,
+              "response_time": 76.5,
+              "throughput": 150,
+              "error_rate": 0.003
+            }
+          },
+          {
+            "id": "notification-service",
+            "name": "Notification Service",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.89,
+              "response_time": 65.8,
+              "throughput": 120,
+              "error_rate": 0.004
+            }
+          },
+          {
+            "id": "search-service",
+            "name": "Search Service",
+            "type": "service",
+            "status": "critical",
+            "metrics": {
+              "apdex": 0.62,
+              "response_time": 320.5,
+              "throughput": 180,
+              "error_rate": 0.047
+            }
+          },
+          {
+            "id": "recommendation-engine",
+            "name": "Recommendation Engine",
+            "type": "service",
+            "status": "degraded",
+            "metrics": {
+              "apdex": 0.72,
+              "response_time": 185.6,
+              "throughput": 90,
+              "error_rate": 0.018
+            }
+          },
+          {
+            "id": "analytics-service",
+            "name": "Analytics Service",
+            "type": "service",
+            "status": "healthy",
+            "metrics": {
+              "apdex": 0.88,
+              "response_time": 82.3,
+              "throughput": 70,
+              "error_rate": 0.005
+            }
+          }
+        ],
+        "links": [
+          {
+            "source": "frontend",
+            "target": "api-gateway",
+            "calls_per_minute": 720,
+            "errors": 2
+          },
+          {
+            "source": "api-gateway",
+            "target": "auth-service",
+            "calls_per_minute": 380,
+            "errors": 0
+          },
+          {
+            "source": "api-gateway",
+            "target": "user-service",
+            "calls_per_minute": 320,
+            "errors": 2
+          },
+          {
+            "source": "api-gateway",
+            "target": "product-service",
+            "calls_per_minute": 280,
+            "errors": 5
+          },
+          {
+            "source": "api-gateway",
+            "target": "search-service",
+            "calls_per_minute": 160,
+            "errors": 7
+          },
+          {
+            "source": "product-service",
+            "target": "recommendation-engine",
+            "calls_per_minute": 85,
+            "errors": 1
+          },
+          {
+            "source": "user-service",
+            "target": "notification-service",
+            "calls_per_minute": 65,
+            "errors": 0
+          },
+          {
+            "source": "payment-service",
+            "target": "user-service",
+            "calls_per_minute": 45,
+            "errors": 0
+          },
+          {
+            "source": "api-gateway",
+            "target": "payment-service",
+            "calls_per_minute": 120,
+            "errors": 0
+          },
+          {
+            "source": "recommendation-engine",
+            "target": "analytics-service",
+            "calls_per_minute": 60,
+            "errors": 0
+          }
+        ],
+        "summary": {
+          "total_services": 10,
+          "healthy_services": 7,
+          "degraded_services": 2,
+          "critical_services": 1,
+          "total_dependencies": 10,
+          "problematic_dependencies": 5
+        }
+      },
+      "validation": true
+    }
+  },
+  "overall_result": "success"
+}

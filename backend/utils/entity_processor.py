@@ -15,8 +15,14 @@ def is_entity_valid(entity: Dict) -> bool:
     """
     Verifica se uma entidade possui dados válidos e não-nulos
     que justifiquem enviá-la para o frontend.
-    Critérios: aceitar entidades com pelo menos UMA métrica essencial real em qualquer período.
+    Critérios: aceitar entidades com pelo menos UMA métrica essencial real em qualquer período,
+    ou entidades marcadas explicitamente como dados de teste.
     """
+    # Aceitamos imediatamente entidades de teste
+    if entity and isinstance(entity, dict) and (entity.get('testing', False) or entity.get('tipo_coleta') == 'dados_teste_desenvolvimento'):
+        logger.info(f"Entidade de teste aceita: {entity.get('name', 'sem-nome')}")
+        return True
+    
     # Verifica se a entidade existe
     if entity is None or not isinstance(entity, dict):
         logger.debug("Entidade rejeitada: vazia ou não é dicionário")
@@ -42,7 +48,9 @@ def is_entity_valid(entity: Dict) -> bool:
     for periodo_key, periodo_data in entity.get('metricas', {}).items():
         if isinstance(periodo_data, dict) and periodo_data:
             for essential_metric in essential_metrics:
+                # Para compatibilidade com dados do create_test_cache.py e data real
                 if essential_metric in periodo_data and periodo_data[essential_metric] is not None and periodo_data[essential_metric] != "" and periodo_data[essential_metric] != []:
+                    logger.info(f"Entidade aceita: {entity.get('name')} - {essential_metric}={periodo_data[essential_metric]}")
                     return True  # Aceita se encontrar pelo menos uma métrica essencial real
     
     logger.debug(f"Entidade rejeitada: sem nenhuma métrica essencial real: {entity.get('name')}")

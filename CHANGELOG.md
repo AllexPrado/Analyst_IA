@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0] - 2025-07-15
+
+### Adicionado
+- Visualização avançada de topologia com D3.js interativo
+- Interface completa para Kubernetes, infraestrutura e topologia de serviços
+- Testes automáticos para endpoints avançados
+- Melhoria no tratamento de erros e logging
+
 ## [2.0.0] - 2025-07-01
 
 ### Adicionado

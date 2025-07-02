@@ -1,0 +1,82 @@
+{
+  "cache": [
+    {
+      "file": "backend/cache\\kubernetes_metrics.json",
+      "status": "OK",
+      "size": "10.5 KB",
+      "timestamp": "2025-07-02T09:53:29.791663",
+      "content_valid": true
+    },
+    {
+      "file": "backend/cache\\infrastructure_detailed.json",
+      "status": "OK",
+      "size": "7.5 KB",
+      "timestamp": "2025-07-02T09:53:29.813716",
+      "content_valid": true
+    },
+    {
+      "file": "backend/cache\\service_topology.json",
+      "status": "OK",
+      "size": "4.3 KB",
+      "timestamp": "2025-07-02T09:53:29.872093",
+      "content_valid": true
+    },
+    {
+      "file": "cache\\kubernetes_metrics.json",
+      "status": "OK",
+      "size": "10.5 KB",
+      "timestamp": "2025-07-02T09:53:29.876030",
+      "content_valid": true
+    },
+    {
+      "file": "cache\\infrastructure_detailed.json",
+      "status": "OK",
+      "size": "7.5 KB",
+      "timestamp": "2025-07-02T09:53:29.881613",
+      "content_valid": true
+    },
+    {
+      "file": "cache\\service_topology.json",
+      "status": "OK",
+      "size": "4.3 KB",
+      "timestamp": "2025-07-02T09:53:29.915873",
+      "content_valid": true
+    }
+  ],
+  "endpoints": [
+    {
+      "endpoint": "http://localhost:8000/api/health",
+      "status": "OK",
+      "status_code": 200,
+      "response_time": "2.17s",
+      "data_valid": true,
+      "data_size": "0.0 KB"
+    },
+    {
+      "endpoint": "http://localhost:8000/api/avancado/kubernetes",
+      "status": "OK",
+      "status_code": 200,
+      "response_time": "2.09s",
+      "data_valid": true,
+      "data_size": "6.0 KB"
+    },
+    {
+      "endpoint": "http://localhost:8000/api/avancado/infraestrutura",
+      "status": "OK",
+      "status_code": 200,
+      "response_time": "2.05s",
+      "data_valid": true,
+      "data_size": "4.7 KB"
+    },
+    {
+      "endpoint": "http://localhost:8000/api/avancado/topologia",
+      "status": "OK",
+      "status_code": 200,
+      "response_time": "2.10s",
+      "data_valid": true,
+      "data_size": "2.7 KB"
+    }
+  ],
+  "cache_valid": true,
+  "endpoints_valid": true
+}

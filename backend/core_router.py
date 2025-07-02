@@ -38,19 +38,18 @@ def import_router(module_name, endpoint_path):
         router = module.router
         logger.info(f"Módulo {module_name} importado com sucesso")
         return router
-    except ImportError as e:
-        logger.error(f"Erro ao importar módulo {module_name}: {e}")
-        # Criar um router vazio para evitar erros
+    except ImportError as import_error:
+        logger.error(f"Erro ao importar módulo {module_name}: {import_error}")
         fallback_router = APIRouter()
-        
+        error_message = str(import_error)
+
         @fallback_router.get(f"/{endpoint_path}")
         async def get_fallback():
             return {
                 "mensagem": f"Erro ao carregar módulo {module_name}",
-                "erro": str(e),
+                "erro": error_message,
                 "status": "fallback"
             }
-        
         return fallback_router
 
 # Importar os routers de endpoints específicos
@@ -59,6 +58,7 @@ kpis_router = import_router("kpis_endpoints", "kpis")
 tendencias_router = import_router("tendencias_endpoints", "tendencias")
 cobertura_router = import_router("cobertura_endpoints", "cobertura")
 chat_router = import_router("chat_endpoints", "chat")
+avancados_router = import_router("avancados_endpoints", "avancado")
 
 # Configuração do logger
 logger = logging.getLogger(__name__)
@@ -72,6 +72,7 @@ api_router.include_router(kpis_router, tags=["kpis"])
 api_router.include_router(tendencias_router, tags=["tendencias"])
 api_router.include_router(cobertura_router, tags=["cobertura"])
 api_router.include_router(chat_router, tags=["chat"])
+api_router.include_router(avancados_router, tags=["avancado"])
 
 # Endpoint de saúde para verificação
 @api_router.get("/health", tags=["health"])

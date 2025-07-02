@@ -2,7 +2,7 @@
 
 ## Sobre o Projeto
 
-Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi aprimorada com o coletor avançado do New Relic e sistema avançado de economia de tokens.
+Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi aprimorada com o coletor avançado do New Relic, sistema avançado de economia de tokens e suporte a dados reais.
 
 ## Recursos Avançados
 
@@ -16,6 +16,17 @@ O sistema agora utiliza o coletor avançado que obtém todos os tipos de dados d
 - **Queries SQL**: Consultas SQL com parâmetros e tempos de execução
 - **Backtraces de Erros**: Pilhas de erros detalhadas
 - **Métricas de Infraestrutura**: CPU, Memória, Disco, Rede
+- **Kubernetes Completo**: Clusters, nodes, pods e métricas de contêineres
+- **Topologia de Serviços**: Visualização de dependências entre serviços
+
+### Integração com Dados Reais do New Relic
+
+Agora o sistema suporta a integração completa com dados reais do New Relic:
+
+- **Coleta Automatizada**: Extração automática de dados da API do New Relic
+- **Sincronização Periódica**: Atualização programada dos dados em intervalos configuráveis
+- **Modo Híbrido**: Funciona tanto com dados reais quanto simulados
+- **Adaptação Inteligente**: Usa dados simulados como fallback quando credenciais não estão disponíveis
 
 ### Sistema de Economia de Tokens
 
@@ -31,15 +42,27 @@ Para mais detalhes, consulte:
 - [OTIMIZACAO_TOKENS.md](backend/OTIMIZACAO_TOKENS.md) - Detalhes técnicos da otimização
 - [README_ECONOMIZADOR_TOKENS.md](backend/README_ECONOMIZADOR_TOKENS.md) - Guia completo do sistema de economia
 - [RESUMO_INTEGRACOES.md](RESUMO_INTEGRACOES.md) - Resumo das integrações realizadas
+- [DOCUMENTACAO_INTEGRACAO_DADOS_REAIS.md](DOCUMENTACAO_INTEGRACAO_DADOS_REAIS.md) - Guia de integração com dados reais
+- [DOCUMENTACAO_INFRAESTRUTURA_AVANCADA.md](DOCUMENTACAO_INFRAESTRUTURA_AVANCADA.md) - Documentação da infraestrutura avançada
 - [BACKUP_E_RECUPERACAO.md](BACKUP_E_RECUPERACAO.md) - Procedimentos de backup e recuperação
+
+## Scripts Principais
+
+Para facilitar o uso do sistema, foram criados diversos scripts:
+
+1. **`iniciar_sistema_com_dados_reais.py`** - Inicia o sistema com dados reais do New Relic
+2. **`iniciar_sistema_com_dados_reais.bat`** - Versão batch para Windows
+3. **`integrar_dados_reais_newrelic.py`** - Integra dados reais do New Relic com o sistema
+4. **`sincronizar_periodico_newrelic.py`** - Sincroniza dados periodicamente em segundo plano
 
 ## Componentes do Sistema
 
-O sistema é composto por três componentes principais:
+O sistema é composto por quatro componentes principais:
 
 1. **Backend Principal** – Gerencia autenticação, sessões e orquestração geral.
 2. **API de Incidentes** – Coleta, correlaciona e analisa incidentes com entidades do New Relic.
 3. **Frontend** – Interface para visualização de dashboards e análises.
+4. **Sistema de Integração de Dados Reais** - Coleta e processa dados reais do New Relic.
 
 ## Requisitos
 
@@ -84,7 +107,68 @@ git rm --cached -r backend/historico/ backend/contexts/ logs/
    python backend/verificar_dependencias.py
    ```
 
+## Configuração de Dados Reais do New Relic
+
+O sistema pode funcionar tanto com dados reais do New Relic quanto com dados simulados. Por padrão, o sistema usa dados simulados.
+
+### Para configurar dados reais:
+
+1. **Configure suas credenciais** - Crie um arquivo `.env` na raiz do projeto com:
+
+```bash
+NEW_RELIC_ACCOUNT_ID=seu_account_id_aqui
+NEW_RELIC_API_KEY=sua_api_key_aqui
+```
+
+2. **Verifique sua configuração**:
+
+```bash
+python verificar_config_dados_reais.py
+```
+
+3. **Sincronize os dados reais**:
+
+```bash
+python integrar_dados_reais_newrelic.py
+```
+
+4. **Inicie o sistema com dados reais**:
+
+```bash
+python iniciar_sistema_com_dados_reais.py
+```
+
+Para mais detalhes, consulte o documento [CONFIGURACAO_DADOS_REAIS.md](CONFIGURACAO_DADOS_REAIS.md).
+
 ## Como Executar
+
+### Usando Dados Reais do New Relic
+
+Para iniciar o sistema com dados reais do New Relic:
+
+1. Configure as credenciais do New Relic:
+
+```bash
+# Windows PowerShell
+$env:NEW_RELIC_ACCOUNT_ID = "seu_account_id"
+$env:NEW_RELIC_API_KEY = "sua_api_key"
+
+# Linux/Mac
+export NEW_RELIC_ACCOUNT_ID=seu_account_id
+export NEW_RELIC_API_KEY=sua_api_key
+```
+
+2. Execute o script de inicialização:
+
+```bash
+# Windows
+iniciar_sistema_com_dados_reais.bat
+
+# Linux/Mac ou Windows com PowerShell/Python
+python iniciar_sistema_com_dados_reais.py
+```
+
+### Usando Dados Simulados
 
 ### Opção 1: Sistema Completo (Recomendado)
 
