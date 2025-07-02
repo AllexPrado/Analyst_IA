@@ -407,10 +407,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import apiClient from '../../api/axios'
 import advancedDataService from '../../api/advancedDataService'
 import * as d3 from 'd3'
+import { useTopologyGraph } from '../../utils/topologyGraph'
 
 // Estado da página
 const loading = ref(true)
