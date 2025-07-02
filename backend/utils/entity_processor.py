@@ -38,7 +38,7 @@ def is_entity_valid(entity: Dict) -> bool:
         return False
     
     # Verifica se há pelo menos um período com dados reais
-    essential_metrics = ['apdex', 'response_time', 'error_rate', 'throughput']
+    essential_metrics = ['apdex', 'response_time', 'response_time_max', 'error_rate', 'throughput']
     for periodo_key, periodo_data in entity.get('metricas', {}).items():
         if isinstance(periodo_data, dict) and periodo_data:
             for essential_metric in essential_metrics:
@@ -56,6 +56,7 @@ def process_entity_details(entity: Dict) -> Dict:
     - Converte 'detalhe' de string JSON para objeto estruturado em 'metricas'
     - Remove métricas nulas (None)
     - Valida que a entidade tem pelo menos algum dado útil
+    - Garante que métricas essenciais estejam como valores simples
     """
     try:
         # Certifica que temos um dicionário para trabalhar
@@ -105,27 +106,43 @@ def process_entity_details(entity: Dict) -> Dict:
                             # Pula métricas vazias, nulas ou em branco
                             if metric_data is None or metric_data == "" or metric_data == []:
                                 continue
-                                
-                            # Se a métrica for uma lista de resultados, filtra resultados nulos
-                            if isinstance(metric_data, list):
-                                # Filtra itens nulos da lista
-                                valid_items = []
-                                for item in metric_data:
-                                    if item and isinstance(item, dict):
-                                        # Remove chaves com valores nulos do dicionário
-                                        item = {k: v for k, v in item.items() if v is not None and v != "" and v != []}
-                                        if item:  # Se ainda tem dados após filtrar
-                                            valid_items.append(item)
-                                
-                                if valid_items:  # Só adiciona se tiver itens válidos
-                                    valid_metrics[metric_name] = valid_items
+                            
+                            # Se a métrica for uma lista de resultados, extrai o valor principal se possível
+                            if isinstance(metric_data, list) and metric_data and isinstance(metric_data[0], dict):
+                                # Se for métrica essencial, extrai o valor do primeiro item
+                                if metric_name in ['apdex', 'response_time', 'response_time_max', 'error_rate', 'throughput']:
+                                    v = metric_data[0]
+                                    if isinstance(v, dict) and 'value' in v:
+                                        valid_metrics[metric_name] = v['value']
+                                    else:
+                                        valid_metrics[metric_name] = v
+                                else:
+                                    # Para outras métricas, mantém a lista filtrada
+                                    valid_items = [item for item in metric_data if item and isinstance(item, dict)]
+                                    if valid_items:
+                                        valid_metrics[metric_name] = valid_items
                             else:
                                 # Para métricas simples, adiciona diretamente se não for nula
                                 valid_metrics[metric_name] = metric_data
                         
                         # Só adiciona o período se tiver métricas válidas
                         if valid_metrics:
-                            processed['metricas'][period] = valid_metrics
+                            # Achata as métricas para facilitar o filtro e o frontend
+                            flattened = flatten_metrics(valid_metrics)
+                            # Garante que métricas essenciais estejam como valores simples (float/int)
+                            for metric_name in ['apdex', 'response_time', 'response_time_max', 'error_rate', 'throughput']:
+                                if metric_name in flattened:
+                                    val = flattened[metric_name]
+                                    # Se ainda for dict ou lista, tenta extrair o valor
+                                    if isinstance(val, dict) and 'results' in val and val['results']:
+                                        v = val['results'][0]
+                                        if isinstance(v, dict) and 'value' in v:
+                                            flattened[metric_name] = v['value']
+                                        else:
+                                            flattened[metric_name] = v
+                                    elif isinstance(val, list) and val and isinstance(val[0], dict) and 'value' in val[0]:
+                                        flattened[metric_name] = val[0]['value']
+                            processed['metricas'][period] = flattened
                         else:
                             # Remove o período se não tem métricas válidas
                             if period in processed['metricas']:
@@ -157,19 +174,42 @@ def process_entity_details(entity: Dict) -> Dict:
             except Exception as e:
                 logger.warning(f"Erro ao processar detalhe: {str(e)}")
                 processed['problema'] = 'PROCESSING_ERROR'
-        
+        # Garante que métricas essenciais estejam achatadas mesmo se já vierem em metricas
+        if 'metricas' in processed and isinstance(processed['metricas'], dict):
+            for period, period_data in processed['metricas'].items():
+                if isinstance(period_data, dict):
+                    for metric_name in ['apdex', 'response_time', 'response_time_max', 'error_rate', 'throughput']:
+                        if metric_name in period_data and isinstance(period_data[metric_name], list) and period_data[metric_name] and isinstance(period_data[metric_name][0], dict):
+                            v = period_data[metric_name][0]
+                            if isinstance(v, dict) and 'value' in v:
+                                processed['metricas'][period][metric_name] = v['value']
+                            else:
+                                processed['metricas'][period][metric_name] = v
         return processed
     except Exception as e:
         logger.error(f"Erro geral no processamento da entidade: {str(e)}")
         return None
 
+def flatten_metrics(period_data):
+    flat = {}
+    for metric, value in period_data.items():
+        if isinstance(value, dict) and "results" in value and value["results"]:
+            v = value["results"][0]
+            if isinstance(v, dict) and "value" in v:
+                flat[metric] = v["value"]
+            else:
+                flat[metric] = v
+        else:
+            flat[metric] = value
+    return flat
+
 def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
     """
     Filtra uma lista de entidades para retornar apenas aquelas 
     com dados válidos e reais para o frontend.
-    
     Também processa cada entidade para garantir formato consistente.
     Aplica critérios RIGOROSOS para economizar tokens.
+    Nunca retorna None, sempre retorna lista (pode ser vazia).
     """
     if not entities:
         logger.warning("Nenhuma entidade para filtrar")
@@ -198,7 +238,7 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
             # Pula entidades que não puderam ser processadas
             if not processed:
                 rejected_count += 1
-                logger.debug("Entidade rejeitada: erro no processamento")
+                logger.debug(f"Entidade rejeitada: erro no processamento: {entity}")
                 continue
                 
             # Contagem por domínio
@@ -210,10 +250,12 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
             if processed and processed.get('metricas'):
                 for period, period_data in processed['metricas'].items():
                     if isinstance(period_data, dict):
+                        # Corrigido: checar 'response_time' além de 'response_time_max'
                         if 'apdex' in period_data and period_data['apdex'] is not None:
                             metrics_stats['has_apdex'] += 1
                             has_metrics = True
-                        if 'response_time_max' in period_data and period_data['response_time_max'] is not None:
+                        if (('response_time' in period_data and period_data['response_time'] is not None) or
+                            ('response_time_max' in period_data and period_data['response_time_max'] is not None)):
                             metrics_stats['has_response_time'] += 1
                             has_metrics = True
                         if ('error_rate' in period_data and period_data['error_rate'] is not None) or \
@@ -235,7 +277,7 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
                 valid_entities.append(processed)
             else:
                 rejected_count += 1
-                
+                logger.debug(f"Entidade rejeitada por is_entity_valid: {processed}")
         except Exception as e:
             logger.error(f"Erro ao processar entidade: {str(e)}")
             rejected_count += 1
@@ -247,3 +289,5 @@ def filter_entities_with_data(entities: List[Dict]) -> List[Dict]:
                f"Response Time: {metrics_stats['has_response_time']}, " +
                f"Error Rate: {metrics_stats['has_error_rate']}, " +
                f"Throughput: {metrics_stats['has_throughput']}")
+    
+    return valid_entities

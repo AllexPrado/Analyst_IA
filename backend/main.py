@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 
 # Inicializa o sistema de cache durante o startup
-import cache_integration
+# import cache_integration  # Temporariamente comentado para debug
 
 try:
     import tiktoken
@@ -23,10 +23,13 @@ except ImportError:
     print("Warning: tiktoken não disponível. Usando fallback para contagem de tokens.")
 
 # Importar o router principal
-from core_router import api_router
+try:
+    from core_router import api_router
+except ImportError:
+    # Fallback para quando executado de outra pasta
+    from backend.core_router import api_router
 
 import uvicorn
-from core_router import api_router
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, status, BackgroundTasks, Request, APIRouter
