@@ -1,27 +1,22 @@
 {
-  "total_entidades": 151,
-  "monitoradas": 134,
-  "porcentagem": 88.7,
+  "total_entidades": 157,
+  "monitoradas": 153,
+  "porcentagem": 97.5,
   "por_dominio": {
     "APM": {
-      "total": 52,
-      "monitoradas": 44,
-      "criticas": 9
+      "total": 53,
+      "monitoradas": 47,
+      "criticas": 12
     },
     "BROWSER": {
-      "total": 32,
-      "monitoradas": 25,
-      "criticas": 3
+      "total": 35,
+      "monitoradas": 30,
+      "criticas": 8
     },
     "INFRA": {
-      "total": 79,
-      "monitoradas": 64,
-      "criticas": 11
-    },
-    "MOBILE": {
-      "total": 20,
-      "monitoradas": 15,
-      "criticas": 2
+      "total": 69,
+      "monitoradas": 61,
+      "criticas": 15
     }
   },
   "historico": {
@@ -42,94 +37,9 @@
           75,
           78,
           82,
-          88.7
+          87.9
         ]
       }
     ]
-  },
-  "distribuicao": {
-    "recursos": [
-      {
-        "dominio": "APM",
-        "count": 36
-      },
-      {
-        "dominio": "BROWSER",
-        "count": 20
-      },
-      {
-        "dominio": "INFRA",
-        "count": 68
-      },
-      {
-        "dominio": "MOBILE",
-        "count": 8
-      }
-    ],
-    "dominios": [
-      {
-        "nome": "E-commerce",
-        "count": 33
-      },
-      {
-        "nome": "CRM",
-        "count": 29
-      },
-      {
-        "nome": "ERP",
-        "count": 39
-      },
-      {
-        "nome": "Pagamentos",
-        "count": 20
-      },
-      {
-        "nome": "Logística",
-        "count": 21
-      }
-    ]
-  },
-  "recursos_sem_cobertura": [
-    {
-      "nome": "API de Pagamentos",
-      "dominio": "Financeiro",
-      "tipo": "API",
-      "status": "Crítico",
-      "acao": "Configurar APM"
-    },
-    {
-      "nome": "Frontend Mobile",
-      "dominio": "E-commerce",
-      "tipo": "MOBILE",
-      "status": "Alta",
-      "acao": "Implementar RUM"
-    },
-    {
-      "nome": "Servidor de Cache",
-      "dominio": "Infraestrutura",
-      "tipo": "INFRA",
-      "status": "Média",
-      "acao": "Instalar agente"
-    }
-  ],
-  "acoes_recomendadas": [
-    {
-      "titulo": "Implementar APM na API de Pagamentos",
-      "prioridade": "Alta",
-      "esforco": "Médio",
-      "impacto": "Alto"
-    },
-    {
-      "titulo": "Configurar monitoramento de frontend mobile",
-      "prioridade": "Alta",
-      "esforco": "Baixo",
-      "impacto": "Alto"
-    },
-    {
-      "titulo": "Expandir cobertura para servidores de cache",
-      "prioridade": "Média",
-      "esforco": "Baixo",
-      "impacto": "Médio"
-    }
-  ]
+  }
 }
