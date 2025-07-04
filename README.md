@@ -1,14 +1,33 @@
-# Analyst_IA: Sistema Integrado de Monitoramento e Análise (Versão Avançada)
+# Analyst_IA: Sistema Integrado de Monitoramento e Análise (Versão Otimizada)
 
 ## Sobre o Projeto
 
-Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi aprimorada com o coletor avançado do New Relic, sistema avançado de economia de tokens e suporte a dados reais.
+Analyst_IA é um sistema integrado para monitoramento e análise de entidades do New Relic, projetado para detectar, correlacionar, analisar e fornecer recomendações sobre incidentes em sua infraestrutura de aplicações. Esta versão foi completamente otimizada para usar exclusivamente dados reais do New Relic, com código modernizado e todos os sistemas de fallback para dados simulados removidos.
+
+## Sistema Otimizado
+
+O sistema foi completamente modernizado para:
+
+- **Uso Exclusivo de Dados Reais**: Todo o sistema foi reconstruído para trabalhar exclusivamente com dados reais do New Relic
+- **Cache Avançado**: Suporte para armazenamento e processamento de mais de 190+ entidades do New Relic
+- **Chat IA com Análises Reais**: Todas as análises do Chat IA são baseadas nos dados reais coletados
+- **Código Otimizado**: Remoção de código duplicado, simulado e sem valor de negócio
+- **Inicialização Robusta**: Scripts de inicialização confiáveis para Windows/PowerShell
+
+### Como Iniciar o Sistema Otimizado
+
+Escolha uma das seguintes opções para iniciar o sistema:
+
+1. **VS Code Task**: Use a task `Iniciar Sistema Otimizado` no VS Code
+2. **PowerShell**: Execute `.\iniciar_sistema_otimizado.ps1`
+3. **Windows**: Execute o arquivo `iniciar_sistema_otimizado.bat`
+4. **Python**: Execute `python otimizar_sistema.py` para preparar e otimizar o sistema
 
 ## Recursos Avançados
 
 ### Coletor Avançado New Relic
 
-O sistema agora utiliza o coletor avançado que obtém todos os tipos de dados disponíveis na plataforma New Relic:
+O sistema utiliza o coletor avançado que obtém todos os tipos de dados disponíveis na plataforma New Relic:
 
 - **Métricas Tradicionais**: Apdex, Response Time, Error Rate, Throughput
 - **Logs Detalhados**: Mensagens de log com contexto completo
@@ -25,8 +44,7 @@ Agora o sistema suporta a integração completa com dados reais do New Relic:
 
 - **Coleta Automatizada**: Extração automática de dados da API do New Relic
 - **Sincronização Periódica**: Atualização programada dos dados em intervalos configuráveis
-- **Modo Híbrido**: Funciona tanto com dados reais quanto simulados
-- **Adaptação Inteligente**: Usa dados simulados como fallback quando credenciais não estão disponíveis
+- **Modo Real**: O sistema opera exclusivamente com dados reais do New Relic para garantir confiabilidade e valor de negócio.
 
 ### Sistema de Economia de Tokens
 
@@ -99,17 +117,15 @@ git rm --cached -r backend/historico/ backend/contexts/ logs/
 
    ```bash
    python install_dependencies.py
-   
    # Para versão otimizada com economia de tokens
    pip install -r backend/requirements_otimizado.txt
-   
    # Verificar se todas as dependências estão instaladas
    python backend/verificar_dependencias.py
    ```
 
 ## Configuração de Dados Reais do New Relic
 
-O sistema pode funcionar tanto com dados reais do New Relic quanto com dados simulados. Por padrão, o sistema usa dados simulados.
+O sistema opera exclusivamente com dados reais do New Relic. Não há mais suporte a dados simulados.
 
 ### Para configurar dados reais:
 
@@ -167,47 +183,6 @@ iniciar_sistema_com_dados_reais.bat
 # Linux/Mac ou Windows com PowerShell/Python
 python iniciar_sistema_com_dados_reais.py
 ```
-
-### Usando Dados Simulados
-
-### Opção 1: Sistema Completo (Recomendado)
-
-Execute o script de inicialização para iniciar todo o sistema:
-
-```bash
-python start_all.py
-```
-
-### Opção 2: Sistema Otimizado com Economia de Tokens
-
-Execute o script de coleta otimizada para economizar tokens:
-
-```bash
-cd backend
-python executar_coleta_otimizada.py
-```
-
-Depois monitore a economia de tokens:
-
-```bash
-python monitor_economia_tokens.py
-```
-
-### Opção 3: Iniciar Cada Componente Separadamente
-
-1. Inicie o backend principal:
-
-   ```bash
-   cd backend
-   python start_backend.py
-   ```
-
-2. Inicie o frontend:
-
-   ```bash
-   cd frontend
-   npm run dev
-   ```
 
 ## Acessando o Sistema
 

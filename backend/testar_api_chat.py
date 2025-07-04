@@ -11,8 +11,8 @@ async def testar_api_chat():
         print("Testando API de chat com pergunta sobre incidentes...")
         
         async with aiohttp.ClientSession() as session:
-            # URL da API de chat
-            url = "http://localhost:8000/chat"
+            # URL da API de chat (porta padrão do backend é 5000, não 8000)
+            url = "http://localhost:5000/api/chat"
             
             # Pergunta sobre incidentes da última semana
             payload = {

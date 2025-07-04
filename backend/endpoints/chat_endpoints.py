@@ -20,8 +20,9 @@ class ChatInput(BaseModel):
     pergunta: str = Field(..., description="Pergunta do usuário")
     contexto: Optional[Dict[str, Any]] = Field(None, description="Contexto adicional para a pergunta (opcional)")
 
-# Banco de conhecimento simulado para respostas mais relevantes
-KNOWLEDGE_BASE = {
+# Removido banco de conhecimento simulado - usando apenas dados reais
+'''
+Antigo KNOWLEDGE_BASE = {
     "metricas": [
         "As métricas mais críticas atualmente são a latência da API de pagamentos (2.1s) e a taxa de erro do serviço de autenticação (3.5%).",
         "Recomendo focar na otimização da API de Pagamentos que está apresentando latência 245% acima do normal.",
@@ -65,6 +66,7 @@ KNOWLEDGE_BASE = {
         "Implementar rate limiting em APIs públicas para prevenir abusos e ataques DoS."
     ]
 }
+'''
 
 # Função para encontrar entidades relevantes com base na pergunta
 def encontrar_entidades_relevantes(pergunta: str, entidades: List[Dict], max_entidades: int = 3) -> List[Dict]:

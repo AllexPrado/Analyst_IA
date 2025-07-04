@@ -63,23 +63,34 @@
                   
                   <!-- Mostra dados de entidade específica, se disponível -->
                   <div v-if="mensagem.entidadesDetalhadas && mensagem.entidadesDetalhadas.length" class="mt-3 border-t border-gray-600 pt-3">
-                    <div v-for="(entidade, idx) in mensagem.entidadesDetalhadas" :key="idx" class="mb-2 p-2 rounded bg-gray-800/50">
-                      <div class="font-medium text-blue-300">{{ entidade.name }}</div>
+                    <div v-for="(entidade, idx) in mensagem.entidadesDetalhadas" :key="idx" class="mb-2 p-2 rounded bg-gray-800/70 shadow hover:shadow-lg transition-all">
+                      <div class="flex items-center gap-2 mb-1">
+                        <div class="font-medium text-blue-300 text-base">{{ entidade.name }}</div>
+                        <span class="text-xs text-gray-400 bg-gray-700 rounded px-2 py-0.5 ml-2" v-if="entidade.tipo">{{ entidade.tipo }}</span>
+                      </div>
                       <div class="grid grid-cols-2 gap-2 text-sm mt-1">
-                        <div class="flex justify-between">
-                          <span class="text-gray-400">Apdex:</span>
+                        <div class="flex justify-between items-center group">
+                          <span class="text-gray-400">Apdex:
+                            <span class="ml-1 cursor-help" title="Índice de satisfação do usuário (quanto mais próximo de 1, melhor)">?</span>
+                          </span>
                           <span :class="getColorClass(entidade.metricas?.['24h']?.apdex, 'apdex')">{{ formatarValor(entidade.metricas?.['24h']?.apdex) }}</span>
                         </div>
-                        <div class="flex justify-between">
-                          <span class="text-gray-400">Erros:</span>
+                        <div class="flex justify-between items-center group">
+                          <span class="text-gray-400">Erros:
+                            <span class="ml-1 cursor-help" title="Taxa de erros (%) nas últimas 24h">?</span>
+                          </span>
                           <span :class="getColorClass(entidade.metricas?.['24h']?.error_rate, 'error')">{{ formatarValor(entidade.metricas?.['24h']?.error_rate, '%') }}</span>
                         </div>
-                        <div class="flex justify-between">
-                          <span class="text-gray-400">Resposta:</span>
+                        <div class="flex justify-between items-center group">
+                          <span class="text-gray-400">Resposta:
+                            <span class="ml-1 cursor-help" title="Tempo médio de resposta (ms)">?</span>
+                          </span>
                           <span>{{ formatarValor(entidade.metricas?.['24h']?.response_time, 'ms') }}</span>
                         </div>
-                        <div class="flex justify-between">
-                          <span class="text-gray-400">Throughput:</span>
+                        <div class="flex justify-between items-center group">
+                          <span class="text-gray-400">Throughput:
+                            <span class="ml-1 cursor-help" title="Requisições por minuto">?</span>
+                          </span>
                           <span>{{ formatarValor(entidade.metricas?.['24h']?.throughput, 'req/min') }}</span>
                         </div>
                       </div>
@@ -275,7 +286,6 @@ const enviarPergunta = async (texto) => {
   }
 
   try {
-    await carregarDados()
     // Chamada real à API
     const data = await getChatResposta(texto.trim())
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
@@ -435,36 +445,40 @@ const carregarDados = async () => {
 // Inicializa com mensagem de boas-vindas
 onMounted(async () => {
   try {
-    // Carregar histórico salvo, se existir
-    const historico = localStorage.getItem('chatHistory')
-    if (historico) {
-      try {
-        mensagens.value = JSON.parse(historico)
-      } catch (e) {
-        console.error('Erro ao carregar histórico:', e)
-      }
-    } else {
-      // Sem histórico, carrega mensagem inicial
-      const data = await getChatResposta('mensagem_inicial')
-      if (data && data.resposta) {
-        mensagens.value.push({
-          tipo: 'resposta',
-          texto: data.resposta
-        })
-        
-        if (data.contexto) {
-          contexto.value = {
-            ...contexto.value,
-            ...data.contexto,
-            atualizadoEm: new Date()
-          }
+    // Sempre busca mensagem inicial e contexto do backend para garantir atualização
+    const data = await getChatResposta('mensagem_inicial')
+    if (data && data.resposta) {
+      // Sempre insere a mensagem inicial como primeira resposta, sobrescrevendo qualquer histórico local
+      mensagens.value = [{
+        tipo: 'resposta',
+        texto: data.resposta
+      }]
+      if (data.contexto) {
+        contexto.value = {
+          ...contexto.value,
+          ...data.contexto,
+          atualizadoEm: new Date()
         }
       }
+      // Salva imediatamente o novo histórico sobrescrito
+      localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
+    } else {
+      mensagens.value = [{
+        tipo: 'resposta',
+        texto: 'Não foi possível obter a mensagem inicial do backend.',
+        erro: true
+      }]
+      localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
     }
   } catch (error) {
+    mensagens.value = [{
+      tipo: 'resposta',
+      texto: 'Erro ao carregar mensagem inicial do backend.',
+      erro: true
+    }]
+    localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
     console.error('Erro ao carregar mensagem inicial:', error)
   }
-
   // Carrega dados iniciais quando o componente for montado
   carregarDados()
 })

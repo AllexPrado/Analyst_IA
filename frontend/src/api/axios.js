@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Cria uma instância do axios com configurações base para a API
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8000/api',  // Apontando para o backend na porta 8000
   timeout: 15000, // Timeout aumentado para 15 segundos
   headers: {
     'Content-Type': 'application/json',
@@ -16,22 +16,16 @@ apiClient.interceptors.request.use(config => {
   return config;
 });
 
-// Interceptor para logs de respostas e tratamento de erros
+// Interceptor para tratamento de erros
 apiClient.interceptors.response.use(
-  response => {
-    return response;
-  },
+  response => response,
   error => {
     if (error.response) {
-      // O servidor respondeu com um status de erro
-      console.error(`Erro ${error.response.status}: ${error.response.statusText}`);
-      console.error('Dados do erro:', error.response.data);
+      console.error(`Erro ${error.response.status}: ${error.response.data.detail || error.response.statusText}`);
     } else if (error.request) {
-      // A requisição foi feita mas não houve resposta
-      console.error('Sem resposta do servidor:', error.request);
+      console.error('Erro de conexão com o servidor. Verifique se o backend está rodando.');
     } else {
-      // Erro na configuração da requisição
-      console.error('Erro de configuração:', error.message);
+      console.error('Erro:', error.message);
     }
     return Promise.reject(error);
   }

@@ -37,5 +37,9 @@ export const atualizarCacheAvancadoAPI = () => handleApiResponse(api.post('/cach
 export const getDiagnosticoCache = () => handleApiResponse(api.get('/cache/diagnostico'))
 export const getHealth = () => handleApiResponse(api.get('/health'))
 export const resetTokenLimits = () => handleApiResponse(api.post('/limits/reset'))
+export const getLogs = () => handleApiResponse(api.get('/logs'))
+export const getAlertas = () => handleApiResponse(api.get('/alertas'))
+export const getDashboards = () => handleApiResponse(api.get('/dashboards'))
+export const getIncidentes = () => handleApiResponse(api.get('/incidentes'))
 
 export default api

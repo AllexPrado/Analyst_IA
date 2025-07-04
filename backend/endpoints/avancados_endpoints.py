@@ -40,176 +40,40 @@ def load_cache_data(file_name, default_value=None):
         if os.path.exists(path):
             try:
                 with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    logger.info(f"Dados carregados com sucesso de {path}")
+                    # Verificar se temos o indicador de dados reais
+                    indicator_paths = [
+                        os.path.join("cache", "data_source_indicator.json"),
+                        os.path.join("backend", "cache", "data_source_indicator.json"),
+                        os.path.join("..", "cache", "data_source_indicator.json"),
+                        os.path.join("..", "backend", "cache", "data_source_indicator.json")
+                    ]
+                    
+                    # Adicionar timestamp para evitar dados obsoletos
+                    data["timestamp"] = datetime.now().isoformat()
+                    data["data_source"] = "cache"
+                    
+                    # Verificar o indicador de dados reais
+                    for ind_path in indicator_paths:
+                        if os.path.exists(ind_path):
+                            try:
+                                with open(ind_path, 'r', encoding='utf-8') as f_ind:
+                                    indicator = json.load(f_ind)
+                                    if indicator.get("using_real_data") == True:
+                                        data["data_source"] = "New Relic API"
+                                        logger.info("Usando dados REAIS do New Relic")
+                                    break
+                            except Exception as e:
+                                logger.error(f"Erro ao ler indicador de dados reais: {e}")
+                    
+                    return data
             except Exception as e:
                 logger.error(f"Erro ao carregar {path}: {e}")
     
     return default_value
 
-# Dados simulados para desenvolvimento
-def generate_sample_kubernetes_data():
-    """Gera dados simulados de Kubernetes para o frontend"""
-    clusters = ['production-cluster', 'staging-cluster', 'development-cluster']
-    namespaces = ['default', 'kube-system', 'app-namespace', 'monitoring']
-    
-    kubernetes_data = {
-        "clusters": [],
-        "nodes": [],
-        "pods": [],
-        "summary": {
-            "total_clusters": len(clusters),
-            "total_nodes": random.randint(5, 15),
-            "total_pods": random.randint(30, 150),
-            "healthy_pods_percent": random.randint(85, 99),
-            "resource_usage": {
-                "cpu": random.randint(30, 85),
-                "memory": random.randint(40, 90),
-                "storage": random.randint(20, 70)
-            }
-        }
-    }
-    
-    # Gerar dados de clusters
-    for cluster in clusters:
-        node_count = random.randint(2, 6)
-        pod_count = random.randint(10, 50)
-        
-        kubernetes_data["clusters"].append({
-            "name": cluster,
-            "version": f"1.{random.randint(20, 28)}.{random.randint(0, 9)}",
-            "status": random.choice(["healthy", "healthy", "healthy", "warning", "critical"]),
-            "nodes": node_count,
-            "pods": pod_count,
-            "cpu_usage": random.randint(30, 85),
-            "memory_usage": random.randint(40, 90),
-            "issues": random.randint(0, 5)
-        })
-    
-    # Gerar dados de nós
-    for i in range(kubernetes_data["summary"]["total_nodes"]):
-        cluster = random.choice(clusters)
-        kubernetes_data["nodes"].append({
-            "name": f"node-{cluster}-{i+1}",
-            "cluster": cluster,
-            "status": random.choice(["ready", "ready", "ready", "not-ready", "cordoned"]),
-            "cpu": {
-                "capacity": random.choice([2, 4, 8, 16]),
-                "usage_percent": random.randint(10, 95)
-            },
-            "memory": {
-                "capacity_gb": random.choice([8, 16, 32, 64]),
-                "usage_percent": random.randint(10, 95)
-            },
-            "pods": random.randint(5, 30),
-            "conditions": [
-                {
-                    "type": "DiskPressure",
-                    "status": random.choice(["False", "False", "False", "True"])
-                },
-                {
-                    "type": "MemoryPressure",
-                    "status": random.choice(["False", "False", "False", "True"])
-                }
-            ]
-        })
-    
-    # Gerar dados de pods
-    statuses = ["Running", "Running", "Running", "Running", "Pending", "Failed", "CrashLoopBackOff"]
-    for i in range(10):  # Limitamos a 10 pods para não sobrecarregar a UI
-        cluster = random.choice(clusters)
-        namespace = random.choice(namespaces)
-        status = random.choice(statuses)
-        
-        kubernetes_data["pods"].append({
-            "name": f"pod-{namespace}-{i+1}",
-            "namespace": namespace,
-            "cluster": cluster,
-            "status": status,
-            "containers": random.randint(1, 5),
-            "restarts": 0 if status == "Running" else random.randint(1, 10),
-            "age_hours": random.randint(1, 720),
-            "cpu_usage": random.randint(10, 95) if status == "Running" else 0,
-            "memory_usage": random.randint(10, 95) if status == "Running" else 0,
-            "issues": [] if status == "Running" else [random.choice(["ImagePullBackOff", "CrashLoopBackOff", "OOMKilled"])]
-        })
-    
-    return kubernetes_data
 
-def generate_sample_infrastructure_data():
-    """Gera dados simulados de infraestrutura detalhada para o frontend"""
-    server_types = ['web-server', 'api-server', 'database-server', 'cache-server', 'worker']
-    regions = ['us-east', 'us-west', 'eu-central', 'ap-southeast']
-    
-    infra_data = {
-        "servers": [],
-        "summary": {
-            "total_servers": random.randint(20, 50),
-            "healthy_percent": random.randint(85, 99),
-            "regions": len(regions),
-            "resource_usage": {
-                "cpu": random.randint(30, 85),
-                "memory": random.randint(40, 90),
-                "disk": random.randint(20, 70),
-                "network": random.randint(25, 75)
-            }
-        },
-        "alerts": []
-    }
-    
-    # Gerar dados de servidores
-    for i in range(10):  # Limitamos a 10 servidores para não sobrecarregar a UI
-        server_type = random.choice(server_types)
-        region = random.choice(regions)
-        status = random.choice(["healthy", "healthy", "healthy", "warning", "critical"])
-        
-        infra_data["servers"].append({
-            "id": f"srv-{region}-{i+1}",
-            "name": f"{server_type}-{region}-{i+1}",
-            "type": server_type,
-            "region": region,
-            "status": status,
-            "cpu": {
-                "cores": random.choice([2, 4, 8, 16, 32]),
-                "usage_percent": random.randint(10, 95)
-            },
-            "memory": {
-                "total_gb": random.choice([8, 16, 32, 64, 128]),
-                "usage_percent": random.randint(10, 95)
-            },
-            "disk": {
-                "total_gb": random.choice([100, 200, 500, 1000]),
-                "usage_percent": random.randint(10, 95)
-            },
-            "network": {
-                "throughput_mbps": random.randint(10, 1000),
-                "packets_per_second": random.randint(1000, 50000)
-            },
-            "uptime_days": random.randint(1, 365),
-            "issues": [] if status == "healthy" else [random.choice(["high_cpu", "memory_leak", "disk_full", "network_latency"])]
-        })
-    
-    # Gerar alguns alertas
-    for i in range(random.randint(1, 5)):
-        server = random.choice(infra_data["servers"])
-        alert_type = random.choice(["cpu", "memory", "disk", "network", "service"])
-        
-        infra_data["alerts"].append({
-            "id": f"alert-{i+1}",
-            "server_id": server["id"],
-            "server_name": server["name"],
-            "type": alert_type,
-            "severity": random.choice(["warning", "critical"]),
-            "message": f"High {alert_type} usage on {server['name']}",
-            "timestamp": (datetime.now().isoformat()).split('.')[0],
-            "duration_minutes": random.randint(5, 120)
-        })
-    
-    return infra_data
-
-def generate_sample_topology_data():
-    """Gera dados simulados de topologia de serviços para o frontend"""
-    services = ['frontend', 'api-gateway', 'auth-service', 'user-service', 'product-service', 'payment-service', 
-               'notification-service', 'search-service', 'recommendation-engine', 'analytics-service']
     
     nodes = []
     links = []
@@ -274,11 +138,8 @@ async def get_kubernetes_data():
     try:
         # Tentar carregar dados reais primeiro
         k8s_data = load_cache_data("kubernetes_metrics.json")
-        
         if not k8s_data:
-            # Se não houver dados reais, gerar dados simulados
-            k8s_data = generate_sample_kubernetes_data()
-        
+            raise HTTPException(status_code=404, detail="Dados reais de Kubernetes não disponíveis.")
         return k8s_data
     except Exception as e:
         logger.error(f"Erro ao obter dados de Kubernetes: {e}")
@@ -292,11 +153,8 @@ async def get_infrastructure_data():
     try:
         # Tentar carregar dados reais primeiro
         infra_data = load_cache_data("infrastructure_detailed.json")
-        
         if not infra_data:
-            # Se não houver dados reais, gerar dados simulados
-            infra_data = generate_sample_infrastructure_data()
-        
+            raise HTTPException(status_code=404, detail="Dados reais de infraestrutura não disponíveis.")
         return infra_data
     except Exception as e:
         logger.error(f"Erro ao obter dados de infraestrutura: {e}")
@@ -310,11 +168,8 @@ async def get_topology_data():
     try:
         # Tentar carregar dados reais primeiro
         topo_data = load_cache_data("service_topology.json")
-        
         if not topo_data:
-            # Se não houver dados reais, gerar dados simulados
-            topo_data = generate_sample_topology_data()
-        
+            raise HTTPException(status_code=404, detail="Dados reais de topologia não disponíveis.")
         return topo_data
     except Exception as e:
         logger.error(f"Erro ao obter dados de topologia: {e}")

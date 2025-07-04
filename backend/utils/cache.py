@@ -20,6 +20,90 @@ _cache = {
     "consultas_historicas": {}
 }
 
+def atualizar_coverage_cache():
+    """
+    Calcula e preenche o campo 'coverage' em metadata do cache,
+    baseado nas entidades reais coletadas.
+    """
+    try:
+        cache_dados = _cache.get("dados", {})
+        coverage = {}
+
+        # Domínios críticos a serem cobertos
+        dominios_criticos = [
+            "APM", "BROWSER", "MOBILE", "SYNTH", "INFRA", "DASHBOARDS", "LOGS", "ALERTAS", "INCIDENTES", "WORKLOADS", "KPIS", "TENDENCIAS"
+        ]
+
+        # Mapeamento de nomes alternativos para domínios
+        aliases = {
+            "dashboards": "DASHBOARDS",
+            "logs": "LOGS",
+            "alertas": "ALERTAS",
+            "incidentes": "INCIDENTES",
+            "workloads": "WORKLOADS",
+            "kpis": "KPIS",
+            "tendencias": "TENDENCIAS"
+        }
+
+        # Normaliza domínios presentes no cache
+        for domain, entities in cache_dados.items():
+            dom = aliases.get(domain.lower(), domain.upper())
+            if not isinstance(entities, list):
+                continue
+            total_entities = len(entities)
+            complete_entities = 0
+            # Critérios de "completo" por domínio
+            for ent in entities:
+                if dom in ["APM", "BROWSER", "MOBILE", "SYNTH", "INFRA"]:
+                    if ent.get("reporting") and any(ent.get(k) for k in ["metricas", "metrics", "apdex", "response_time", "error_rate", "throughput"]):
+                        complete_entities += 1
+                elif dom == "LOGS":
+                    if ent.get("log_count", 0) > 0 or ent.get("logs"):
+                        complete_entities += 1
+                elif dom == "DASHBOARDS":
+                    if ent.get("widgets") or ent.get("visualizations"):
+                        complete_entities += 1
+                elif dom == "ALERTAS":
+                    if ent.get("status") in ["open", "triggered", "acknowledged", "closed"]:
+                        complete_entities += 1
+                elif dom == "INCIDENTES":
+                    if ent.get("status") in ["open", "closed", "acknowledged"]:
+                        complete_entities += 1
+                elif dom == "WORKLOADS":
+                    if ent.get("entities") and len(ent.get("entities", [])) > 0:
+                        complete_entities += 1
+                elif dom == "KPIS":
+                    if any(ent.get(k) for k in ["apdex", "response_time", "throughput", "error_rate"]):
+                        complete_entities += 1
+                elif dom == "TENDENCIAS":
+                    if ent.get("trend") or ent.get("tendencia"):
+                        complete_entities += 1
+                else:
+                    # fallback: reporting True e alguma métrica
+                    if ent.get("reporting") and any(ent.get(k) for k in ["metricas", "metrics", "apdex", "response_time", "error_rate"]):
+                        complete_entities += 1
+            coverage[dom] = {
+                "total_entities": total_entities,
+                "complete_entities": complete_entities
+            }
+
+        # Garante que todos os domínios críticos estejam presentes no coverage
+        for dom in dominios_criticos:
+            if dom not in coverage:
+                coverage[dom] = {"total_entities": 0, "complete_entities": 0}
+
+        # Preenche no metadata
+        if "metadata" not in cache_dados:
+            cache_dados["metadata"] = {}
+        cache_dados["metadata"]["coverage"] = coverage
+        _cache["dados"] = cache_dados
+        logger.info(f"Coverage atualizado no cache: {coverage}")
+        return coverage
+    except Exception as e:
+        logger.error(f"Erro ao atualizar coverage no cache: {e}")
+        logger.error(traceback.format_exc())
+        return None
+
 # Configurações de cache multinível
 CACHE_UPDATE_INTERVAL = 3600  # Cache principal: 1 hora
 CACHE_SHORT_INTERVAL = 30  # Cache curta duração: 30 segundos (para consultas frequentes)
@@ -318,10 +402,16 @@ async def atualizar_cache_completo_avancado():
         _cache["dados"] = resultado
         _cache["metadados"]["ultima_atualizacao"] = resultado["timestamp_atualizacao"]
         _cache["metadados"]["tipo_ultima_atualizacao"] = "avançada"
-        
+
+        # Atualiza o campo coverage no cache
+        try:
+            atualizar_coverage_cache()
+        except Exception as e:
+            logger.error(f"Erro ao atualizar coverage após coleta avançada: {e}")
+
         logger.info(f"Cache atualizado com dados avançados e salvo em: {CACHE_FILE}")
         logger.info(f"Entidades por domínio: {resultado.get('contagem_por_dominio', {})}")
-        
+
         return True
     except Exception as e:
         logger.error(f"Erro ao atualizar cache com dados avançados: {str(e)}", exc_info=True)

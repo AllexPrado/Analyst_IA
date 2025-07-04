@@ -643,5 +643,145 @@
     "pergunta": "oi",
     "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
     "timestamp": "2025-07-02T19:47:03.488596"
+  },
+  {
+    "pergunta": "teste",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-02T20:08:36.742954"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.\n\nEntidades com métricas mais relevantes:\n- API-Pagamentos: Apdex 0.9, Taxa de erro 1.5%\n- API-Autenticacao: Apdex 0.89, Taxa de erro 1.2%\n- Database-Principal: Apdex 0.82, Taxa de erro 0.3%",
+    "timestamp": "2025-07-03T12:34:57.322776"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-03T15:32:37.999290"
+  },
+  {
+    "pergunta": "Quais entidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-03T15:33:21.350257"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.\n\nEntidades com métricas mais relevantes:\n- API-Pagamentos: Apdex 0.9, Taxa de erro 1.5%\n- API-Autenticacao: Apdex 0.89, Taxa de erro 1.2%\n- Database-Principal: Apdex 0.82, Taxa de erro 0.3%",
+    "timestamp": "2025-07-03T22:08:24.462183"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-03T23:39:07.157151"
+  },
+  {
+    "pergunta": "Quais entidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-03T23:39:33.306623"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-03T23:39:42.156489"
+  },
+  {
+    "pergunta": "Qual o status atual do sistema?",
+    "resposta": "Status atual do sistema com base em 3 entidades monitoradas:\n\n**Status geral:** Bom\n**Apdex médio:** 0.87\n**Taxa de erro média:** 1.00%\n**Disponibilidade estimada:** 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n",
+    "timestamp": "2025-07-04T00:06:23.643820"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T00:09:23.926115"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-04T00:09:39.023915"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:11:56.586121"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:18:34.361276"
+  },
+  {
+    "pergunta": "Quais métricas estão críticas?",
+    "resposta": "Com base nos dados reais, o Apdex score médio é 0.87. A taxa de erro média é 1.00%. Temos 3 entidades monitoradas.\n\nEntidades com métricas mais relevantes:\n- API-Pagamentos: Apdex 0.9, Taxa de erro 1.5%\n- API-Autenticacao: Apdex 0.89, Taxa de erro 1.2%\n- Database-Principal: Apdex 0.82, Taxa de erro 0.3%",
+    "timestamp": "2025-07-04T00:18:39.748667"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:18:56.245170"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:28:54.667139"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:34:53.929105"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:37:55.755324"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:38:18.242416"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-04T00:38:34.989126"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:38:40.438536"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:41:02.646217"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:41:02.678650"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:41:52.869475"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T00:42:19.639781"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:43:51.599626"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:44:00.641959"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T00:44:07.506913"
   }
 ]

@@ -77,7 +77,7 @@ async def execute_nrql_query(nrql: str, timeout: float = TIMEOUT) -> Dict:
         Dicionário com os resultados da consulta
     """
     data = {
-        "query": nrql
+        "nrql": nrql
     }
     
     try:
@@ -186,7 +186,7 @@ async def get_all_entities() -> List[Dict]:
     query = """
     query EntitiesQuery {
       actor {
-        entitySearch(queryBuilder: {domain: APM, domain: BROWSER, domain: INFRA, domain: MOBILE, domain: SYNTH, domain: EXT}) {
+        entitySearch(queryBuilder: {domainTypes: {domain: APM, types: []}, domainTypes: {domain: BROWSER, types: []}, domainTypes: {domain: INFRA, types: []}, domainTypes: {domain: MOBILE, types: []}, domainTypes: {domain: SYNTH, types: []}, domainTypes: {domain: EXT, types: []}}) {
           results {
             entities {
               guid
@@ -219,7 +219,7 @@ async def get_all_entities() -> List[Dict]:
             page_query = """
             query EntitiesQuery($cursor: String!) {
               actor {
-                entitySearch(queryBuilder: {domain: APM, domain: BROWSER, domain: INFRA, domain: MOBILE, domain: SYNTH, domain: EXT}) {
+                entitySearch(queryBuilder: {domainTypes: {domain: APM, types: []}, domainTypes: {domain: BROWSER, types: []}, domainTypes: {domain: INFRA, types: []}, domainTypes: {domain: MOBILE, types: []}, domainTypes: {domain: SYNTH, types: []}, domainTypes: {domain: EXT, types: []}}) {
                   results(cursor: $cursor) {
                     entities {
                       guid

@@ -160,6 +160,14 @@
         </ul>
       </div>
     </SafeDataDisplay>
+
+    <!-- Novos Cards Críticos -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+      <CriticalDataCard type="logs" />
+      <CriticalDataCard type="alertas" />
+      <CriticalDataCard type="dashboards" />
+      <CriticalDataCard type="incidentes" />
+    </div>
   </div>
 </template>
 
@@ -168,6 +176,7 @@ import { ref, onMounted, computed } from 'vue'
 import { getStatus } from '../../api/backend.js'
 import SafeApexChart from '../SafeApexChart.vue'
 import SafeDataDisplay from '../SafeDataDisplay.vue'
+import CriticalDataCard from '../ui/CriticalDataCard.vue'
 import { createSafeApexSeries, createSafeApexOptions } from '../../utils/nullDataHandler.js'
 
 const statusGeral = ref({

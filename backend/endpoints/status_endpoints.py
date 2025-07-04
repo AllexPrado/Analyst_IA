@@ -10,51 +10,76 @@ logger = logging.getLogger(__name__)
 # Criar o router
 router = APIRouter()
 
-# Função para verificar o status dos dados
-@router.get("/data_source")
-async def get_data_source():
+def get_data_source_indicator():
+    """Busca o indicador de fonte de dados em vários locais possíveis"""
+    paths = [
+        "cache/data_source_indicator.json",
+        "backend/cache/data_source_indicator.json",
+        "../cache/data_source_indicator.json",
+        "data_source_indicator.json"
+    ]
+    
+    for path in paths:
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                logger.warning(f"Erro ao ler {path}: {e}")
+    return None
+
+
+# Endpoint principal de status para o frontend (VisaoGeral.vue)
+def carregar_cache_status():
+    # Tenta carregar o status do cache salvo
+    caminhos = [
+        "dados/status.json",
+        "backend/dados/status.json",
+        "../dados/status.json"
+    ]
+    for caminho in caminhos:
+        if os.path.exists(caminho):
+            with open(caminho, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    return None
+
+@router.get("")
+async def get_status():
     """
-    Retorna informações sobre a origem dos dados (reais ou simulados)
+    Endpoint principal de status para o frontend (VisaoGeral.vue)
+    Retorna statusGeral, descricao, alertas, dominios, etc.
     """
-    try:
-        # Verificar se existe o indicador de dados reais
-        indicator_path = "backend/cache/data_source_indicator.json"
-        if os.path.exists(indicator_path):
-            with open(indicator_path, 'r', encoding='utf-8') as f:
-                indicator = json.load(f)
-                return indicator
-        
-        # Verificar se existe o arquivo de relatório de integração
-        report_path = "relatorio_integracao_dados_reais.json"
-        if os.path.exists(report_path):
-            with open(report_path, 'r', encoding='utf-8') as f:
-                report = json.load(f)
-                return {
-                    "using_real_data": report.get("modo") == "real",
-                    "timestamp": report.get("timestamp", datetime.now().isoformat()),
-                    "source": "New Relic API" if report.get("modo") == "real" else "Simulado"
-                }
-        
-        # Se não houver indicador nem relatório, verificar variáveis de ambiente
-        account_id = os.environ.get("NEW_RELIC_ACCOUNT_ID")
-        api_key = os.environ.get("NEW_RELIC_API_KEY")
-        
-        if account_id and api_key:
-            return {
-                "using_real_data": True,
-                "timestamp": datetime.now().isoformat(),
-                "source": "New Relic API (credenciais disponíveis)"
-            }
-        
-        # Se nada disso estiver disponível, assume dados simulados
+    status = carregar_cache_status()
+    if not status:
         return {
-            "using_real_data": False,
-            "timestamp": datetime.now().isoformat(),
-            "source": "Dados simulados"
+            "status": "Desconhecido",
+            "descricao": "Dados não disponíveis",
+            "alertas": 0,
+            "alertasDescricao": "Não foi possível obter informações sobre alertas",
+            "errosCriticos": 0,
+            "errosDescricao": "Não foi possível obter informações sobre erros",
+            "diagnostico": "Possível problema de conexão com o serviço backend.",
+            "recomendacoes": [
+                "Verifique se o serviço backend está em execução",
+                "Verifique a conectividade de rede",
+                "Consulte os logs do sistema para mais detalhes"
+            ],
+            "dominios": {}
         }
-    except Exception as e:
-        logger.error(f"Erro ao verificar origem dos dados: {e}")
-        raise HTTPException(status_code=500, detail=f"Erro ao verificar origem dos dados: {str(e)}")
+    # Mapeia o status do cache para o formato esperado pelo frontend
+    return {
+        "status": status.get("servidor", "Desconhecido"),
+        "descricao": status.get("descricao", ""),
+        "alertas": status.get("metricas", {}).get("alertas_ativos", 0),
+        "alertasDescricao": status.get("descricao_alertas", ""),
+        "errosCriticos": status.get("metricas", {}).get("erros_ativos", 0),
+        "errosDescricao": status.get("descricao_erros", ""),
+        "diagnostico": status.get("diagnostico", ""),
+        "recomendacoes": status.get("recomendacoes", []),
+        "dominios": status.get("dominios", {}),
+        "disponibilidade": status.get("metricas", {}).get("disponibilidade", 99.9),
+        "ultimaAtualizacao": status.get("ultima_atualizacao", datetime.now().isoformat())
+    }
 
 @router.get("/health")
 async def get_health():

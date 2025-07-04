@@ -325,7 +325,7 @@ const getDomainDescription = (domain) => {
     'IOT': 'Métricas de dispositivos IoT, incluindo conectividade e eventos.',
     'SERVERLESS': 'Métricas de funções serverless, incluindo invocações e duração.',
     'EXT': 'Métricas de serviços externos e integrações.',
-    'SYNTH': 'Métricas de monitoramento sintético e testes.'
+    'SYNTH': 'Métricas de monitoramento sintético.'
   }
   return descriptions[domain] || 'Métricas gerais e status.'
 }

@@ -101,22 +101,9 @@ export function createSafeChartData(dataArray, options = {}) {
     defaultLabels = ['No Data']
   } = options;
   
-  // If no data or empty array, return dummy data
-  if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
-    // For line/area charts, we need time series data
-    if (options.timeSeriesFallback) {
-      const now = new Date();
-      return Array.from({length: defaultLength}, (_, i) => ({
-        x: new Date(now.setHours(now.getHours() - (defaultLength - i))).toISOString(),
-        y: 0
-      }));
-    }
-    
-    // For bar/pie charts
-    return defaultLabels.map(label => ({
-      [labelKey]: label,
-      [valueKey]: defaultValue
-    }));
+  // If no data or empty array, return null (não retorna mais dummy data)
+  if (!dataArray || (Array.isArray(dataArray) && dataArray.length === 0)) {
+    return null;
   }
   
   // Data exists, ensure each item has required properties

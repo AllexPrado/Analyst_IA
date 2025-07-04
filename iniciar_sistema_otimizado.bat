@@ -17,7 +17,21 @@ if not exist frontend\ (
     goto :fim
 )
 
-echo === Etapa 1: Diagnóstico e correção do frontend ===
+echo === Etapa 1: Limpeza e manutenção do projeto ===
+python limpar_projeto.py
+if %ERRORLEVEL% NEQ 0 (
+    echo AVISO: A limpeza do projeto encontrou alguns problemas.
+    echo.
+)
+
+echo === Etapa 2: Configurando para usar dados reais ===
+python forcar_dados_reais_frontend.py
+if %ERRORLEVEL% NEQ 0 (
+    echo AVISO: Problemas ao configurar dados reais. O sistema poderá usar dados simulados.
+    echo.
+)
+
+echo === Etapa 3: Diagnóstico e correção do frontend ===
 python diagnostico_frontend.py
 if %ERRORLEVEL% NEQ 0 (
     echo AVISO: Diagnóstico do frontend encontrou problemas que não puderam ser corrigidos automaticamente.

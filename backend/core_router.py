@@ -59,6 +59,8 @@ tendencias_router = import_router("tendencias_endpoints", "tendencias")
 cobertura_router = import_router("cobertura_endpoints", "cobertura")
 chat_router = import_router("chat_endpoints", "chat")
 avancados_router = import_router("avancados_endpoints", "avancado")
+status_router = import_router("status_endpoints", "status")  # Add status router
+dados_criticos_router = import_router("dados_criticos_endpoints", "dados_criticos")
 
 # Configuração do logger
 logger = logging.getLogger(__name__)
@@ -73,6 +75,8 @@ api_router.include_router(tendencias_router, tags=["tendencias"])
 api_router.include_router(cobertura_router, tags=["cobertura"])
 api_router.include_router(chat_router, tags=["chat"])
 api_router.include_router(avancados_router, tags=["avancado"])
+api_router.include_router(status_router, prefix="/status", tags=["status"])  # Add with prefix
+api_router.include_router(dados_criticos_router, tags=["dados_criticos"])
 
 # Endpoint de saúde para verificação
 @api_router.get("/health", tags=["health"])
