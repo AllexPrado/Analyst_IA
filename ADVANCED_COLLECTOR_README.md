@@ -20,7 +20,7 @@ O Advanced Collector implementa um coletor completo para o New Relic que permite
 
 ### Arquivos Principais
 
-- `utils/advanced_newrelic_collector.py` - Coletor avançado que utiliza NRQL e GraphQL
+- `utils/newrelic_advanced_collector.py` - Coletor avançado que utiliza NRQL e GraphQL
 - `atualizar_cache_completo.py` - Script para atualizar o cache com todos os dados do New Relic
 - `test_advanced_collector.py` - Teste do coletor avançado
 
@@ -186,7 +186,7 @@ Se você encontrar erros como `ClientConnectionError('Connection lost: SSL shutd
    ```
 3. **Aumente o timeout** - Se os tempos de resposta forem longos, modifique a constante `DEFAULT_TIMEOUT` no arquivo `advanced_newrelic_collector.py`:
    ```python
-   DEFAULT_TIMEOUT = 60.0  # Aumente para 60 segundos ou mais
+   TIMEOUT = 60.0  # Aumente para 60 segundos ou mais
    ```
 
 #### 2. Método Faltante: `analyze_dashboard_widgets`

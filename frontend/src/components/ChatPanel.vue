@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-900">
-    <div class="w-full max-w-5xl mx-auto rounded-2xl shadow-2xl bg-gray-900 text-white p-0 md:p-6 flex flex-col h-screen">
+    <div class="w-full max-w-6xl mx-auto rounded-2xl shadow-2xl bg-gray-900 text-white p-0 md:p-6 flex flex-col h-screen">
       <div class="flex-shrink-0 px-6 pt-6 pb-3 border-b border-gray-800">
         <div class="flex items-center justify-between mb-2">
           <div class="flex items-center">
             <font-awesome-icon icon="robot" class="text-blue-400 text-xl mr-3" />
-            <h2 class="text-2xl font-bold">Chat IA</h2>
+            <h2 class="text-2xl font-bold">Chat IA - Painel Unificado</h2>
           </div>
           <div>
             <button class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg text-sm flex items-center" @click="limparConversa">
@@ -14,15 +14,14 @@
             </button>
           </div>
         </div>
-        <p class="text-gray-400 text-sm mb-0">Seu analista digital para dúvidas técnicas e executivas</p>
+        <p class="text-gray-400 text-sm mb-0">Análise completa: entidades, métricas, logs, incidentes, dashboards e alertas em tempo real</p>
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-4" ref="chatHistory" style="scroll-behavior: smooth;">
         <div v-if="mensagens.length === 0" class="flex flex-col items-center justify-center h-full text-gray-400">
           <font-awesome-icon icon="comment-dots" class="text-5xl mb-5 text-blue-400" />
           <p class="text-2xl mb-3 font-light">Converse com o Chat IA</p>
           <div class="max-w-lg">
-            <p class="text-sm mb-6 text-center">Pergunte sobre métricas, tendências, incidentes, recomendações e mais.</p>
-            
+            <p class="text-sm mb-6 text-center">Pergunte sobre métricas, logs, incidentes, dashboards, alertas e mais.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
               <button 
                 v-for="(sugestao, i) in sugestoesPredefinidas" 
@@ -51,73 +50,16 @@
             </div>
           </div>
           <div v-else class="flex mb-4">
-            <div class="flex items-start">
+            <div class="flex items-start w-full">
               <div class="flex-shrink-0 mr-2 mt-1">
                 <div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white">
                   <font-awesome-icon icon="robot" />
                 </div>
               </div>
-              <div :class="`px-5 py-3 rounded-2xl max-w-[70%] shadow ${mensagem.erro ? 'bg-red-900 border border-red-800' : 'bg-gray-700'}`">
+              <div :class="`px-5 py-3 rounded-2xl max-w-full w-full shadow ${mensagem.erro ? 'bg-red-900 border border-red-800' : 'bg-gray-700'}`">
                 <div v-if="!mensagem.erro" class="text-white">
                   <div v-html="formatarResposta(mensagem.texto)"></div>
-                  
-                  <!-- Mostra dados de entidade específica, se disponível -->
-                  <div v-if="mensagem.entidadesDetalhadas && mensagem.entidadesDetalhadas.length" class="mt-3 border-t border-gray-600 pt-3">
-                    <div v-for="(entidade, idx) in mensagem.entidadesDetalhadas" :key="idx" class="mb-2 p-2 rounded bg-gray-800/70 shadow hover:shadow-lg transition-all">
-                      <div class="flex items-center gap-2 mb-1">
-                        <div class="font-medium text-blue-300 text-base">{{ entidade.name }}</div>
-                        <span class="text-xs text-gray-400 bg-gray-700 rounded px-2 py-0.5 ml-2" v-if="entidade.tipo">{{ entidade.tipo }}</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 text-sm mt-1">
-                        <div class="flex justify-between items-center group">
-                          <span class="text-gray-400">Apdex:
-                            <span class="ml-1 cursor-help" title="Índice de satisfação do usuário (quanto mais próximo de 1, melhor)">?</span>
-                          </span>
-                          <span :class="getColorClass(entidade.metricas?.['24h']?.apdex, 'apdex')">{{ formatarValor(entidade.metricas?.['24h']?.apdex) }}</span>
-                        </div>
-                        <div class="flex justify-between items-center group">
-                          <span class="text-gray-400">Erros:
-                            <span class="ml-1 cursor-help" title="Taxa de erros (%) nas últimas 24h">?</span>
-                          </span>
-                          <span :class="getColorClass(entidade.metricas?.['24h']?.error_rate, 'error')">{{ formatarValor(entidade.metricas?.['24h']?.error_rate, '%') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center group">
-                          <span class="text-gray-400">Resposta:
-                            <span class="ml-1 cursor-help" title="Tempo médio de resposta (ms)">?</span>
-                          </span>
-                          <span>{{ formatarValor(entidade.metricas?.['24h']?.response_time, 'ms') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center group">
-                          <span class="text-gray-400">Throughput:
-                            <span class="ml-1 cursor-help" title="Requisições por minuto">?</span>
-                          </span>
-                          <span>{{ formatarValor(entidade.metricas?.['24h']?.throughput, 'req/min') }}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Resumo de métricas globais, se disponível -->
-                  <div v-if="mensagem.resumoMetricas" class="mt-3 border-t border-gray-600 pt-3 text-sm">
-                    <div class="grid grid-cols-2 gap-2">
-                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
-                        <span class="text-gray-400">Disponibilidade:</span>
-                        <span :class="getColorClass(mensagem.resumoMetricas.disponibilidade, 'disponibilidade')">{{ formatarValor(mensagem.resumoMetricas.disponibilidade, '%') }}</span>
-                      </div>
-                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
-                        <span class="text-gray-400">Apdex médio:</span>
-                        <span :class="getColorClass(mensagem.resumoMetricas.apdex_medio, 'apdex')">{{ formatarValor(mensagem.resumoMetricas.apdex_medio) }}</span>
-                      </div>
-                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
-                        <span class="text-gray-400">Taxa de erro média:</span>
-                        <span :class="getColorClass(mensagem.resumoMetricas.taxa_erro_media, 'error')">{{ formatarValor(mensagem.resumoMetricas.taxa_erro_media, '%') }}</span>
-                      </div>
-                      <div class="flex justify-between p-1 rounded bg-gray-800/50">
-                        <span class="text-gray-400">Total de entidades:</span>
-                        <span>{{ formatarValor(mensagem.resumoMetricas.total_entidades) }}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <!-- Exibição de dados automáticos removida do chat. O chat agora exibe apenas respostas diretas da IA para o usuário. -->
                 </div>
                 <p class="text-red-300 font-semibold" v-else>{{ mensagem.texto || 'Ocorreu um erro ao obter resposta do backend. Nenhum dado real disponível.' }}</p>
                 <div class="text-right mt-1">
@@ -289,6 +231,8 @@ const enviarPergunta = async (texto) => {
     // Chamada real à API
     const data = await getChatResposta(texto.trim())
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
+    // Log de depuração para inspecionar o contexto recebido
+    console.log('Resposta do backend:', data)
     
     if (data && !data.erro) {
       ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.'
@@ -301,20 +245,19 @@ const enviarPergunta = async (texto) => {
           ...data.contexto,
           atualizadoEm: new Date(data.contexto.atualizadoEm || new Date())
         }
-        
         // Extrair entidades detalhadas, se disponíveis no contexto
-        if (data.contexto.entidades && Array.isArray(data.contexto.entidades)) {
-          // Limitar a 3 entidades para não sobrecarregar a interface
-          ultimaMensagem.entidadesDetalhadas = data.contexto.entidades.slice(0, 3)
-        }
-        
+        ultimaMensagem.entidadesDetalhadas = Array.isArray(data.contexto.entidades) ? data.contexto.entidades : []
+        ultimaMensagem.logsDetalhados = Array.isArray(data.contexto.logs) ? data.contexto.logs : []
+        ultimaMensagem.incidentesDetalhados = Array.isArray(data.contexto.incidentes) ? data.contexto.incidentes : []
+        ultimaMensagem.dashboardsDetalhados = Array.isArray(data.contexto.dashboards) ? data.contexto.dashboards : []
+        ultimaMensagem.alertasDetalhados = Array.isArray(data.contexto.alertas) ? data.contexto.alertas : []
         // Extrair resumo de métricas, se disponível
         if (data.contexto.metricas || data.contexto.resumo) {
           ultimaMensagem.resumoMetricas = {
             disponibilidade: data.contexto.disponibilidade || data.contexto.metricas?.disponibilidade,
             apdex_medio: data.contexto.apdex_medio || data.contexto.metricas?.apdex_medio,
             taxa_erro_media: data.contexto.taxa_erro_media || data.contexto.metricas?.taxa_erro_media,
-            total_entidades: data.contexto.totalEntidades || data.contexto.entidades?.length || 0
+            total_entidades: data.contexto.totalEntidades || (Array.isArray(data.contexto.entidades) ? data.contexto.entidades.length : 0)
           }
         }
       }
@@ -423,19 +366,20 @@ const resetarLimiteTokens = async () => {
 
 const carregarDados = async () => {
   try {
-    const response = await getStatus()
-    
-    if (response.data) {
-      // Atualiza o contexto com dados reais do backend
+    const response = await getStatus();
+    console.log('Resposta do getStatus:', response);
+    if (response && !response.erro) {
       contexto.value = {
         ...contexto.value,
-        statusGeral: response.data.statusGeral || 'Bom',
-        incidentesAtivos: response.data.incidentesAtivos || 0,
-        disponibilidade: response.data.disponibilidade || 99.9,
-        totalEntidades: response.data.totalEntidades || 0,
-        entidadesComMetricas: response.data.entidadesComMetricas || 0,
+        statusGeral: response.statusGeral || 'Bom',
+        incidentesAtivos: response.incidentesAtivos || 0,
+        disponibilidade: response.disponibilidade || 99.9,
+        totalEntidades: response.totalEntidades || 0,
+        entidadesComMetricas: response.entidadesComMetricas || 0,
         atualizadoEm: new Date()
       }
+    } else {
+      console.warn('Status do backend retornou erro ou dados vazios:', response);
     }
   } catch (error) {
     console.error("Erro ao carregar dados do backend:", error)

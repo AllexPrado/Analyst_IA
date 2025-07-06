@@ -147,7 +147,18 @@ async def generate_chat_response(pergunta: str) -> Dict:
         "taxa_erro_media": None,
         "disponibilidade": None,
         "totalEntidades": 0,
-        "entidadesComMetricas": 0
+        "entidadesComMetricas": 0,
+        # Novos campos para dados detalhados
+        "logs": [],
+        "incidentes": [],
+        "dashboards": [],
+        "alertas": [],
+        # Diagnóstico e análises automáticas
+        "diagnosticoCompleto": "",
+        "tendencias": {},
+        "anomalias": [],
+        "estatisticas": {},
+        "relacionamentos": []
     }
     
     # Se for mensagem inicial, dê as boas-vindas
@@ -183,13 +194,45 @@ async def generate_chat_response(pergunta: str) -> Dict:
         entidades = cache_data.get("entidades", [])
         num_entidades = len(entidades)
         resposta_estruturada["totalEntidades"] = num_entidades
+
+        # Tentar buscar dados detalhados do cache/unificado se existirem
+        # Logs
+        logs = cache_data.get("logs", [])
+        if isinstance(logs, list) and logs:
+            resposta_estruturada["logs"] = logs
+        elif isinstance(logs, dict) and "sample" in logs and isinstance(logs["sample"], list):
+            resposta_estruturada["logs"] = logs["sample"]
+
+        # Incidentes
+        incidentes = cache_data.get("incidentes", [])
+        if isinstance(incidentes, list) and incidentes:
+            resposta_estruturada["incidentes"] = incidentes
+        elif isinstance(incidentes, dict) and "sample" in incidentes and isinstance(incidentes["sample"], list):
+            resposta_estruturada["incidentes"] = incidentes["sample"]
+
+        # Dashboards
+        dashboards = cache_data.get("dashboards", [])
+        if isinstance(dashboards, list) and dashboards:
+            resposta_estruturada["dashboards"] = dashboards
+        elif isinstance(dashboards, dict) and "list" in dashboards and isinstance(dashboards["list"], list):
+            resposta_estruturada["dashboards"] = dashboards["list"]
+
+        # Alertas
+        alertas = cache_data.get("alertas", [])
+        if isinstance(alertas, list) and alertas:
+            resposta_estruturada["alertas"] = alertas
+        elif isinstance(alertas, dict) and "policies" in alertas and isinstance(alertas["policies"], list):
+            resposta_estruturada["alertas"] = alertas["policies"]
         
-        # Calcular métricas reais
+        # Calcular métricas reais e análises automáticas
         apdex_scores = []
-        disponibilidades = []
         taxas_erro = []
         entidades_com_metricas = 0
-        
+        tendencias = {}
+        anomalias = []
+        estatisticas = {}
+        relacionamentos = []
+        # Análise por entidade
         for entidade in entidades:
             metricas = entidade.get("metricas", {}).get("24h", {})
             if isinstance(metricas, dict):
@@ -202,15 +245,32 @@ async def generate_chat_response(pergunta: str) -> Dict:
                     tem_metricas = True
                 if tem_metricas:
                     entidades_com_metricas += 1
-        
+            # Coleta relacionamentos se existirem
+            if "dados_avancados" in entidade and "relationships" in entidade["dados_avancados"]:
+                for rel in entidade["dados_avancados"]["relationships"]:
+                    relacionamentos.append({
+                        "origem": entidade.get("name"),
+                        **rel
+                    })
         resposta_estruturada["entidadesComMetricas"] = entidades_com_metricas
-        
-        # Calcular médias
         apdex_medio = sum(apdex_scores) / len(apdex_scores) if apdex_scores else None
         taxa_erro_media = sum(taxas_erro) / len(taxas_erro) if taxas_erro else None
         disponibilidade = 100 - (sum(taxas_erro) / len(taxas_erro) if taxas_erro else 0)
-        
-        # Adicionar médias ao contexto
+        resposta_estruturada["relacionamentos"] = relacionamentos
+        # Tendências e anomalias simples (exemplo)
+        if len(apdex_scores) > 1:
+            tendencias["apdex_var"] = apdex_scores[-1] - apdex_scores[0]
+        if len(taxas_erro) > 1:
+            tendencias["erro_var"] = taxas_erro[-1] - taxas_erro[0]
+        if any(t > 5 for t in taxas_erro):
+            anomalias.append("Taxa de erro acima de 5% detectada em uma ou mais entidades.")
+        estatisticas["max_apdex"] = max(apdex_scores) if apdex_scores else None
+        estatisticas["min_apdex"] = min(apdex_scores) if apdex_scores else None
+        estatisticas["max_erro"] = max(taxas_erro) if taxas_erro else None
+        estatisticas["min_erro"] = min(taxas_erro) if taxas_erro else None
+        resposta_estruturada["tendencias"] = tendencias
+        resposta_estruturada["anomalias"] = anomalias
+        resposta_estruturada["estatisticas"] = estatisticas
         if apdex_medio is not None:
             resposta_estruturada["apdex_medio"] = apdex_medio
         if taxa_erro_media is not None:
@@ -226,6 +286,18 @@ async def generate_chat_response(pergunta: str) -> Dict:
         # Contagem por domínio
         dominios = cache_data.get("contagem_por_dominio", {})
         
+        # Diagnóstico completo automático
+        diagnostico = []
+        diagnostico.append(f"Monitoramento de {num_entidades} entidades. Apdex médio: {apdex_medio:.2f} | Taxa de erro média: {taxa_erro_media:.2f}% | Disponibilidade: {disponibilidade:.2f}%.")
+        if anomalias:
+            diagnostico.append("Anomalias detectadas: " + "; ".join(anomalias))
+        if tendencias:
+            diagnostico.append("Tendências: " + ", ".join([f'{k}: {v:.2f}' for k,v in tendencias.items()]))
+        if estatisticas:
+            diagnostico.append("Estatísticas: " + ", ".join([f'{k}: {v}' for k,v in estatisticas.items() if v is not None]))
+        if relacionamentos:
+            diagnostico.append(f"Relacionamentos mapeados: {len(relacionamentos)}")
+        resposta_estruturada["diagnosticoCompleto"] = "\n".join(diagnostico)
         # Formatar uma resposta baseada em dados reais
         if "métrica" in pergunta or "metricas" in pergunta or "métricas" in pergunta:
             if apdex_medio is not None:
@@ -423,7 +495,12 @@ async def chat_message(input: ChatInput):
                     "disponibilidade": resposta_dados.get("disponibilidade")
                 },
                 "totalEntidades": resposta_dados.get("totalEntidades", 0),
-                "entidadesComMetricas": resposta_dados.get("entidadesComMetricas", 0)
+                "entidadesComMetricas": resposta_dados.get("entidadesComMetricas", 0),
+                # Novos campos para dados detalhados
+                "logs": resposta_dados.get("logs", []),
+                "incidentes": resposta_dados.get("incidentes", []),
+                "dashboards": resposta_dados.get("dashboards", []),
+                "alertas": resposta_dados.get("alertas", [])
             }
         }
     except Exception as e:

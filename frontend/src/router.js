@@ -7,12 +7,17 @@ import Insights from './components/pages/Insights.vue'
 import CoreInteligentePanel from './components/CoreInteligentePanel.vue'
 import ChatPanel from './components/ChatPanel.vue'
 
+import DiagnosticoCompleto from './components/pages/DiagnosticoCompleto.vue'
+import Relacionamentos from './components/pages/Relacionamentos.vue'
+
 const routes = [
   { path: '/', name: 'VisaoGeral', component: VisaoGeral },
   { path: '/cobertura', name: 'Cobertura', component: Cobertura },
   { path: '/kpis', name: 'KPIs', component: Kpis },
   { path: '/tendencias', name: 'Tendencias', component: Tendencias },
   { path: '/insights', name: 'Insights', component: Insights },
+  { path: '/diagnostico', name: 'DiagnosticoCompleto', component: DiagnosticoCompleto },
+  { path: '/relacionamentos', name: 'Relacionamentos', component: Relacionamentos },
   { path: '/core-inteligente', name: 'CoreInteligente', component: CoreInteligentePanel },
   { path: '/chat', name: 'ChatIA', component: ChatPanel },
 ]

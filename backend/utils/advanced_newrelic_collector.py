@@ -1,8 +1,3 @@
-"""
-Coletor avançado de entidades e métricas do New Relic.
-Este módulo implementa um coletor completo que obtém todas as entidades e métricas 
-disponíveis no New Relic, conforme os requisitos de cobertura total.
-"""
 
 import os
 import sys
@@ -71,6 +66,74 @@ ENTITY_TYPE_MAPPINGS = {
 }
 
 class AdvancedNewRelicCollector:
+    async def list_event_types(self) -> list:
+        """
+        Lista todos os tipos de eventos disponíveis na conta New Relic usando NRQL.
+        Returns:
+            Lista de nomes de eventos (strings)
+        """
+        logger.info("Listando tipos de eventos disponíveis via NRQL SHOW EVENT TYPES...")
+        nrql = "SHOW EVENT TYPES"
+        result = await self.execute_nrql_query(nrql)
+        # Tenta extrair eventos de diferentes formatos de resposta
+        if isinstance(result, dict):
+            if "eventTypes" in result and isinstance(result["eventTypes"], list):
+                logger.info(f"Eventos encontrados (eventTypes): {result['eventTypes']}")
+                return result["eventTypes"]
+            if "results" in result and isinstance(result["results"], list):
+                # Alguns tenants retornam em results
+                eventos = [r.get("eventType") for r in result["results"] if isinstance(r, dict) and "eventType" in r]
+                if eventos:
+                    logger.info(f"Eventos encontrados (results.eventType): {eventos}")
+                    return eventos
+            # Fallback: extrai todos os campos string de listas
+            eventos = []
+            for v in result.values():
+                if isinstance(v, list):
+                    eventos.extend([x for x in v if isinstance(x, str)])
+            # Também tenta extrair strings de listas aninhadas de dicts
+            for v in result.values():
+                if isinstance(v, list):
+                    for item in v:
+                        if isinstance(item, dict):
+                            for vv in item.values():
+                                if isinstance(vv, str):
+                                    eventos.append(vv)
+            eventos = list(set(eventos))  # Remove duplicados
+            if eventos:
+                logger.info(f"Eventos encontrados (fallback): {eventos}")
+                return eventos
+        logger.warning(f"Não foi possível listar eventos. Resposta: {result}")
+        return []
+
+    async def suggest_valid_event_for_query(self, candidates: list, allow_any: bool = True) -> str:
+        """
+        Dado uma lista de possíveis nomes de eventos, retorna o primeiro que existe na conta.
+        Se allow_any=True, retorna o primeiro evento disponível caso nenhum candidato seja encontrado.
+        Returns:
+            Nome do evento válido ou string vazia
+        """
+        available = await self.list_event_types()
+        if not available:
+            logger.warning(f"Nenhum evento disponível na conta New Relic.")
+            return ""
+        for candidate in candidates:
+            if candidate in available:
+                logger.info(f"Evento encontrado: {candidate}")
+                return candidate
+        if allow_any:
+            logger.warning(f"Nenhum dos eventos candidatos existe: {candidates}. Sugerindo evento disponível: {available[0]}")
+            return available[0]
+        logger.warning(f"Nenhum dos eventos candidatos existe: {candidates}")
+        return ""
+    async def get_available_events(self) -> dict:
+        """
+        Retorna todos os eventos disponíveis na conta New Relic, útil para configuração/admin.
+        Returns:
+            Dict com lista de eventos
+        """
+        eventos = await self.list_event_types()
+        return {"eventos_disponiveis": eventos, "total": len(eventos)}
     """
     Coletor avançado que obtém todos os tipos de dados do New Relic.
     """
@@ -109,8 +172,7 @@ class AdvancedNewRelicCollector:
         }
         
         self.insights_headers = {
-            "X-Query-Key": self.query_key,
-            "Content-Type": "application/json"
+            "X-Query-Key": self.query_key
         }
         
         # URLs base
@@ -163,16 +225,15 @@ class AdvancedNewRelicCollector:
             Dict contendo a resposta JSON ou erro
         """
         await self.rate_limit_control()
-        
+        # Sempre use o valor global, nunca modifique DEFAULT_TIMEOUT
+        timeout_value = float(globals().get('DEFAULT_TIMEOUT', 30.0))
         for attempt in range(MAX_RETRIES):
             try:
                 # Configurações para evitar problemas de SSL e timeouts
-                timeout = aiohttp.ClientTimeout(total=DEFAULT_TIMEOUT * 2)  # Aumentar timeout
+                timeout = aiohttp.ClientTimeout(total=timeout_value * 2)  # Aumentar timeout
                 ssl_context = None  # Usar o SSL padrão do sistema
-                
                 # Usar context manager com tcp_nodelay para reduzir latência
                 conn = aiohttp.TCPConnector(ssl=ssl_context, force_close=True)
-                
                 async with aiohttp.ClientSession(timeout=timeout, connector=conn) as session:
                     if method.upper() == "GET":
                         async with session.get(url, headers=headers, params=params) as response:
@@ -215,7 +276,7 @@ class AdvancedNewRelicCollector:
             except asyncio.TimeoutError:
                 logger.error(f"Timeout na tentativa {attempt+1}/{MAX_RETRIES}")
                 # Aumentar o timeout para a próxima tentativa
-                DEFAULT_TIMEOUT *= 1.5
+                timeout_value *= 1.5
                 if attempt == MAX_RETRIES - 1:
                     return {"error": "TimeoutError", "message": "A requisição excedeu o timeout"}
             except Exception as e:
@@ -223,7 +284,6 @@ class AdvancedNewRelicCollector:
                 logger.error(traceback.format_exc())
                 if attempt == MAX_RETRIES - 1:
                     return {"error": "UnexpectedError", "message": str(e)}
-                
             # Esperar antes de tentar novamente (com backoff exponencial)
             backoff_time = RETRY_DELAY * (2 ** attempt)
             logger.info(f"Aguardando {backoff_time:.1f} segundos antes da próxima tentativa...")
@@ -258,29 +318,33 @@ class AdvancedNewRelicCollector:
     
     async def execute_nrql_query(self, nrql, timeout=60) -> Dict:
         """
-        Executa uma consulta NRQL.
-        
+        Executa uma consulta NRQL usando o endpoint Insights (GET, query string).
         Args:
-            nrql: Consulta NRQL
-            timeout: Timeout em segundos
-            
+            nrql: Consulta NRQL (deve ser string NRQL pura)
+            timeout: Timeout em segundos (não usado diretamente, mas mantido para compatibilidade)
         Returns:
             Dict com resultados da consulta
         """
         if not self.query_key:
             logger.error("Query Key não disponível para consulta NRQL")
             return {"error": "MissingQueryKey", "message": "Query Key é necessária para consultas NRQL"}
-            
-        payload = {
-            "nrql": nrql,
-            "timeout": timeout
-        }
-        
+
+        # Validação: garantir que NRQL é string pura
+        if not isinstance(nrql, str):
+            logger.error(f"NRQL recebido não é string: {nrql} (type={type(nrql)})")
+            return {"error": "InvalidNRQLType", "message": f"NRQL deve ser string, recebido {type(nrql)}"}
+        if nrql.strip().startswith("{"):
+            logger.error(f"NRQL inválido (começa com '{{'): {nrql}")
+            return {"error": "InvalidNRQLFormat", "message": "NRQL não pode começar com '{'. Verifique a montagem da query."}
+
+        logger.info(f"Enviando NRQL (GET): {nrql}")
+        # Montar parâmetros de query string
+        params = {"nrql": nrql}
         return await self.make_request(
             url=self.insights_url,
             headers=self.insights_headers,
-            method="POST",
-            data=payload
+            method="GET",
+            params=params
         )
 
     async def get_all_entities(self, cursor=None, entities_collected=None) -> List[Dict]:
@@ -629,17 +693,23 @@ class AdvancedNewRelicCollector:
                 "status": f"SELECT latest(timestamp) FROM Metric WHERE entity.guid = '{entity_guid}' {period}"
             }
             
+        # Garantir que todas as queries são strings
+        for k, v in queries.items():
+            if not isinstance(v, str):
+                logger.error(f"Query NRQL para '{k}' não é string: {v} (type={type(v)})")
+                queries[k] = str(v)
+
         # Executar queries e coletar resultados
         for metric_name, nrql in queries.items():
             try:
+                if not isinstance(nrql, str):
+                    logger.error(f"NRQL para {metric_name} não é string antes de executar: {nrql} (type={type(nrql)})")
+                    continue
                 result = await self.execute_nrql_query(nrql)
-                
                 if "error" not in result and "results" in result:
                     detailed_metrics[metric_name] = result["results"]
-                    
             except Exception as e:
                 logger.error(f"Erro ao executar query NRQL para {metric_name}: {e}")
-                
         return detailed_metrics
     
     async def get_alerts_for_entity(self, entity_guid) -> List[Dict]:

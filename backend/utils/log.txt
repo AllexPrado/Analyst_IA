@@ -1,0 +1,993 @@
+2025-07-04 22:40:29,709 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 22:40:30,359 - __main__ - WARNING - Erro GraphQL: [{'message': 'Argument "queryBuilder" has invalid value {domainTypes: {domain: APM, types: []}, domainTypes: {domain: BROWSER, types: []}, domainTypes: {domain: INFRA, types: []}, domainTypes: {domain: MOBILE, types: []}, domainTypes: {domain: SYNTH, types: []}, domainTypes: {domain: EXT, types: []}}.\nIn field "domainTypes": Unknown field. Did you mean "domain"?\nIn field "domainTypes": Unknown field. Did you mean "domain"?\nIn field "domainTypes": Unknown field. Did you mean "domain"?\nIn field "domainTypes": Unknown field. Did you mean "domain"?\nIn field "domainTypes": Unknown field. Did you mean "domain"?\nIn field "domainTypes": Unknown field. Did you mean "domain"?', 'locations': [{'line': 4, 'column': 22}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 37}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 76}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 119}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 160}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 202}]}, {'message': 'Duplicate input field name.', 'locations': [{'line': 4, 'column': 243}]}]
+2025-07-04 22:40:32,008 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:40:32,008 - __main__ - INFO - Coletadas 0 entidades do New Relic
+2025-07-04 22:40:32,008 - __main__ - INFO - Obtidas 0 entidades
+2025-07-04 22:40:32,008 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 22:42:11,128 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 22:42:12,342 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:12,342 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 22:42:12,342 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 22:42:12,342 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 22:42:12,932 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:12,932 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:12,932 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:12,932 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:18,095 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:18,095 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:18,095 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:18,111 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,261 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,261 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,261 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,270 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,362 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:28,362 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:28,362 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:28,362 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:28,362 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,362 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,368 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,368 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:42:28,966 - __main__ - WARNING - Erro GraphQL: [{'message': 'This field is deprecated! Please use `relatedEntities` instead.', 'path': ['actor', 'entity', 'relationships'], 'locations': [{'line': 5, 'column': 11}]}]
+2025-07-04 22:42:29,070 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:42:29,071 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 22:42:29,071 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 22:44:25,900 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 22:44:27,295 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:27,295 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 22:44:27,295 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 22:44:27,295 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 22:44:27,912 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:27,912 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:27,928 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:27,928 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:33,070 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:33,070 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:33,070 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:33,070 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,237 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,237 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,237 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,237 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 400 - {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,339 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:43,339 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:43,339 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:43,339 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:43,339 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,339 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,339 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,339 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: {"error":"NRQL Syntax Error: Error at line 1 position 1, unexpected '{'"}
+2025-07-04 22:44:43,971 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "source" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "target" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 14, 'column': 13}]}]
+2025-07-04 22:44:44,079 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:44:44,080 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 22:44:44,080 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 22:46:42,289 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 22:46:43,261 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:46:43,262 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 22:46:43,263 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 22:46:43,263 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 22:46:43,817 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:43,844 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:43,883 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:43,897 - __main__ - WARNING - Erro na consulta NRQL (tentativa 1/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:49,023 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:49,087 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:49,089 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:49,111 - __main__ - WARNING - Erro na consulta NRQL (tentativa 2/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,225 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,282 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,284 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,290 - __main__ - WARNING - Erro na consulta NRQL (tentativa 3/3): Status 404 - <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,341 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:46:59,382 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:46:59,382 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:46:59,382 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:46:59,384 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,384 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,384 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,384 - __main__ - WARNING - Erro na API para Api Sites: Falha após 3 tentativas: <!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Oops! Error page (404)</title>
+    <meta charset='utf-8'>
+    <meta content='noindex, nofollow' name='robots'>
+    <meta content='2008-20 New Relic, Inc. All rights reserved.' name='Copyright'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=720,maximum-scale=1.0' name='viewport'>
+    <meta content='app-id=594038638, app-argument=newrelic://#stream?smartbanner=1&amp;logged_in=1' name='apple-itunes-app'>
+    <link href='/opensearch.xml' rel='search' title='New Relic accounts' type='application/opensearchdescription+xml'>
+    <link href="/favicon.png" rel="shortcut icon" type="image/png" />
+    <link href="/assets/v5_base.css" media="all" rel="stylesheet" type="text/css" />    
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    window.RPM = {};window.__nr = {"services":{}};
+    //]]>
+    </script>
+    <script src="/assets/default.js"></script>
+    <script src="https://nr-ui.nr-assets.net/setupFonts.js" type="text/javascript"></script>
+  </head>
+  <body class='error_page no_cclamp' id='rpm-newrelic-com'>
+    <div id='wrapper'>
+      <div class='hide_content'></div>
+      <div id='inner_wrapper'>
+        <div id='primary_content'>
+          <div class='span-12' id='error_page'>
+            <h1>Oops! You've found our error page.</h1>
+            <p>This is entirely unintentional on our part. Rest assured that, since we use New Relic ourselves, we're getting an error report about this problem right now.</p>
+            <p>Here are a few things you could try:</p>
+            <ol>
+              <li>
+                <h3>Refresh your page</h3>
+                <p>Some errors are temporary hiccups</p>
+              </li>
+              <li>
+                <h3>Use the back button</h3>
+                <p>At least you can <a href="javascript:back();">go back</a> to where you were</p>
+              </li>
+              <li>
+                <h3>Get help</h3>
+                <p><a href="https://docs.newrelic.com/docs">Our Documentation site</a> has helpful articles</p>
+                <p><a href="https://one.newrelic.com/launcher/nr1-core.home?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5ob21lLXNjcmVlbiJ9&overlay=eyJjb250ZXh0TmVyZGxldElkIjoibnIxLWNvcmUuaG9tZS1zY3JlZW4iLCJjb250ZXh0RGlzcGxheU5hbWUiOiJIb21lIiwibmVyZGxldElkIjoibnIxLWhlbHAteHAuaG9tZSJ9">Get support</a> or open a support ticket to help us debug this error</p>
+              </li>
+            </ol>
+          </div>
+          <div id='error_page_code'>404</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+2025-07-04 22:46:59,975 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "entity" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "type" on type "EntityRelationshipRelatedEntitiesResult". Did you mean "__typename"?', 'locations': [{'line': 12, 'column': 13}]}, {'message': 'Cannot query field "direction" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 13, 'column': 13}]}]
+2025-07-04 22:47:00,088 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:47:00,088 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 22:47:00,088 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 22:59:48,345 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 22:59:51,044 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:51,047 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 22:59:51,047 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 22:59:51,047 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 22:59:51,777 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:51,777 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:51,777 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:51,805 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:52,356 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "target" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "relationshipType" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 11, 'column': 13}]}]
+2025-07-04 22:59:52,464 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 22:59:52,464 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 22:59:52,464 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 23:02:01,727 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 23:02:02,736 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:02,736 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 23:02:02,736 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 23:02:02,736 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 23:02:03,433 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:03,433 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:03,433 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:03,508 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:04,110 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "guid" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "name" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 7, 'column': 13}]}, {'message': 'Cannot query field "type" on type "EntityRelationshipRelatedEntitiesResult". Did you mean "__typename"?', 'locations': [{'line': 8, 'column': 13}]}, {'message': 'Cannot query field "direction" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 9, 'column': 13}]}]
+2025-07-04 23:02:04,213 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:02:04,213 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 23:02:04,213 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 23:53:11,081 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 23:53:13,702 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:13,702 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 23:53:13,702 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 23:53:13,702 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 23:53:14,366 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:14,467 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:14,467 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:14,492 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:15,114 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "guid" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "name" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 7, 'column': 13}]}, {'message': 'Cannot query field "type" on type "EntityRelationshipRelatedEntitiesResult". Did you mean "__typename"?', 'locations': [{'line': 8, 'column': 13}]}, {'message': 'Cannot query field "direction" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 9, 'column': 13}]}]
+2025-07-04 23:53:15,231 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:53:15,233 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 23:53:15,233 - __main__ - INFO - Teste do coletor concluído com sucesso
+2025-07-04 23:56:39,429 - __main__ - INFO - Testando coletor avançado do New Relic...
+2025-07-04 23:56:40,395 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:40,395 - __main__ - INFO - Coletadas 197 entidades do New Relic
+2025-07-04 23:56:40,395 - __main__ - INFO - Obtidas 197 entidades
+2025-07-04 23:56:40,395 - __main__ - INFO - Testando coleta avançada para APM: Api Sites
+2025-07-04 23:56:41,013 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:41,108 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:41,108 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:41,156 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:41,775 - __main__ - WARNING - Erro GraphQL: [{'message': 'Cannot query field "target" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 6, 'column': 13}]}, {'message': 'Cannot query field "type" on type "EntityRelationshipRelatedEntitiesResult". Did you mean "__typename"?', 'locations': [{'line': 11, 'column': 13}]}, {'message': 'Cannot query field "direction" on type "EntityRelationshipRelatedEntitiesResult".', 'locations': [{'line': 12, 'column': 13}]}]
+2025-07-04 23:56:41,886 - root - ERROR - Error while closing connector: ClientConnectionError('Connection lost: SSL shutdown timed out')
+2025-07-04 23:56:41,886 - __main__ - INFO - Dados avançados obtidos: 0 erros, 0 traces, 0 queries
+2025-07-04 23:56:41,886 - __main__ - INFO - Teste do coletor concluído com sucesso

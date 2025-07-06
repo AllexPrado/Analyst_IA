@@ -27,7 +27,8 @@ const menu = [
   { path: '/kpis', label: 'KPIs', icon: ['fas', 'chart-line'] },
   { path: '/tendencias', label: 'Tendências', icon: ['fas', 'wave-square'] },
   { path: '/insights', label: 'Insights', icon: ['fas', 'lightbulb'] },
-  // { path: '/infraestrutura-avancada', label: 'Infra Avançada', icon: ['fas', 'server'] }, // Removido pois rota não existe mais
+  { path: '/diagnostico', label: 'Diagnóstico Completo', icon: ['fas', 'heartbeat'] },
+  { path: '/relacionamentos', label: 'Relacionamentos', icon: ['fas', 'project-diagram'] },
   { path: '/chat', label: 'Chat IA', icon: ['fas', 'comments'] },
 ]
 </script>

@@ -44,7 +44,7 @@ BATCH_SIZE = 2  # Reduzido para evitar rate limit
 # Endpoints da API do New Relic
 NR_GRAPHQL_URL = "https://api.newrelic.com/graphql"
 NR_API_URL = f"https://api.newrelic.com/v2"
-NR_NRDB_URL = f"https://insights-api.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/query"
+NR_NRDB_URL = f"https://api.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/query"
 
 # Headers separados para cada tipo de requisição
 NRQL_HEADERS = {
@@ -76,27 +76,64 @@ async def execute_nrql_query(nrql: str, timeout: float = TIMEOUT) -> Dict:
     Returns:
         Dicionário com os resultados da consulta
     """
-    data = {
-        "query": nrql
-    }
-    
+    # Checagem extra: NRQL nunca pode começar com '{' (isso é sintaxe GraphQL)
+    if nrql.strip().startswith("{") or nrql.strip().startswith("query"):
+        logger.critical(f"NRQL inválido passado para execute_nrql_query: começa com '{{' ou 'query'. NRQL recebido: {nrql[:100]}")
+        return {"error": "NRQL inválido: parece ser uma query GraphQL. Veja o log para detalhes."}
+
+
+    # Escapa a query NRQL para uso seguro na string GraphQL
+    nrql_escaped = nrql.replace("\\", "\\\\").replace('"', '\\"').replace('\n', ' ')
+    graphql_query = (
+        f"""
+        query {{
+          actor {{
+            account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+              nrql(query: \"{nrql_escaped}\") {{
+                results
+                metadata {{
+                  eventTypes
+                  facets
+                  messages
+                }}
+              }}
+            }}
+          }}
+        }}
+        """
+    )
+    data = {"query": graphql_query}
+
     try:
         async with aiohttp.ClientSession() as session:
             for attempt in range(MAX_RETRIES):
                 try:
                     async with session.post(
-                        NR_NRDB_URL,
-                        headers=NRQL_HEADERS,  # <-- Corrigido
+                        NR_GRAPHQL_URL,
+                        headers=GRAPHQL_HEADERS,
                         json=data,
                         timeout=timeout
                     ) as response:
                         if response.status == 200:
-                            return await response.json()
+                            result = await response.json()
+                            if not result or not isinstance(result, dict):
+                                logger.warning(f"Resposta vazia ou inválida da API NRQL: {result}")
+                                return {"error": "Resposta vazia ou inválida da API NRQL", "raw": result}
+                            # Extrai resultados NRQL do retorno GraphQL
+                            try:
+                                if "data" in result and "actor" in result["data"] and "account" in result["data"]["actor"] and "nrql" in result["data"]["actor"]["account"]:
+                                    return result["data"]["actor"]["account"]["nrql"]
+                                else:
+                                    logger.warning(f"Resposta GraphQL inesperada (faltando campos): {result}")
+                                    return {"error": "Resposta GraphQL inesperada: campos ausentes", "raw": result}
+                            except Exception as e:
+                                logger.warning(f"Resposta GraphQL inesperada: {result}")
+                                return {"error": f"Resposta GraphQL inesperada: {str(e)}", "raw": result}
                         else:
                             error_text = await response.text()
                             logger.warning(f"Erro na consulta NRQL (tentativa {attempt+1}/{MAX_RETRIES}): "
                                          f"Status {response.status} - {error_text}")
-                            
+
                             if attempt < MAX_RETRIES - 1:
                                 await asyncio.sleep(RETRY_DELAY * (attempt + 1))
                             else:
@@ -186,7 +223,7 @@ async def get_all_entities() -> List[Dict]:
     query = """
     query EntitiesQuery {
       actor {
-        entitySearch(queryBuilder: {domain: APM, domain: BROWSER, domain: INFRA, domain: MOBILE, domain: SYNTH, domain: EXT}) {
+        entitySearch(queryBuilder: {name: ""}) {
           results {
             entities {
               guid
@@ -219,7 +256,7 @@ async def get_all_entities() -> List[Dict]:
             page_query = """
             query EntitiesQuery($cursor: String!) {
               actor {
-                entitySearch(queryBuilder: {domain: APM, domain: BROWSER, domain: INFRA, domain: MOBILE, domain: SYNTH, domain: EXT}) {
+                entitySearch(queryBuilder: {name: ""}) {
                   results(cursor: $cursor) {
                     entities {
                       guid
@@ -418,47 +455,50 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     if domain == "APM":
         tasks = []
         
-        # 1. Query para erros e backtraces
+        # 1. Query para erros e backtraces (corrigido para campos válidos NRQL)
         error_query = f"""
-        SELECT count(*), error.class, error.message, error.expected, error.exceptionClass, error.exceptionMessage, 
-               error.stackTrace, httpResponseCode, request.method, request.uri, request.headers, transactionName
+        SELECT count(*), errorClass, errorMessage, errorExpected, errorExceptionClass, errorExceptionMessage, 
+               errorStackTrace, httpResponseCode, requestMethod, requestUri, requestHeaders, transactionName
         FROM TransactionError
         WHERE entityGuid = '{guid}'
         {period_clause}
         LIMIT 100
         """
+        logger.info(f"NRQL enviada (TransactionError):\n{error_query}")
         tasks.append(execute_nrql_query(error_query))
         
-        # 2. Query para traces detalhados
+        # 2. Query para traces detalhados (Span)
         trace_query = f"""
-        SELECT * FROM Span 
+        SELECT traceId, spanId, parentId, name, timestamp, duration, category, entityGuid, service.name, service.type, error.message, error.class, http.url, http.method, http.statusCode
+        FROM Span
         WHERE entityGuid = '{guid}'
         {period_clause}
         LIMIT 1000
         """
+        logger.info(f"NRQL enviada (Span):\n{trace_query}")
         tasks.append(execute_nrql_query(trace_query))
         
-        # 3. Query para SQL queries lentas
+        # 3. Query para SQL queries lentas (Transaction)
         sql_query = f"""
-        SELECT count(*), average(duration), max(duration), databaseCallCount, 
-               query, request.uri, min(timestamp)
+        SELECT count(*), average(duration), max(duration), databaseCallCount, databaseQuery, requestUri, min(timestamp)
         FROM Transaction
         WHERE entityGuid = '{guid}' AND databaseCallCount > 0
         {period_clause}
-        FACET query
+        FACET databaseQuery
         LIMIT 50
         """
+        logger.info(f"NRQL enviada (Transaction SQL):\n{sql_query}")
         tasks.append(execute_nrql_query(sql_query))
         
-        # 4. Query para tempos de execução por linha de código
+        # 4. Query para tempos de execução por linha de código (verificar se existe CodeExecution na sua conta)
         code_execution_query = f"""
-        SELECT codeExecutionCount, codeExecutionTime, codeExecutionTimePercentage, 
-               method, name, packageName, className, lineNumber, timestamp
+        SELECT codeExecutionCount, codeExecutionTime, codeExecutionTimePercentage, method, name, packageName, className, lineNumber, timestamp
         FROM CodeExecution
         WHERE entityGuid = '{guid}'
         {period_clause}
         LIMIT 200
         """
+        logger.info(f"NRQL enviada (CodeExecution):\n{code_execution_query}")
         tasks.append(execute_nrql_query(code_execution_query))
         
         # Executa todas as queries em paralelo
@@ -466,17 +506,20 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
         
         # Processa os resultados
         for i, result in enumerate(results):
+            if result is None:
+                logger.warning(f"Resultado None recebido na coleta avançada de {entity_name} (index {i})")
+                continue
             if isinstance(result, Exception):
                 logger.warning(f"Erro na coleta avançada de {entity_name}: {str(result)}")
                 continue
-                
+            if not isinstance(result, dict):
+                logger.warning(f"Resultado inesperado (tipo {type(result)}) na coleta avançada de {entity_name} (index {i})")
+                continue
             if "error" in result:
                 logger.warning(f"Erro na API para {entity_name}: {result['error']}")
                 continue
-                
             if "results" not in result:
                 continue
-                
             # Adiciona resultados aos dados avançados
             if i == 0:  # Erros e backtraces
                 advanced_data["errors"] = result["results"]
@@ -490,34 +533,27 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     # Coleta dados específicos para servidores de infraestrutura
     elif domain == "INFRA":
         tasks = []
-        
-        # 1. Query para logs do servidor
+        # 1. Query para logs do servidor (Log)
         logs_query = f"""
-        SELECT message, hostname, level, timestamp, component, entity.name
+        SELECT message, hostname, level, timestamp, component, entityName
         FROM Log
         WHERE entityGuid = '{guid}'
         {period_clause}
         LIMIT 1000
         """
         tasks.append(execute_nrql_query(logs_query))
-        
-        # 2. Query para métricas de sistema
+        # 2. Query para métricas de sistema (SystemSample)
         system_query = f"""
-        SELECT average(cpuSystemPercent), average(cpuUserPercent), average(cpuIOWaitPercent),
-               average(memoryUsedBytes), average(memoryTotalBytes),
-               average(diskUtilizationPercent), average(diskUsedPercent),
-               average(networkReceiveBytes), average(networkTransmitBytes)
+        SELECT average(cpuSystemPercent), average(cpuUserPercent), average(cpuIOWaitPercent), average(memoryUsedBytes), average(memoryTotalBytes), average(diskUsedPercent), average(networkReceiveBytes), average(networkTransmitBytes)
         FROM SystemSample
         WHERE entityGuid = '{guid}'
         {period_clause}
         TIMESERIES
         """
         tasks.append(execute_nrql_query(system_query))
-        
-        # 3. Query para dados de processos
+        # 3. Query para dados de processos (ProcessSample)
         process_query = f"""
-        SELECT average(cpuPercent), average(memoryResidentSizeBytes),
-               processDisplayName, commandLine, processId
+        SELECT average(cpuPercent), average(memoryResidentSizeBytes), processDisplayName, commandLine, processId
         FROM ProcessSample
         WHERE entityGuid = '{guid}'
         {period_clause}
@@ -531,17 +567,20 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
         
         # Processa os resultados
         for i, result in enumerate(results):
+            if result is None:
+                logger.warning(f"Resultado None recebido na coleta avançada de {entity_name} (index {i})")
+                continue
             if isinstance(result, Exception):
                 logger.warning(f"Erro na coleta avançada de {entity_name}: {str(result)}")
                 continue
-                
+            if not isinstance(result, dict):
+                logger.warning(f"Resultado inesperado (tipo {type(result)}) na coleta avançada de {entity_name} (index {i})")
+                continue
             if "error" in result:
                 logger.warning(f"Erro na API para {entity_name}: {result['error']}")
                 continue
-                
             if "results" not in result:
                 continue
-                
             # Adiciona resultados aos dados avançados
             if i == 0:  # Logs
                 advanced_data["logs"] = result["results"]
@@ -553,11 +592,9 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     # Coleta dados específicos para aplicações browser
     elif domain == "BROWSER":
         tasks = []
-        
-        # 1. Query para erros de JavaScript
+        # 1. Query para erros de JavaScript (JavaScriptError)
         js_error_query = f"""
-        SELECT count(*), errorClass, errorMessage, stackTrace, pageUrl, 
-               browserTransactionName, userAgentName, userAgentVersion
+        SELECT count(*), errorClass, errorMessage, stackTrace, pageUrl, browserTransactionName, userAgentName, userAgentVersion
         FROM JavaScriptError
         WHERE entityGuid = '{guid}'
         {period_clause}
@@ -565,11 +602,9 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
         LIMIT 100
         """
         tasks.append(execute_nrql_query(js_error_query))
-        
-        # 2. Query para performance de página
+        # 2. Query para performance de página (PageView)
         page_perf_query = f"""
-        SELECT count(*), average(duration), max(duration), sum(duration),
-               pageUrl, deviceType, pageViewThroughput
+        SELECT count(*), average(duration), max(duration), sum(duration), pageUrl, deviceType, pageViewThroughput
         FROM PageView
         WHERE entityGuid = '{guid}'
         {period_clause}
@@ -577,11 +612,9 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
         LIMIT 50
         """
         tasks.append(execute_nrql_query(page_perf_query))
-        
-        # 3. Query para AJAX requests
+        # 3. Query para AJAX requests (AjaxRequest)
         ajax_query = f"""
-        SELECT count(*), average(duration), max(duration), 
-               pageUrl, browserTransactionName, requestUrl
+        SELECT count(*), average(duration), max(duration), pageUrl, browserTransactionName, requestUrl
         FROM AjaxRequest
         WHERE entityGuid = '{guid}'
         {period_clause}
@@ -595,17 +628,20 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
         
         # Processa os resultados
         for i, result in enumerate(results):
+            if result is None:
+                logger.warning(f"Resultado None recebido na coleta avançada de {entity_name} (index {i})")
+                continue
             if isinstance(result, Exception):
                 logger.warning(f"Erro na coleta avançada de {entity_name}: {str(result)}")
                 continue
-                
+            if not isinstance(result, dict):
+                logger.warning(f"Resultado inesperado (tipo {type(result)}) na coleta avançada de {entity_name} (index {i})")
+                continue
             if "error" in result:
                 logger.warning(f"Erro na API para {entity_name}: {result['error']}")
                 continue
-                
             if "results" not in result:
                 continue
-                
             # Adiciona resultados aos dados avançados
             if i == 0:  # Erros JS
                 advanced_data["js_errors"] = result["results"]
@@ -615,37 +651,23 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
                 advanced_data["ajax_requests"] = result["results"]
     
     # Obtém relacionamentos com outras entidades (para qualquer tipo de entidade)
+    # ATENÇÃO: O schema atual da NerdGraph não permite mais buscar detalhes em relatedEntities.
+    # Só é possível buscar __typename. Para detalhes, será necessário buscar por outro endpoint.
     relations_query = f"""
     {{
       actor {{
-        entity(guid: "{guid}") {{
-          relationships {{
-            source {{
-              entity {{
-                name
-                domain
-                entityType
-                guid
-              }}
-            }}
-            target {{
-              entity {{
-                name
-                domain
-                entityType
-                guid
-              }}
-            }}
+        entity(guid: \"{guid}\") {{
+          relatedEntities {{
+            __typename
           }}
         }}
       }}
     }}
     """
-    
     relations_result = await execute_graphql_query(relations_query)
     if relations_result and "data" in relations_result and "actor" in relations_result["data"] and \
-       "entity" in relations_result["data"]["actor"] and "relationships" in relations_result["data"]["actor"]["entity"]:
-        advanced_data["relationships"] = relations_result["data"]["actor"]["entity"]["relationships"]
+       "entity" in relations_result["data"]["actor"] and "relatedEntities" in relations_result["data"]["actor"]["entity"]:
+        advanced_data["relationships"] = relations_result["data"]["actor"]["entity"]["relatedEntities"]
     
     return advanced_data
 
@@ -804,7 +826,20 @@ if __name__ == "__main__":
     # Configurando logging mais detalhado para execução direta
     logging.basicConfig(level=logging.INFO, 
                       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
+
+    # Suprimir warnings de SSL shutdown do aiohttp
+    import warnings
+    warnings.filterwarnings("ignore", message=".*SSL shutdown timed out.*", category=ResourceWarning)
+
+    # Suprimir logs de erro de SSL shutdown do aiohttp
+    import logging
+    class SSLShutdownFilter(logging.Filter):
+        def filter(self, record):
+            msg = str(record.getMessage())
+            return 'SSL shutdown timed out' not in msg and 'Connection lost: SSL shutdown timed out' not in msg
+    logging.getLogger().addFilter(SSLShutdownFilter())
+    logging.getLogger('root').addFilter(SSLShutdownFilter())
+
     # Executa o teste do coletor
     import asyncio
     asyncio.run(test_collector())

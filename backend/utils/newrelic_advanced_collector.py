@@ -1,3 +1,111 @@
+async def fetch_logs_sample(limit=100):
+    """Coleta uma amostra global de logs do New Relic via NRQL."""
+    try:
+        # NRQL não pode conter chaves externas, apenas texto puro
+        nrql = f"SELECT message, hostname, level, timestamp, entity.name, entity.guid FROM Log SINCE 1 day ago LIMIT {limit}"
+        result = await execute_nrql_query(nrql)
+        logs = result.get("results", [])
+        if not logs:
+            logger.warning(f"Nenhum log retornado pela query NRQL: {nrql} | Resposta bruta: {result}")
+        return logs
+    except Exception as e:
+        logger.error(f"Erro ao coletar logs globais: {e}")
+        return []
+
+async def fetch_incidents_sample(limit=100):
+    """Coleta uma amostra global de incidentes do New Relic via GraphQL."""
+    try:
+        query = f'''
+        {{
+          actor {{
+            account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+              incidentsSearch(criteria: {{}}) {{
+                results(limit: {limit}) {{
+                  entities {{
+                    id
+                    name
+                    state
+                    openedAt
+                    closedAt
+                    policyName
+                    conditionName
+                  }}
+                }}
+              }}
+            }}
+          }}
+        }}
+        '''
+        result = await execute_graphql_query(query)
+        results = result.get("data", {}).get("actor", {}).get("account", {}).get("incidentsSearch", {}).get("results", [])
+        entities = []
+        for r in results:
+            entities.extend(r.get("entities", []))
+        if not entities:
+            logger.warning(f"Nenhum incidente retornado pela query GraphQL. Resposta bruta: {result}")
+        return entities
+    except Exception as e:
+        logger.error(f"Erro ao coletar incidentes globais: {e}")
+        return []
+
+async def fetch_dashboards_sample(limit=20):
+    """Coleta uma amostra de dashboards do New Relic via GraphQL."""
+    try:
+        query = f'''
+        {{
+          actor {{
+            entitySearch(query: "type='DASHBOARD' AND accountId = {NEW_RELIC_ACCOUNT_ID}") {{
+              results {{
+                entities {{
+                  guid
+                  name
+                  accountId
+                  permalink
+                }}
+              }}
+            }}
+          }}
+        }}
+        '''
+        result = await execute_graphql_query(query)
+        entities = result.get("data", {}).get("actor", {}).get("entitySearch", {}).get("results", {}).get("entities", [])
+        if not entities:
+            logger.warning(f"Nenhum dashboard retornado pela query GraphQL. Resposta bruta: {result}")
+        return entities[:limit]
+    except Exception as e:
+        logger.error(f"Erro ao coletar dashboards globais: {e}")
+        return []
+
+async def fetch_alerts_sample(limit=50):
+    """Coleta uma amostra de alertas (policies) do New Relic via GraphQL."""
+    try:
+        query = f'''
+        {{
+          actor {{
+            account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+              alerts {{
+                policiesSearch(searchCriteria: {{}}) {{
+                  policies {{
+                    id
+                    name
+                    incidentPreference
+                    createdAt
+                    updatedAt
+                  }}
+                }}
+              }}
+            }}
+          }}
+        }}
+        '''
+        result = await execute_graphql_query(query)
+        policies = result.get("data", {}).get("actor", {}).get("account", {}).get("alerts", {}).get("policiesSearch", {}).get("policies", [])
+        if not policies:
+            logger.warning(f"Nenhuma policy de alerta retornada pela query GraphQL. Resposta bruta: {result}")
+        return policies[:limit]
+    except Exception as e:
+        logger.error(f"Erro ao coletar alertas globais: {e}")
+        return []
 """
 Módulo de coleta de dados avançados do New Relic.
 Este coletor utiliza a API NRQL e GraphQL do New Relic para obter todos os dados possíveis:
@@ -41,15 +149,16 @@ MAX_RETRIES = 3
 RETRY_DELAY = 5.0  # Aumentado para evitar bloqueio
 BATCH_SIZE = 2  # Reduzido para evitar rate limit
 
-# Endpoints da API do New Relic
 NR_GRAPHQL_URL = "https://api.newrelic.com/graphql"
 NR_API_URL = f"https://api.newrelic.com/v2"
-NR_NRDB_URL = f"https://insights-api.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/query"
+# Endpoint NRQL atualizado conforme documentação oficial
+NR_NRDB_URL = f"https://api.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/query"
 
 # Headers separados para cada tipo de requisição
 NRQL_HEADERS = {
     "X-Query-Key": NEW_RELIC_QUERY_KEY,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Accept": "application/json"
 }
 GRAPHQL_HEADERS = {
     "Api-Key": NEW_RELIC_API_KEY,
@@ -76,31 +185,49 @@ async def execute_nrql_query(nrql: str, timeout: float = TIMEOUT) -> Dict:
     Returns:
         Dicionário com os resultados da consulta
     """
-    data = {
-        "nrql": nrql
-    }
-    
+    # Usa GraphQL para executar NRQL
+    graphql_query = f'''
+    {{
+      actor {{
+        account(id: {NEW_RELIC_ACCOUNT_ID}) {{
+          nrql(query: "{nrql}") {{
+            results
+            metadata {{
+              eventTypes
+              facets
+              eventCount
+            }}
+          }}
+        }}
+      }}
+    }}
+    '''
+    data = {"query": graphql_query}
     try:
         async with aiohttp.ClientSession() as session:
             for attempt in range(MAX_RETRIES):
                 try:
                     async with session.post(
-                        NR_NRDB_URL,
-                        headers=NRQL_HEADERS,  # <-- Corrigido
+                        NR_GRAPHQL_URL,
+                        headers=GRAPHQL_HEADERS,
                         json=data,
                         timeout=timeout
                     ) as response:
+                        resp_text = await response.text()
                         if response.status == 200:
-                            return await response.json()
+                            try:
+                                result = await response.json()
+                                # Extrai resultados NRQL do GraphQL
+                                return result.get("data", {}).get("actor", {}).get("account", {}).get("nrql", {})
+                            except Exception as e:
+                                logger.error(f"Erro ao decodificar JSON NRQL: {e} | Body: {resp_text}")
+                                return {"error": f"Erro ao decodificar JSON: {e}", "body": resp_text}
                         else:
-                            error_text = await response.text()
-                            logger.warning(f"Erro na consulta NRQL (tentativa {attempt+1}/{MAX_RETRIES}): "
-                                         f"Status {response.status} - {error_text}")
-                            
+                            logger.warning(f"Erro na consulta NRQL (tentativa {attempt+1}/{MAX_RETRIES}): Status {response.status} - {resp_text}")
                             if attempt < MAX_RETRIES - 1:
                                 await asyncio.sleep(RETRY_DELAY * (attempt + 1))
                             else:
-                                return {"error": f"Falha após {MAX_RETRIES} tentativas: {error_text}"}
+                                return {"error": f"Falha após {MAX_RETRIES} tentativas: {resp_text}", "status": response.status, "body": resp_text}
                 except asyncio.TimeoutError:
                     logger.warning(f"Timeout na consulta NRQL (tentativa {attempt+1}/{MAX_RETRIES})")
                     if attempt < MAX_RETRIES - 1:
@@ -183,11 +310,12 @@ async def get_all_entities() -> List[Dict]:
     Returns:
         Lista de entidades com seus detalhes básicos
     """
+    # Novo padrão: busca por todos os domínios relevantes usando o campo 'query'
     query = """
-    query EntitiesQuery {
+    query EntitiesQuery($cursor: String) {
       actor {
-        entitySearch(queryBuilder: {domainTypes: {domain: APM, types: []}, domainTypes: {domain: BROWSER, types: []}, domainTypes: {domain: INFRA, types: []}, domainTypes: {domain: MOBILE, types: []}, domainTypes: {domain: SYNTH, types: []}, domainTypes: {domain: EXT, types: []}}) {
-          results {
+        entitySearch(query: \"domain IN ('APM','BROWSER','INFRA','MOBILE','SYNTH','EXT')\") {
+          results(cursor: $cursor) {
             entities {
               guid
               name
@@ -205,47 +333,20 @@ async def get_all_entities() -> List[Dict]:
       }
     }
     """
-    
-    result = await execute_graphql_query(query)
+
     entities = []
-    
-    if result and "data" in result and "actor" in result["data"]:
+    cursor = None
+    while True:
+        variables = {"cursor": cursor} if cursor else {}
+        result = await execute_graphql_query(query, variables)
+        if not (result and "data" in result and "actor" in result["data"]):
+            break
         search_results = result["data"]["actor"]["entitySearch"]["results"]
-        entities = search_results["entities"]
-        
-        # Obter paginação se existir
-        next_cursor = search_results.get("nextCursor")
-        while next_cursor:
-            page_query = """
-            query EntitiesQuery($cursor: String!) {
-              actor {
-                entitySearch(queryBuilder: {domainTypes: {domain: APM, types: []}, domainTypes: {domain: BROWSER, types: []}, domainTypes: {domain: INFRA, types: []}, domainTypes: {domain: MOBILE, types: []}, domainTypes: {domain: SYNTH, types: []}, domainTypes: {domain: EXT, types: []}}) {
-                  results(cursor: $cursor) {
-                    entities {
-                      guid
-                      name
-                      domain
-                      entityType
-                      accountId
-                      tags {
-                        key
-                        values
-                      }
-                    }
-                    nextCursor
-                  }
-                }
-              }
-            }
-            """
-            page_result = await execute_graphql_query(page_query, {"cursor": next_cursor})
-            if page_result and "data" in page_result and "actor" in page_result["data"]:
-                page_search = page_result["data"]["actor"]["entitySearch"]["results"]
-                entities.extend(page_search["entities"])
-                next_cursor = page_search.get("nextCursor")
-            else:
-                break
-    
+        entities.extend(search_results["entities"])
+        cursor = search_results.get("nextCursor")
+        if not cursor:
+            break
+
     logger.info(f"Coletadas {len(entities)} entidades do New Relic")
     return entities
 
@@ -417,50 +518,18 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     # Tarefas em paralelo para APM
     if domain == "APM":
         tasks = []
-        
         # 1. Query para erros e backtraces
-        error_query = f"""
-        SELECT count(*), error.class, error.message, error.expected, error.exceptionClass, error.exceptionMessage, 
-               error.stackTrace, httpResponseCode, request.method, request.uri, request.headers, transactionName
-        FROM TransactionError
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        LIMIT 100
-        """
+        error_query = f"SELECT count(*), error.class, error.message, error.expected, error.exceptionClass, error.exceptionMessage, error.stackTrace, httpResponseCode, request.method, request.uri, request.headers, transactionName FROM TransactionError WHERE entityGuid = '{guid}' {period_clause} LIMIT 100"
         tasks.append(execute_nrql_query(error_query))
-        
         # 2. Query para traces detalhados
-        trace_query = f"""
-        SELECT * FROM Span 
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        LIMIT 1000
-        """
+        trace_query = f"SELECT * FROM Span WHERE entityGuid = '{guid}' {period_clause} LIMIT 1000"
         tasks.append(execute_nrql_query(trace_query))
-        
         # 3. Query para SQL queries lentas
-        sql_query = f"""
-        SELECT count(*), average(duration), max(duration), databaseCallCount, 
-               query, request.uri, min(timestamp)
-        FROM Transaction
-        WHERE entityGuid = '{guid}' AND databaseCallCount > 0
-        {period_clause}
-        FACET query
-        LIMIT 50
-        """
+        sql_query = f"SELECT count(*), average(duration), max(duration), databaseCallCount, query, request.uri, min(timestamp) FROM Transaction WHERE entityGuid = '{guid}' AND databaseCallCount > 0 {period_clause} FACET query LIMIT 50"
         tasks.append(execute_nrql_query(sql_query))
-        
         # 4. Query para tempos de execução por linha de código
-        code_execution_query = f"""
-        SELECT codeExecutionCount, codeExecutionTime, codeExecutionTimePercentage, 
-               method, name, packageName, className, lineNumber, timestamp
-        FROM CodeExecution
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        LIMIT 200
-        """
+        code_execution_query = f"SELECT codeExecutionCount, codeExecutionTime, codeExecutionTimePercentage, method, name, packageName, className, lineNumber, timestamp FROM CodeExecution WHERE entityGuid = '{guid}' {period_clause} LIMIT 200"
         tasks.append(execute_nrql_query(code_execution_query))
-        
         # Executa todas as queries em paralelo
         results = await asyncio.gather(*tasks, return_exceptions=True)
         
@@ -490,42 +559,15 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     # Coleta dados específicos para servidores de infraestrutura
     elif domain == "INFRA":
         tasks = []
-        
         # 1. Query para logs do servidor
-        logs_query = f"""
-        SELECT message, hostname, level, timestamp, component, entity.name
-        FROM Log
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        LIMIT 1000
-        """
+        logs_query = f"SELECT message, hostname, level, timestamp, component, entity.name FROM Log WHERE entityGuid = '{guid}' {period_clause} LIMIT 1000"
         tasks.append(execute_nrql_query(logs_query))
-        
         # 2. Query para métricas de sistema
-        system_query = f"""
-        SELECT average(cpuSystemPercent), average(cpuUserPercent), average(cpuIOWaitPercent),
-               average(memoryUsedBytes), average(memoryTotalBytes),
-               average(diskUtilizationPercent), average(diskUsedPercent),
-               average(networkReceiveBytes), average(networkTransmitBytes)
-        FROM SystemSample
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        TIMESERIES
-        """
+        system_query = f"SELECT average(cpuSystemPercent), average(cpuUserPercent), average(cpuIOWaitPercent), average(memoryUsedBytes), average(memoryTotalBytes), average(diskUtilizationPercent), average(diskUsedPercent), average(networkReceiveBytes), average(networkTransmitBytes) FROM SystemSample WHERE entityGuid = '{guid}' {period_clause} TIMESERIES"
         tasks.append(execute_nrql_query(system_query))
-        
         # 3. Query para dados de processos
-        process_query = f"""
-        SELECT average(cpuPercent), average(memoryResidentSizeBytes),
-               processDisplayName, commandLine, processId
-        FROM ProcessSample
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        FACET processDisplayName
-        LIMIT 50
-        """
+        process_query = f"SELECT average(cpuPercent), average(memoryResidentSizeBytes), processDisplayName, commandLine, processId FROM ProcessSample WHERE entityGuid = '{guid}' {period_clause} FACET processDisplayName LIMIT 50"
         tasks.append(execute_nrql_query(process_query))
-        
         # Executa todas as queries em paralelo
         results = await asyncio.gather(*tasks, return_exceptions=True)
         
@@ -553,43 +595,15 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
     # Coleta dados específicos para aplicações browser
     elif domain == "BROWSER":
         tasks = []
-        
         # 1. Query para erros de JavaScript
-        js_error_query = f"""
-        SELECT count(*), errorClass, errorMessage, stackTrace, pageUrl, 
-               browserTransactionName, userAgentName, userAgentVersion
-        FROM JavaScriptError
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        FACET errorClass
-        LIMIT 100
-        """
+        js_error_query = f"SELECT count(*), errorClass, errorMessage, stackTrace, pageUrl, browserTransactionName, userAgentName, userAgentVersion FROM JavaScriptError WHERE entityGuid = '{guid}' {period_clause} FACET errorClass LIMIT 100"
         tasks.append(execute_nrql_query(js_error_query))
-        
         # 2. Query para performance de página
-        page_perf_query = f"""
-        SELECT count(*), average(duration), max(duration), sum(duration),
-               pageUrl, deviceType, pageViewThroughput
-        FROM PageView
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        FACET pageUrl
-        LIMIT 50
-        """
+        page_perf_query = f"SELECT count(*), average(duration), max(duration), sum(duration), pageUrl, deviceType, pageViewThroughput FROM PageView WHERE entityGuid = '{guid}' {period_clause} FACET pageUrl LIMIT 50"
         tasks.append(execute_nrql_query(page_perf_query))
-        
         # 3. Query para AJAX requests
-        ajax_query = f"""
-        SELECT count(*), average(duration), max(duration), 
-               pageUrl, browserTransactionName, requestUrl
-        FROM AjaxRequest
-        WHERE entityGuid = '{guid}'
-        {period_clause}
-        FACET requestUrl
-        LIMIT 50
-        """
+        ajax_query = f"SELECT count(*), average(duration), max(duration), pageUrl, browserTransactionName, requestUrl FROM AjaxRequest WHERE entityGuid = '{guid}' {period_clause} FACET requestUrl LIMIT 50"
         tasks.append(execute_nrql_query(ajax_query))
-        
         # Executa todas as queries em paralelo
         results = await asyncio.gather(*tasks, return_exceptions=True)
         
@@ -615,38 +629,23 @@ async def get_entity_advanced_data(entity: Dict, period_key: str = "30min") -> D
                 advanced_data["ajax_requests"] = result["results"]
     
     # Obtém relacionamentos com outras entidades (para qualquer tipo de entidade)
+    # Descoberta: buscar apenas __typename para inspecionar estrutura
     relations_query = f"""
     {{
       actor {{
-        entity(guid: "{guid}") {{
-          relationships {{
-            source {{
-              entity {{
-                name
-                domain
-                entityType
-                guid
-              }}
-            }}
-            target {{
-              entity {{
-                name
-                domain
-                entityType
-                guid
-              }}
-            }}
+        entity(guid: \"{guid}\") {{
+          relatedEntities {{
+            __typename
           }}
         }}
       }}
     }}
     """
-    
+    # Após a consulta, logar o resultado bruto para análise
     relations_result = await execute_graphql_query(relations_query)
     if relations_result and "data" in relations_result and "actor" in relations_result["data"] and \
-       "entity" in relations_result["data"]["actor"] and "relationships" in relations_result["data"]["actor"]["entity"]:
-        advanced_data["relationships"] = relations_result["data"]["actor"]["entity"]["relationships"]
-    
+       "entity" in relations_result["data"]["actor"] and "relatedEntities" in relations_result["data"]["actor"]["entity"]:
+        advanced_data["relationships"] = relations_result["data"]["actor"]["entity"]["relatedEntities"]
     return advanced_data
 
 async def collect_entity_complete_data(entity: Dict) -> Dict:
@@ -708,46 +707,46 @@ async def collect_full_data() -> Dict[str, List[Dict]]:
         # 1. Obtém todas as entidades do New Relic
         logger.info("Iniciando coleta avançada de dados do New Relic...")
         entities = await get_all_entities()
-        
+
         # Estrutura para armazenar resultado (entidades por domínio)
         result = {}
         all_entities = []
-        
+
         # 2. Para cada entidade, coleta dados completos em lotes para evitar sobrecarga
         total = len(entities)
         logger.info(f"Coletando dados completos para {total} entidades...")
-        
+
         for i in range(0, total, BATCH_SIZE):
             batch = entities[i:i + BATCH_SIZE]
             logger.info(f"Processando lote {i//BATCH_SIZE + 1}/{(total+BATCH_SIZE-1)//BATCH_SIZE}, "
-                       f"{len(batch)} entidades ({i+1}-{min(i+BATCH_SIZE, total)}/{total})")
-            
+                        f"{len(batch)} entidades ({i+1}-{min(i+BATCH_SIZE, total)}/{total})")
+
             # Processa entidades em paralelo (com limite de concorrência)
             batch_tasks = [collect_entity_complete_data(e) for e in batch]
             batch_results = await asyncio.gather(*batch_tasks, return_exceptions=True)
-            
+
             # Agrupa resultados por domínio e adiciona à lista completa
             for res in batch_results:
                 if isinstance(res, Exception):
                     logger.error(f"Erro no processamento de entidade: {str(res)}")
                     continue
-                
+
                 if not isinstance(res, dict):
                     logger.warning(f"Resultado inesperado: {type(res)}")
                     continue
-                
+
                 # Adiciona à lista completa
                 all_entities.append(res)
-                
+
                 # Agrupa por domínio
                 domain = res.get("domain", "UNKNOWN")
                 if domain not in result:
                     result[domain] = []
                 result[domain].append(res)
-        
+
         # Adiciona lista completa de entidades ao resultado
         result["entidades"] = all_entities
-        
+
         # 3. Coleta dados globais do sistema
         global_nrql = """
         SELECT count(*) FROM Transaction SINCE 1 hour ago COMPARE WITH 1 day ago
@@ -755,21 +754,65 @@ async def collect_full_data() -> Dict[str, List[Dict]]:
         global_result = await execute_nrql_query(global_nrql)
         if global_result and "results" in global_result:
             result["status_global"] = global_result["results"]
-        
+
+        # 4. Coletar logs globais (amostra)
+        if hasattr(globals(), "fetch_logs_sample"):
+            try:
+                logs_sample = await fetch_logs_sample(limit=100)
+                result["logs"] = {"sample": logs_sample}
+            except Exception as e:
+                logger.warning(f"Erro ao coletar logs globais: {e}")
+                result["logs"] = {"sample": []}
+        else:
+            result["logs"] = {"sample": []}
+
+        # 5. Coletar incidentes globais (se função existir)
+        if hasattr(globals(), "fetch_incidents_sample"):
+            try:
+                incidents_sample = await fetch_incidents_sample(limit=100)
+                result["incidentes"] = {"sample": incidents_sample}
+            except Exception as e:
+                logger.warning(f"Erro ao coletar incidentes globais: {e}")
+                result["incidentes"] = {"sample": []}
+        else:
+            result["incidentes"] = {"sample": []}
+
+        # 6. Coletar dashboards globais (se função existir)
+        if hasattr(globals(), "fetch_dashboards_sample"):
+            try:
+                dashboards_sample = await fetch_dashboards_sample(limit=20)
+                result["dashboards"] = {"list": dashboards_sample}
+            except Exception as e:
+                logger.warning(f"Erro ao coletar dashboards globais: {e}")
+                result["dashboards"] = {"list": []}
+        else:
+            result["dashboards"] = {"list": []}
+
+        # 7. Coletar alertas globais (se função existir)
+        if hasattr(globals(), "fetch_alerts_sample"):
+            try:
+                alerts_sample = await fetch_alerts_sample(limit=50)
+                result["alertas"] = {"policies": alerts_sample}
+            except Exception as e:
+                logger.warning(f"Erro ao coletar alertas globais: {e}")
+                result["alertas"] = {"policies": []}
+        else:
+            result["alertas"] = {"policies": []}
+
         # Adiciona timestamp ao resultado final
         result["timestamp"] = datetime.now().isoformat()
         result["total_entidades"] = len(all_entities)
-        
+
         # Adiciona estatísticas sobre a coleta
         dominios = {}
         for e in all_entities:
             dominio = e.get("domain", "UNKNOWN")
             dominios[dominio] = dominios.get(dominio, 0) + 1
-        
+
         result["contagem_por_dominio"] = dominios
         logger.info(f"Coleta completa finalizada. {len(all_entities)} entidades processadas.")
         logger.info(f"Distribuição por domínio: {dominios}")
-        
+
         return result
     except Exception as e:
         logger.error(f"Erro na coleta completa: {str(e)}")
@@ -801,10 +844,16 @@ async def test_collector():
         return False
 
 if __name__ == "__main__":
-    # Configurando logging mais detalhado para execução direta
-    logging.basicConfig(level=logging.INFO, 
-                      format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
+    # Configura logging para console e arquivo
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler("log.txt", encoding="utf-8")
+        ]
+    )
+
     # Executa o teste do coletor
     import asyncio
     asyncio.run(test_collector())

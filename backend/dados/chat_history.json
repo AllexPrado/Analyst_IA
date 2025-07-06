@@ -783,5 +783,485 @@
     "pergunta": "mensagem_inicial",
     "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
     "timestamp": "2025-07-04T00:44:07.506913"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:00:24.955710"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T14:00:41.185241"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:00:57.770872"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:04:19.813212"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:04:31.731490"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:16:43.081765"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:18:53.915887"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:19:59.096453"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:21:38.166406"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T14:21:40.475628"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T14:21:53.186169"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:06:56.539497"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:07:07.972605"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:10:00.464053"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:10:24.050057"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:15:25.670544"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:15:53.572080"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:21:39.984481"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T15:23:31.393720"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:02:55.246545"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:19:08.470815"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:27:54.078916"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:34:57.395622"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:35:09.002823"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:35:51.764698"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:35:55.817224"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:36:09.648742"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T16:45:26.608008"
+  },
+  {
+    "pergunta": "teste",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T16:45:40.415716"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T17:14:15.672049"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T17:23:14.167185"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T17:44:14.343763"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T18:18:07.568553"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T18:18:33.166683"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "Não encontrei dados de erros suficientes. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-07-04T18:18:42.915737"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T18:18:58.092798"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "Não encontrei dados de erros suficientes. Por favor, verifique a coleta de dados do New Relic.",
+    "timestamp": "2025-07-04T18:19:05.086902"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T18:43:25.920389"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T18:43:34.742631"
+  },
+  {
+    "pergunta": "Quais entidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T18:43:49.218103"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T18:43:59.096340"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:11:46.189319"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:11:53.269777"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:31:12.828638"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T19:31:22.736141"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T19:31:31.254355"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:32:19.242492"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:47:08.681457"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T19:47:24.061704"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:51:37.956962"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:51:38.199105"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:54:52.815851"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T19:55:02.728424"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:58:56.390613"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T19:59:10.717071"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T20:51:07.652359"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T20:51:18.127383"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T20:51:40.610152"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T20:51:53.053861"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T20:52:05.355788"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T20:52:09.667687"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:40:07.920797"
+  },
+  {
+    "pergunta": "Liste as 3 APIs mais lentas dos últimos 7 dias e detalhe a causa raiz da lentidão, incluindo queries SQL, stacktrace e função afetada",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-04T21:40:30.857039"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:40:47.682294"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:40:54.313826"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:45:50.287119"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:52:33.744330"
+  },
+  {
+    "pergunta": "Liste as 3 APIs mais lentas dos últimos 7 dias e detalhe a causa raiz da lentidão, incluindo queries SQL, stacktrace e função afetada",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-04T21:52:39.337334"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:57:38.799513"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T21:57:38.969590"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T22:02:22.625391"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T22:02:39.696852"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T22:04:27.021663"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T22:09:19.647573"
+  },
+  {
+    "pergunta": "teste",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T22:09:29.563401"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T22:09:49.087542"
+  },
+  {
+    "pergunta": "Qual o status atual do sistema?",
+    "resposta": "Status atual do sistema com base em 3 entidades monitoradas:\n\n**Status geral:** Bom\n**Apdex médio:** 0.87\n**Taxa de erro média:** 1.00%\n**Disponibilidade estimada:** 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n",
+    "timestamp": "2025-07-04T22:21:32.615824"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:03:45.258765"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:03:58.954576"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-04T23:04:09.299042"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:10:18.009769"
+  },
+  {
+    "pergunta": "logs",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T23:16:09.289948"
+  },
+  {
+    "pergunta": "infra",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-04T23:16:17.765591"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:32:15.287199"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:28.551805"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:32.760944"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:33.276784"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:33.823447"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:34.299859"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:50:34.887584"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-04T23:53:43.845119"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-05T14:03:13.606915"
+  },
+  {
+    "pergunta": "oi",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-05T14:03:22.653228"
+  },
+  {
+    "pergunta": "Todas as manhas, meu sistema fica lento, algumas paginas demoram muito para carregar, e alguns clientes reclamando de lentidão em alguns serviços. Faça o Diagnostico completo dos casos mais criticos no periodo da manha nos ultimos 30 dias",
+    "resposta": "As entidades com pior performance são:\n\n1. **Database-Principal**: 380.50ms\n2. **API-Pagamentos**: 180.20ms\n3. **API-Autenticacao**: 150.10ms\n\nA média de tempo de resposta do sistema é de 236.93ms. Recomendo analisar as consultas e dependências externas das entidades mais lentas.",
+    "timestamp": "2025-07-05T14:03:44.166869"
+  },
+  {
+    "pergunta": "Quais entidades estao sendo monitoradas?",
+    "resposta": "Com base nos dados reais de 3 entidades monitoradas, posso informar que:\n\n**Métricas gerais:**\n- Apdex score médio: 0.87\n- Taxa de erro média: 1.00%\n- Disponibilidade estimada: 99.00%\n\n**Entidades por domínio:**\n- APM: 2\n- INFRA: 1\n\n**Entidades em destaque:**\n- **API-Pagamentos** (Desconhecido), Apdex: 0.9, Erros: 1.5%\n- **API-Autenticacao** (Desconhecido), Apdex: 0.89, Erros: 1.2%\n- **Database-Principal** (Desconhecido), Apdex: 0.82, Erros: 0.3%\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações.",
+    "timestamp": "2025-07-05T14:04:00.453346"
+  },
+  {
+    "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo.",
+    "resposta": "As entidades com maior taxa de erro são:\n\n1. **API-Pagamentos**: 1.50%\n2. **API-Autenticacao**: 1.20%\n3. **Database-Principal**: 0.30%\n\nA taxa de erro média do sistema é 1.00%. As taxas de erro estão dentro de níveis aceitáveis.",
+    "timestamp": "2025-07-05T14:04:14.264841"
   }
 ]
