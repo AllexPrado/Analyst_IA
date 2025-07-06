@@ -1,8 +1,0 @@
-============================================================
-RELATÓRIO DE EXECUÇÃO - COLETA OTIMIZADA
-============================================================
-
-Data e hora: 28/06/2025 22:34:20
-Cache gerado: historico\cache_otimizado.json
-Coleta otimizada concluída: Não
-Análise de economia gerada: Não

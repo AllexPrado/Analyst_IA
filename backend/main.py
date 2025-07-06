@@ -1,6 +1,11 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
+import os
+print("[DEBUG] NEW_RELIC_API_KEY:", os.getenv("NEW_RELIC_API_KEY"))
+print("[DEBUG] NEW_RELIC_QUERY_KEY:", os.getenv("NEW_RELIC_QUERY_KEY"))
+print("[DEBUG] NEW_RELIC_ACCOUNT_ID:", os.getenv("NEW_RELIC_ACCOUNT_ID"))
+print("[DEBUG] OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
 
 import sys
 import json
@@ -14,15 +19,7 @@ from pathlib import Path
 import re
 import asyncio
 
-# Primeiro, garantir que temos dados de teste disponíveis para o frontend
-# Executando o script check_and_fix_cache.py
-try:
-    from check_and_fix_cache import check_and_fix_cache
-    print("Verificando e corrigindo cache...")
-    check_and_fix_cache()
-    print("Verificação de cache concluída.")
-except Exception as e:
-    print(f"Erro ao verificar cache: {e}")
+
 
 # Inicializa o sistema de cache durante o startup
 try:

@@ -190,7 +190,7 @@ class NewRelicCollector:
                 
                 # Preparar request GraphQL
                 headers = {
-                    'Api-Key': self.query_key,
+                    'Api-Key': self.api_key,
                     'Content-Type': 'application/json'
                 }
                 
