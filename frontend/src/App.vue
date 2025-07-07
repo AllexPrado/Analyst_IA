@@ -20,15 +20,11 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
+
 const $route = useRoute()
 const menu = [
-  { path: '/', label: 'Visão Geral', icon: ['fas', 'chart-bar'] },
-  { path: '/cobertura', label: 'Cobertura', icon: ['fas', 'shield-alt'] },
-  { path: '/kpis', label: 'KPIs', icon: ['fas', 'chart-line'] },
-  { path: '/tendencias', label: 'Tendências', icon: ['fas', 'wave-square'] },
-  { path: '/insights', label: 'Insights', icon: ['fas', 'lightbulb'] },
-  { path: '/diagnostico', label: 'Diagnóstico Completo', icon: ['fas', 'heartbeat'] },
-  { path: '/relacionamentos', label: 'Relacionamentos', icon: ['fas', 'project-diagram'] },
+  { path: '/', label: 'Dashboard Executivo', icon: ['fas', 'chart-line'] },
+  { path: '/operational', label: 'Dashboard Operacional', icon: ['fas', 'cog'] },
   { path: '/chat', label: 'Chat IA', icon: ['fas', 'comments'] },
 ]
 </script>

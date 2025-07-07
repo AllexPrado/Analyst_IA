@@ -1,0 +1,28 @@
+﻿
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"guid":"Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTkwNzU1NjAy
+                    ","entidade":{"accountId":3882820,"domain":"APM","ent
+                    ityType":"APM_APPLICATION_ENTITY","guid":"Mzg4MjgyMHx
+                    BUE18QVBQTElDQVRJT058NTkwNzU1NjAy","name"...
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 930
+                    Content-Type: application/json
+                    Date: Mon, 07 Jul 2025 04:25:51 GMT
+                    Server: uvicorn
+                    
+                    {"guid":"Mzg4MjgyMHxBUE18QVBQTElDQVRJT058NTkwNzU1NjAy
+                    ","entidade":{"accoun...
+Forms             : {}
+Headers           : {[Content-Length, 930], [Content-Type, 
+                    application/json], [Date, Mon, 07 Jul 2025 04:25:51 
+                    GMT], [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 930
+
+
+

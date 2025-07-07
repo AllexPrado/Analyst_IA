@@ -70,31 +70,49 @@ const iconClass = valueClass
 const fetchData = async () => {
   loading.value = true
   erro.value = ''
-  let data
   try {
+    let data
     if (props.type === 'logs') {
       data = await getLogs()
-      mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
-      description.value = 'Total de logs coletados nas últimas 24h.'
-      tooltip.value = 'Inclui logs de aplicações, infraestrutura e erros.'
+      if (data && !data.erro) {
+        mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
+        description.value = 'Total de logs coletados nas últimas 24h.'
+        tooltip.value = 'Inclui logs de aplicações, infraestrutura e erros.'
+      } else {
+        throw new Error(data?.mensagem || 'Erro ao carregar logs')
+      }
     } else if (props.type === 'alertas') {
       data = await getAlertas()
-      mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
-      description.value = 'Alertas ativos detectados pelo monitoramento.'
-      tooltip.value = 'Inclui alertas críticos, warnings e recomendações.'
+      if (data && !data.erro) {
+        mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
+        description.value = 'Alertas ativos detectados pelo monitoramento.'
+        tooltip.value = 'Inclui alertas críticos, warnings e recomendações.'
+      } else {
+        throw new Error(data?.mensagem || 'Erro ao carregar alertas')
+      }
     } else if (props.type === 'dashboards') {
       data = await getDashboards()
-      mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
-      description.value = 'Dashboards disponíveis para análise.'
-      tooltip.value = 'Dashboards integrados do New Relic e outros provedores.'
+      if (data && !data.erro) {
+        mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
+        description.value = 'Dashboards disponíveis para análise.'
+        tooltip.value = 'Dashboards integrados do New Relic e outros provedores.'
+      } else {
+        throw new Error(data?.mensagem || 'Erro ao carregar dashboards')
+      }
     } else if (props.type === 'incidentes') {
       data = await getIncidentes()
-      mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
-      description.value = 'Incidentes críticos registrados.'
-      tooltip.value = 'Incidentes abertos, fechados e em investigação.'
+      if (data && !data.erro) {
+        mainValue.value = Array.isArray(data) ? data.length : (data?.total || 0)
+        description.value = 'Incidentes críticos registrados.'
+        tooltip.value = 'Incidentes abertos, fechados e em investigação.'
+      } else {
+        throw new Error(data?.mensagem || 'Erro ao carregar incidentes')
+      }
     }
   } catch (e) {
-    erro.value = 'Erro ao carregar dados.'
+    console.error(`Erro ao carregar dados de ${props.type}:`, e)
+    erro.value = e.message || 'Erro ao carregar dados.'
+    mainValue.value = '!'
   } finally {
     loading.value = false
   }

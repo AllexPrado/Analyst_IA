@@ -100,29 +100,51 @@ def encontrar_entidades_relevantes(pergunta: str, entidades: List[Dict], max_ent
         
         # Se a pergunta menciona métricas críticas e esta entidade tem métricas ruins
         if "crític" in pergunta_lower or "pior" in pergunta_lower:
-            metricas = entidade.get("metricas", {}).get("24h", {})
-            if metricas:
-                error_rate = metricas.get("error_rate")
-                apdex = metricas.get("apdex")
-                response_time = metricas.get("response_time")
-                
-                if error_rate is not None and float(error_rate) > 5:
+            metricas_raw = entidade.get("metricas", {})
+            if not isinstance(metricas_raw, dict):
+                continue
+            metricas_24h = metricas_raw.get("24h", {})
+            if not isinstance(metricas_24h, dict):
+                continue
+            error_rate_value = metricas_24h.get("error_rate")
+            apdex_value = metricas_24h.get("apdex")
+            response_time_value = metricas_24h.get("response_time")
+            try:
+                if error_rate_value is not None and float(error_rate_value) > 5:
                     pontos += 15
-                if apdex is not None and float(apdex) < 0.7:
+            except (ValueError, TypeError):
+                pass
+            try:
+                if apdex_value is not None and float(apdex_value) < 0.7:
                     pontos += 15
-                if response_time is not None and float(response_time) > 2000:
+            except (ValueError, TypeError):
+                pass
+            try:
+                if response_time_value is not None and float(response_time_value) > 2000:
                     pontos += 15
-        
+            except (ValueError, TypeError):
+                pass
+
         # Se pergunta é sobre performance e esta entidade tem dados de resposta
         if "performance" in pergunta_lower or "desempenho" in pergunta_lower or "lentid" in pergunta_lower:
-            metricas = entidade.get("metricas", {}).get("24h", {})
-            if metricas and "response_time" in metricas:
+            metricas_raw = entidade.get("metricas", {})
+            if not isinstance(metricas_raw, dict):
+                continue
+            metricas_24h = metricas_raw.get("24h", {})
+            if not isinstance(metricas_24h, dict):
+                continue
+            if "response_time" in metricas_24h:
                 pontos += 10
-        
+
         # Se pergunta é sobre erros
         if "erro" in pergunta_lower or "falha" in pergunta_lower:
-            metricas = entidade.get("metricas", {}).get("24h", {})
-            if metricas and "error_rate" in metricas:
+            metricas_raw = entidade.get("metricas", {})
+            if not isinstance(metricas_raw, dict):
+                continue
+            metricas_24h = metricas_raw.get("24h", {})
+            if not isinstance(metricas_24h, dict):
+                continue
+            if "error_rate" in metricas_24h:
                 pontos += 10
         
         pontuacao_entidades.append((entidade, pontos))
@@ -192,37 +214,60 @@ async def generate_chat_response(pergunta: str) -> Dict:
         
         # Extrair informações úteis do cache
         entidades = cache_data.get("entidades", [])
+        
+        # Validar que entidades é uma lista
+        if not isinstance(entidades, list):
+            logger.warning(f"Campo 'entidades' no cache não é uma lista: {type(entidades)}")
+            entidades = []
+        
         num_entidades = len(entidades)
         resposta_estruturada["totalEntidades"] = num_entidades
+        
+        # Se não há entidades, retornar resposta apropriada
+        if num_entidades == 0:
+            resposta_estruturada["resposta"] = "Não encontrei entidades monitoradas no cache. Por favor, verifique a coleta de dados do New Relic e atualize o cache."
+            return resposta_estruturada
 
         # Tentar buscar dados detalhados do cache/unificado se existirem
         # Logs
         logs = cache_data.get("logs", [])
         if isinstance(logs, list) and logs:
             resposta_estruturada["logs"] = logs
-        elif isinstance(logs, dict) and "sample" in logs and isinstance(logs["sample"], list):
-            resposta_estruturada["logs"] = logs["sample"]
+        elif isinstance(logs, dict):
+            if "sample" in logs and isinstance(logs["sample"], list):
+                resposta_estruturada["logs"] = logs["sample"]
+            elif "data" in logs and isinstance(logs["data"], list):
+                resposta_estruturada["logs"] = logs["data"]
 
         # Incidentes
         incidentes = cache_data.get("incidentes", [])
         if isinstance(incidentes, list) and incidentes:
             resposta_estruturada["incidentes"] = incidentes
-        elif isinstance(incidentes, dict) and "sample" in incidentes and isinstance(incidentes["sample"], list):
-            resposta_estruturada["incidentes"] = incidentes["sample"]
+        elif isinstance(incidentes, dict):
+            if "sample" in incidentes and isinstance(incidentes["sample"], list):
+                resposta_estruturada["incidentes"] = incidentes["sample"]
+            elif "data" in incidentes and isinstance(incidentes["data"], list):
+                resposta_estruturada["incidentes"] = incidentes["data"]
 
         # Dashboards
         dashboards = cache_data.get("dashboards", [])
         if isinstance(dashboards, list) and dashboards:
             resposta_estruturada["dashboards"] = dashboards
-        elif isinstance(dashboards, dict) and "list" in dashboards and isinstance(dashboards["list"], list):
-            resposta_estruturada["dashboards"] = dashboards["list"]
+        elif isinstance(dashboards, dict):
+            if "list" in dashboards and isinstance(dashboards["list"], list):
+                resposta_estruturada["dashboards"] = dashboards["list"]
+            elif "data" in dashboards and isinstance(dashboards["data"], list):
+                resposta_estruturada["dashboards"] = dashboards["data"]
 
         # Alertas
         alertas = cache_data.get("alertas", [])
         if isinstance(alertas, list) and alertas:
             resposta_estruturada["alertas"] = alertas
-        elif isinstance(alertas, dict) and "policies" in alertas and isinstance(alertas["policies"], list):
-            resposta_estruturada["alertas"] = alertas["policies"]
+        elif isinstance(alertas, dict):
+            if "policies" in alertas and isinstance(alertas["policies"], list):
+                resposta_estruturada["alertas"] = alertas["policies"]
+            elif "data" in alertas and isinstance(alertas["data"], list):
+                resposta_estruturada["alertas"] = alertas["data"]
         
         # Calcular métricas reais e análises automáticas
         apdex_scores = []
@@ -234,17 +279,45 @@ async def generate_chat_response(pergunta: str) -> Dict:
         relacionamentos = []
         # Análise por entidade
         for entidade in entidades:
-            metricas = entidade.get("metricas", {}).get("24h", {})
-            if isinstance(metricas, dict):
-                tem_metricas = False
-                if "apdex" in metricas and metricas["apdex"] is not None:
-                    apdex_scores.append(float(metricas["apdex"]))
+            # Verificação robusta do tipo de dados de métricas
+            metricas_raw = entidade.get("metricas", {})
+            
+            # Se metricas_raw não for um dict, tenta converter ou ignora
+            if not isinstance(metricas_raw, dict):
+                logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas no formato incorreto: {type(metricas_raw)}")
+                continue
+                
+            # Acessa as métricas de 24h de forma segura
+            metricas_24h = metricas_raw.get("24h", {})
+            if not isinstance(metricas_24h, dict):
+                logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas 24h no formato incorreto: {type(metricas_24h)}")
+                continue
+                
+            # Processa as métricas de forma segura
+            tem_metricas = False
+            
+            # Processa Apdex
+            apdex_value = metricas_24h.get("apdex")
+            if apdex_value is not None:
+                try:
+                    apdex_float = float(apdex_value)
+                    apdex_scores.append(apdex_float)
                     tem_metricas = True
-                if "error_rate" in metricas and metricas["error_rate"] is not None:
-                    taxas_erro.append(float(metricas["error_rate"]))
+                except (ValueError, TypeError) as e:
+                    logger.warning(f"Valor Apdex inválido para {entidade.get('name', 'unknown')}: {apdex_value} - {e}")
+            
+            # Processa Error Rate
+            error_rate_value = metricas_24h.get("error_rate")
+            if error_rate_value is not None:
+                try:
+                    error_rate_float = float(error_rate_value)
+                    taxas_erro.append(error_rate_float)
                     tem_metricas = True
-                if tem_metricas:
-                    entidades_com_metricas += 1
+                except (ValueError, TypeError) as e:
+                    logger.warning(f"Valor Error Rate inválido para {entidade.get('name', 'unknown')}: {error_rate_value} - {e}")
+            
+            if tem_metricas:
+                entidades_com_metricas += 1
             # Coleta relacionamentos se existirem
             if "dados_avancados" in entidade and "relationships" in entidade["dados_avancados"]:
                 for rel in entidade["dados_avancados"]["relationships"]:
@@ -253,9 +326,27 @@ async def generate_chat_response(pergunta: str) -> Dict:
                         **rel
                     })
         resposta_estruturada["entidadesComMetricas"] = entidades_com_metricas
-        apdex_medio = sum(apdex_scores) / len(apdex_scores) if apdex_scores else None
-        taxa_erro_media = sum(taxas_erro) / len(taxas_erro) if taxas_erro else None
-        disponibilidade = 100 - (sum(taxas_erro) / len(taxas_erro) if taxas_erro else 0)
+        
+        # Calcular médias de forma segura
+        apdex_medio = None
+        taxa_erro_media = None
+        disponibilidade = None
+        
+        if apdex_scores:
+            try:
+                apdex_medio = sum(apdex_scores) / len(apdex_scores)
+            except (ZeroDivisionError, TypeError) as e:
+                logger.warning(f"Erro ao calcular Apdex médio: {e}")
+                
+        if taxas_erro:
+            try:
+                taxa_erro_media = sum(taxas_erro) / len(taxas_erro)
+                disponibilidade = 100 - taxa_erro_media
+            except (ZeroDivisionError, TypeError) as e:
+                logger.warning(f"Erro ao calcular taxa de erro média: {e}")
+        else:
+            # Se não há dados de erro, assumir 100% de disponibilidade
+            disponibilidade = 100.0
         resposta_estruturada["relacionamentos"] = relacionamentos
         # Tendências e anomalias simples (exemplo)
         if len(apdex_scores) > 1:
@@ -308,9 +399,29 @@ async def generate_chat_response(pergunta: str) -> Dict:
                     resposta_estruturada["resposta"] += "\n\nEntidades com métricas mais relevantes:"
                     for entidade in entidades_relevantes:
                         nome = entidade.get("name", "Desconhecido")
-                        metricas = entidade.get("metricas", {}).get("24h", {})
-                        apdex = metricas.get("apdex", "N/A")
-                        error_rate = metricas.get("error_rate", "N/A")
+                        
+                        # Verificação robusta do tipo de dados de métricas
+                        metricas_raw = entidade.get("metricas", {})
+                        apdex = "N/A"
+                        error_rate = "N/A"
+                        
+                        if isinstance(metricas_raw, dict):
+                            metricas_24h = metricas_raw.get("24h", {})
+                            if isinstance(metricas_24h, dict):
+                                apdex_value = metricas_24h.get("apdex")
+                                if apdex_value is not None:
+                                    try:
+                                        apdex = f"{float(apdex_value):.2f}"
+                                    except (ValueError, TypeError):
+                                        apdex = "N/A"
+                                
+                                error_rate_value = metricas_24h.get("error_rate")
+                                if error_rate_value is not None:
+                                    try:
+                                        error_rate = f"{float(error_rate_value):.2f}"
+                                    except (ValueError, TypeError):
+                                        error_rate = "N/A"
+                        
                         resposta_estruturada["resposta"] += f"\n- {nome}: Apdex {apdex}, Taxa de erro {error_rate}%"
             else:
                 resposta_estruturada["resposta"] = "Não encontrei métricas suficientes nas entidades monitoradas. Por favor, verifique a coleta de dados do New Relic."
@@ -319,9 +430,22 @@ async def generate_chat_response(pergunta: str) -> Dict:
             # Encontrar entidades com pior desempenho
             entidades_lentas = []
             for entidade in entidades:
-                metricas = entidade.get("metricas", {}).get("24h", {})
-                if isinstance(metricas, dict) and "response_time" in metricas and metricas["response_time"] is not None:
-                    entidades_lentas.append((entidade.get("name", "Unknown"), float(metricas["response_time"])))
+                # Verificação robusta do tipo de dados de métricas
+                metricas_raw = entidade.get("metricas", {})
+                if not isinstance(metricas_raw, dict):
+                    continue
+                    
+                metricas_24h = metricas_raw.get("24h", {})
+                if not isinstance(metricas_24h, dict):
+                    continue
+                
+                response_time_value = metricas_24h.get("response_time")
+                if response_time_value is not None:
+                    try:
+                        response_time_float = float(response_time_value)
+                        entidades_lentas.append((entidade.get("name", "Unknown"), response_time_float))
+                    except (ValueError, TypeError) as e:
+                        logger.warning(f"Valor Response Time inválido para {entidade.get('name', 'unknown')}: {response_time_value} - {e}")
             
             # Ordenar por tempo de resposta (decrescente)
             entidades_lentas.sort(key=lambda x: x[1], reverse=True)
@@ -342,9 +466,22 @@ async def generate_chat_response(pergunta: str) -> Dict:
             # Encontrar entidades com mais erros
             entidades_com_erros = []
             for entidade in entidades:
-                metricas = entidade.get("metricas", {}).get("24h", {})
-                if isinstance(metricas, dict) and "error_rate" in metricas and metricas["error_rate"] is not None:
-                    entidades_com_erros.append((entidade.get("name", "Unknown"), float(metricas["error_rate"])))
+                # Verificação robusta do tipo de dados de métricas
+                metricas_raw = entidade.get("metricas", {})
+                if not isinstance(metricas_raw, dict):
+                    continue
+                    
+                metricas_24h = metricas_raw.get("24h", {})
+                if not isinstance(metricas_24h, dict):
+                    continue
+                
+                error_rate_value = metricas_24h.get("error_rate")
+                if error_rate_value is not None:
+                    try:
+                        error_rate_float = float(error_rate_value)
+                        entidades_com_erros.append((entidade.get("name", "Unknown"), error_rate_float))
+                    except (ValueError, TypeError) as e:
+                        logger.warning(f"Valor Error Rate inválido para {entidade.get('name', 'unknown')}: {error_rate_value} - {e}")
             
             # Ordenar por taxa de erro (decrescente)
             entidades_com_erros.sort(key=lambda x: x[1], reverse=True)
@@ -424,14 +561,30 @@ async def generate_chat_response(pergunta: str) -> Dict:
                 for entidade in entidades_relevantes:
                     nome = entidade.get("name", "Desconhecido")
                     tipo = entidade.get("tipo", "Desconhecido")
-                    metricas = entidade.get("metricas", {}).get("24h", {})
+                    
+                    # Verificação robusta do tipo de dados de métricas
+                    metricas_raw = entidade.get("metricas", {})
+                    metricas_24h = {}
+                    if isinstance(metricas_raw, dict):
+                        metricas_24h = metricas_raw.get("24h", {})
+                        if not isinstance(metricas_24h, dict):
+                            metricas_24h = {}
                     
                     resposta_estruturada["resposta"] += f"\n- **{nome}** ({tipo})"
-                    if isinstance(metricas, dict):
-                        if "apdex" in metricas and metricas["apdex"] is not None:
-                            resposta_estruturada["resposta"] += f", Apdex: {metricas['apdex']}"
-                        if "error_rate" in metricas and metricas["error_rate"] is not None:
-                            resposta_estruturada["resposta"] += f", Erros: {metricas['error_rate']}%"
+                    if metricas_24h:
+                        apdex_value = metricas_24h.get("apdex")
+                        if apdex_value is not None:
+                            try:
+                                resposta_estruturada["resposta"] += f", Apdex: {float(apdex_value):.2f}"
+                            except (ValueError, TypeError):
+                                pass
+                                
+                        error_rate_value = metricas_24h.get("error_rate")
+                        if error_rate_value is not None:
+                            try:
+                                resposta_estruturada["resposta"] += f", Erros: {float(error_rate_value):.2f}%"
+                            except (ValueError, TypeError):
+                                pass
             
             # Instrução final
             resposta_estruturada["resposta"] += "\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações."

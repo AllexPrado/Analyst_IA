@@ -1,13 +1,16 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api', // Usa o proxy configurado no vite.config.js para direcionar para http://localhost:8000
+  baseURL: 'http://localhost:8000/api', // Aponta diretamente para o backend real
   timeout: 90000, // Aumentado para 90 segundos para permitir respostas da IA
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   }
 })
+// Novo endpoint: dados avançados por entidade
+export const getDadosAvancadosEntidade = (guid, period = '7d') =>
+  handleApiResponse(api.get(`/entidade/${guid}/dados_avancados?period=${period}`))
 
 // Função utilitária para tratar respostas e erros
 const handleApiResponse = async (promise) => {
@@ -15,11 +18,28 @@ const handleApiResponse = async (promise) => {
     const response = await promise
     if (response.data && response.data.erro) {
       // Backend retornou erro explícito
+      console.warn('Backend retornou erro:', response.data.mensagem)
       return { erro: true, mensagem: response.data.mensagem || 'Dados indisponíveis no momento.' }
     }
     return response.data
   } catch (error) {
     // Erro de rede, timeout ou backend fora
+    console.error('Erro na API:', error)
+    
+    // Se é erro de conexão (backend não está rodando)
+    if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
+      return { erro: true, mensagem: 'Backend não está em execução. Inicie o backend na porta 8000.' }
+    }
+    
+    if (error.code === 'ECONNABORTED') {
+      return { erro: true, mensagem: 'Timeout na requisição. Tente novamente.' }
+    }
+    if (error.response?.status === 404) {
+      return { erro: true, mensagem: 'Endpoint não encontrado no backend.' }
+    }
+    if (error.response?.status === 500) {
+      return { erro: true, mensagem: 'Erro interno do servidor. Verifique os logs do backend.' }
+    }
     return { erro: true, mensagem: error?.response?.data?.mensagem || 'Erro ao acessar dados do backend.' }
   }
 }

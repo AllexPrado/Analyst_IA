@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Header, Request
+from fastapi import APIRouter, HTTPException, Depends, Header, Request, Query
 import logging
 import os
 import json
@@ -6,6 +6,10 @@ import random
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Any
+from datetime import datetime
+import aiohttp
+
+from utils.newrelic_advanced_collector import get_entity_advanced_data, get_all_entities
 
 # Configurar o logger
 logger = logging.getLogger(__name__)
@@ -429,3 +433,21 @@ async def get_resumo_geral():
     except Exception as e:
         logger.error(f"Erro ao obter resumo geral: {e}")
         raise HTTPException(status_code=500, detail=f"Erro interno ao obter resumo geral: {str(e)}")
+
+# Endpoint para dados avançados por GUID
+@api_router.get("/entidade/{guid}/dados_avancados", tags=["entidades"])
+async def dados_avancados_entidade(guid: str, period: str = Query("7d", description="Período NRQL: 30min, 3h, 24h, 7d, 30d")):
+    """
+    Retorna os dados avançados reais do New Relic para uma entidade pelo GUID.
+    """
+    try:
+        async with aiohttp.ClientSession() as session:
+            entidades = await get_all_entities(session)
+            entidade = next((e for e in entidades if e.get("guid") == guid), None)
+            if not entidade:
+                raise HTTPException(status_code=404, detail=f"Entidade com guid {guid} não encontrada no New Relic")
+            dados = await get_entity_advanced_data(entidade, period, session=session)
+            return {"guid": guid, "entidade": entidade, "dados_avancados": dados, "periodo": period, "timestamp": datetime.now().isoformat()}
+    except Exception as e:
+        logger.error(f"Erro ao coletar dados avançados para guid {guid}: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao coletar dados avançados: {e}")

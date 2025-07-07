@@ -1,3 +1,4 @@
+
 import os
 import logging
 from typing import Dict, List, Any, Optional
@@ -9,8 +10,15 @@ import random
 import time
 import json
 import traceback
+# Importa utilitário centralizado
+from utils.newrelic_common import (
+    execute_nrql_query_common,
+    execute_graphql_query_common,
+    log_info, log_warning, log_error
+)
 
 load_dotenv()
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -23,8 +31,9 @@ if not logger.hasHandlers():
 NEW_RELIC_API_KEY = os.getenv("NEW_RELIC_API_KEY")
 NEW_RELIC_ACCOUNT_ID = os.getenv("NEW_RELIC_ACCOUNT_ID")
 
+
 if not NEW_RELIC_API_KEY or not NEW_RELIC_ACCOUNT_ID:
-    logger.critical("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
+    log_error("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
     raise RuntimeError("NEW_RELIC_API_KEY e NEW_RELIC_ACCOUNT_ID são obrigatórios!")
 
 # Log para confirmar que as credenciais foram carregadas corretamente
@@ -173,158 +182,27 @@ class NewRelicCollector:
     
     async def execute_nrql_query(self, query: str, timeout: int = 120) -> Dict:
         """
-        Executa query NRQL com rate limiting inteligente, circuit breaker e retry adaptativo
+        Executa query NRQL usando utilitário centralizado.
         """
-        max_retries = 5
-        
-        for attempt in range(max_retries):
-            try:
-                # Circuit breaker e rate limiting
-                await self.rate_controller.wait_if_needed()
-                
-                logger.info(f"Executando NRQL query (tentativa {attempt + 1}/{max_retries}): {query[:100]}...")
-                
-                # Preparar request GraphQL
-                headers = {
-                    'Api-Key': self.api_key,
-                    'Content-Type': 'application/json'
-                }
-                
-                graphql_query = f"""
-                {{
-                  actor {{
-                    account(id: {self.account_id}) {{
-                      nrql(query: \"\"\"{query}\"\"\") {{
-                        results
-                      }}
-                    }}
-                  }}
-                }}
-                """
-                
-                async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=timeout + 10)) as session:
-                    async with session.post(self.base_url, headers=headers, json={"query": graphql_query}) as response:
-                        response_text = await response.text()
-                        
-                        if response.status == 200:
-                            try:
-                                data = json.loads(response_text)
-                                
-                                # Verifica se há erros na resposta GraphQL
-                                if "errors" in data:
-                                    errors = data["errors"]
-                                    error_msg = str(errors)
-                                    logger.error(f"Erro GraphQL: {error_msg}")
-                                    
-                                    # Verifica se é rate limit específico
-                                    if any("TOO_MANY_REQUESTS" in str(err) or "NRDB:1106924" in str(err) for err in errors):
-                                        logger.warning(f"Rate limit detectado nos erros GraphQL. Tentativa {attempt + 1}/{max_retries}")
-                                        self.rate_controller.record_failure(is_rate_limit=True)
-                                        if attempt < max_retries - 1:
-                                            # Backoff exponencial com jitter para rate limit
-                                            backoff_time = min((3 ** attempt) + random.uniform(0, 2), 300)
-                                            logger.info(f"Aguardando {backoff_time:.2f}s antes da próxima tentativa...")
-                                            await asyncio.sleep(backoff_time)
-                                            continue
-                                    else:
-                                        self.rate_controller.record_failure()
-                                        
-                                    raise Exception(f"Erro GraphQL: {error_msg}")
-                                
-                                # Extrai os resultados
-                                actor = data.get("data", {}).get("actor")
-                                if not actor:
-                                    raise Exception("Resposta sem 'actor'")
-                                
-                                account = actor.get("account")
-                                if not account:
-                                    raise Exception("Resposta sem 'account'")
-                                
-                                nrql_result = account.get("nrql")
-                                if not nrql_result:
-                                    raise Exception("Resposta sem 'nrql'")
-                                
-                                results = nrql_result.get("results", [])
-                                
-                                # Sucesso!
-                                self.rate_controller.record_success()
-                                self.last_successful_request = datetime.now().isoformat()
-                                
-                                logger.debug(f"NRQL executado com sucesso. Resultados: {len(results)}")
-                                return {"results": results}
-                            
-                            except json.JSONDecodeError as e:
-                                logger.error(f"Erro ao decodificar JSON: {e}")
-                                self.rate_controller.record_failure()
-                                raise Exception(f"Resposta inválida da API do New Relic: {e}")
-                        
-                        elif response.status == 429:
-                            # Rate limit detectado
-                            logger.error(f"Rate limit atingido (429). Headers: {dict(response.headers)}")
-                            self.rate_controller.record_failure(is_rate_limit=True)
-                            
-                            # Busca reset time no header se disponível
-                            reset_header = response.headers.get('X-RateLimit-Reset')
-                            if reset_header:
-                                reset_time = int(reset_header)
-                                wait_time = max(reset_time - int(time.time()), 60)  # Mínimo 1 minuto
-                                logger.warning(f"Rate limit reset em {wait_time}s")
-                                if attempt < max_retries - 1:
-                                    await asyncio.sleep(min(wait_time, 300))  # Máximo 5 minutos
-                                    continue
-                            else:
-                                # Backoff exponencial padrão para rate limit
-                                if attempt < max_retries - 1:
-                                    backoff_time = min(60 * (2 ** attempt), 300)  # Máximo 5 minutos
-                                    logger.warning(f"Rate limit: aguardando {backoff_time}s (tentativa {attempt + 1})")
-                                    await asyncio.sleep(backoff_time)
-                                    continue
-                        
-                        elif response.status in [403, 401]:
-                            logger.error(f"Erro de autenticação/autorização ({response.status}): {response_text[:500]}")
-                            self.rate_controller.record_failure()
-                            raise Exception(f"Erro de autenticação New Relic API: {response.status}")
-                        
-                        elif response.status >= 500:
-                            # Erro do servidor - retry com backoff
-                            logger.error(f"Erro do servidor New Relic ({response.status}): {response_text[:500]}")
-                            self.rate_controller.record_failure()
-                            
-                            if attempt < max_retries - 1:
-                                backoff_time = min(5 * (2 ** attempt), 60)  # Máximo 1 minuto para erros de servidor
-                                logger.info(f"Erro de servidor: aguardando {backoff_time}s antes de retry")
-                                await asyncio.sleep(backoff_time)
-                                continue
-                        
-                        else:
-                            logger.error(f"Erro HTTP não tratado ({response.status}): {response_text[:500]}")
-                            self.rate_controller.record_failure()
-                            
-                            if attempt < max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)  # Backoff simples
-                                continue
-            
-            except asyncio.TimeoutError:
-                logger.error(f"Timeout na query NRQL (tentativa {attempt + 1})")
-                self.rate_controller.record_failure()
-                if attempt < max_retries - 1:
-                    await asyncio.sleep(5 * (attempt + 1))
-                    continue
-                    
-            except Exception as e:
-                if "Circuit breaker OPEN" in str(e):
-                    # Re-raise circuit breaker exceptions
-                    raise e
-                    
-                logger.error(f"Erro inesperado na query NRQL (tentativa {attempt + 1}): {e}")
-                self.rate_controller.record_failure()
-                if attempt < max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-        
-        # Todas as tentativas falharam
-        logger.error(f"Query NRQL falhou após {max_retries} tentativas: {query[:100]}")
-        raise Exception(f"Falha completa na query NRQL após {max_retries} tentativas")
+        graphql_query = f"""
+        {{
+          actor {{
+            account(id: {self.account_id}) {{
+              nrql(query: \"\"\"{query}\"\"\") {{
+                results
+              }}
+            }}
+          }}
+        }}
+        """
+        return await execute_nrql_query_common(
+            graphql_query,
+            headers={'Api-Key': self.api_key, 'Content-Type': 'application/json'},
+            url=self.base_url,
+            timeout=timeout,
+            max_retries=5,
+            retry_delay=5.0
+        )
     
     async def collect_entities(self) -> List[Dict]:
         """

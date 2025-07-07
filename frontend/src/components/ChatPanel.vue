@@ -1,21 +1,35 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-900">
     <div class="w-full max-w-6xl mx-auto rounded-2xl shadow-2xl bg-gray-900 text-white p-0 md:p-6 flex flex-col h-screen">
-      <div class="flex-shrink-0 px-6 pt-6 pb-3 border-b border-gray-800">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center">
-            <font-awesome-icon icon="robot" class="text-blue-400 text-xl mr-3" />
-            <h2 class="text-2xl font-bold">Chat IA - Painel Unificado</h2>
-          </div>
-          <div>
-            <button class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg text-sm flex items-center" @click="limparConversa">
-              <font-awesome-icon icon="trash" class="mr-2" />
-              Limpar conversa
-            </button>
-          </div>
+      <!-- Filtro de período e ações globais -->
+      <div class="flex flex-wrap gap-4 px-6 pt-6 pb-3 border-b border-gray-800 items-end">
+        <div class="flex items-center">
+          <font-awesome-icon icon="robot" class="text-blue-400 text-xl mr-3" />
+          <h2 class="text-2xl font-bold">Chat IA - Painel Unificado</h2>
         </div>
-        <p class="text-gray-400 text-sm mb-0">Análise completa: entidades, métricas, logs, incidentes, dashboards e alertas em tempo real</p>
+        <div class="flex-1"></div>
+        <div>
+          <label class="block text-gray-300 text-xs mb-1">Período</label>
+          <select v-model="periodoSelecionado" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white">
+            <option value="24h">Últimas 24h</option>
+            <option value="7d">Últimos 7 dias</option>
+            <option value="30d">Últimos 30 dias</option>
+          </select>
+        </div>
+        <div>
+          <button class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg text-sm flex items-center" @click="carregarEntidades">
+            <font-awesome-icon icon="sync" class="mr-2" />
+            Atualizar entidades
+          </button>
+        </div>
+        <div>
+          <button class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg text-sm flex items-center" @click="limparConversa">
+            <font-awesome-icon icon="trash" class="mr-2" />
+            Limpar conversa
+          </button>
+        </div>
       </div>
+      <p class="text-gray-400 text-sm mb-0 px-6">Análise completa: entidades, métricas, logs, incidentes, dashboards e alertas em tempo real</p>
       <div class="flex-1 overflow-y-auto px-4 py-4" ref="chatHistory" style="scroll-behavior: smooth;">
         <div v-if="mensagens.length === 0" class="flex flex-col items-center justify-center h-full text-gray-400">
           <font-awesome-icon icon="comment-dots" class="text-5xl mb-5 text-blue-400" />
@@ -59,7 +73,17 @@
               <div :class="`px-5 py-3 rounded-2xl max-w-full w-full shadow ${mensagem.erro ? 'bg-red-900 border border-red-800' : 'bg-gray-700'}`">
                 <div v-if="!mensagem.erro" class="text-white">
                   <div v-html="formatarResposta(mensagem.texto)"></div>
-                  <!-- Exibição de dados automáticos removida do chat. O chat agora exibe apenas respostas diretas da IA para o usuário. -->
+                  <!-- Botões de ação para casos especiais como limite de tokens -->
+                  <div v-if="mensagem.mostrarBotoesAcao" class="mt-3 space-y-2">
+                    <button @click="resetarLimiteTokens" 
+                      class="block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded transition-colors text-sm">
+                      🔄 Resetar limite de tokens
+                    </button>
+                    <button @click="limparConversa" 
+                      class="block w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors text-sm">
+                      🗑️ Limpar conversa e começar de novo
+                    </button>
+                  </div>
                 </div>
                 <p class="text-red-300 font-semibold" v-else>{{ mensagem.texto || 'Ocorreu um erro ao obter resposta do backend. Nenhum dado real disponível.' }}</p>
                 <div class="text-right mt-1">
@@ -101,9 +125,10 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
-import { getChatResposta, getStatus } from '../api/backend.js'
+import { getChatResposta, getStatus, getEntidades, getDadosAvancadosEntidade } from '../api/backend.js'
 import axios from 'axios'
 import { marked } from 'marked'
 
@@ -112,13 +137,36 @@ const mensagens = ref([])
 const carregando = ref(false)
 const chatHistory = ref(null)
 
+
 // Sugestões predefinidas para ajudar usuários não técnicos
 const sugestoesPredefinidas = [
-  "Qual o status atual do sistema?",
-  "Mostre os principais alertas de hoje",
-  "Como está o desempenho da aplicação?",
-  "Quais métricas estão críticas?"
+  "Qual o status atual do sistema e principais riscos?",
+  "Quais são os KPIs mais críticos que preciso acompanhar?",
+  "Há algum incidente afetando nossos clientes?",
+  "Como está a performance comparada ao mês passado?",
+  "Quais ações devo tomar para melhorar a disponibilidade?",
+  "Mostre um resumo executivo da situação atual"
 ]
+
+// Estado para entidades e período
+const entidades = ref([])
+const entidadeSelecionada = ref('')
+const periodoSelecionado = ref('7d')
+
+// Carregar entidades do backend
+const carregarEntidades = async () => {
+  try {
+    const lista = await getEntidades()
+    if (Array.isArray(lista)) {
+      entidades.value = lista
+      if (lista.length > 0 && !entidadeSelecionada.value) {
+        entidadeSelecionada.value = lista[0].guid
+      }
+    }
+  } catch (e) {
+    // Silencioso, pode exibir erro se necessário
+  }
+}
 
 // Dados iniciais do contexto para garantir que interface não está vazia
 const contexto = ref({
@@ -193,65 +241,64 @@ const getColorClass = (valor, tipo) => {
   }
 }
 
+
 const enviarPergunta = async (texto) => {
   if (!texto.trim()) return
-  
+
   // Obtém a data e hora atual
   const agora = new Date()
   const formatoHora = new Intl.DateTimeFormat('pt-BR', {
     hour: '2-digit',
     minute: '2-digit'
   }).format(agora)
-  
-  // Adiciona a pergunta do usuário com timestamp
+
   mensagens.value.push({
     tipo: 'pergunta',
     texto: texto.trim(),
     timestamp: formatoHora
   })
-  
-  // Adiciona um placeholder para a resposta com indicador de carregamento
+
   mensagens.value.push({
     tipo: 'resposta',
     texto: '',
     carregando: true
   })
-  
-  // Limpa o campo de pergunta e esconde sugestões após o primeiro uso
+
   pergunta.value = ''
   carregando.value = true
-  
-  // Rola para o final do chat
+
   await nextTick()
   if (chatHistory.value) {
     chatHistory.value.scrollTop = chatHistory.value.scrollHeight
   }
 
   try {
-    // Chamada real à API
-    const data = await getChatResposta(texto.trim())
+    // Busca dados avançados de todas as entidades para contexto global
+    let contextoGlobal = { entidades: [] }
+    for (const ent of entidades.value) {
+      const dados = await getDadosAvancadosEntidade(ent.guid, periodoSelecionado.value)
+      contextoGlobal.entidades.push({ guid: ent.guid, name: ent.name, ...dados })
+    }
+    // Envia contexto como objeto para o backend
+    const data = await getChatResposta(texto.trim(), { contexto: contextoGlobal })
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    // Log de depuração para inspecionar o contexto recebido
     console.log('Resposta do backend:', data)
-    
+
     if (data && !data.erro) {
       ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.'
       ultimaMensagem.carregando = false
-      
-      // Processar o contexto recebido e extrair informações relevantes
+
       if (data.contexto) {
         contexto.value = {
           ...contexto.value,
           ...data.contexto,
           atualizadoEm: new Date(data.contexto.atualizadoEm || new Date())
         }
-        // Extrair entidades detalhadas, se disponíveis no contexto
         ultimaMensagem.entidadesDetalhadas = Array.isArray(data.contexto.entidades) ? data.contexto.entidades : []
         ultimaMensagem.logsDetalhados = Array.isArray(data.contexto.logs) ? data.contexto.logs : []
         ultimaMensagem.incidentesDetalhados = Array.isArray(data.contexto.incidentes) ? data.contexto.incidentes : []
         ultimaMensagem.dashboardsDetalhados = Array.isArray(data.contexto.dashboards) ? data.contexto.dashboards : []
         ultimaMensagem.alertasDetalhados = Array.isArray(data.contexto.alertas) ? data.contexto.alertas : []
-        // Extrair resumo de métricas, se disponível
         if (data.contexto.metricas || data.contexto.resumo) {
           ultimaMensagem.resumoMetricas = {
             disponibilidade: data.contexto.disponibilidade || data.contexto.metricas?.disponibilidade,
@@ -262,9 +309,41 @@ const enviarPergunta = async (texto) => {
         }
       }
     } else {
-      ultimaMensagem.texto = data?.mensagem || 'Erro ao obter resposta da IA.'
+      ultimaMensagem.texto = `
+        <div class="bg-red-900/30 border border-red-600 rounded-lg p-4 mt-2">
+          <h4 class="font-semibold text-red-300 mb-2">🚫 Serviço indisponível</h4>
+          <p class="text-red-200 mb-3">${data?.mensagem || 'O Chat IA não conseguiu processar sua pergunta. Verifique se o backend está funcionando.'}</p>
+          <div class="text-sm text-red-300">
+            <p><strong>Possíveis causas:</strong></p>
+            <ul class="list-disc ml-4 mt-1">
+              <li>Backend não está em execução na porta 8000</li>
+              <li>Erro de conectividade com a API</li>
+              <li>Serviço de IA temporariamente indisponível</li>
+            </ul>
+            <button onclick="location.reload()" 
+              class="mt-3 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors">
+              🔄 Recarregar página
+            </button>
+          </div>
+        </div>
+      `
       ultimaMensagem.carregando = false
       ultimaMensagem.erro = true
+
+      if (data?.mensagem && data.mensagem.includes('context_length_exceeded')) {
+        ultimaMensagem.texto = `
+          <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 mt-2">
+            <h4 class="font-semibold text-yellow-300 mb-2">⚠️ Limite de tokens excedido</h4>
+            <p class="text-yellow-200 mb-3">A conversa ficou muito longa para o modelo processar. Você pode:</p>
+            <div class="space-y-2 text-sm">
+              <button onclick="window.limparConversa()" 
+                class="block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded transition-colors">
+                🗑️ Limpar conversa e começar de novo
+              </button>
+            </div>
+          </div>
+        `
+      }
     }
   } catch (error) {
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
@@ -387,16 +466,20 @@ const carregarDados = async () => {
 }
 
 // Inicializa com mensagem de boas-vindas
+
 onMounted(async () => {
+  // Expor função globalmente para botões inline
+  window.limparConversa = limparConversa
+  await carregarEntidades()
+  // Busca mensagem inicial e contexto do backend para garantir atualização
   try {
-    // Sempre busca mensagem inicial e contexto do backend para garantir atualização
-    const data = await getChatResposta('mensagem_inicial')
+    let contextoAvancado = null
+    if (entidadeSelecionada.value) {
+      contextoAvancado = await getDadosAvancadosEntidade(entidadeSelecionada.value, periodoSelecionado.value)
+    }
+    const data = await getChatResposta('mensagem_inicial', contextoAvancado)
     if (data && data.resposta) {
-      // Sempre insere a mensagem inicial como primeira resposta, sobrescrevendo qualquer histórico local
-      mensagens.value = [{
-        tipo: 'resposta',
-        texto: data.resposta
-      }]
+      mensagens.value = [{ tipo: 'resposta', texto: data.resposta }]
       if (data.contexto) {
         contexto.value = {
           ...contexto.value,
@@ -404,12 +487,17 @@ onMounted(async () => {
           atualizadoEm: new Date()
         }
       }
-      // Salva imediatamente o novo histórico sobrescrito
       localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
     } else {
       mensagens.value = [{
         tipo: 'resposta',
-        texto: 'Não foi possível obter a mensagem inicial do backend.',
+        texto: `
+          <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4">
+            <h4 class="font-semibold text-yellow-300 mb-2">⚠️ Backend indisponível</h4>
+            <p class="text-yellow-200 mb-3">Não foi possível conectar ao backend. Verifique se o serviço está rodando na porta 8000.</p>
+            <p class="text-yellow-200 text-sm">O Chat IA ficará disponível assim que o backend for iniciado.</p>
+          </div>
+        `,
         erro: true
       }]
       localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
@@ -417,13 +505,22 @@ onMounted(async () => {
   } catch (error) {
     mensagens.value = [{
       tipo: 'resposta',
-      texto: 'Erro ao carregar mensagem inicial do backend.',
+      texto: `
+        <div class="bg-red-900/30 border border-red-600 rounded-lg p-4">
+          <h4 class="font-semibold text-red-300 mb-2">🚫 Erro de conexão</h4>
+          <p class="text-red-200 mb-3">Não foi possível carregar a mensagem inicial do backend.</p>
+          <p class="text-red-200 text-sm"><strong>Erro:</strong> ${error.message}</p>
+          <button onclick="location.reload()" 
+            class="mt-3 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm transition-colors">
+            🔄 Tentar novamente
+          </button>
+        </div>
+      `,
       erro: true
     }]
     localStorage.setItem('chatHistory', JSON.stringify(mensagens.value))
     console.error('Erro ao carregar mensagem inicial:', error)
   }
-  // Carrega dados iniciais quando o componente for montado
   carregarDados()
 })
 

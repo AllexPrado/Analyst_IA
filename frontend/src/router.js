@@ -1,25 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import VisaoGeral from './components/pages/VisaoGeral.vue'
-import Cobertura from './components/pages/Cobertura.vue'
-import Kpis from './components/pages/Kpis.vue'
-import Tendencias from './components/pages/Tendencias.vue'
-import Insights from './components/pages/Insights.vue'
-import CoreInteligentePanel from './components/CoreInteligentePanel.vue'
-import ChatPanel from './components/ChatPanel.vue'
-
-import DiagnosticoCompleto from './components/pages/DiagnosticoCompleto.vue'
-import Relacionamentos from './components/pages/Relacionamentos.vue'
+import ExecutiveDashboard from './components/pages/ExecutiveDashboard.vue'
+import OperationalDashboard from './components/pages/OperationalDashboard.vue'
+import ChatIA from './components/ChatPanel.vue'
 
 const routes = [
-  { path: '/', name: 'VisaoGeral', component: VisaoGeral },
-  { path: '/cobertura', name: 'Cobertura', component: Cobertura },
-  { path: '/kpis', name: 'KPIs', component: Kpis },
-  { path: '/tendencias', name: 'Tendencias', component: Tendencias },
-  { path: '/insights', name: 'Insights', component: Insights },
-  { path: '/diagnostico', name: 'DiagnosticoCompleto', component: DiagnosticoCompleto },
-  { path: '/relacionamentos', name: 'Relacionamentos', component: Relacionamentos },
-  { path: '/core-inteligente', name: 'CoreInteligente', component: CoreInteligentePanel },
-  { path: '/chat', name: 'ChatIA', component: ChatPanel },
+  { path: '/', name: 'Executive', component: ExecutiveDashboard },
+  { path: '/operational', name: 'Operational', component: OperationalDashboard },
+  { path: '/chat', name: 'ChatIA', component: ChatIA },
 ]
 
 const router = createRouter({
