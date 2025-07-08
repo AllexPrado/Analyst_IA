@@ -281,21 +281,33 @@ async def generate_chat_response(pergunta: str) -> Dict:
         for entidade in entidades:
             # Verificação robusta do tipo de dados de métricas
             metricas_raw = entidade.get("metricas", {})
-            
-            # Se metricas_raw não for um dict, tenta converter ou ignora
+            # Se metricas_raw não for um dict, tenta converter de string JSON ou ignora
             if not isinstance(metricas_raw, dict):
-                logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas no formato incorreto: {type(metricas_raw)}")
-                continue
-                
+                if isinstance(metricas_raw, str):
+                    try:
+                        metricas_raw = json.loads(metricas_raw)
+                        logger.warning(f"Entidade {entidade.get('name', 'unknown')} tinha metricas como string, convertido via json.loads.")
+                    except Exception as e:
+                        logger.error(f"Entidade {entidade.get('name', 'unknown')} tem metricas em formato string inválido: {metricas_raw} - {e}")
+                        continue
+                else:
+                    logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas no formato incorreto: {type(metricas_raw)}")
+                    continue
             # Acessa as métricas de 24h de forma segura
             metricas_24h = metricas_raw.get("24h", {})
             if not isinstance(metricas_24h, dict):
-                logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas 24h no formato incorreto: {type(metricas_24h)}")
-                continue
-                
+                if isinstance(metricas_24h, str):
+                    try:
+                        metricas_24h = json.loads(metricas_24h)
+                        logger.warning(f"Entidade {entidade.get('name', 'unknown')} tinha metricas['24h'] como string, convertido via json.loads.")
+                    except Exception as e:
+                        logger.error(f"Entidade {entidade.get('name', 'unknown')} tem metricas['24h'] em formato string inválido: {metricas_24h} - {e}")
+                        continue
+                else:
+                    logger.warning(f"Entidade {entidade.get('name', 'unknown')} tem métricas 24h no formato incorreto: {type(metricas_24h)}")
+                    continue
             # Processa as métricas de forma segura
             tem_metricas = False
-            
             # Processa Apdex
             apdex_value = metricas_24h.get("apdex")
             if apdex_value is not None:
@@ -305,7 +317,6 @@ async def generate_chat_response(pergunta: str) -> Dict:
                     tem_metricas = True
                 except (ValueError, TypeError) as e:
                     logger.warning(f"Valor Apdex inválido para {entidade.get('name', 'unknown')}: {apdex_value} - {e}")
-            
             # Processa Error Rate
             error_rate_value = metricas_24h.get("error_rate")
             if error_rate_value is not None:
@@ -315,11 +326,10 @@ async def generate_chat_response(pergunta: str) -> Dict:
                     tem_metricas = True
                 except (ValueError, TypeError) as e:
                     logger.warning(f"Valor Error Rate inválido para {entidade.get('name', 'unknown')}: {error_rate_value} - {e}")
-            
             if tem_metricas:
                 entidades_com_metricas += 1
             # Coleta relacionamentos se existirem
-            if "dados_avancados" in entidade and "relationships" in entidade["dados_avancados"]:
+            if "dados_avancados" in entidade and isinstance(entidade["dados_avancados"], dict) and "relationships" in entidade["dados_avancados"]:
                 for rel in entidade["dados_avancados"]["relationships"]:
                     relacionamentos.append({
                         "origem": entidade.get("name"),
@@ -589,7 +599,87 @@ async def generate_chat_response(pergunta: str) -> Dict:
             # Instrução final
             resposta_estruturada["resposta"] += "\n\nPara uma análise mais específica, pergunte sobre métricas, performance, erros, status do sistema ou recomendações."
         
-        # Retornar resposta estruturada com contexto detalhado
+        # NOVA LÓGICA: Sempre gerar diagnóstico detalhado e cruzado se houver dados
+        resposta = []
+        resposta.append(f"Diagnóstico automático com base em {num_entidades} entidades monitoradas.")
+        if apdex_medio is not None or taxa_erro_media is not None:
+            resposta.append("\n**Métricas gerais:**")
+            if apdex_medio is not None:
+                resposta.append(f"- Apdex score médio: {apdex_medio:.2f}")
+            if taxa_erro_media is not None:
+                resposta.append(f"- Taxa de erro média: {taxa_erro_media:.2f}%")
+            if disponibilidade is not None:
+                resposta.append(f"- Disponibilidade estimada: {disponibilidade:.2f}%")
+
+        # Entidades em destaque
+        if entidades_relevantes:
+            resposta.append("\n**Entidades em destaque:**")
+            for entidade in entidades_relevantes:
+                nome = entidade.get("name", "Desconhecido")
+                tipo = entidade.get("tipo", "Desconhecido")
+                metricas_raw = entidade.get("metricas", {})
+                metricas_24h = {}
+                if isinstance(metricas_raw, dict):
+                    metricas_24h = metricas_raw.get("24h", {})
+                    if not isinstance(metricas_24h, dict):
+                        metricas_24h = {}
+                linha = f"- **{nome}** ({tipo})"
+                if metricas_24h:
+                    apdex_value = metricas_24h.get("apdex")
+                    if apdex_value is not None:
+                        try:
+                            linha += f", Apdex: {float(apdex_value):.2f}"
+                        except (ValueError, TypeError):
+                            pass
+                    error_rate_value = metricas_24h.get("error_rate")
+                    if error_rate_value is not None:
+                        try:
+                            linha += f", Erros: {float(error_rate_value):.2f}%"
+                        except (ValueError, TypeError):
+                            pass
+                resposta.append(linha)
+
+        # Resumo de incidentes
+        if resposta_estruturada["incidentes"]:
+            resposta.append(f"\n**Incidentes recentes:** ({len(resposta_estruturada['incidentes'])})")
+            for inc in resposta_estruturada["incidentes"][:3]:
+                titulo = inc.get("title") or inc.get("name") or str(inc)[:60]
+                status = inc.get("status", "?")
+                severidade = inc.get("severity", inc.get("priority", "?"))
+                resposta.append(f"- {titulo} | Status: {status} | Severidade: {severidade}")
+
+        # Resumo de logs
+        if resposta_estruturada["logs"]:
+            resposta.append(f"\n**Logs recentes:** ({len(resposta_estruturada['logs'])})")
+            for log in resposta_estruturada["logs"][:3]:
+                msg = log.get("message") or log.get("log") or str(log)[:60]
+                level = log.get("level", "?")
+                resposta.append(f"- [{level}] {msg}")
+
+        # Resumo de alertas
+        if resposta_estruturada["alertas"]:
+            resposta.append(f"\n**Alertas ativos:** ({len(resposta_estruturada['alertas'])})")
+            for alerta in resposta_estruturada["alertas"][:3]:
+                nome = alerta.get("name") or alerta.get("policy_name") or str(alerta)[:60]
+                cond = alerta.get("condition_name", "?")
+                resposta.append(f"- {nome} | Condição: {cond}")
+
+        # Resumo de relacionamentos
+        if resposta_estruturada["relacionamentos"]:
+            resposta.append(f"\n**Relacionamentos mapeados:** {len(resposta_estruturada['relacionamentos'])}")
+
+        # Tendências, anomalias e estatísticas
+        if tendencias:
+            resposta.append("\n**Tendências:** " + ", ".join([f'{k}: {v:.2f}' for k,v in tendencias.items()]))
+        if anomalias:
+            resposta.append("\n**Anomalias detectadas:** " + "; ".join(anomalias))
+        if estatisticas:
+            resposta.append("\n**Estatísticas:** " + ", ".join([f'{k}: {v}' for k,v in estatisticas.items() if v is not None]))
+
+        # Instrução final
+        resposta.append("\nEsta análise foi gerada automaticamente cruzando dados de APM, Browser, logs, incidentes e alertas do New Relic. Para perguntas específicas, detalhe o que deseja analisar.")
+
+        resposta_estruturada["resposta"] = "\n".join(resposta)
         return resposta_estruturada
     
     except Exception as e:

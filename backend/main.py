@@ -1,4 +1,11 @@
 import os
+# Inicializa o agente New Relic manualmente no Windows
+try:
+    import newrelic.agent
+    newrelic.agent.initialize('newrelic.ini')
+    print("[NEWRELIC] Agente New Relic inicializado via código.")
+except ImportError:
+    print("[NEWRELIC] Pacote newrelic não encontrado. Monitoramento New Relic não será ativado.")
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -1254,3 +1261,8 @@ async def get_entidades():
         logger.error(f"Erro ao buscar entidades: {e}")
         logger.error(traceback.format_exc())
         return []
+
+if __name__ == "__main__":
+    import uvicorn
+    print("Iniciando API principal na porta 8000...")
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

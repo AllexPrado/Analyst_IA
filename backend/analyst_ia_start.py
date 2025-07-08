@@ -50,8 +50,13 @@ async def verificar_arquivo_cache():
         return False
     
     try:
-        with open(CACHE_FILE, 'r', encoding='utf-8') as f:
-            cache_data = json.load(f)
+        try:
+            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                cache_data = json.load(f)
+        except UnicodeDecodeError:
+            logger.warning(f"Arquivo de cache não está em UTF-8. Tentando latin-1: {CACHE_FILE}")
+            with open(CACHE_FILE, 'r', encoding='latin-1') as f:
+                cache_data = json.load(f)
         
         if not isinstance(cache_data, dict):
             logger.warning("Arquivo de cache existe, mas não é um dicionário válido")
@@ -94,8 +99,13 @@ async def verificar_chat_history():
         return False
     
     try:
-        with open(CHAT_HISTORY_FILE, 'r', encoding='utf-8') as f:
-            history_data = json.load(f)
+        try:
+            with open(CHAT_HISTORY_FILE, 'r', encoding='utf-8') as f:
+                history_data = json.load(f)
+        except UnicodeDecodeError:
+            logger.warning(f"Arquivo de histórico de chat não está em UTF-8. Tentando latin-1: {CHAT_HISTORY_FILE}")
+            with open(CHAT_HISTORY_FILE, 'r', encoding='latin-1') as f:
+                history_data = json.load(f)
         
         if not isinstance(history_data, list):
             logger.warning("Arquivo de histórico de chat existe, mas não é uma lista válida")

@@ -687,10 +687,12 @@ class ContextEnricher:
                     'num_erros_recentes': len([st for st in stacktraces_encontrados if st['entidade'] == nome_entidade])
                 })
         
-        # Adiciona alertas relacionados a erros
+        # Adiciona alertas relacionados a erros (robusto para tipos)
         alertas_erro = []
         for alerta in alertas:
-            if any(termo in alerta.get('nome', '').lower() for termo in ['erro', 'error', 'exception', 'falha', 'failure']):
+            if not isinstance(alerta, dict):
+                continue
+            if any(termo in (alerta.get('nome', '') or alerta.get('name', '') or '').lower() for termo in ['erro', 'error', 'exception', 'falha', 'failure']):
                 alertas_erro.append(alerta)
         
         # Ordena stacktraces e logs por timestamp (mais recentes primeiro)

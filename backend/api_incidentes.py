@@ -177,54 +177,57 @@ async def salvar_dados():
     except Exception as e:
         logger.error(f"Erro ao salvar dados: {e}")
 
+from utils.newrelic_advanced_collector import get_all_entities, get_entity_advanced_data
+
 @app.get("/incidentes")
 async def listar_incidentes():
-    """Lista todos os incidentes com dados completos"""
+    """Lista todos os incidentes com dados avançados reais de cada entidade relacionada"""
     await carregar_dados_do_disco()  # Garantir dados atualizados
     atualizar_resumo()  # Atualiza estatísticas de resumo
-    
-    # Incluir timestamp e resumo no retorno
-    return {
-        "incidentes": dados_incidentes["incidentes"],
-        "alertas": dados_incidentes["alertas"],
-        "timestamp": datetime.now().isoformat(),
-        "resumo": dados_incidentes["resumo"]
-    }
+    try:
+        async with aiohttp.ClientSession() as session:
+            entidades = await get_all_entities(session)
+            entidades_map = {e.get("guid"): e for e in entidades}
+            incidentes_avancados = []
+            for incidente in dados_incidentes["incidentes"]:
+                entidades_rel = []
+                for ent_assoc in dados_incidentes.get("entidades_associadas", {}).get(incidente["id"], []):
+                    guid = ent_assoc.get("guid")
+                    entidade = entidades_map.get(guid)
+                    if entidade:
+                        dados_avancados = await get_entity_advanced_data(entidade, "7d", session=session)
+                        entidades_rel.append({"guid": guid, "entidade": entidade, "dados_avancados": dados_avancados})
+                incidente_c = dict(incidente)
+                incidente_c["entidades_dados_avancados"] = entidades_rel
+                incidentes_avancados.append(incidente_c)
+            return {
+                "incidentes": incidentes_avancados,
+                "alertas": dados_incidentes["alertas"],
+                "timestamp": datetime.now().isoformat(),
+                "resumo": dados_incidentes["resumo"]
+            }
+    except Exception as e:
+        logger.error(f"Erro ao coletar dados avançados para incidentes: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao coletar dados avançados para incidentes: {e}")
 
 @app.get("/entidades")
 async def listar_entidades():
-    """Lista todas as entidades correlacionadas"""
-    await correlacionar_incidentes_entidades()  # Atualiza correlações
-    
-    # Validação para debug
-    logger.info(f"Entidades associadas: {len(dados_incidentes.get('entidades_associadas', {}))} associações")
-    
-    # Garantir que existem entidades
-    if not dados_incidentes.get("entidades_associadas"):
-        # Se não houver nenhuma associação, vamos criar uma associação manual para testes
-        entidades = await carregar_entidades_newrelic()
-        
-        if entidades and dados_incidentes["incidentes"]:
-            logger.info("Criando associação manual para fins de teste")
-            dados_incidentes["entidades_associadas"] = {}
-            
-            for i, incidente in enumerate(dados_incidentes["incidentes"]):
-                if i < len(entidades):
-                    dados_incidentes["entidades_associadas"][incidente["id"]] = [{
-                        "guid": entidades[i].get("guid", f"guid-test-{i}"),
-                        "name": entidades[i].get("name", incidente.get("impacted_service")),
-                        "type": entidades[i].get("type", "APPLICATION"),
-                        "domain": entidades[i].get("domain", "APM")
-                    }]
-    
-    resultado = {
-        "entidades": dados_incidentes.get("entidades_associadas", {}),
-        "timestamp": datetime.now().isoformat(),
-        "total": len(dados_incidentes.get("entidades_associadas", {}))
-    }
-    
-    logger.info(f"Retornando {resultado['total']} entidades associadas")
-    return resultado
+    """Lista todas as entidades do New Relic com dados avançados"""
+    try:
+        async with aiohttp.ClientSession() as session:
+            entidades = await get_all_entities(session)
+            entidades_avancadas = []
+            for entidade in entidades:
+                dados_avancados = await get_entity_advanced_data(entidade, "7d", session=session)
+                entidades_avancadas.append({"guid": entidade.get("guid"), "entidade": entidade, "dados_avancados": dados_avancados})
+            return {
+                "entidades": entidades_avancadas,
+                "timestamp": datetime.now().isoformat(),
+                "total": len(entidades_avancadas)
+            }
+    except Exception as e:
+        logger.error(f"Erro ao coletar entidades avançadas: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao coletar entidades avançadas: {e}")
 
 @app.get("/resumo")
 async def resumo_incidentes():
@@ -238,11 +241,27 @@ async def resumo_incidentes():
 
 @app.get("/analise/{incidente_id}")
 async def obter_analise_incidente(incidente_id: str):
-    """Fornece uma análise profunda de um incidente específico"""
-    await correlacionar_incidentes_entidades()  # Garantir correlações atualizadas
-    
-    analise = await analisar_causa_raiz(incidente_id)
-    return analise
+    """Fornece uma análise profunda de um incidente específico com dados avançados reais"""
+    try:
+        async with aiohttp.ClientSession() as session:
+            entidades = await get_all_entities(session)
+            entidades_map = {e.get("guid"): e for e in entidades}
+            entidades_associadas = dados_incidentes.get("entidades_associadas", {}).get(incidente_id, [])
+            metricas_entidades = []
+            for entidade in entidades_associadas:
+                guid = entidade.get("guid")
+                entidade_real = entidades_map.get(guid)
+                if entidade_real:
+                    dados_avancados = await get_entity_advanced_data(entidade_real, "7d", session=session)
+                    metricas_entidades.append({"guid": guid, "entidade": entidade_real, "dados_avancados": dados_avancados})
+            return {
+                "incidente_id": incidente_id,
+                "analise": metricas_entidades,
+                "timestamp": datetime.now().isoformat()
+            }
+    except Exception as e:
+        logger.error(f"Erro ao coletar análise avançada do incidente: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao coletar análise avançada do incidente: {e}")
 
 @app.get("/status-cache")
 async def status_cache():
@@ -330,11 +349,27 @@ async def correlacionar_incidentes_entidades():
 
 @app.get("/analise_causa_raiz/{incidente_id}")
 async def analise_causa_raiz(incidente_id: str):
-    """Analisa a causa raiz de um incidente específico usando dados do New Relic"""
-    resultado = await analisar_causa_raiz(incidente_id)
-    if "erro" in resultado:
-        raise HTTPException(status_code=400, detail=resultado["erro"])
-    return resultado
+    """Analisa a causa raiz de um incidente específico usando dados avançados reais do New Relic"""
+    try:
+        async with aiohttp.ClientSession() as session:
+            entidades = await get_all_entities(session)
+            entidades_map = {e.get("guid"): e for e in entidades}
+            entidades_associadas = dados_incidentes.get("entidades_associadas", {}).get(incidente_id, [])
+            metricas_entidades = []
+            for entidade in entidades_associadas:
+                guid = entidade.get("guid")
+                entidade_real = entidades_map.get(guid)
+                if entidade_real:
+                    dados_avancados = await get_entity_advanced_data(entidade_real, "7d", session=session)
+                    metricas_entidades.append({"guid": guid, "entidade": entidade_real, "dados_avancados": dados_avancados})
+            return {
+                "incidente_id": incidente_id,
+                "causa_raiz": metricas_entidades,
+                "timestamp": datetime.now().isoformat()
+            }
+    except Exception as e:
+        logger.error(f"Erro ao coletar causa raiz avançada do incidente: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao coletar causa raiz avançada do incidente: {e}")
 
 async def analisar_causa_raiz(incidente_id):
     """
@@ -580,6 +615,6 @@ def simular_metricas_entidade(entidade):
     }
 
 if __name__ == "__main__":
-    port = 8002
+    port = 8000
     print(f"Iniciando API de Incidentes na porta {port}...")
     uvicorn.run(app, host="0.0.0.0", port=port)
