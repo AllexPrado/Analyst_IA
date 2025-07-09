@@ -1758,5 +1758,50 @@
     "pergunta": "Quais endpoints apresentaram maior taxa de erro nas últimas 24h? Mostre logs, stacktrace, query, o que ela fazem, detalhe diagnostico completo",
     "resposta": "Ocorreu um erro ao analisar os dados de monitoramento. Por favor, verifique o cache e a coleta de dados.",
     "timestamp": "2025-07-08T00:42:44.558293"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-08T10:49:27.448169"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-08T10:49:39.954054"
+  },
+  {
+    "pergunta": "Sua pergunta aqui",
+    "resposta": "Ocorreu um erro ao analisar os dados de monitoramento. Por favor, verifique o cache e a coleta de dados.",
+    "timestamp": "2025-07-08T10:58:25.653508"
+  },
+  {
+    "pergunta": "Quais entidades estão sendo monitoradas?",
+    "resposta": "Ocorreu um erro ao analisar os dados de monitoramento. Por favor, verifique o cache e a coleta de dados.",
+    "timestamp": "2025-07-08T10:58:45.568525"
+  },
+  {
+    "pergunta": "Ola API",
+    "resposta": "Ocorreu um erro ao analisar os dados de monitoramento. Por favor, verifique o cache e a coleta de dados.",
+    "timestamp": "2025-07-08T18:56:22.804842"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-08T19:59:42.258137"
+  },
+  {
+    "pergunta": "Como está a performance comparada ao mês passado?",
+    "resposta": "Ocorreu um erro ao analisar os dados de monitoramento. Por favor, verifique o cache e a coleta de dados.",
+    "timestamp": "2025-07-08T20:00:40.596431"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-08T23:11:26.877699"
+  },
+  {
+    "pergunta": "mensagem_inicial",
+    "resposta": "👋 Olá! Sou o assistente virtual do Analyst_IA, especializado em monitoramento e análise de aplicações.\n\nPosso ajudar com informações sobre métricas, status do sistema, desempenho, erros, recomendações e análises técnicas ou executivas.\n\nComo posso ajudar você hoje?",
+    "timestamp": "2025-07-08T23:11:59.768019"
   }
 ]
