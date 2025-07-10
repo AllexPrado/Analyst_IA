@@ -261,7 +261,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { getEntidades, getDadosAvancadosEntidade } from '../../api/backend.js'
+import { coletarNewRelic } from '../../api/agno.js'
 import SafeApexChart from '../SafeApexChart.vue'
 
 // Estado do componente
@@ -269,6 +269,7 @@ const carregando = ref(true)
 const erro = ref(false)
 const mensagemErro = ref('')
 const filtroLog = ref('ERROR')
+
 
 const entidades = ref([])
 const entidadeSelecionada = ref('')
@@ -433,50 +434,66 @@ const formatarTempo = (timestamp) => {
   }
 }
 
-// Carrega entidades e seleciona a primeira
+// Função utilitária para gerar um session_id único
+function gerarNovoSessionId() {
+  return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+}
+// session_id persistente por usuário
+let session_id = localStorage.getItem('session_id');
+if (!session_id) {
+  session_id = gerarNovoSessionId();
+  localStorage.setItem('session_id', session_id);
+}
+
+// Carrega entidades usando o endpoint correto do Agno
 const carregarEntidades = async () => {
-  carregando.value = true
+  carregando.value = true;
   try {
-    const lista = await getEntidades()
-    if (Array.isArray(lista)) {
-      entidades.value = lista
-      if (lista.length > 0 && !entidadeSelecionada.value) {
-        entidadeSelecionada.value = lista[0].guid
+    // Coleta todas as entidades monitoradas
+    const resp = await coletarNewRelic({ periodo: periodoSelecionado.value, tipo: 'entidades' });
+    if (resp && resp.dados && Array.isArray(resp.dados)) {
+      entidades.value = resp.dados;
+      if (resp.dados.length > 0 && !entidadeSelecionada.value) {
+        entidadeSelecionada.value = resp.dados[0].guid || resp.dados[0].id || resp.dados[0].name;
       }
+    } else {
+      erro.value = true;
+      mensagemErro.value = 'Nenhuma entidade encontrada.';
     }
   } catch (e) {
-    erro.value = true
-    mensagemErro.value = 'Erro ao carregar entidades.'
+    erro.value = true;
+    mensagemErro.value = 'Erro ao carregar entidades.';
   } finally {
-    carregando.value = false
+    carregando.value = false;
   }
 }
 
-// Carrega dados avançados da entidade selecionada
+// Carrega dados completos do backend para o dashboard operacional usando Agno
 const carregarDadosAvancados = async () => {
-  if (!entidadeSelecionada.value) return
-  carregando.value = true
-  erro.value = false
-  mensagemErro.value = ''
+  if (!entidadeSelecionada.value) return;
+  carregando.value = true;
+  erro.value = false;
+  mensagemErro.value = '';
   try {
-    const dados = await getDadosAvancadosEntidade(entidadeSelecionada.value, periodoSelecionado.value)
-    if (dados && !dados.erro) {
-      dadosAvancados.value = dados
-      entidadeInfo.value = dados.entidade
-      // KPIs e visão executiva
-      kpis.value = dados.kpis || dados.performance || {}
-      alertas.value = (dados.dados_avancados?.errors || []).filter(e => e.severity === 'critical' || e.severity === 'warning')
-      incidentes.value = dados.dados_avancados?.errors || []
-      logs.value = dados.dados_avancados?.logs || []
+    // Coletar métricas e dados avançados da entidade selecionada
+    const dadosResp = await coletarNewRelic({ entidade: entidadeSelecionada.value, periodo: periodoSelecionado.value, tipo: 'metricas' });
+    if (dadosResp && dadosResp.dados) {
+      dadosAvancados.value = dadosResp.dados;
+      // Exemplo: se dadosResp.dados traz alertas, incidentes, logs, etc
+      alertas.value = Array.isArray(dadosResp.dados.alertas) ? dadosResp.dados.alertas : [];
+      incidentes.value = Array.isArray(dadosResp.dados.incidentes) ? dadosResp.dados.incidentes : [];
+      logs.value = Array.isArray(dadosResp.dados.logs) ? dadosResp.dados.logs : [];
+      kpis.value = dadosResp.dados.metricas || {};
+      entidadeInfo.value = dadosResp.dados.entidade || null;
     } else {
-      erro.value = true
-      mensagemErro.value = dados?.mensagem || 'Dados indisponíveis para a entidade/período.'
+      erro.value = true;
+      mensagemErro.value = 'Dados indisponíveis para a entidade/período.';
     }
   } catch (e) {
-    erro.value = true
-    mensagemErro.value = 'Erro ao buscar dados avançados.'
+    erro.value = true;
+    mensagemErro.value = 'Erro ao buscar dados do backend.';
   } finally {
-    carregando.value = false
+    carregando.value = false;
   }
 }
 

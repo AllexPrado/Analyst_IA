@@ -170,7 +170,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { getResumoGeral, getStatus, getKPIs, getInsights } from '../../api/backend.js'
+import { coletarNewRelic } from '../../api/agno.js'
 import SafeApexChart from '../SafeApexChart.vue'
 
 // Estado do componente
@@ -179,40 +179,38 @@ const erro = ref(false)
 const mensagemErro = ref('')
 
 // Dados do dashboard
-const dadosResumo = ref(null)
-const dadosStatus = ref(null)
-const dadosKPIs = ref(null)
-const dadosInsights = ref(null)
+const dadosEntidades = ref([])
+const dadosMetricas = ref(null)
 
 // Computed properties para KPIs
 const statusSistema = computed(() => {
-  if (!dadosStatus.value) return 'UNKNOWN'
-  return dadosStatus.value.statusGeral || 'UNKNOWN'
+  if (!dadosMetricas.value) return 'UNKNOWN'
+  return dadosMetricas.value.statusGeral || 'UNKNOWN'
 })
 
 const disponibilidade = computed(() => {
-  if (!dadosStatus.value) return 0
-  return dadosStatus.value.disponibilidade || 0
+  if (!dadosMetricas.value) return 0
+  return dadosMetricas.value.disponibilidade || 0
 })
 
 const apdexMedio = computed(() => {
-  if (!dadosKPIs.value) return 'N/A'
-  return dadosKPIs.value.apdex_medio || 'N/A'
+  if (!dadosMetricas.value) return 'N/A'
+  return dadosMetricas.value.apdex_medio || 'N/A'
 })
 
 const incidentesCriticos = computed(() => {
-  if (!dadosResumo.value) return 0
-  return dadosResumo.value.severidade_critica || 0
+  if (!dadosMetricas.value) return 0
+  return dadosMetricas.value.severidade_critica || 0
 })
 
 const entidadesMonitoradas = computed(() => {
-  if (!dadosStatus.value) return 0
-  return dadosStatus.value.entidadesComMetricas || 0
+  if (!dadosEntidades.value) return 0
+  return dadosEntidades.value.length || 0
 })
 
 const totalEntidades = computed(() => {
-  if (!dadosStatus.value) return 0
-  return dadosStatus.value.totalEntidades || 0
+  if (!dadosEntidades.value) return 0
+  return dadosEntidades.value.length || 0
 })
 
 const coberturaPercentual = computed(() => {
@@ -223,12 +221,12 @@ const coberturaPercentual = computed(() => {
 })
 
 const insights = computed(() => {
-  if (!dadosInsights.value || !dadosInsights.value.recomendacoes) return []
-  return dadosInsights.value.recomendacoes
+  if (!dadosMetricas.value || !dadosMetricas.value.recomendacoes) return []
+  return dadosMetricas.value.recomendacoes
 })
 
 const diagnostico = computed(() => {
-  return dadosResumo.value || null
+  return dadosMetricas.value || null
 })
 
 // Configurações dos gráficos
@@ -296,53 +294,44 @@ const getPrioridadeClass = (prioridade) => {
   }
 }
 
-// Função para carregar dados
+// Função para carregar dados usando apenas o endpoint correto do Agno
 const carregarDados = async () => {
   carregando.value = true
   erro.value = false
   mensagemErro.value = ''
-
   try {
-    // Carrega dados em paralelo
-    const [resumo, status, kpis, insights] = await Promise.all([
-      getResumoGeral(),
-      getStatus(),
-      getKPIs(),
-      getInsights()
-    ])
-
-    // Verifica se há algum erro
-    const temErro = [resumo, status, kpis, insights].some(data => data && data.erro)
-    
-    if (temErro) {
-      erro.value = true
-      mensagemErro.value = 'Alguns dados não puderam ser carregados. Verifique se o backend está funcionando.'
+    // 1. Carregar entidades monitoradas
+    const entidadesResp = await coletarNewRelic({ periodo: '7d', tipo: 'entidades' })
+    if (entidadesResp && entidadesResp.dados && Array.isArray(entidadesResp.dados)) {
+      dadosEntidades.value = entidadesResp.dados
+    } else {
+      dadosEntidades.value = []
     }
 
-    // Armazena os dados (mesmo com alguns erros)
-    dadosResumo.value = resumo && !resumo.erro ? resumo : null
-    dadosStatus.value = status && !status.erro ? status : null
-    dadosKPIs.value = kpis && !kpis.erro ? kpis : null
-    dadosInsights.value = insights && !insights.erro ? insights : null
-
-    // Atualiza séries dos gráficos com dados reais se disponível
-    if (dadosKPIs.value && dadosKPIs.value.historico) {
+    // 2. Carregar métricas executivas gerais (pode ser por entidade ou geral)
+    // Aqui, para exemplo, pega a primeira entidade
+    let entidade = dadosEntidades.value[0]?.name || dadosEntidades.value[0]?.id || undefined
+    if (!entidade) entidade = undefined
+    const metricasResp = await coletarNewRelic({ entidade, periodo: '7d', tipo: 'metricas' })
+    if (metricasResp && metricasResp.dados) {
+      dadosMetricas.value = metricasResp.dados
       atualizarGraficos()
+    } else {
+      dadosMetricas.value = null
+      erro.value = true
+      mensagemErro.value = 'Métricas não disponíveis.'
     }
-
   } catch (error) {
-    console.error('Erro ao carregar dashboard executivo:', error)
     erro.value = true
     mensagemErro.value = 'Erro ao conectar com o backend. Verifique se o serviço está em execução.'
   } finally {
     carregando.value = false
   }
 }
-
 const atualizarGraficos = () => {
   // Atualiza gráficos com dados reais se disponível
-  if (dadosKPIs.value && dadosKPIs.value.historico) {
-    const historico = dadosKPIs.value.historico
+  if (dadosMetricas.value && dadosMetricas.value.historico) {
+    const historico = dadosMetricas.value.historico
     if (historico.apdex && historico.disponibilidade) {
       chartPerformanceSeries.value = [
         { name: 'Apdex', data: historico.apdex },
@@ -352,12 +341,11 @@ const atualizarGraficos = () => {
   }
 
   // Atualiza gráfico de alertas
-  if (dadosResumo.value) {
-    const criticos = dadosResumo.value.severidade_critica || 0
-    const total = dadosResumo.value.total_alertas || 0
+  if (dadosMetricas.value) {
+    const criticos = dadosMetricas.value.severidade_critica || 0
+    const total = dadosMetricas.value.total_alertas || 0
     const normais = Math.max(0, 100 - total)
     const alertas = Math.max(0, total - criticos)
-
     chartAlertasSeries.value = [criticos, alertas, normais]
   }
 }

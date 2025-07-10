@@ -128,8 +128,9 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
-import { getChatResposta, getStatus, getEntidades, getDadosAvancadosEntidade } from '../api/backend.js'
-import axios from 'axios'
+import { enviarMensagemChat } from '../api/agno.js'
+import { getStatus, getEntidades, getDadosAvancadosEntidade } from '../api/backend.js' // TODO: migrar para agno.js se aplicável
+// Use apenas axios via agno.js para garantir centralização de erros
 import { marked } from 'marked'
 
 const pergunta = ref('')
@@ -242,75 +243,101 @@ const getColorClass = (valor, tipo) => {
 }
 
 
+
+// Função utilitária para gerar um session_id único
+function gerarNovoSessionId() {
+  return 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+}
+
+// Função para obter o perfil do usuário (pode ser aprimorada conforme o sistema)
+function obterPerfilUsuario() {
+  // Exemplo: buscar do localStorage ou definir padrão
+  return localStorage.getItem('perfil_usuario') || 'tecnico';
+}
+
 const enviarPergunta = async (texto) => {
-  if (!texto.trim()) return
+  if (!texto.trim()) return;
 
   // Obtém a data e hora atual
-  const agora = new Date()
+  const agora = new Date();
   const formatoHora = new Intl.DateTimeFormat('pt-BR', {
     hour: '2-digit',
     minute: '2-digit'
-  }).format(agora)
+  }).format(agora);
 
   mensagens.value.push({
     tipo: 'pergunta',
     texto: texto.trim(),
     timestamp: formatoHora
-  })
+  });
 
   mensagens.value.push({
     tipo: 'resposta',
     texto: '',
     carregando: true
-  })
+  });
 
-  pergunta.value = ''
-  carregando.value = true
+  pergunta.value = '';
+  carregando.value = true;
 
-  await nextTick()
+  await nextTick();
   if (chatHistory.value) {
-    chatHistory.value.scrollTop = chatHistory.value.scrollHeight
+    chatHistory.value.scrollTop = chatHistory.value.scrollHeight;
   }
 
   try {
     // Busca dados avançados de todas as entidades para contexto global
-    let contextoGlobal = { entidades: [] }
+    let contextoGlobal = { entidades: [] };
     for (const ent of entidades.value) {
-      const dados = await getDadosAvancadosEntidade(ent.guid, periodoSelecionado.value)
-      contextoGlobal.entidades.push({ guid: ent.guid, name: ent.name, ...dados })
+      const dados = await getDadosAvancadosEntidade(ent.guid, periodoSelecionado.value);
+      contextoGlobal.entidades.push({ guid: ent.guid, name: ent.name, ...dados });
     }
-    // Envia contexto como objeto para o backend
-    const data = await getChatResposta(texto.trim(), { contexto: contextoGlobal })
-    const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    console.log('Resposta do backend:', data)
-
+    // session_id persistente por usuário
+    let session_id = localStorage.getItem('session_id');
+    if (!session_id) {
+      session_id = gerarNovoSessionId();
+      localStorage.setItem('session_id', session_id);
+    }
+    const perfil = obterPerfilUsuario();
+    // Envia contexto como objeto para o backend (ajustado para o padrão do backend)
+    // Monta payload apenas com campos definidos
+    const payload = {
+      mensagem: texto.trim(),
+      session_id,
+      perfil
+    };
+    if (contextoGlobal && contextoGlobal.entidades && contextoGlobal.entidades.length > 0) {
+      payload.contexto = contextoGlobal;
+    }
+    const data = await enviarMensagemChat(payload);
+    const ultimaMensagem = mensagens.value[mensagens.value.length - 1];
+    // Tratamento robusto de resposta
     if (data && !data.erro) {
-      ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.'
-      ultimaMensagem.carregando = false
-
+      ultimaMensagem.texto = data.resposta || 'Desculpe, não consegui processar sua pergunta.';
+      ultimaMensagem.carregando = false;
       if (data.contexto) {
         contexto.value = {
           ...contexto.value,
           ...data.contexto,
           atualizadoEm: new Date(data.contexto.atualizadoEm || new Date())
-        }
-        ultimaMensagem.entidadesDetalhadas = Array.isArray(data.contexto.entidades) ? data.contexto.entidades : []
-        ultimaMensagem.logsDetalhados = Array.isArray(data.contexto.logs) ? data.contexto.logs : []
-        ultimaMensagem.incidentesDetalhados = Array.isArray(data.contexto.incidentes) ? data.contexto.incidentes : []
-        ultimaMensagem.dashboardsDetalhados = Array.isArray(data.contexto.dashboards) ? data.contexto.dashboards : []
-        ultimaMensagem.alertasDetalhados = Array.isArray(data.contexto.alertas) ? data.contexto.alertas : []
+        };
+        ultimaMensagem.entidadesDetalhadas = Array.isArray(data.contexto.entidades) ? data.contexto.entidades : [];
+        ultimaMensagem.logsDetalhados = Array.isArray(data.contexto.logs) ? data.contexto.logs : [];
+        ultimaMensagem.incidentesDetalhados = Array.isArray(data.contexto.incidentes) ? data.contexto.incidentes : [];
+        ultimaMensagem.dashboardsDetalhados = Array.isArray(data.contexto.dashboards) ? data.contexto.dashboards : [];
+        ultimaMensagem.alertasDetalhados = Array.isArray(data.contexto.alertas) ? data.contexto.alertas : [];
         if (data.contexto.metricas || data.contexto.resumo) {
           ultimaMensagem.resumoMetricas = {
             disponibilidade: data.contexto.disponibilidade || data.contexto.metricas?.disponibilidade,
             apdex_medio: data.contexto.apdex_medio || data.contexto.metricas?.apdex_medio,
             taxa_erro_media: data.contexto.taxa_erro_media || data.contexto.metricas?.taxa_erro_media,
             total_entidades: data.contexto.totalEntidades || (Array.isArray(data.contexto.entidades) ? data.contexto.entidades.length : 0)
-          }
+          };
         }
       }
     } else {
-      ultimaMensagem.texto = `
-        <div class="bg-red-900/30 border border-red-600 rounded-lg p-4 mt-2">
+      ultimaMensagem.texto =
+        `<div class="bg-red-900/30 border border-red-600 rounded-lg p-4 mt-2">
           <h4 class="font-semibold text-red-300 mb-2">🚫 Serviço indisponível</h4>
           <p class="text-red-200 mb-3">${data?.mensagem || 'O Chat IA não conseguiu processar sua pergunta. Verifique se o backend está funcionando.'}</p>
           <div class="text-sm text-red-300">
@@ -320,41 +347,38 @@ const enviarPergunta = async (texto) => {
               <li>Erro de conectividade com a API</li>
               <li>Serviço de IA temporariamente indisponível</li>
             </ul>
-            <button onclick="location.reload()" 
-              class="mt-3 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors">
+            <button onclick=\"location.reload()\" 
+              class=\"mt-3 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors\">
               🔄 Recarregar página
             </button>
           </div>
-        </div>
-      `
-      ultimaMensagem.carregando = false
-      ultimaMensagem.erro = true
-
+        </div>`;
+      ultimaMensagem.carregando = false;
+      ultimaMensagem.erro = true;
       if (data?.mensagem && data.mensagem.includes('context_length_exceeded')) {
-        ultimaMensagem.texto = `
-          <div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 mt-2">
+        ultimaMensagem.texto =
+          `<div class="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 mt-2">
             <h4 class="font-semibold text-yellow-300 mb-2">⚠️ Limite de tokens excedido</h4>
             <p class="text-yellow-200 mb-3">A conversa ficou muito longa para o modelo processar. Você pode:</p>
             <div class="space-y-2 text-sm">
-              <button onclick="window.limparConversa()" 
-                class="block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded transition-colors">
+              <button onclick=\"window.limparConversa()\" 
+                class=\"block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded transition-colors\">
                 🗑️ Limpar conversa e começar de novo
               </button>
             </div>
-          </div>
-        `
+          </div>`;
       }
     }
   } catch (error) {
-    const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    ultimaMensagem.texto = error?.message || 'Erro inesperado ao processar sua pergunta.'
-    ultimaMensagem.carregando = false
-    ultimaMensagem.erro = true
+    const ultimaMensagem = mensagens.value[mensagens.value.length - 1];
+    ultimaMensagem.texto = error?.message || 'Erro inesperado ao processar sua pergunta.';
+    ultimaMensagem.carregando = false;
+    ultimaMensagem.erro = true;
   } finally {
-    carregando.value = false
-    await nextTick()
+    carregando.value = false;
+    await nextTick();
     if (chatHistory.value) {
-      chatHistory.value.scrollTop = chatHistory.value.scrollHeight
+      chatHistory.value.scrollTop = chatHistory.value.scrollHeight;
     }
   }
 }
@@ -396,46 +420,36 @@ const formatarDataHora = (data) => {
   })
 }
 
+import { resetTokenLimits } from '../api/agno.js'
 const resetarLimiteTokens = async () => {
   try {
-    // Adiciona mensagem informativa
     mensagens.value.push({
       tipo: 'resposta',
       texto: 'Resetando limite de tokens...',
       carregando: true
     })
-    
-    // Chama o endpoint para resetar tokens
-    const response = await axios.post('/api/limits/reset')
-    
-    // Atualiza mensagem com resultado
+    const response = await resetTokenLimits()
     const ultimaMensagem = mensagens.value[mensagens.value.length - 1]
-    if (response.data && response.data.sucesso) {
+    if (response && !response.erro) {
       ultimaMensagem.texto = 'Limite de tokens resetado com sucesso! Você já pode continuar usando o chat.'
       ultimaMensagem.carregando = false
       ultimaMensagem.erro = false
     } else {
-      ultimaMensagem.texto = `Erro ao resetar limite: ${response.data?.mensagem || 'Ocorreu um erro desconhecido'}`
+      ultimaMensagem.texto = `Erro ao resetar limite: ${response?.mensagem || 'Ocorreu um erro desconhecido'}`
       ultimaMensagem.carregando = false
       ultimaMensagem.erro = true
     }
-    
-    // Rola para o final do chat
     await nextTick()
     if (chatHistory.value) {
       chatHistory.value.scrollTop = chatHistory.value.scrollHeight
     }
   } catch (error) {
-    console.error("Erro ao resetar limite de tokens:", error)
-    
-    // Adiciona mensagem de erro
+    console.error('Erro ao resetar limite de tokens:', error)
     mensagens.value.push({
       tipo: 'resposta',
       texto: `Erro ao resetar limite de tokens: ${error.message || 'Erro desconhecido'}`,
       erro: true
     })
-    
-    // Rola para o final do chat
     await nextTick()
     if (chatHistory.value) {
       chatHistory.value.scrollTop = chatHistory.value.scrollHeight
@@ -477,7 +491,20 @@ onMounted(async () => {
     if (entidadeSelecionada.value) {
       contextoAvancado = await getDadosAvancadosEntidade(entidadeSelecionada.value, periodoSelecionado.value)
     }
-    const data = await getChatResposta('mensagem_inicial', contextoAvancado)
+    // Monta payload inicial para mensagem_inicial
+    let session_id = localStorage.getItem('session_id');
+    if (!session_id) {
+      session_id = gerarNovoSessionId();
+      localStorage.setItem('session_id', session_id);
+    }
+    const perfil = obterPerfilUsuario();
+    const payload = {
+      mensagem: 'mensagem_inicial',
+      session_id,
+      perfil
+    };
+    if (contextoAvancado) payload.contexto = contextoAvancado;
+    const data = await enviarMensagemChat(payload);
     if (data && data.resposta) {
       mensagens.value = [{ tipo: 'resposta', texto: data.resposta }]
       if (data.contexto) {
