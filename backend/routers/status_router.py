@@ -25,7 +25,10 @@ async def status_cache():
             total_incidentes=len(dados_incidentes["incidentes"]),
             entidades_por_dominio=entidades_por_dominio,
             chaves_disponiveis=list(dados_incidentes.keys()),
-            ultima_atualizacao_cache=dados_incidentes.get("timestamp", "Nunca")
+            ultima_atualizacao_cache=dados_incidentes.get("timestamp", "Nunca"),
+            explicacao="Este endpoint retorna o status atual do cache, incluindo totais e chaves disponíveis para análise.",
+            sugestao="Utilize essas informações para monitorar a saúde do backend e identificar possíveis necessidades de atualização de dados.",
+            proximos_passos="Se notar dados desatualizados, acione a atualização manual do cache ou verifique logs para possíveis falhas."
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao obter status do cache: {e}")

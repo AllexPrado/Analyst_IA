@@ -33,7 +33,10 @@ async def analise_causa_raiz(incidente_id: str):
             return CausaRaizResponseModelOpenAPI(
                 incidente_id=incidente_id,
                 causa_raiz=metricas_entidades,
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                explicacao="Esta resposta apresenta a provável causa raiz do incidente, baseada em análise de dados avançados e correlações detectadas.",
+                sugestao="Priorize a investigação das entidades e métricas destacadas como causa raiz para mitigar recorrências.",
+                proximos_passos="Implemente as recomendações sugeridas e monitore o ambiente para validar a resolução do incidente."
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao coletar causa raiz avançada do incidente: {e}")

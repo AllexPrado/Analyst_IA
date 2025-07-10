@@ -36,7 +36,10 @@ async def listar_entidades():
             return EntidadesListResponseModel(
                 entidades=entidades_avancadas,
                 timestamp=datetime.now().isoformat(),
-                total=len(entidades_avancadas)
+                total=len(entidades_avancadas),
+                explicacao="Esta lista apresenta todas as entidades do New Relic com dados avançados coletados.",
+                sugestao="Explore as entidades com maior volume de logs, erros ou métricas para identificar pontos críticos.",
+                proximos_passos="Clique em uma entidade para visualizar detalhes e métricas específicas. Utilize filtros para refinar sua análise."
             )
     except Exception as e:
         logger.error(f"Erro ao coletar entidades avançadas: {e}")

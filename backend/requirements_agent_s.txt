@@ -1,0 +1,2 @@
+# requirements para Agent-S worker
+requests

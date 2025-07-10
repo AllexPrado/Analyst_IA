@@ -94,8 +94,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Incluir os endpoints do router principal
 app.include_router(api_router, prefix="/api")
+
+
+# Incluir os endpoints inteligentes do Agno (sem try/except para exibir qualquer erro de importação)
+from routers.agno_router import router as agno_router
+app.include_router(agno_router, prefix="/agno", tags=["Agno IA"])
+print("[AGNO] Endpoints inteligentes do Agno IA disponíveis em /agno")
 
 # Criar diretório de dados se não existir
 os.makedirs("dados", exist_ok=True)

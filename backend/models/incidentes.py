@@ -36,6 +36,9 @@ class IncidentesResponseModel(BaseModel):
     alertas: List[Any]
     timestamp: str
     resumo: Dict[str, Any]
+    explicacao: str = ""
+    sugestao: str = ""
+    proximos_passos: str = ""
 
 class EntidadeResponseModel(BaseModel):
     guid: str
@@ -46,6 +49,9 @@ class EntidadesListResponseModel(BaseModel):
     entidades: List[EntidadeResponseModel]
     timestamp: str
     total: int
+    explicacao: str = ""
+    sugestao: str = ""
+    proximos_passos: str = ""
 
 class AnaliseEntidadeModel(BaseModel):
     guid: str
@@ -72,6 +78,9 @@ class CorrelacionarResponseModel(BaseModel):
     total_incidentes: int
     total_entidades_associadas: int
     timestamp: str
+    explicacao: str = ""
+    sugestao: str = ""
+    proximos_passos: str = ""
 
 class ChatRequestModel(BaseModel):
     mensagem: str = Field(..., description="Mensagem enviada pelo usuário")
@@ -80,6 +89,9 @@ class ChatResponseModel(BaseModel):
     resposta: str
     mensagem_recebida: str
     timestamp: str
+    explicacao: str = ""
+    sugestao: str = ""
+    proximos_passos: str = ""
 
 class CausaRaizEntidadeModel(BaseModel):
     guid: str

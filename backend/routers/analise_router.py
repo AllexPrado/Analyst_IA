@@ -33,7 +33,10 @@ async def obter_analise_incidente(incidente_id: str):
             return AnaliseIncidenteResponseModelOpenAPI(
                 incidente_id=incidente_id,
                 analise=metricas_entidades,
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
+                explicacao="Esta análise detalha o comportamento das entidades envolvidas no incidente, com base nos dados avançados do New Relic.",
+                sugestao="Verifique as entidades com maior impacto e avalie possíveis correlações com outros incidentes.",
+                proximos_passos="Acesse a causa raiz para entender o motivo principal do incidente e consulte recomendações específicas."
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao coletar análise avançada do incidente: {e}")

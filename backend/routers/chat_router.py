@@ -1,8 +1,8 @@
+
 from fastapi import APIRouter, HTTPException
 from datetime import datetime
 from models.incidentes import ChatRequestModel, ChatResponseModel
-from utils.newrelic_advanced_collector import get_all_entities, get_entity_advanced_data
-import aiohttp
+from core_inteligente.agno_agent import responder_chat
 
 router = APIRouter()
 
@@ -19,25 +19,25 @@ async def chat_api(request: ChatRequestModel):
         mensagem = request.mensagem
         if not mensagem:
             raise HTTPException(status_code=400, detail="Campo 'mensagem' é obrigatório.")
-        async with aiohttp.ClientSession() as session:
-            entidades = await get_all_entities(session)
-            entidades_com_erros = []
-            for entidade in entidades:
-                dados_avancados = await get_entity_advanced_data(entidade, "24h", session=session)
-                erros = dados_avancados.get("errors")
-                if erros and isinstance(erros, list) and any(e.get("count", 0) > 0 for e in erros):
-                    total_erros = sum(e.get("count", 0) for e in erros)
-                    entidades_com_erros.append((entidade.get("name", "(sem nome)"), total_erros))
-            if entidades_com_erros:
-                entidades_com_erros.sort(key=lambda x: x[1], reverse=True)
-                top_entidade, top_erros = entidades_com_erros[0]
-                resposta = f"A entidade '{top_entidade}' apresentou o maior número de erros ({top_erros}) nas últimas 24h."
-            else:
-                resposta = "Nenhuma entidade apresentou erros nas últimas 24h."
+        # session_id pode ser extraído de request futuramente (usuário, sessão, etc)
+        resposta_agno = responder_chat(mensagem, session_id=None)
+        if isinstance(resposta_agno, dict):
+            resposta = resposta_agno.get("resposta") or resposta_agno.get("content") or str(resposta_agno)
+            sugestao = resposta_agno.get("sugestao", "")
+            proximos_passos = resposta_agno.get("proximos_passos", "")
+            explicacao = resposta_agno.get("explicacao", "Resposta gerada pelo agente Agno.")
+        else:
+            resposta = str(resposta_agno)
+            sugestao = ""
+            proximos_passos = ""
+            explicacao = "Resposta gerada pelo agente Agno."
         return ChatResponseModel(
             resposta=resposta,
             mensagem_recebida=mensagem,
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
+            explicacao=explicacao,
+            sugestao=sugestao,
+            proximos_passos=proximos_passos
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro no endpoint de chat: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro no endpoint de chat (Agno): {e}")

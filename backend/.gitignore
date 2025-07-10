@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.log
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+env/
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache/data
+.cache/
+*.sqlite3
+*.db
+*.json
+*.bak
+
+# Test/coverage
+htmlcov/
+.tox/
+.coverage
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Custom
+logs/
+diagnostics_*.json
+cache/

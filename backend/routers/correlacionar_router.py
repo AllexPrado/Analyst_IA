@@ -22,7 +22,10 @@ async def correlacionar_incidentes():
             mensagem="Correlação de incidentes concluída",
             total_incidentes=total_incidentes,
             total_entidades_associadas=total_entidades_associadas,
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
+            explicacao="Este endpoint força a correlação entre incidentes e entidades do New Relic, atualizando os dados em memória.",
+            sugestao="Utilize este recurso após inserir novos incidentes ou entidades para garantir que as análises estejam atualizadas.",
+            proximos_passos="Após a correlação, revise os incidentes e entidades para validar se as associações estão corretas."
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao correlacionar incidentes: {e}")
