@@ -36,7 +36,7 @@ async def inicializar_cache(coletar_contexto_fn):
     Returns:
         bool: True se a inicialização foi bem-sucedida, False caso contrário
     """
-    logger.info("Iniciando verificação e inicialização do cache")
+    logger.debug("Iniciando verificação e inicialização do cache")
     
     # Garantir que os diretórios existam
     os.makedirs(CACHE_HISTORICO_DIR, exist_ok=True)
@@ -48,7 +48,7 @@ async def inicializar_cache(coletar_contexto_fn):
     cache_backup = None
     
     if cache_exists:
-        logger.info(f"Arquivo de cache encontrado: {CACHE_FILE}")
+        logger.debug(f"Arquivo de cache encontrado: {CACHE_FILE}")
         try:
             # Tentar carregar o cache atual
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
@@ -56,7 +56,7 @@ async def inicializar_cache(coletar_contexto_fn):
                 
             # Verificar se o cache tem a estrutura correta
             if isinstance(cache_data, dict) and 'timestamp' in cache_data:
-                logger.info("Estrutura do cache válida")
+                logger.debug("Estrutura do cache válida")
                 cache_valid = True
                 cache_backup = cache_data
             else:
@@ -136,7 +136,7 @@ async def inicializar_cache(coletar_contexto_fn):
         return False
     
     # Se chegou aqui, o cache é válido
-    logger.info("Cache já existe e é válido")
+    logger.info("Cache válido e pronto para uso.")
     
     # Carregar o cache existente na memória
     await carregar_cache_do_disco()

@@ -92,12 +92,17 @@ except RuntimeError:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-# Executar inicialização do cache
-try:
-    logger.info("Agendando inicialização do sistema de cache...")
-    loop.create_task(init_cache_async())
-    logger.info("Task de inicialização do cache agendada com sucesso")
-except Exception as e:
-    logger.error(f"Erro ao agendar task de inicialização do cache: {e}")
-    import traceback
-    logger.error(traceback.format_exc())
+# Proteção contra inicialização duplicada do cache
+_cache_init_started = getattr(sys.modules[__name__], "_cache_init_started", False)
+if not _cache_init_started:
+    setattr(sys.modules[__name__], "_cache_init_started", True)
+    try:
+        logger.info("Agendando inicialização do sistema de cache...")
+        loop.create_task(init_cache_async())
+        logger.info("Task de inicialização do cache agendada com sucesso")
+    except Exception as e:
+        logger.error(f"Erro ao agendar task de inicialização do cache: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+else:
+    logger.info("Inicialização do cache já foi agendada neste processo. Ignorando chamada duplicada.")

@@ -2,6 +2,10 @@ from fastapi import APIRouter, HTTPException, Query
 from typing import Optional, Dict, Any
 from pydantic import BaseModel
 from core_inteligente.agno_agent import agno_agent
+class GerarRelatorioRequest(BaseModel):
+    tipo: str = "tecnico"
+    filtro: Optional[Dict[str, Any]] = None
+
 class CorrigirEntidadeRequest(BaseModel):
     entidade: str
     acao: str = "corrigir"
@@ -40,10 +44,10 @@ def get_tool(name: str):
     raise HTTPException(status_code=404, detail=f"Ferramenta '{name}' não encontrada no agente IA.")
 
 @router.post("/relatorio", summary="Gera relatório técnico ou executivo via IA")
-async def gerar_relatorio(tipo: str = Query("tecnico", enum=["tecnico", "executivo"]), filtro: Optional[Dict[str, Any]] = None):
+async def gerar_relatorio(request: GerarRelatorioRequest):
     try:
         tool = get_tool("gerar_relatorio")
-        resultado = tool.run(tipo=tipo, filtro=filtro)
+        resultado = tool.run(tipo=request.tipo, filtro=request.filtro)
         return {"relatorio": resultado}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -132,5 +136,12 @@ async def registrar_feedback(request: RegistrarFeedbackRequest):
 @router.post("/coletar_newrelic", summary="Coleta dados do New Relic via Agno, usando cache para evitar custos")
 async def coletar_newrelic(request: ColetarNewRelicRequest):
     tool = get_tool("coletar_dados_newrelic")
-    resultado = tool.run(entidade=request.entidade, periodo=request.periodo, tipo=request.tipo)
+    # Suporte tanto para métodos async quanto sync
+    run_method = getattr(tool, "run", None)
+    if run_method is None:
+        raise HTTPException(status_code=500, detail="Ferramenta não possui método run.")
+    if hasattr(run_method, "__code__") and run_method.__code__.co_flags & 0x80:
+        resultado = await tool.run(entidade=request.entidade, periodo=request.periodo, tipo=request.tipo)
+    else:
+        resultado = tool.run(entidade=request.entidade, periodo=request.periodo, tipo=request.tipo)
     return resultado

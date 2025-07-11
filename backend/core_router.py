@@ -82,6 +82,14 @@ api_router.include_router(avancados_router, tags=["avancado"])
 api_router.include_router(status_router, prefix="/status", tags=["status"])  # Add with prefix
 api_router.include_router(dados_criticos_router, tags=["dados_criticos"])
 
+# Incluir router do Agno IA
+try:
+    from routers.agno_router import router as agno_router
+    api_router.include_router(agno_router, prefix="/agno", tags=["agno"])
+    logger.info("Router Agno IA incluído com sucesso em /agno")
+except ImportError as e:
+    logger.error(f"Erro ao importar/incluir router Agno IA: {e}")
+
 # Endpoint de saúde para verificação
 @api_router.get("/health", tags=["health"])
 async def health_check():

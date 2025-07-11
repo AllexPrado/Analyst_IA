@@ -4,6 +4,48 @@ import datetime
 from typing import Optional
 
 class ContextStorage:
+    def consultar_historico(self, session_id: str = None, limite: int = 10):
+        """
+        Consulta histórico de interações ou decisões da IA.
+        Retorna os últimos N contextos salvos, opcionalmente filtrando por session_id.
+        """
+        historico = []
+        if self.backend == "json":
+            arquivos = [f for f in os.listdir(self.path) if f.endswith('.json')]
+            # Se session_id for fornecido, filtra arquivos que começam com session_id
+            if session_id:
+                arquivos = [f for f in arquivos if f.startswith(f"{session_id}")]
+            arquivos.sort(key=lambda x: os.path.getmtime(os.path.join(self.path, x)), reverse=True)
+            for fname in arquivos:
+                fpath = os.path.join(self.path, fname)
+                try:
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        historico.append(json.load(f))
+                except Exception:
+                    continue
+                if len(historico) >= limite:
+                    break
+            return historico
+        elif self.backend == "sqlite" and hasattr(self, 'conn'):
+            try:
+                if session_id:
+                    cur = self.conn.execute("SELECT content FROM context WHERE session_id = ? ORDER BY timestamp DESC LIMIT ?", (session_id, limite))
+                else:
+                    cur = self.conn.execute("SELECT content FROM context ORDER BY timestamp DESC LIMIT ?", (limite,))
+                rows = cur.fetchall()
+                return [json.loads(row[0]) for row in rows]
+            except Exception:
+                return []
+        elif self.backend == "redis" and hasattr(self, 'redis') and self.redis:
+            # Redis: retorna apenas o contexto atual, não histórico
+            if session_id:
+                val = self.redis.get(session_id)
+                try:
+                    return [json.loads(val)] if val else []
+                except Exception:
+                    return []
+            return []
+        return historico
     """
     ContextStorage: armazenamento persistente e flexível para eventos/contexto/histórico.
     Suporta JSON local, Redis e SQLite. Limpeza automática de dados antigos.
