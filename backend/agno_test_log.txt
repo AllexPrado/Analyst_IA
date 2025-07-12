@@ -1,0 +1,82 @@
+2025-07-11 19:51:30,455 - INFO - ==================================================
+2025-07-11 19:51:30,455 - INFO - AGNO ENDPOINTS TEST
+2025-07-11 19:51:30,455 - INFO - ==================================================
+2025-07-11 19:51:30,455 - INFO - Checking if server is running...
+2025-07-11 19:51:30,455 - INFO - Testing endpoint: http://localhost:8000/docs
+2025-07-11 19:51:30,455 - DEBUG - Request method: GET
+2025-07-11 19:51:30,463 - DEBUG - Starting new HTTP connection (1): localhost:8000
+2025-07-11 19:51:32,579 - DEBUG - http://localhost:8000 "GET /docs HTTP/1.1" 200 64058
+2025-07-11 19:51:32,590 - INFO - Response status: 200
+2025-07-11 19:51:32,590 - DEBUG - Response headers: {'date': 'Fri, 11 Jul 2025 22:51:32 GMT', 'server': 'uvicorn', 'content-length': '64058', 'content-type': 'text/html; charset=utf-8'}
+2025-07-11 19:51:32,866 - DEBUG - Response text: 
+    <!DOCTYPE html>
+    <html>
+    <head><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"NRBR-896d42ecafffad3fe76","applicationID":"486550544","transactionName":"NFVUN0BZXUpXAhEMDg0fcBZcW0dQWQ9KAwAQRFcTWxZSSUYNDAYAF1lZDUECdVhFFSQ1KE1DUxdHSB0FWg4GBA0QDhgQRVlUXlMTOhAIPFhCDl4=","queueTime":0,"applicationTime":0,"agent":""};
+(window.NREUM||(NREUM={})).init={privacy:{cookies_enabled:true},ajax:{deny_list:["b
+2025-07-11 19:51:32,868 - INFO - Server is running. Testing Agno endpoints...
+2025-07-11 19:51:32,868 - INFO - --------------------------------------------------
+2025-07-11 19:51:32,868 - INFO - Testing endpoint: http://localhost:8000/agno/corrigir
+2025-07-11 19:51:32,868 - DEBUG - Request method: POST
+2025-07-11 19:51:32,868 - DEBUG - Request payload: {
+  "entidade": "sistema_backend",
+  "acao": "verificar"
+}
+2025-07-11 19:51:32,872 - DEBUG - Starting new HTTP connection (1): localhost:8000
+2025-07-11 19:51:34,978 - DEBUG - http://localhost:8000 "POST /agno/corrigir HTTP/1.1" 404 22
+2025-07-11 19:51:34,978 - INFO - Response status: 404
+2025-07-11 19:51:34,978 - DEBUG - Response headers: {'date': 'Fri, 11 Jul 2025 22:51:34 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'}
+2025-07-11 19:51:34,978 - DEBUG - Response JSON: {
+  "detail": "Not Found"
+}
+2025-07-11 19:51:34,978 - INFO - --------------------------------------------------
+2025-07-11 19:51:34,978 - INFO - Testing endpoint: http://localhost:8000/agno/playbook
+2025-07-11 19:51:34,978 - DEBUG - Request method: POST
+2025-07-11 19:51:34,978 - DEBUG - Request payload: {
+  "nome": "diagnostico",
+  "contexto": {}
+}
+2025-07-11 19:51:34,978 - DEBUG - Starting new HTTP connection (1): localhost:8000
+2025-07-11 19:51:37,029 - DEBUG - http://localhost:8000 "POST /agno/playbook HTTP/1.1" 404 22
+2025-07-11 19:51:37,029 - INFO - Response status: 404
+2025-07-11 19:51:37,029 - DEBUG - Response headers: {'date': 'Fri, 11 Jul 2025 22:51:36 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'}
+2025-07-11 19:51:37,029 - DEBUG - Response JSON: {
+  "detail": "Not Found"
+}
+2025-07-11 19:51:37,039 - INFO - --------------------------------------------------
+2025-07-11 19:51:37,039 - INFO - Testing endpoint: http://localhost:8000/agno/feedback
+2025-07-11 19:51:37,039 - DEBUG - Request method: POST
+2025-07-11 19:51:37,039 - DEBUG - Request payload: {
+  "feedback": {
+    "tipo": "verificacao",
+    "valor": "ok"
+  }
+}
+2025-07-11 19:51:37,039 - DEBUG - Starting new HTTP connection (1): localhost:8000
+2025-07-11 19:51:39,091 - DEBUG - http://localhost:8000 "POST /agno/feedback HTTP/1.1" 404 22
+2025-07-11 19:51:39,091 - INFO - Response status: 404
+2025-07-11 19:51:39,091 - DEBUG - Response headers: {'date': 'Fri, 11 Jul 2025 22:51:38 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'}
+2025-07-11 19:51:39,091 - DEBUG - Response JSON: {
+  "detail": "Not Found"
+}
+2025-07-11 19:51:39,091 - INFO - --------------------------------------------------
+2025-07-11 19:51:39,091 - INFO - Testing endpoint: http://localhost:8000/agno/coletar_newrelic
+2025-07-11 19:51:39,091 - DEBUG - Request method: POST
+2025-07-11 19:51:39,091 - DEBUG - Request payload: {
+  "tipo": "entidades"
+}
+2025-07-11 19:51:39,091 - DEBUG - Starting new HTTP connection (1): localhost:8000
+2025-07-11 19:51:41,164 - DEBUG - http://localhost:8000 "POST /agno/coletar_newrelic HTTP/1.1" 404 22
+2025-07-11 19:51:41,164 - INFO - Response status: 404
+2025-07-11 19:51:41,164 - DEBUG - Response headers: {'date': 'Fri, 11 Jul 2025 22:51:41 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'}
+2025-07-11 19:51:41,164 - DEBUG - Response JSON: {
+  "detail": "Not Found"
+}
+2025-07-11 19:51:41,164 - INFO - ==================================================
+2025-07-11 19:51:41,164 - INFO - TEST RESULTS SUMMARY
+2025-07-11 19:51:41,164 - INFO - ==================================================
+2025-07-11 19:51:41,172 - INFO - /agno/corrigir: FAILURE - Status: 404
+2025-07-11 19:51:41,172 - INFO - /agno/playbook: FAILURE - Status: 404
+2025-07-11 19:51:41,172 - INFO - /agno/feedback: FAILURE - Status: 404
+2025-07-11 19:51:41,172 - INFO - /agno/coletar_newrelic: FAILURE - Status: 404
+2025-07-11 19:51:41,172 - INFO - Success: 0, Failure: 4, Total: 4
+2025-07-11 19:51:41,172 - INFO - Log file saved to: D:\projetos\Analyst_IA\backend\agno_test_log.txt

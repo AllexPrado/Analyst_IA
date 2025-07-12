@@ -65,6 +65,32 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Middleware para redirecionar /agno para /api/agno
+class AgnoProxyMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and scope["path"].startswith("/agno/"):
+            # Redireciona /agno/* para /api/agno/*
+            original_path = scope["path"]
+            new_path = "/api" + original_path
+            logger.info(f"Redirecionando solicitação de {original_path} para {new_path}")
+            
+            # Modificar o caminho na scope
+            scope["path"] = new_path
+            
+            # Adicionar um cabeçalho X-Redirected-From para rastreamento
+            if "headers" in scope:
+                scope["headers"].append(
+                    (b"x-redirected-from", original_path.encode())
+                )
+        
+        await self.app(scope, receive, send)
+
+# Adicionar o middleware de proxy antes de qualquer outro processamento
+app.add_middleware(AgnoProxyMiddleware)
+
 
 # Models
 class ChatInput(BaseModel):

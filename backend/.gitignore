@@ -34,6 +34,11 @@ Thumbs.db
 *.json
 *.bak
 
+# Logs e históricos grandes
+log.txt
+historico/*.json
+logs/*.log
+
 # Test/coverage
 htmlcov/
 .tox/
