@@ -31,7 +31,9 @@ Thumbs.db
 .cache/
 *.sqlite3
 *.db
-*.json
+cache.json
+diagnostics_*.json
+test_*.json
 *.bak
 
 # Logs e históricos grandes
@@ -54,6 +56,11 @@ coverage.xml
 .ipynb_checkpoints/
 
 # Custom
-logs/
+logs/*
+!logs/.gitkeep
+cache/*
+!cache/.gitkeep
 diagnostics_*.json
-cache/
+*.tmp
+*~
+__pycache__/*
