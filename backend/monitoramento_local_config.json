@@ -1,0 +1,43 @@
+{
+  "interval_seconds": 300,
+  "retention_days": 30,
+  "alert_threshold_cpu": 80,
+  "alert_threshold_memory": 80,
+  "alert_threshold_disk": 90,
+  "services": [
+    {
+      "name": "API Sites",
+      "type": "service",
+      "url": "http://localhost:8080/health",
+      "important": true
+    },
+    {
+      "name": "API Users",
+      "type": "service",
+      "url": "http://localhost:8081/health",
+      "important": true
+    },
+    {
+      "name": "API Pagamentos",
+      "type": "service",
+      "url": "http://localhost:8082/health",
+      "important": true
+    },
+    {
+      "name": "Frontend Analyst_IA",
+      "type": "service",
+      "url": "http://localhost:3000",
+      "important": true
+    },
+    {
+      "name": "Banco de Dados",
+      "type": "database",
+      "host": "localhost",
+      "port": 5432,
+      "important": true
+    }
+  ],
+  "notify_email": "",
+  "save_csv": true,
+  "save_json": true
+}

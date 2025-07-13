@@ -1,7 +1,7 @@
-"""
+"\""
 Teste rápido para verificar se os endpoints /agno estão funcionando corretamente.
 Este script verifica os endpoints do Agno IA e mostra os resultados.
-"""
+"\""
 
 import asyncio
 import httpx
@@ -34,7 +34,7 @@ PAYLOADS = {
 }
 
 async def testar_endpoint(client: httpx.AsyncClient, endpoint: str) -> dict:
-    """Testa um endpoint específico e retorna o resultado."""
+    "\""Testa um endpoint específico e retorna o resultado."\""
     url = f"{BASE_URL}{endpoint}"
     payload = PAYLOADS.get(endpoint, {})
     
@@ -74,7 +74,7 @@ async def testar_endpoint(client: httpx.AsyncClient, endpoint: str) -> dict:
         }
 
 async def main():
-    """Função principal para executar os testes de endpoints."""
+    "\""Função principal para executar os testes de endpoints."\""
     print("=" * 60)
     print("TESTE DE ENDPOINTS AGNO IA")
     print(f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")

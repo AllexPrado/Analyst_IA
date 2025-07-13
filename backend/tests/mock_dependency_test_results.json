@@ -1,0 +1,234 @@
+{
+  "timestamp": "2025-07-12T19:01:55.703977",
+  "total_entities_tested": 3,
+  "results": {
+    "API Principal": {
+      "guid": "entity_guid_1",
+      "has_dependencies": true,
+      "dependencies": {
+        "upstream": [
+          {
+            "source": {
+              "guid": "upstream_source_guid_1",
+              "name": "Banco de Dados Produção",
+              "entityType": "POSTGRESQL_DB_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "CALLS"
+          },
+          {
+            "source": {
+              "guid": "upstream_source_guid_2",
+              "name": "Cache Redis",
+              "entityType": "REDIS_INSTANCE_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "USES"
+          }
+        ],
+        "downstream": [
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_1",
+              "name": "Frontend Web",
+              "entityType": "BROWSER_APPLICATION_ENTITY",
+              "domain": "BROWSER"
+            },
+            "type": "SERVES"
+          },
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_2",
+              "name": "Aplicativo Mobile",
+              "entityType": "MOBILE_APPLICATION_ENTITY",
+              "domain": "MOBILE"
+            },
+            "type": "SERVES"
+          }
+        ],
+        "metadata": {
+          "timestamp": "2025-07-12T19:01:55.696589",
+          "entity_guid": "entity_guid_1",
+          "total_upstream": 2,
+          "total_downstream": 2
+        }
+      }
+    },
+    "Frontend Web": {
+      "guid": "entity_guid_2",
+      "has_dependencies": true,
+      "dependencies": {
+        "upstream": [
+          {
+            "source": {
+              "guid": "upstream_source_guid_1",
+              "name": "Banco de Dados Produção",
+              "entityType": "POSTGRESQL_DB_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "CALLS"
+          },
+          {
+            "source": {
+              "guid": "upstream_source_guid_2",
+              "name": "Cache Redis",
+              "entityType": "REDIS_INSTANCE_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "USES"
+          }
+        ],
+        "downstream": [
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_1",
+              "name": "Frontend Web",
+              "entityType": "BROWSER_APPLICATION_ENTITY",
+              "domain": "BROWSER"
+            },
+            "type": "SERVES"
+          },
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_2",
+              "name": "Aplicativo Mobile",
+              "entityType": "MOBILE_APPLICATION_ENTITY",
+              "domain": "MOBILE"
+            },
+            "type": "SERVES"
+          }
+        ],
+        "metadata": {
+          "timestamp": "2025-07-12T19:01:55.697216",
+          "entity_guid": "entity_guid_2",
+          "total_upstream": 2,
+          "total_downstream": 2
+        }
+      }
+    },
+    "Banco de Dados Produção": {
+      "guid": "entity_guid_3",
+      "has_dependencies": true,
+      "dependencies": {
+        "upstream": [
+          {
+            "source": {
+              "guid": "upstream_source_guid_1",
+              "name": "Banco de Dados Produção",
+              "entityType": "POSTGRESQL_DB_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "CALLS"
+          },
+          {
+            "source": {
+              "guid": "upstream_source_guid_2",
+              "name": "Cache Redis",
+              "entityType": "REDIS_INSTANCE_ENTITY",
+              "domain": "DB"
+            },
+            "target": {
+              "guid": "target_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "type": "USES"
+          }
+        ],
+        "downstream": [
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_1",
+              "name": "Frontend Web",
+              "entityType": "BROWSER_APPLICATION_ENTITY",
+              "domain": "BROWSER"
+            },
+            "type": "SERVES"
+          },
+          {
+            "source": {
+              "guid": "source_guid",
+              "name": "API Principal",
+              "entityType": "APM_APPLICATION_ENTITY",
+              "domain": "APM"
+            },
+            "target": {
+              "guid": "downstream_target_guid_2",
+              "name": "Aplicativo Mobile",
+              "entityType": "MOBILE_APPLICATION_ENTITY",
+              "domain": "MOBILE"
+            },
+            "type": "SERVES"
+          }
+        ],
+        "metadata": {
+          "timestamp": "2025-07-12T19:01:55.702048",
+          "entity_guid": "entity_guid_3",
+          "total_upstream": 2,
+          "total_downstream": 2
+        }
+      }
+    }
+  }
+}

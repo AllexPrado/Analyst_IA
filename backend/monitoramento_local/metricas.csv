@@ -1,0 +1,4 @@
+timestamp,cpu_percent,memory_percent,disk_percent,process_count,service_api_sites,service_api_users,service_api_pagamentos,service_frontend,service_banco_de_dados
+2025-07-12T20:06:39.708235,6.4,66.0,2.4,191,0,0,0,0,0
+2025-07-12T20:07:12.993014,7.2,66.2,2.4,191,0,0,0,0,0
+2025-07-12T20:19:39.268650,20.2,63.5,2.4,192,0,0,0,0,0

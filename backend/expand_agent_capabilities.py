@@ -1,294 +1,96 @@
-from typing import Optional, Dict, Any
-from pydantic import BaseModel
-from fastapi import APIRouter, HTTPException
+"""
+Script para expandir as capacidades dos agentes Agent-S e Agno.
+Este módulo adiciona novas funcionalidades aos agentes, incluindo capacidade
+de correção de erros NRQL, validação de código, e outras melhorias.
+"""
+
+import os
+import sys
+import re
+import json
 import logging
-from subprocess import run, PIPE
-import asyncio
-import httpx
+import importlib
+from pathlib import Path
 
-router = APIRouter()
-logger = logging.getLogger("agent_tools")
+# Configuração de logging
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-class SecurityRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-# Endpoint para análise de segurança do backend
-@router.post("/security_check", summary="Analisa segurança do backend e recomenda correções")
-async def security_check(request: SecurityRequest):
-    try:
-        # Exemplo: Análise simples
-        issues = []
-        # Simulação de checagem
-        issues.append("Verificar uso de dados sensíveis em logs.")
-        issues.append("Sanitizar entradas de usuário para evitar injeção de código.")
-        issues.append("Validar permissões de acesso em endpoints críticos.")
-        issues.append("Evitar exposição de variáveis de ambiente.")
-        return {"seguranca": "analisada", "recomendacoes": issues}
-    except Exception as e:
-        logger.error(f"Análise de segurança falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para correção automática de vulnerabilidades detectadas
-@router.post("/security_fix", summary="Corrige automaticamente vulnerabilidades detectadas")
-async def security_fix(request: SecurityRequest):
-    try:
-        # Exemplo: Correção simulada
-        fixes = [
-            "Logs sensíveis anonimizados.",
-            "Entradas de usuário agora são sanitizadas.",
-            "Permissões revisadas em endpoints críticos.",
-            "Variáveis de ambiente protegidas.",
-        ]
-        return {"seguranca": "corrigida", "correcoes": fixes}
-    except Exception as e:
-        logger.error(f"Correção de segurança falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-class TestRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-class LintRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-class SuggestionRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-# Endpoint para executar testes automáticos
-@router.post("/test", summary="Executa testes automáticos do backend")
-async def run_tests(request: TestRequest):
-    try:
-        result = run(["pytest", "--maxfail=1", "--disable-warnings", "--tb=short"], stdout=PIPE, stderr=PIPE, text=True)
-        return {"stdout": result.stdout, "stderr": result.stderr, "returncode": result.returncode}
-    except Exception as e:
-        logger.error(f"Testes falharam: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para validação de boas práticas (lint)
-@router.post("/lint", summary="Valida boas práticas de código (PEP8, flake8)")
-async def run_lint(request: LintRequest):
-    try:
-        result = run(["flake8", ".", "--max-line-length=120"], stdout=PIPE, stderr=PIPE, text=True)
-        return {"stdout": result.stdout, "stderr": result.stderr, "returncode": result.returncode}
-    except Exception as e:
-        logger.error(f"Lint falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para sugerir/aplicar melhorias de otimização
-@router.post("/suggest", summary="Sugere/aplica melhorias de otimização no projeto")
-async def suggest_improvements(request: SuggestionRequest):
-    try:
-        # Exemplo: Sugestão simples
-        suggestions = [
-            "Utilizar cache para consultas frequentes.",
-            "Evitar duplicidade de routers.",
-            "Adicionar testes automatizados para endpoints críticos.",
-            "Utilizar tipagem explícita em funções.",
-            "Documentar endpoints com OpenAPI.",
-        ]
-        return {"sugestoes": suggestions}
-    except Exception as e:
-        logger.error(f"Sugestão de melhorias falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-class DiagnoseRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-class OptimizeRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-class AutoFixRequest(BaseModel):
-    contexto: Optional[Dict[str, Any]] = None
-
-@router.post("/diagnose", summary="Diagnostica erros e problemas no backend")
-async def diagnose_system(request: DiagnoseRequest):
-    # Aqui pode-se integrar análise de logs, status, endpoints, etc.
-    try:
-        # Exemplo: Diagnóstico simples
-        result = {"status": "ok", "detalhes": "Nenhum erro crítico encontrado."}
-        return result
-    except Exception as e:
-        logger.error(f"Diagnóstico falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.post("/autofix", summary="Corrige automaticamente erros detectados")
-async def auto_fix(request: AutoFixRequest):
-    try:
-        # Exemplo: Correção automática
-        result = {"status": "corrigido", "detalhes": "Erros corrigidos automaticamente."}
-        return result
-    except Exception as e:
-        logger.error(f"Auto-fix falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.post("/optimize", summary="Otimiza o backend e recursos do projeto")
-async def optimize_project(request: OptimizeRequest):
-    try:
-        # Exemplo: Otimização simples
-        result = {"status": "otimizado", "detalhes": "Projeto otimizado."}
-        return result
-    except Exception as e:
-        logger.error(f"Otimização falhou: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.get("/docs/newrelic", summary="Consulta documentação do NewRelic")
-async def get_newrelic_docs():
-    # Aqui pode-se integrar consulta automática à documentação
-    return {"url": "https://docs.newrelic.com/docs/", "resumo": "Documentação oficial NewRelic."}
-
-@router.get("/docs/azure", summary="Consulta documentação do Azure")
-async def get_azure_docs():
-    return {"url": "https://learn.microsoft.com/pt-br/azure/", "resumo": "Documentação oficial Azure."}
-
-# Endpoint para corrigir problemas detectados
-@router.post("/corrigir", summary="Corrige problemas detectados pelo Agno IA")
-async def corrigir_problemas():
-    try:
-        # Simulação de correção
-        return {"status": "corrigido", "detalhes": "Problemas corrigidos com sucesso."}
-    except Exception as e:
-        logger.error(f"Falha ao corrigir problemas: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para executar playbook
-@router.post("/playbook", summary="Executa playbook do Agno IA")
-async def executar_playbook():
-    try:
-        # Simulação de execução de playbook
-        return {"status": "executado", "detalhes": "Playbook executado com sucesso."}
-    except Exception as e:
-        logger.error(f"Falha ao executar playbook: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para feedback
-@router.post("/feedback", summary="Recebe feedback do Agno IA")
-async def receber_feedback():
-    try:
-        # Simulação de recebimento de feedback
-        return {"status": "recebido", "detalhes": "Feedback recebido com sucesso."}
-    except Exception as e:
-        logger.error(f"Falha ao receber feedback: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint para coleta de dados do New Relic
-@router.post("/coletar_newrelic", summary="Coleta dados do New Relic")
-async def coletar_dados_newrelic():
-    try:
-        # Simulação de coleta de dados
-        return {"status": "coletado", "detalhes": "Dados coletados com sucesso."}
-    except Exception as e:
-        logger.error(f"Falha ao coletar dados do New Relic: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-async def monitorar_agentes():
-    while True:
-        try:
-            logger.info("Monitorando agentes...")
-            # Simulação de monitoramento
-            await asyncio.sleep(10)  # Intervalo de monitoramento
-        except Exception as e:
-            logger.error(f"Erro ao monitorar agentes: {e}")
-
-async def executar_automatizacoes():
-    while True:
-        try:
-            logger.info("Executando automatizações...")
-            # Simulação de execução de automatizações
-            await asyncio.sleep(15)  # Intervalo de execução
-        except Exception as e:
-            logger.error(f"Erro ao executar automatizações: {e}")
-
-async def identificar_e_corrigir_erros():
+class AgentCapabilityExpander:
     """
-    Verifica e corrige erros em endpoints críticos.
-    Tenta acessar os endpoints via diferentes rotas para garantir acessibilidade.
+    Adiciona novas capacidades aos agentes Agent-S e Agno.
     """
-    # Lista de endpoints a serem verificados (com ambos os prefixos)
-    endpoints = [
-        # Primário (via API router)
-        "/api/agno/corrigir",
-        "/api/agno/playbook",
-        "/api/agno/feedback",
-        "/api/agno/coletar_newrelic",
-        # Secundário (direto)
-        "/agno/corrigir",
-        "/agno/playbook",
-        "/agno/feedback",
-        "/agno/coletar_newrelic"
-    ]
     
-    # Payloads para teste (mínimos necessários)
-    payloads = {
-        "corrigir": {"entidade": "sistema_backend", "acao": "verificar"},
-        "playbook": {"nome": "diagnostico", "contexto": {}},
-        "feedback": {"feedback": {"tipo": "verificacao", "valor": "ok"}},
-        "coletar_newrelic": {"entidade": "sistema", "periodo": "3d", "tipo": "metricas"}
-    }
-
-    # Base URL do servidor
-    base_url = "http://localhost:8000"
-    endpoint_status = {"sucesso": [], "falha": []}
+    def __init__(self, agent_module="core_inteligente.agno_agent"):
+        """
+        Inicializa o expansor de capacidades.
+        
+        Args:
+            agent_module (str): Nome do módulo do agente
+        """
+        self.agent_module_name = agent_module
+        self.agent_module_path = self._get_module_path(agent_module)
+        self.agent_tools_path = self._get_module_path("core_inteligente.agent_tools")
+        self.playbook_engine_path = self._get_module_path("core_inteligente.playbook_engine")
     
-    async with httpx.AsyncClient(timeout=30) as client:
-        for endpoint in endpoints:
-            try:
-                # Determina qual payload usar baseado no nome do endpoint
-                payload_key = endpoint.split("/")[-1]
-                payload = payloads.get(payload_key, {})
-                
-                full_url = f"{base_url}{endpoint}"
-                logger.info(f"Verificando endpoint: {full_url}")
-                
-                response = await client.post(full_url, json=payload)
-                
-                if response.status_code == 404:
-                    logger.error(f"Erro 404 no endpoint {full_url}")
-                    endpoint_status["falha"].append(endpoint)
-                elif response.status_code >= 400:
-                    logger.error(f"Erro {response.status_code} no endpoint {full_url}: {response.text}")
-                    endpoint_status["falha"].append(endpoint)
-                else:
-                    logger.info(f"Endpoint {full_url} verificado com sucesso: {response.status_code}")
-                    try:
-                        resposta = response.json()
-                        logger.info(f"Resposta: {resposta}")
-                    except Exception as json_err:
-                        logger.warning(f"Não foi possível decodificar a resposta como JSON: {json_err}")
-                    
-                    endpoint_status["sucesso"].append(endpoint)
-            except httpx.RequestError as e:
-                logger.error(f"Erro de requisição ao verificar endpoint {endpoint}: {e}")
-                endpoint_status["falha"].append(endpoint)
-            except Exception as e:
-                logger.error(f"Erro ao verificar endpoint {endpoint}: {e}")
-                endpoint_status["falha"].append(endpoint)
+    def _get_module_path(self, module_name):
+        """
+        Obtém o caminho do arquivo para um módulo.
+        
+        Args:
+            module_name (str): Nome do módulo
+            
+        Returns:
+            Path: Caminho do arquivo do módulo
+        """
+        # Converter nome do módulo para caminho relativo
+        module_path = module_name.replace(".", "/") + ".py"
+        
+        # Verificar se o arquivo existe
+        if os.path.exists(module_path):
+            return Path(module_path)
+        
+        # Tentar achar no sistema
+        try:
+            module = importlib.import_module(module_name)
+            file_path = module.__file__
+            return Path(file_path)
+        except (ImportError, AttributeError):
+            logger.warning(f"Não foi possível encontrar o caminho para o módulo {module_name}")
+            
+            # Último recurso: tentar adivinhar a localização
+            guess_path = Path(f"d:/projetos/Analyst_IA/backend/{module_path}")
+            if guess_path.exists():
+                return guess_path
+            
+            return None
     
-    # Relatório final
-    logger.info(f"Verificação concluída. Sucessos: {len(endpoint_status['sucesso'])}, Falhas: {len(endpoint_status['falha'])}")
-    
-    # Se houver pelo menos uma rota funcionando para cada tipo de endpoint, 
-    # considera-se que o sistema está operacional
-    working_endpoints = set([ep.split("/")[-1] for ep in endpoint_status["sucesso"]])
-    if len(working_endpoints) >= 4:  # Temos os 4 tipos de endpoints funcionando
-        logger.info("Sistema de endpoints está operacional")
-        return {"status": "ok", "endpoints_funcionando": list(working_endpoints)}
-    else:
-        logger.error(f"Sistema de endpoints não está totalmente operacional. Endpoints funcionando: {working_endpoints}")
-        return {"status": "erro", "endpoints_funcionando": list(working_endpoints), "endpoints_com_falha": [ep for ep in endpoint_status["falha"]]}
-async def iniciar_tarefas():
-    await asyncio.gather(monitorar_agentes(), executar_automatizacoes(), identificar_e_corrigir_erros())
-
-# Início das tarefas ao iniciar o módulo
-if __name__ == "__main__":
-    try:
-        loop = asyncio.get_event_loop()
-        if not loop.is_running():
-            loop.run_until_complete(iniciar_tarefas())
-        else:
-            logger.warning("Loop de eventos já está em execução. Tarefas serão adicionadas ao loop existente.")
-            asyncio.ensure_future(iniciar_tarefas())
-    except Exception as e:
-        logger.error(f"Erro ao iniciar tarefas assíncronas: {e}")
-
+    def add_nrql_error_correction(self):
+        """
+        Adiciona capacidade de correção de erros NRQL.
+        
+        Returns:
+            bool: True se bem-sucedido, False caso contrário
+        """
+        logger.info("Adicionando capacidade de correção de erros NRQL")
+        
+        if not self.agent_tools_path or not self.agent_tools_path.exists():
+            logger.error(f"Arquivo de ferramentas do agente não encontrado: {self.agent_tools_path}")
+            return False
+        
+        try:
+            # Ler o conteúdo do arquivo
+            with open(self.agent_tools_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Verificar se a ferramenta já existe
+            if "class NRQLCorrectionTool" in content:
+                logger.info("Ferramenta de correção NRQL já existe")
+                return True
+            
+            # Adicionar nova classe de ferramenta
+            tool_code = '''
 
 class NRQLCorrectionTool:
     """
@@ -485,7 +287,49 @@ class NRQLCorrectionTool:
                 result["explanation"] += f" Consulte a documentação sobre este tipo de erro."
         
         return result
+'''
 
+            # Adicionar a nova ferramenta ao final do arquivo
+            content += tool_code
+            
+            # Salvar o arquivo modificado
+            with open(self.agent_tools_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            logger.info("Ferramenta de correção NRQL adicionada com sucesso")
+            
+            # Agora adicionar ao arquivo de agente
+            return self._add_tool_to_agent("NRQLCorrectionTool")
+        
+        except Exception as e:
+            logger.error(f"Erro ao adicionar capacidade de correção NRQL: {str(e)}")
+            return False
+
+    def add_code_validation(self):
+        """
+        Adiciona capacidade de validação de código.
+        
+        Returns:
+            bool: True se bem-sucedido, False caso contrário
+        """
+        logger.info("Adicionando capacidade de validação de código")
+        
+        if not self.agent_tools_path or not self.agent_tools_path.exists():
+            logger.error(f"Arquivo de ferramentas do agente não encontrado: {self.agent_tools_path}")
+            return False
+        
+        try:
+            # Ler o conteúdo do arquivo
+            with open(self.agent_tools_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Verificar se a ferramenta já existe
+            if "class CodeValidationTool" in content:
+                logger.info("Ferramenta de validação de código já existe")
+                return True
+            
+            # Adicionar nova classe de ferramenta
+            tool_code = '''
 
 class CodeValidationTool:
     """
@@ -563,8 +407,8 @@ class CodeValidationTool:
         python_keywords = ['def', 'class', 'import', 'from', 'with', 'as', 'try', 'except']
         js_keywords = ['function', 'const', 'let', 'var', 'async', 'await', 'export', 'import']
         
-        python_score = sum(1 for kw in python_keywords if re.search(r'\b' + kw + r'\b', code))
-        js_score = sum(1 for kw in js_keywords if re.search(r'\b' + kw + r'\b', code))
+        python_score = sum(1 for kw in python_keywords if re.search(r'\\b' + kw + r'\\b', code))
+        js_score = sum(1 for kw in js_keywords if re.search(r'\\b' + kw + r'\\b', code))
         
         if python_score > js_score:
             return 'python'
@@ -650,7 +494,7 @@ class CodeValidationTool:
                                     })
                         except json.JSONDecodeError:
                             # Fallback para output não-JSON
-                            issues = process.stdout.split('\n')
+                            issues = process.stdout.split('\\n')
                             for issue in issues:
                                 if issue.strip():
                                     if 'error' in issue.lower():
@@ -714,7 +558,7 @@ class CodeValidationTool:
                                        shell=True)
                 
                 if process.returncode != 0:
-                    for line in process.stderr.split('\n'):
+                    for line in process.stderr.split('\\n'):
                         if line.strip():
                             result["errors"].append({
                                 "message": line.strip(),
@@ -789,7 +633,7 @@ class CodeValidationTool:
             
             for imp in all_imports:
                 # Verificar se o import é usado no código
-                if imp not in ['__future__', 'typing'] and not re.search(r'\b' + re.escape(imp.split('.')[-1]) + r'\b', code):
+                if imp not in ['__future__', 'typing'] and not re.search(r'\\b' + re.escape(imp.split('.')[-1]) + r'\\b', code):
                     suggestions.append({
                         "type": "unused_import",
                         "message": f"O import '{imp}' parece não ser utilizado."
@@ -812,7 +656,7 @@ class CodeValidationTool:
                 func_match = re.search(func_pattern, code, re.MULTILINE | re.DOTALL)
                 if func_match:
                     func_body = func_match.group(1)
-                    lines = func_body.count('\n')
+                    lines = func_body.count('\\n')
                     if lines > 30:
                         suggestions.append({
                             "type": "long_function",
@@ -836,7 +680,7 @@ class CodeValidationTool:
                             all_imports.append(imp.strip())
             
             for imp in all_imports:
-                if not re.search(r'\b' + re.escape(imp) + r'\b', code):
+                if not re.search(r'\\b' + re.escape(imp) + r'\\b', code):
                     suggestions.append({
                         "type": "unused_import",
                         "message": f"O import '{imp}' parece não ser utilizado."
@@ -865,7 +709,7 @@ class CodeValidationTool:
                 func_match = re.search(func_pattern, code, re.MULTILINE | re.DOTALL)
                 if func_match:
                     func_body = func_match.group(1)
-                    lines = func_body.count('\n')
+                    lines = func_body.count('\\n')
                     if lines > 30:
                         suggestions.append({
                             "type": "long_function",
@@ -911,3 +755,318 @@ class CodeValidationTool:
             result["suggestions"].extend(suggestions)
         
         return result
+'''
+            
+            # Adicionar a nova ferramenta ao final do arquivo
+            content += tool_code
+            
+            # Salvar o arquivo modificado
+            with open(self.agent_tools_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            logger.info("Ferramenta de validação de código adicionada com sucesso")
+            
+            # Agora adicionar ao arquivo de agente
+            return self._add_tool_to_agent("CodeValidationTool")
+        
+        except Exception as e:
+            logger.error(f"Erro ao adicionar capacidade de validação de código: {str(e)}")
+            return False
+    
+    def add_playbook_nrql_correction(self):
+        """
+        Adiciona um playbook para correção de NRQL.
+        
+        Returns:
+            bool: True se bem-sucedido, False caso contrário
+        """
+        logger.info("Adicionando playbook de correção NRQL")
+        
+        if not self.playbook_engine_path or not self.playbook_engine_path.exists():
+            logger.error(f"Arquivo de motor de playbook não encontrado: {self.playbook_engine_path}")
+            return False
+        
+        try:
+            # Ler o arquivo do motor de playbook
+            with open(self.playbook_engine_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Verificar se já temos o playbook registrado
+            if "corrigir_consulta_nrql" in content:
+                logger.info("Playbook de correção NRQL já existe")
+                return True
+            
+            # Localizar o dicionário de playbooks
+            playbooks_match = re.search(r'self\.playbooks\s*=\s*{([^}]+)}', content, re.DOTALL)
+            if not playbooks_match:
+                logger.error("Não foi possível encontrar o dicionário de playbooks")
+                return False
+            
+            # Obter o conteúdo atual do dicionário de playbooks
+            playbooks_content = playbooks_match.group(1)
+            
+            # Criar novo playbook
+            new_playbook = '''
+            "corrigir_consulta_nrql": {
+                "metadata": {
+                    "name": "corrigir_consulta_nrql",
+                    "description": "Corrige erros em consultas NRQL",
+                    "version": "1.0.0",
+                    "tags": ["nrql", "correção", "new relic"]
+                },
+                "inputs": {
+                    "required": ["consulta", "mensagem_erro"]
+                },
+                "steps": [
+                    {
+                        "name": "parse_error",
+                        "action": "analisar_erro_nrql",
+                        "inputs": {
+                            "mensagem": "{{inputs.mensagem_erro}}"
+                        }
+                    },
+                    {
+                        "name": "correct_query",
+                        "action": "corrigir_consulta",
+                        "inputs": {
+                            "consulta": "{{inputs.consulta}}",
+                            "mensagem_erro": "{{inputs.mensagem_erro}}"
+                        }
+                    },
+                    {
+                        "name": "validate_correction",
+                        "action": "validar_consulta",
+                        "inputs": {
+                            "consulta_original": "{{inputs.consulta}}",
+                            "consulta_corrigida": "{{steps.correct_query.output.correction}}"
+                        },
+                        "conditional": "{{steps.correct_query.success}}"
+                    },
+                    {
+                        "name": "registrar_historico",
+                        "action": "registrar_historico",
+                        "inputs": {
+                            "session_id": "{{inputs.session_id}}",
+                            "contexto": {
+                                "consulta_original": "{{inputs.consulta}}",
+                                "erro": "{{inputs.mensagem_erro}}",
+                                "consulta_corrigida": "{{steps.correct_query.output.correction}}",
+                                "explicacao": "{{steps.correct_query.output.explanation}}"
+                            }
+                        }
+                    }
+                ],
+                "outputs": {
+                    "success": "{{steps.correct_query.success}}",
+                    "consulta_original": "{{inputs.consulta}}",
+                    "consulta_corrigida": "{{steps.correct_query.output.correction}}",
+                    "explicacao": "{{steps.correct_query.output.explanation}}"
+                }
+            },'''
+            
+            # Inserir o novo playbook no dicionário
+            updated_playbooks = playbooks_content + new_playbook
+            
+            # Atualizar o conteúdo do arquivo
+            updated_content = content.replace(playbooks_content, updated_playbooks)
+            
+            # Salvar o arquivo atualizado
+            with open(self.playbook_engine_path, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            
+            # Adicionar ações de playbook
+            return self._add_playbook_actions()
+        
+        except Exception as e:
+            logger.error(f"Erro ao adicionar playbook de correção NRQL: {str(e)}")
+            return False
+    
+    def _add_playbook_actions(self):
+        """
+        Adiciona ações necessárias para o playbook de correção NRQL.
+        
+        Returns:
+            bool: True se bem-sucedido, False caso contrário
+        """
+        logger.info("Adicionando ações para o playbook de correção NRQL")
+        
+        if not self.playbook_engine_path or not self.playbook_engine_path.exists():
+            logger.error(f"Arquivo de motor de playbook não encontrado: {self.playbook_engine_path}")
+            return False
+        
+        try:
+            # Ler o arquivo do motor de playbook
+            with open(self.playbook_engine_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Localizar o bloco que manipula ações (tipo)
+            action_block_match = re.search(r'if tipo == "([^"]+)":(.*?)elif tipo ==', content, re.DOTALL)
+            if not action_block_match:
+                logger.error("Não foi possível encontrar o bloco de manipulação de ações")
+                return False
+            
+            # Verificar se as ações já existem
+            if "analisar_erro_nrql" in content and "corrigir_consulta" in content:
+                logger.info("Ações de correção NRQL já existem")
+                return True
+            
+            # Obter o conteúdo atual do bloco de ação
+            action_block_content = action_block_match.group(2)
+            
+            # Criar novas ações
+            new_actions = '''
+                    elif tipo == "analisar_erro_nrql":
+                        from core_inteligente.agent_tools import NRQLCorrectionTool
+                        tool = NRQLCorrectionTool()
+                        error_info = tool.extract_error_info(context.get("mensagem", ""))
+                        results.append(error_info)
+                    elif tipo == "corrigir_consulta":
+                        from core_inteligente.agent_tools import NRQLCorrectionTool
+                        tool = NRQLCorrectionTool()
+                        correction_result = tool.run(
+                            context.get("consulta", ""),
+                            context.get("mensagem_erro", "")
+                        )
+                        results.append(correction_result)
+                    elif tipo == "validar_consulta":
+                        # Validação simplificada: apenas verifica se a consulta corrigida é diferente da original
+                        original = context.get("consulta_original", "")
+                        corrected = context.get("consulta_corrigida", "")
+                        is_valid = corrected and corrected != original
+                        results.append({"valid": is_valid})'''
+            
+            # Adicionar novas ações ao conteúdo do bloco
+            updated_action_block = action_block_content + new_actions
+            
+            # Atualizar o conteúdo do arquivo
+            updated_content = content.replace(action_block_content, updated_action_block)
+            
+            # Salvar o arquivo atualizado
+            with open(self.playbook_engine_path, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            
+            logger.info("Ações de playbook adicionadas com sucesso")
+            return True
+        
+        except Exception as e:
+            logger.error(f"Erro ao adicionar ações de playbook: {str(e)}")
+            return False
+    
+    def _add_tool_to_agent(self, tool_class):
+        """
+        Adiciona uma ferramenta ao agente.
+        
+        Args:
+            tool_class (str): Nome da classe da ferramenta
+            
+        Returns:
+            bool: True se bem-sucedido, False caso contrário
+        """
+        logger.info(f"Adicionando ferramenta {tool_class} ao agente")
+        
+        if not self.agent_module_path or not self.agent_module_path.exists():
+            logger.error(f"Arquivo de módulo do agente não encontrado: {self.agent_module_path}")
+            return False
+        
+        try:
+            # Ler o arquivo do módulo do agente
+            with open(self.agent_module_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Verificar se a ferramenta já está registrada
+            if f"self.{tool_class.lower()}" in content:
+                logger.info(f"Ferramenta {tool_class} já registrada no agente")
+                return True
+            
+            # Encontrar a classe AgnoAgent
+            agent_class_match = re.search(r'class\s+AgnoAgent\s*\(', content)
+            if not agent_class_match:
+                logger.error("Não foi possível encontrar a classe AgnoAgent")
+                return False
+            
+            # Encontrar o método __init__
+            init_match = re.search(r'def\s+__init__\s*\([^)]*\):[^\n]*\n', content)
+            if not init_match:
+                logger.error("Não foi possível encontrar o método __init__ do agente")
+                return False
+            
+            # Adicionar importação da ferramenta
+            import_line = f"from core_inteligente.agent_tools import {tool_class}\n"
+            if import_line not in content:
+                # Encontrar a última importação
+                last_import_match = re.search(r'^import|^from\s+\w+\s+import', content, re.MULTILINE)
+                if last_import_match:
+                    # Encontrar o fim do bloco de importação
+                    last_import_end = content.find('\\n\\n', last_import_match.start())
+                    if last_import_end == -1:
+                        last_import_end = content.find('\\n', last_import_match.start())
+                    
+                    # Inserir nova importação após o bloco de importação
+                    content = content[:last_import_end] + '\\n' + import_line + content[last_import_end:]
+                else:
+                    # Adicionar no início do arquivo
+                    content = import_line + content
+            
+            # Adicionar inicialização da ferramenta no __init__
+            init_end = init_match.end()
+            tool_init = f"        self.{tool_class.lower()} = {tool_class}()\n"
+            
+            # Adicionar após a primeira linha do __init__
+            content = content[:init_end] + tool_init + content[init_end:]
+            
+            # Salvar o arquivo modificado
+            with open(self.agent_module_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            
+            logger.info(f"Ferramenta {tool_class} adicionada com sucesso ao agente")
+            return True
+        
+        except Exception as e:
+            logger.error(f"Erro ao adicionar ferramenta ao agente: {str(e)}")
+            return False
+    
+    def expand_all(self):
+        """
+        Expande todas as capacidades dos agentes.
+        
+        Returns:
+            dict: Resultados da expansão
+        """
+        results = {
+            "nrql_correction": self.add_nrql_error_correction(),
+            "code_validation": self.add_code_validation(),
+            "playbook_nrql": self.add_playbook_nrql_correction()
+        }
+        
+        success = all(results.values())
+        
+        if success:
+            logger.info("Expansão de capacidades concluída com sucesso!")
+        else:
+            logger.warning("Expansão de capacidades concluída com alguns problemas")
+        
+        return {
+            "success": success,
+            "results": results
+        }
+
+if __name__ == "__main__":
+    logger.info("Iniciando expansão de capacidades dos agentes")
+    
+    # Carregar base de conhecimento primeiro
+    try:
+        import load_knowledge_base
+        load_knowledge_base.main()
+    except ImportError:
+        logger.warning("Não foi possível carregar o módulo da base de conhecimento")
+    
+    # Expandir capacidades
+    expander = AgentCapabilityExpander()
+    results = expander.expand_all()
+    
+    # Exibir resultados
+    logger.info(f"Resultado da expansão: {'SUCESSO' if results['success'] else 'FALHA PARCIAL'}")
+    for capability, success in results["results"].items():
+        logger.info(f"  - {capability}: {'✓' if success else '✗'}")
+    
+    logger.info("Processo de expansão de capacidades concluído")

@@ -129,3 +129,6 @@ class ContextStorage:
         elif self.backend == "redis" and self.redis:
             # Redis já expira automaticamente se configurado
             pass
+
+# Criando e exportando uma instância de ContextStorage para uso em outros módulos
+context_storage = ContextStorage(backend="json", path="contexts", retention_days=30)

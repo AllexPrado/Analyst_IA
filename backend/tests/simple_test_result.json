@@ -1,0 +1,46 @@
+{
+  "dependencies": {
+    "upstream": [
+      {
+        "source": {
+          "guid": "upstream_source_guid_1",
+          "name": "Banco de Dados Produ\u00e7\u00e3o",
+          "entityType": "POSTGRESQL_DB_ENTITY",
+          "domain": "DB"
+        },
+        "target": {
+          "guid": "target_guid",
+          "name": "API Principal",
+          "entityType": "APM_APPLICATION_ENTITY",
+          "domain": "APM"
+        },
+        "type": "CALLS"
+      }
+    ],
+    "downstream": [
+      {
+        "source": {
+          "guid": "source_guid",
+          "name": "API Principal",
+          "entityType": "APM_APPLICATION_ENTITY",
+          "domain": "APM"
+        },
+        "target": {
+          "guid": "downstream_target_guid_1",
+          "name": "Frontend Web",
+          "entityType": "BROWSER_APPLICATION_ENTITY",
+          "domain": "BROWSER"
+        },
+        "type": "SERVES"
+      }
+    ],
+    "metadata": {
+      "timestamp": "2025-07-12T19:05:33.946777",
+      "entity_guid": "target_guid",
+      "total_upstream": 1,
+      "total_downstream": 1
+    }
+  },
+  "validation_passed": true,
+  "issues": []
+}

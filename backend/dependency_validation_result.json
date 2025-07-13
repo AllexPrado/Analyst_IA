@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-07-12T19:07:52.774118",
+  "method_exists": true,
+  "validation_checks": {
+    "Coleta upstream": false,
+    "Coleta downstream": false,
+    "Tratamento de exce\u00e7\u00f5es": true,
+    "Logging de erros": true,
+    "Resposta vazia em caso de erro": false
+  },
+  "integration_checks": {
+    "collect_entity_metrics_integration": true
+  },
+  "overall_status": "FAILED"
+}

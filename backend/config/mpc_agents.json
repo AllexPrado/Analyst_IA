@@ -1,0 +1,29 @@
+{
+  "agents": [
+    {
+      "id": "agno",
+      "name": "Agno - Agente Principal",
+      "description": "Agente principal de orquestra\u00e7\u00e3o que processa comandos em linguagem natural",
+      "endpoint": "/agno",
+      "enabled": true
+    },
+    {
+      "id": "agent-s",
+      "name": "Agent-S - Agente de Servi\u00e7o",
+      "description": "Agente de servi\u00e7o que executa tarefas sob orienta\u00e7\u00e3o do Agno",
+      "endpoint": "/agent-s",
+      "enabled": true
+    },
+    {
+      "id": "diagnostico",
+      "name": "Agente de Diagn\u00f3stico",
+      "description": "Realiza diagn\u00f3sticos do sistema e identifica problemas",
+      "endpoint": "/diagnose",
+      "enabled": true
+    }
+  ],
+  "base_url": "http://localhost:10876/agent",
+  "timeout": 30,
+  "retry_attempts": 3,
+  "retry_delay": 5
+}

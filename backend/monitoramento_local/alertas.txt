@@ -1,0 +1,24 @@
+
+--- 2025-07-12T20:06:39.728375 ---
+ALERTA: Serviço API Sites está com problema: Cannot connect to host localhost:8080 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Users está com problema: Cannot connect to host localhost:8081 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Pagamentos está com problema: Cannot connect to host localhost:8082 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Frontend está com problema: Cannot connect to host localhost:3000 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Banco de Dados está com problema: Não foi possível conectar (código: 10061)
+
+
+--- 2025-07-12T20:07:13.092992 ---
+ALERTA: Serviço API Sites está com problema: Cannot connect to host localhost:8080 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Users está com problema: Cannot connect to host localhost:8081 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Pagamentos está com problema: Cannot connect to host localhost:8082 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Frontend está com problema: Cannot connect to host localhost:3000 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Banco de Dados está com problema: Não foi possível conectar (código: 10061)
+
+
+--- 2025-07-12T20:19:39.275623 ---
+ALERTA: Serviço API Sites está com problema: Cannot connect to host localhost:8080 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Users está com problema: Cannot connect to host localhost:8081 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço API Pagamentos está com problema: Cannot connect to host localhost:8082 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Frontend está com problema: Cannot connect to host localhost:3000 ssl:default [O computador remoto recusou a conexão de rede]
+ALERTA: Serviço Banco de Dados está com problema: Não foi possível conectar (código: 10061)
+

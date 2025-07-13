@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-07-12T19:36:13.658326",
+  "agentes_newrelic": {
+    "status": "\u274c Inativo",
+    "detalhes": ""
+  },
+  "automacoes_mpc": {
+    "status": "\u274c Inativo",
+    "detalhes": {
+      "timestamp": "2025-07-12T19:36:12.758054",
+      "configuracoes_mpc": {
+        "encontradas": true,
+        "quantidade": 1,
+        "arquivos": [
+          "status_automacoes_mpc.json"
+        ]
+      },
+      "processos_mpc": {
+        "em_execucao": false,
+        "quantidade": 0,
+        "detalhes": []
+      },
+      "integracao_newrelic": false,
+      "status_geral": "inativo"
+    }
+  },
+  "processos_relevantes": []
+}

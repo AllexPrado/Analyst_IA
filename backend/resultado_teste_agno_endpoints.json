@@ -1,0 +1,85 @@
+[
+  {
+    "endpoint": "/agno/corrigir",
+    "url": "http://localhost:8000/agno/corrigir",
+    "status_code": 404,
+    "sucesso": false,
+    "erro": "{\"detail\":\"Not Found\"}"
+  },
+  {
+    "endpoint": "/agno/playbook",
+    "url": "http://localhost:8000/agno/playbook",
+    "status_code": 404,
+    "sucesso": false,
+    "erro": "{\"detail\":\"Not Found\"}"
+  },
+  {
+    "endpoint": "/agno/feedback",
+    "url": "http://localhost:8000/agno/feedback",
+    "status_code": 404,
+    "sucesso": false,
+    "erro": "{\"detail\":\"Not Found\"}"
+  },
+  {
+    "endpoint": "/agno/coletar_newrelic",
+    "url": "http://localhost:8000/agno/coletar_newrelic",
+    "status_code": 404,
+    "sucesso": false,
+    "erro": "{\"detail\":\"Not Found\"}"
+  },
+  {
+    "endpoint": "/api/agno/corrigir",
+    "url": "http://localhost:8000/api/agno/corrigir",
+    "status_code": 200,
+    "sucesso": true,
+    "resposta": {
+      "resultado": "Ação desconhecida / Unknown action"
+    }
+  },
+  {
+    "endpoint": "/api/agno/playbook",
+    "url": "http://localhost:8000/api/agno/playbook",
+    "status_code": 200,
+    "sucesso": true,
+    "resposta": {
+      "resultado": [
+        "Playbook não encontrado"
+      ]
+    }
+  },
+  {
+    "endpoint": "/api/agno/feedback",
+    "url": "http://localhost:8000/api/agno/feedback",
+    "status_code": 200,
+    "sucesso": true,
+    "resposta": {
+      "resultado": "Feedback registrado."
+    }
+  },
+  {
+    "endpoint": "/api/agno/coletar_newrelic",
+    "url": "http://localhost:8000/api/agno/coletar_newrelic",
+    "status_code": 200,
+    "sucesso": true,
+    "resposta": {
+      "fonte": "newrelic",
+      "dados": {
+        "data": {
+          "actor": {
+            "account": {
+              "nrql": {
+                "metadata": {
+                  "eventTypes": [
+                    "Metric"
+                  ],
+                  "facets": null
+                },
+                "results": []
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

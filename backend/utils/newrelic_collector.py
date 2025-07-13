@@ -1,4 +1,3 @@
-
 import os
 import logging
 from typing import Dict, List, Any, Optional
@@ -177,6 +176,189 @@ class NewRelicCollector:
         except Exception as e:
             logger.warning(f"Erro ao coletar ServerlessSample para entidade {guid}: {e}")
             return []
+
+    async def collect_entity_dependencies(self, guid):
+        """
+        Coleta dependências diretas da entidade (upstream e downstream)
+        
+        Args:
+            guid (str): GUID da entidade
+            
+        Returns:
+            dict: Dicionário com as dependências upstream e downstream categorizadas
+                 (servicos_externos, bancos_dados, outros) em cada direção
+        """
+        try:
+            logger.info(f"Coletando dependências para entidade com GUID: {guid}")
+            
+            # Estrutura para armazenar as dependências
+            dependencies = {
+                "upstream": {
+                    "servicos_externos": [],
+                    "bancos_dados": [],
+                    "outros": []
+                },
+                "downstream": {
+                    "servicos_externos": [],
+                    "bancos_dados": [],
+                    "outros": []
+                },
+                "metadata": {
+                    "timestamp": datetime.now().isoformat(),
+                    "entity_guid": guid,
+                    "total_upstream": 0,
+                    "total_downstream": 0
+                }
+            }
+            
+            # Buscar dependências upstream (que a entidade depende)
+            upstream_query = f"""
+            {{
+              actor {{
+                entity(guid: \"{guid}\") {{
+                  upstreamRelationships {{
+                    source {{ guid name entityType domain }}
+                    target {{ guid name entityType domain }}
+                    type
+                  }}
+                }}
+              }}
+            }}
+            """
+            
+            # Buscar dependências downstream (que dependem da entidade)
+            downstream_query = f"""
+            {{
+              actor {{
+                entity(guid: \"{guid}\") {{
+                  downstreamRelationships {{
+                    source {{ guid name entityType domain }}
+                    target {{ guid name entityType domain }}
+                    type
+                  }}
+                }}
+              }}
+            }}
+            """
+            
+            headers = {'Api-Key': self.api_key, 'Content-Type': 'application/json'}
+            await self.rate_controller.wait_if_needed()
+            
+            # Função auxiliar para categorizar e processar dependências
+            def process_entity_for_dependency(entity_data, direction):
+                if not entity_data or not entity_data.get('guid'):
+                    return None
+                    
+                dependency = {
+                    "nome": entity_data.get('name', 'Desconhecido'),
+                    "guid": entity_data.get('guid'),
+                    "tipo": entity_data.get('entityType', 'UNKNOWN'),
+                    "dominio": entity_data.get('domain', 'UNKNOWN')
+                }
+                
+                # Categorizar dependência
+                entity_type = entity_data.get('entityType', '').lower()
+                if 'database' in entity_type or 'db' in entity_type or entity_data.get('domain') == 'DB':
+                    dependencies[direction]['bancos_dados'].append(dependency)
+                    return 'bancos_dados'
+                elif ('service' in entity_type or 'api' in entity_type 
+                      or 'application' in entity_type or entity_data.get('domain') in ['APM', 'BROWSER']):
+                    dependencies[direction]['servicos_externos'].append(dependency)
+                    return 'servicos_externos'
+                else:
+                    dependencies[direction]['outros'].append(dependency)
+                    return 'outros'
+            
+            # Coletar dependências upstream
+            try:
+                upstream_count = 0
+                async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
+                    async with session.post(self.base_url, headers=headers, json={"query": upstream_query}) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            upstream_relationships = data.get("data", {}).get("actor", {}).get("entity", {}).get("upstreamRelationships", [])
+                            
+                            if upstream_relationships:
+                                for rel in upstream_relationships:
+                                    # Em upstream, olhamos para o source (quem fornece recursos para nossa entidade)
+                                    source = rel.get('source', {})
+                                    if source and process_entity_for_dependency(source, 'upstream'):
+                                        upstream_count += 1
+                                
+                                logger.info(f"Encontradas {upstream_count} dependências upstream para entidade {guid}")
+                                dependencies["metadata"]["total_upstream"] = upstream_count
+                            else:
+                                logger.info(f"Nenhuma dependência upstream encontrada para entidade {guid}")
+                        else:
+                            error_response = await response.text()
+                            logger.warning(f"Erro ao coletar dependências upstream. Status: {response.status}. Resposta: {error_response[:200]}")
+            except aiohttp.ClientError as e:
+                logger.warning(f"Erro de conexão ao coletar dependências upstream para entidade {guid}: {e}")
+            except Exception as e:
+                logger.error(f"Erro ao processar dependências upstream: {e}")
+            
+            # Coletar dependências downstream
+            try:
+                downstream_count = 0
+                async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
+                    async with session.post(self.base_url, headers=headers, json={"query": downstream_query}) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            downstream_relationships = data.get("data", {}).get("actor", {}).get("entity", {}).get("downstreamRelationships", [])
+                            
+                            if downstream_relationships:
+                                for rel in downstream_relationships:
+                                    # Em downstream, olhamos para o target (quem consome recursos da nossa entidade)
+                                    target = rel.get('target', {})
+                                    if target and process_entity_for_dependency(target, 'downstream'):
+                                        downstream_count += 1
+                                
+                                logger.info(f"Encontradas {downstream_count} dependências downstream para entidade {guid}")
+                                dependencies["metadata"]["total_downstream"] = downstream_count
+                            else:
+                                logger.info(f"Nenhuma dependência downstream encontrada para entidade {guid}")
+                        else:
+                            error_response = await response.text()
+                            logger.warning(f"Erro ao coletar dependências downstream. Status: {response.status}. Resposta: {error_response[:200]}")
+            except aiohttp.ClientError as e:
+                logger.warning(f"Erro de conexão ao coletar dependências downstream para entidade {guid}: {e}")
+            except Exception as e:
+                logger.error(f"Erro ao processar dependências downstream: {e}")
+            
+            # Limpar categorias vazias
+            total_deps = 0
+            for direction in ["upstream", "downstream"]:
+                for category in list(dependencies[direction].keys()):
+                    if not dependencies[direction][category]:
+                        del dependencies[direction][category]
+                    else:
+                        total_deps += len(dependencies[direction][category])
+            
+            # Log final
+            if total_deps > 0:
+                logger.info(f"Total de {total_deps} dependências coletadas para entidade {guid}")
+            else:
+                logger.info(f"Nenhuma dependência encontrada para entidade {guid}")
+            
+            return dependencies
+            
+        except Exception as e:
+            error_msg = f"Erro ao coletar dependências para entidade {guid}: {e}"
+            logger.error(error_msg)
+            logger.error(traceback.format_exc())
+            
+            # Sempre retorna uma estrutura válida mesmo em caso de erro
+            return {
+                "upstream": {}, 
+                "downstream": {},
+                "metadata": {
+                    "timestamp": datetime.now().isoformat(),
+                    "entity_guid": guid,
+                    "total_upstream": 0,
+                    "total_downstream": 0,
+                    "error": str(e)
+                }
+            }
 
     async def collect_entity_iot(self, guid):
         """
@@ -1053,6 +1235,10 @@ class NewRelicCollector:
             related_entities = await self.collect_entity_related_entities(guid)
             if related_entities:
                 entity['related_entities'] = related_entities
+            # Coleta dependências diretas
+            dependencies = await self.collect_entity_dependencies(guid)
+            if dependencies:
+                entity['dependencies'] = dependencies
             # Coleta alert policies/conditions
             alert_policies = await self.collect_entity_alert_policies(guid)
             if alert_policies:
@@ -1096,7 +1282,7 @@ class NewRelicCollector:
             # Constrói topologia/grafo
             topology = await self.build_entity_topology(guid)
             if topology:
-                entity['topology'] = topology
+                entity['topologia'] = topology
             # Correlaciona alertas e deployments
             alert_deploy_corr = await self.correlate_alerts_with_deployments(entity)
             if alert_deploy_corr:
@@ -1258,7 +1444,7 @@ class NewRelicCollector:
             # Coleta dependências (serviços externos, databases)
             dependencies = await self.collect_entity_dependencies(guid)
             if dependencies:
-                entity['dependencias'] = dependencies
+                entity['dependencies'] = dependencies
             # Coleta logs recentes (se disponíveis)
             logs = await self.collect_entity_logs(guid)
             if logs:
@@ -1346,6 +1532,183 @@ class NewRelicCollector:
             "base_url": self.base_url,
             "last_successful_request": self.last_successful_request
         }
+
+    async def collect_entity_dependencies(self, guid):
+        """
+        Coleta informações sobre dependências da entidade (serviços externos, bancos de dados, etc.)
+        Busca tanto dependências upstream (serviços que nossa entidade depende) quanto
+        downstream (serviços que dependem da nossa entidade)
+        
+        Args:
+            guid (str): GUID da entidade
+            
+        Returns:
+            dict: Informações sobre as dependências ou None com a seguinte estrutura:
+                {
+                    "upstream": {
+                        "servicos_externos": [...],
+                        "bancos_dados": [...],
+                        "outros": [...]
+                    },
+                    "downstream": {
+                        "servicos_externos": [...],
+                        "bancos_dados": [...],
+                        "outros": [...]
+                    }
+                }
+        """
+        try:
+            # Estrutura para armazenar as dependências
+            dependencies = {
+                "upstream": {
+                    "servicos_externos": [],
+                    "bancos_dados": [],
+                    "outros": []
+                },
+                "downstream": {
+                    "servicos_externos": [],
+                    "bancos_dados": [],
+                    "outros": []
+                }
+            }
+            
+            # 1. Buscar dependências upstream (serviços dos quais nossa entidade depende)
+            upstream_query = f"""
+            {{
+              actor {{
+                entity(guid: "{guid}") {{
+                  ... on AlertableEntity {{
+                    serviceMap: relatedEntities(filter: {{direction: UPSTREAM}}) {{
+                      source {{
+                        entity {{
+                          name
+                          guid
+                          entityType
+                          account {{
+                            id
+                            name
+                          }}
+                        }}
+                      }}
+                      target {{
+                        entity {{
+                          name
+                          guid
+                          entityType
+                          account {{
+                            id
+                            name
+                          }}
+                        }}
+                      }}
+                    }}
+                  }}
+                }}
+              }}
+            }}
+            """
+            
+            # 2. Buscar dependências downstream (serviços que dependem da nossa entidade)
+            downstream_query = f"""
+            {{
+              actor {{
+                entity(guid: "{guid}") {{
+                  ... on AlertableEntity {{
+                    serviceMap: relatedEntities(filter: {{direction: DOWNSTREAM}}) {{
+                      source {{
+                        entity {{
+                          name
+                          guid
+                          entityType
+                          account {{
+                            id
+                            name
+                          }}
+                        }}
+                      }}
+                      target {{
+                        entity {{
+                          name
+                          guid
+                          entityType
+                          account {{
+                            id
+                            name
+                          }}
+                        }}
+                      }}
+                    }}
+                  }}
+                }}
+              }}
+            }}
+            """
+            
+            # Função auxiliar para processar as relações e categorizá-las
+            def process_relations(relations, direction_key):
+                if not relations:
+                    return
+                
+                for relation in relations:
+                    # Upstream: observamos o SOURCE (quem fornece para nossa entidade)
+                    # Downstream: observamos o TARGET (quem recebe da nossa entidade)
+                    entity_data = relation.get('source' if direction_key == "upstream" else 'target', {}).get('entity', {})
+                    
+                    if not entity_data or not entity_data.get('guid'):
+                        continue
+                    
+                    dependency = {
+                        "nome": entity_data.get('name', 'Desconhecido'),
+                        "guid": entity_data.get('guid'),
+                        "tipo": entity_data.get('entityType')
+                    }
+                    
+                    # Categorizar dependência
+                    entity_type = entity_data.get('entityType', '').lower()
+                    if 'database' in entity_type or 'db' in entity_type:
+                        dependencies[direction_key]["bancos_dados"].append(dependency)
+                    elif 'service' in entity_type or 'api' in entity_type or 'application' in entity_type:
+                        dependencies[direction_key]["servicos_externos"].append(dependency)
+                    else:
+                        dependencies[direction_key]["outros"].append(dependency)
+            
+            # Executar consultas em paralelo para melhor performance
+            upstream_response = await self.make_graphql_request(upstream_query)
+            downstream_response = await self.make_graphql_request(downstream_query)
+            
+            # Processar dependências upstream
+            if (upstream_response and 'data' in upstream_response and 
+                upstream_response['data'].get('actor', {}).get('entity', {}).get('serviceMap')):
+                upstream_service_map = upstream_response['data']['actor']['entity']['serviceMap']
+                process_relations(upstream_service_map, "upstream")
+                logger.info(f"Coletado {len(upstream_service_map)} dependências upstream para entidade {guid}")
+            else:
+                logger.debug(f"Nenhuma dependência upstream encontrada para entidade {guid}")
+            
+            # Processar dependências downstream
+            if (downstream_response and 'data' in downstream_response and 
+                downstream_response['data'].get('actor', {}).get('entity', {}).get('serviceMap')):
+                downstream_service_map = downstream_response['data']['actor']['entity']['serviceMap']
+                process_relations(downstream_service_map, "downstream")
+                logger.info(f"Coletado {len(downstream_service_map)} dependências downstream para entidade {guid}")
+            else:
+                logger.debug(f"Nenhuma dependência downstream encontrada para entidade {guid}")
+            
+            # Remover categorias vazias
+            for direction in ["upstream", "downstream"]:
+                for key in list(dependencies[direction].keys()):
+                    if not dependencies[direction][key]:
+                        del dependencies[direction][key]
+                
+                # Se não há dependências nessa direção, remover a direção inteira
+                if not dependencies[direction]:
+                    del dependencies[direction]
+            
+            return dependencies if dependencies else None
+            
+        except Exception as e:
+            logger.error(f"Erro ao coletar dependências para entidade {guid}: {str(e)}")
+            return None
 
 def registrar_entidade_sem_metricas(entidade, motivo):
     logger.warning(f"Entidade sem métricas: {entidade.get('name', entidade.get('guid'))} | Domínio: {entidade.get('domain')} | Motivo: {motivo}")

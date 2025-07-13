@@ -1,0 +1,13 @@
+{
+  "nivel_otimizacao": "baixo",
+  "limite_gb": 100,
+  "uso_atual_gb": 0,
+  "timestamp": "2025-07-12T19:52:36.946821",
+  "plano_tipo": "Free",
+  "configuracoes": {
+    "cache_ttl_hours": 48,
+    "reduce_logging": false,
+    "limit_entities": 100,
+    "data_retention_days": 30
+  }
+}

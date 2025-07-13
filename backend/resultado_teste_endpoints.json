@@ -1,0 +1,50 @@
+[
+  {
+    "endpoint": "/agno/corrigir",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/agno/playbook",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/agno/feedback",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/agno/coletar_newrelic",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/api/agno/corrigir",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/api/agno/playbook",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/api/agno/feedback",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  },
+  {
+    "endpoint": "/api/agno/coletar_newrelic",
+    "status_code": null,
+    "success": false,
+    "error": "All connection attempts failed"
+  }
+]

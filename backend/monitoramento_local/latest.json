@@ -1,0 +1,357 @@
+{
+  "timestamp": "2025-07-12T20:19:39.268650",
+  "system": {
+    "hostname": "Ferlex",
+    "platform": "Windows-10-10.0.26100-SP0",
+    "cpu": {
+      "percent": 20.2,
+      "count": 8,
+      "freq_mhz": 1600.0
+    },
+    "memory": {
+      "total_gb": 7.851795196533203,
+      "used_gb": 4.989177703857422,
+      "percent": 63.5
+    },
+    "disk": {
+      "total_gb": 931.5117149353027,
+      "used_gb": 22.549365997314453,
+      "percent": 2.4
+    },
+    "network": {
+      "bytes_sent": 304751050,
+      "bytes_recv": 178683637,
+      "packets_sent": 131897,
+      "packets_recv": 249851
+    },
+    "system": {
+      "process_count": 192,
+      "uptime_hours": 92.99805555527777
+    }
+  },
+  "services": [
+    {
+      "name": "API Sites",
+      "type": "service",
+      "important": true,
+      "result": {
+        "status": "error",
+        "reason": "Cannot connect to host localhost:8080 ssl:default [O computador remoto recusou a conex\u00e3o de rede]",
+        "timestamp": "2025-07-12T20:19:30.382973"
+      }
+    },
+    {
+      "name": "API Users",
+      "type": "service",
+      "important": true,
+      "result": {
+        "status": "error",
+        "reason": "Cannot connect to host localhost:8081 ssl:default [O computador remoto recusou a conex\u00e3o de rede]",
+        "timestamp": "2025-07-12T20:19:32.668187"
+      }
+    },
+    {
+      "name": "API Pagamentos",
+      "type": "service",
+      "important": true,
+      "result": {
+        "status": "error",
+        "reason": "Cannot connect to host localhost:8082 ssl:default [O computador remoto recusou a conex\u00e3o de rede]",
+        "timestamp": "2025-07-12T20:19:34.958475"
+      }
+    },
+    {
+      "name": "Frontend",
+      "type": "service",
+      "important": true,
+      "result": {
+        "status": "error",
+        "reason": "Cannot connect to host localhost:3000 ssl:default [O computador remoto recusou a conex\u00e3o de rede]",
+        "timestamp": "2025-07-12T20:19:37.233225"
+      }
+    },
+    {
+      "name": "Banco de Dados",
+      "type": "database",
+      "important": true,
+      "result": {
+        "status": "error",
+        "reason": "N\u00e3o foi poss\u00edvel conectar (c\u00f3digo: 10061)",
+        "response_time": 2.0354249477386475,
+        "timestamp": "2025-07-12T20:19:39.268650"
+      }
+    }
+  ],
+  "processes": [
+    {
+      "pid": 1028,
+      "name": "conhost.exe",
+      "user": "FERLEX\\allex",
+      "command": "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe --headless --width 89 --height 17 --signal 0x4d4 --server 0x8cc",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.002477771715604278,
+      "created": "2025-07-12T17:16:22.564747"
+    },
+    {
+      "pid": 3780,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --type=utility --utility-sub-type=n...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.484331494761942,
+      "created": "2025-07-11T15:31:58.582048"
+    },
+    {
+      "pid": 3844,
+      "name": "SearchHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe -ServerName:CortanaUI...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.14949222684145808,
+      "created": "2025-07-11T07:43:04.086112"
+    },
+    {
+      "pid": 5964,
+      "name": "conhost.exe",
+      "user": "FERLEX\\allex",
+      "command": "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe --headless --inheritcursor --width 89 --height 17 --signal 0x534...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.009036579198086188,
+      "created": "2025-07-11T15:33:00.668617"
+    },
+    {
+      "pid": 6384,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --type=renderer --user-data-dir=C:\\...",
+      "cpu_percent": 0.0,
+      "memory_percent": 17.550542899216392,
+      "created": "2025-07-11T15:31:54.270538"
+    },
+    {
+      "pid": 6408,
+      "name": "ShellExperienceHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe -ServerName:App.AppX...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.00014575127738848692,
+      "created": "2025-07-11T10:33:54.259229"
+    },
+    {
+      "pid": 6596,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --max-old-space-size=3072 c:\\Users\\...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.3329440154768424,
+      "created": "2025-07-12T20:09:25.441227"
+    },
+    {
+      "pid": 8724,
+      "name": "Widgets.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Program Files\\WindowsApps\\MicrosoftWindows.Client.WebExperience_525.15301.20.0_x64__cw5n1h2txyewy...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.47466332669517236,
+      "created": "2025-07-11T07:43:04.546533"
+    },
+    {
+      "pid": 8932,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --type=utility --utility-sub-type=n...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.4641692347232013,
+      "created": "2025-07-11T15:31:58.715488"
+    },
+    {
+      "pid": 9644,
+      "name": "python3.11.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe -m uvicorn main:app --reload",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.48782952541926566,
+      "created": "2025-07-12T20:12:48.272592"
+    },
+    {
+      "pid": 10076,
+      "name": "LockApp.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe -ServerName:WindowsDefaultLockScre...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.00014575127738848692,
+      "created": "2025-07-11T23:32:46.221042"
+    },
+    {
+      "pid": 10272,
+      "name": "StartMenuExperienceHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHos...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.19836748852573072,
+      "created": "2025-07-11T07:43:04.103232"
+    },
+    {
+      "pid": 10508,
+      "name": "WidgetService.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Program Files\\WindowsApps\\Microsoft.WidgetsPlatformRuntime_1.6.9.0_x64__8wekyb3d8bbwe\\WidgetServi...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.03638923558799223,
+      "created": "2025-07-11T07:43:05.653191"
+    },
+    {
+      "pid": 11256,
+      "name": "backgroundTaskHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\system32\\backgroundTaskHost.exe -ServerName:App.AppXe9cvj1thv1hmcw0cs98xm3r97tyzy2xs.mca",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.07559632920549521,
+      "created": "2025-07-11T10:28:13.105833"
+    },
+    {
+      "pid": 11528,
+      "name": "python3.11.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe .\\agent_s_worker.py",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.13720053578169566,
+      "created": "2025-07-12T15:26:03.781425"
+    },
+    {
+      "pid": 12516,
+      "name": "PhoneExperienceHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Program Files\\WindowsApps\\Microsoft.YourPhone_1.25061.44.0_x64__8wekyb3d8bbwe\\PhoneExperienceHost...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.16848847666109087,
+      "created": "2025-07-11T12:50:00.181979"
+    },
+    {
+      "pid": 14736,
+      "name": "python3.11.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe monitoramento_local.py",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.5554581181275237,
+      "created": "2025-07-12T20:19:25.376707"
+    },
+    {
+      "pid": 14852,
+      "name": "conhost.exe",
+      "user": "FERLEX\\allex",
+      "command": "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe --headless --width 89 --height 17 --signal 0x7d8 --server 0x6c4",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.002477771715604278,
+      "created": "2025-07-11T22:18:49.767111"
+    },
+    {
+      "pid": 15384,
+      "name": "python3.11.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.228926187180592,
+      "created": "2025-07-12T20:16:36.436294"
+    },
+    {
+      "pid": 15764,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --type=utility --utility-sub-type=n...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.3481026341628362,
+      "created": "2025-07-11T15:31:58.654914"
+    },
+    {
+      "pid": 16032,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe c:\\Users\\allex\\AppData\\Local\\Progra...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.1200013992122628,
+      "created": "2025-07-12T20:09:27.963942"
+    },
+    {
+      "pid": 16068,
+      "name": "backgroundTaskHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\system32\\backgroundTaskHost.exe -ServerName:App.AppXfkd8mejksk4ancwf4vtyhmkvtzn1jcbs.mca",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.00014575127738848692,
+      "created": "2025-07-11T12:49:58.495612"
+    },
+    {
+      "pid": 17056,
+      "name": "conhost.exe",
+      "user": "FERLEX\\allex",
+      "command": "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe --headless --width 80 --height 30 --signal 0x49c --server 0x7dc",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.017635904564006915,
+      "created": "2025-07-12T17:09:53.369958"
+    },
+    {
+      "pid": 18024,
+      "name": "backgroundTaskHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\system32\\backgroundTaskHost.exe -ServerName:App.AppXass2jm06pp1n7aktd4dcj305y31qrc54.mca",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.008647909125050224,
+      "created": "2025-07-12T19:46:08.250762"
+    },
+    {
+      "pid": 21160,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe c:/Users/allex/AppData/Local/Progra...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.3174943800736627,
+      "created": "2025-07-12T20:09:25.817811"
+    },
+    {
+      "pid": 24068,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe c:\\Users\\allex\\AppData\\Local\\Progra...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.158916990274989,
+      "created": "2025-07-12T20:09:25.719880"
+    },
+    {
+      "pid": 24348,
+      "name": "conhost.exe",
+      "user": "FERLEX\\allex",
+      "command": "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe --headless --width 80 --height 30 --signal 0x860 --server 0x868",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.015984056753604065,
+      "created": "2025-07-11T19:45:02.958609"
+    },
+    {
+      "pid": 24488,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --max-old-space-size=3072 c:\\Users\\...",
+      "cpu_percent": 0.0,
+      "memory_percent": 1.3295917360969072,
+      "created": "2025-07-12T20:09:25.408255"
+    },
+    {
+      "pid": 24708,
+      "name": "backgroundTaskHost.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\WINDOWS\\system32\\backgroundTaskHost.exe -ServerName:WebExperienceHost.AppXt2rk6m02ana976jna04hdq3...",
+      "cpu_percent": 0.0,
+      "memory_percent": 0.00014575127738848692,
+      "created": "2025-07-12T16:27:06.084343"
+    },
+    {
+      "pid": 25292,
+      "name": "Code.exe",
+      "user": "FERLEX\\allex",
+      "command": "C:\\Users\\allex\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe --type=utility --utility-sub-type=n...",
+      "cpu_percent": 0.0,
+      "memory_percent": 10.367871365752627,
+      "created": "2025-07-12T20:09:10.235708"
+    }
+  ]
+}
